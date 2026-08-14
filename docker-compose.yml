@@ -1,0 +1,50 @@
+# RedTrip 一体化编排：前端(web) + 策展后端(api) + 用户系统(auth-core)
+#
+# 说明：
+#   - 构建上下文（context）均为仓库根目录。
+#   - auth-core 是独立 git 仓库，默认放在 RedTrip 的同级目录（../auth-core）。
+#     构建前请确保 auth-core 已 clone 到 ../auth-core，或修改下方 auth.build.context。
+#   - 复制本文件为 .env 并填入真实密钥（尤其 AUTH_JWT_SECRET）后执行：
+#       docker compose up --build
+#
+# 前端已使用相对前缀 /auth/v1 与 /v1，容器内由 nginx 反代到 auth / api 服务，无需改代码。
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      REDTRIP_MODE: ${REDTRIP_MODE:-indexed}
+      SLC_API_KEY: ${SLC_API_KEY:-}
+      LLM_API_BASE: ${LLM_API_BASE:-https://api.openai.com/v1}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}
+      LLM_TIMEOUT_S: ${LLM_TIMEOUT_S:-180}
+      API_PORT: "8799"
+    ports:
+      - "8799:8799"
+    restart: unless-stopped
+
+  auth:
+    build:
+      context: ../auth-core
+      dockerfile: Dockerfile
+    environment:
+      # 安全约束：生产必须提供 AUTH_JWT_SECRET，缺失则 compose 直接报错、容器不会带默认密钥启动
+      AUTH_JWT_SECRET: ${AUTH_JWT_SECRET:?必须为生产设置 AUTH_JWT_SECRET}
+      AUTH_PORT: "8787"
+      AUTH_STORE: ${AUTH_STORE:-memory}
+    ports:
+      - "8787:8787"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+      - auth
+    restart: unless-stopped

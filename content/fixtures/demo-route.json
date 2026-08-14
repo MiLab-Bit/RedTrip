@@ -1,0 +1,269 @@
+{
+  "envelope_version": "1.0",
+  "intent": "和同伴走一段约 90 分钟、少说教的兴业路—一大会址周边城市记忆线",
+  "theme": "弄堂里的会议与日常",
+  "logic_line": "从一栋会址的公开记忆出发，走到仍被路过的石库门与马路，看「开会的一天」如何嵌进城市生活",
+  "aesthetic": "克制、留白、海派明信片",
+  "scenario": "双人 · 轻松 · 约 90 分钟 · 一大周边",
+  "why_visit": "你不是来完成任务，而是来辨认：这些门牌背后，曾经有人把时间压成决议。",
+  "curator_note": "这条线选点，不是因为它们顺路，而是因为它们共同指向 1921 年前后「会议—组织—弄堂日常」的同一条史实线索：公开纪念的会址、邻近仍可步行感知的石库门肌理、以及马路尺度上的城市现代性。点与点之间用事件与空间身份衔接，而不是用「步行五分钟」充当理由。",
+  "assumptions": ["默认人群=成人", "调性=轻社交", "时长=90 分钟"],
+  "companions": "duo",
+  "sources": ["route_getEventDetail", "building_detail", "R-20 whitelist", "fixture:demo-route"],
+  "route": {
+    "duration_min": 90,
+    "walk_meters_est": 2200,
+    "stops": [
+      {
+        "order": 1,
+        "whitelist_id": "wl-001",
+        "buri": null,
+        "name": "中共一大会址纪念馆周边",
+        "minutes": 18,
+        "meaning": "公开记忆的起点：会议被城市记住的方式",
+        "transition_to_next": "从「被纪念的会议」走到仍在使用的石库门街巷，对照的是同一年代里组织活动与日常居住的叠合。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "纪念空间",
+            "claim": "此处作为一大会址相关纪念与展示空间，承载 1921 年会议的公开叙事。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-1-building",
+              "excerpt": "演示数据：正式环境将替换为上图开放数据出处。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "会议",
+            "claim": "1921 年中国共产党第一次全国代表大会相关史实在此被集中叙述。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-1-event",
+              "excerpt": "演示用事件层；上线后对应 route_getEventDetail / 核录出处。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2224,
+          "lng": 121.4706,
+          "coord_source": "manual",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公示为准",
+          "enterable": "场馆需按开放安排参观",
+          "need_reservation": "高峰期可能需预约（未收录精确规则）"
+        }
+      },
+      {
+        "order": 2,
+        "whitelist_id": "wl-002",
+        "buri": null,
+        "name": "兴业路石库门街巷",
+        "minutes": 14,
+        "meaning": "会议发生的城市肌理：石库门不是布景，是居住结构",
+        "transition_to_next": "街巷尺度提醒我们：革命叙事之外，同一坐标上还有租界市政与马路现代性的另一层时间。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "石库门肌理",
+            "claim": "兴业路一带石库门里弄，是会议叙事得以「落地」的空间容器。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-2-building",
+              "excerpt": "演示数据：建筑层示意。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2216,
+          "lng": 121.4698,
+          "coord_source": "manual",
+          "precision": "schematic"
+        },
+        "pitfalls": {
+          "open_hours": "街巷全天可步行",
+          "enterable": "部分民居不可入内",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 3,
+        "whitelist_id": "wl-003",
+        "buri": null,
+        "name": "黄陂南路—太仓路转角",
+        "minutes": 12,
+        "meaning": "从弄堂走到马路：城市界面切换",
+        "transition_to_next": "转角之后，视线从里弄抬到马路，下一点看「商业—市政」如何与红色记忆并置。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "路口界面",
+            "claim": "黄陂南路与太仓路交汇处，是步行者感知「弄堂—马路」尺度变化的节点。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-3-building",
+              "excerpt": "演示数据：地理关系示意。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2205,
+          "lng": 121.4718,
+          "coord_source": "manual",
+          "precision": "schematic"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "公共人行区域可停留",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 4,
+        "whitelist_id": "wl-004",
+        "buri": null,
+        "name": "淮海中路近旁（示意点）",
+        "minutes": 16,
+        "meaning": "租界商业马路：另一层「城市时间」",
+        "transition_to_next": "商业马路提供对照：同一座城市里，消费现代性与组织史并行，并不互相取消。",
+        "layers": [
+          {
+            "kind": "era",
+            "label": "民国都市",
+            "claim": "20 世纪上半叶，此一带逐渐形成现代商业与市政界面（演示层，细节待上图纪年/地名核录）。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-4-era",
+              "excerpt": "演示：era 层占位。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2192,
+          "lng": 121.4735,
+          "coord_source": "manual",
+          "precision": "schematic"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "公共人行区域",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 5,
+        "whitelist_id": "wl-005",
+        "buri": null,
+        "name": "思南公馆周边（示意点）",
+        "minutes": 15,
+        "meaning": "花园住宅区：另一种「住」与「聚」",
+        "transition_to_next": "从石库门到花园洋房，空间等级变化本身也是读城的线索；收束前回望会址，完成「会议—日常—阶层界面」的闭环。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "花园住宅意象",
+            "claim": "思南路一带花园住宅，代表与石库门不同的居住形态（演示点，精细史实待核录）。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-5-building",
+              "excerpt": "演示数据。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2168,
+          "lng": 121.4692,
+          "coord_source": "manual",
+          "precision": "schematic"
+        },
+        "pitfalls": {
+          "open_hours": "园区开放以现场为准",
+          "enterable": "部分区域可参观",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 6,
+        "whitelist_id": "wl-006",
+        "buri": null,
+        "name": "回望点：香山路—兴业路意象",
+        "minutes": 15,
+        "meaning": "收束：把走过的点重新收成一条线索",
+        "transition_to_next": null,
+        "layers": [
+          {
+            "kind": "event",
+            "label": "线索回收",
+            "claim": "回望会上，把「会议纪念—弄堂肌理—马路现代性—住宅界面」收成一条可讲述的城市记忆线。",
+            "source": {
+              "dataset": "fixture/demo",
+              "record_id": "demo-stop-6-event",
+              "excerpt": "演示收束层。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2219,
+          "lng": 121.4701,
+          "coord_source": "manual",
+          "precision": "schematic"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "公共区域",
+          "need_reservation": "未收录"
+        }
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "type": "story_card",
+      "stop_order": 1,
+      "title": "开会的那天",
+      "body": "你站在被反复讲述的门口。九十多年前，有人把行李与文件一起带进一条弄堂——他们未必知道，自己正在把私人时间写成公共历史。",
+      "age_parallel": "若你此刻二十多岁，与会者中许多人也不比你年长多少。",
+      "sources": [
+        {
+          "dataset": "fixture/demo",
+          "record_id": "demo-stop-1-event",
+          "excerpt": "演示故事卡出处。"
+        }
+      ]
+    },
+    {
+      "type": "story_card",
+      "stop_order": 2,
+      "title": "门楣还在",
+      "body": "石库门不是展览道具。你听得见哪一扇门后有生活的声音——会议叙事之所以可信，是因为它曾经挤进这样的日常。",
+      "sources": [
+        {
+          "dataset": "fixture/demo",
+          "record_id": "demo-stop-2-building"
+        }
+      ]
+    },
+    {
+      "type": "story_card",
+      "stop_order": 6,
+      "title": "把路线收进口袋",
+      "body": "你走完不是为了打卡及格。若只能带走一句：这座城市把会议放进弄堂，又把弄堂放进马路——记忆从不是单行道。",
+      "sources": [
+        {
+          "dataset": "fixture/demo",
+          "record_id": "demo-stop-6-event"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "title": "弄堂里的会议与日常",
+      "lead": "90 分钟，把会址读成城市。",
+      "keywords": ["一大周边", "石库门", "可溯源"],
+      "body": "一条以史实线索串联的步行线：纪念、弄堂、马路、住宅界面。",
+      "coda": "每句话都应能点开看出处。"
+    }
+  ]
+}
