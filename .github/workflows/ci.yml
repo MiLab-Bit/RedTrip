@@ -53,3 +53,13 @@ jobs:
         env:
           PYTHONPATH: packages/gate:packages/curator:packages/library-client
         run: python -m pytest tests -q
+      - name: Demo smoke (frozen routes)
+        env:
+          PYTHONPATH: packages/gate:packages/curator:packages/library-client
+        run: python eval/smoke_demo.py
+      - name: Baseline metrics
+        env:
+          PYTHONPATH: packages/gate:packages/curator:packages/library-client
+        run: python eval/baseline.py
+      - name: L3 hotwords freshness
+        run: python eval/check_hotwords_stale.py --warn-days 14

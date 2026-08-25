@@ -20,7 +20,9 @@ from .models import BuildingEvidence, Intent
 
 # packages/curator/redtrip_curator → RedTrip/content/curated
 _CURATED = Path(__file__).resolve().parents[3] / "content" / "curated"
+_EXHIBITIONS_PATH = _CURATED / "exhibitions.json"
 _CACHE: dict[str, list[dict[str, Any]]] = {}
+_EXHIBITIONS_CACHE: list[dict[str, Any]] | None = None
 
 # 场景词 -> 核心地标别名（与 evidence._SCENE_ALIASES 同义但自包含，避免反向依赖）
 _SCENE_ALIASES: dict[str, tuple[str, ...]] = {
@@ -278,3 +280,25 @@ def exhibition_pois(curated_dir: str | None = None, city: str = "shanghai") -> l
                 continue
         out.append(p)
     return out
+
+
+def load_exhibitions(curated_dir: str | None = None, city: str = "shanghai") -> list[dict[str, Any]]:
+    """读取 content/curated/exhibitions.json 占位展讯（按 city 过滤）。"""
+    global _EXHIBITIONS_CACHE
+    base = Path(curated_dir) if curated_dir else _CURATED
+    path = base / "exhibitions.json"
+    if _EXHIBITIONS_CACHE is not None and curated_dir is None:
+        items = _EXHIBITIONS_CACHE
+    elif not path.is_file():
+        return []
+    else:
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return []
+        items = doc.get("exhibitions") if isinstance(doc, dict) else []
+        if not isinstance(items, list):
+            items = []
+        if curated_dir is None:
+            _EXHIBITIONS_CACHE = items
+    return [e for e in items if isinstance(e, dict) and (not e.get("city") or e.get("city") == city)]

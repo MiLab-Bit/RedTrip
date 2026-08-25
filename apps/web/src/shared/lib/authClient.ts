@@ -6,6 +6,17 @@ import { useAuthStore } from "../../features/auth/authStore";
  * 遇 401 时用 refresh token 静默续期并重试一次。
  * 用于需要登录态的资源请求（如将来调用 /v1/me 刷新资料）。
  */
+/** 供策展等非 React 模块注入 Bearer（BYOK 走用户 active provider）。 */
+export function authHeaders(extra?: HeadersInit): Headers {
+  const headers = new Headers(extra);
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+  const token = useAuthStore.getState().accessToken;
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  return headers;
+}
+
 export async function authedFetch(
   path: string,
   init: RequestInit = {},
