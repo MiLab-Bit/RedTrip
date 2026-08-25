@@ -16,7 +16,7 @@ export const SourceRefSchema = z.object({
 export type SourceRef = z.infer<typeof SourceRefSchema>;
 
 export const IdentityLayerSchema = z.object({
-  kind: z.enum(["building", "event", "era", "poem", "person", "geoname", "literary"]),
+  kind: z.enum(["building", "event", "era", "poem", "person", "geoname", "literary", "classical"]),
   label: z.string(),
   claim: z.string(),
   source: SourceRefSchema,
@@ -91,6 +91,7 @@ export const LayerKindSchema = z.enum([
   "person",
   "geoname",
   "literary",
+  "classical",
 ]);
 export type LayerKind = z.infer<typeof LayerKindSchema>;
 

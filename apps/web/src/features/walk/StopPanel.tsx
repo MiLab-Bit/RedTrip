@@ -5,6 +5,11 @@ import {
   sourceHeadline,
 } from "./sourceLabels";
 import { ProvenanceBody, findStopClaims } from "./SentenceProvenance";
+import {
+  ClassicalLayer,
+  stopClassicalLayers,
+  chapterClassicalFacts,
+} from "./ClassicalLayer";
 
 type Props = {
   envelope: RouteEnvelope;
@@ -93,6 +98,11 @@ export function StopPanel({
   const people = stop.layers.filter((l) => l.kind === "person");
   const split = layout === "split";
 
+  // 典籍发掘：本站 classical 层 + 本章 classical 事实（来自 evidence_graph）
+  const classicalLayers = stopClassicalLayers(envelope, stop.order);
+  const classicalFacts = chapterClassicalFacts(envelope, []);
+  const hasClassical = classicalLayers.length > 0 || classicalFacts.length > 0;
+
   return (
     <section className={`panel stop-panel${split ? " is-split" : ""}`}>
       <p className="note stop-kicker">
@@ -143,6 +153,15 @@ export function StopPanel({
             ))}
           </div>
         </article>
+      )}
+
+      {hasClassical && (
+        <ClassicalLayer
+          envelope={envelope}
+          classicalLayers={classicalLayers}
+          classicalFacts={classicalFacts}
+          onOpenSource={onOpenSource}
+        />
       )}
 
       {scene && scene.type === "scene" && (

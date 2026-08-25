@@ -59,6 +59,8 @@ _DATASET_LABEL: dict[str, str] = {
     "literary": "文学交集",
     "amap_poi": "高德 POI",
     "source": "外部来源",
+    "cbdb_classical": "CBDB 历代人物传记",
+    "classical": "典籍考证",
 }
 
 
@@ -82,6 +84,8 @@ class BookChapter:
     walking_minutes: int = 0
     essay_title: str = ""
     essay_paragraphs: list[str] = field(default_factory=list)
+    stop_id: int = 0
+    provenance: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -97,6 +101,7 @@ class BookDoc:
     meta: dict[str, Any] = field(default_factory=dict)
     route_plan: dict[str, Any] = field(default_factory=dict)
     review: dict[str, Any] = field(default_factory=dict)
+    colophon: dict[str, Any] = field(default_factory=dict)
 
 
 def _label(dataset: str) -> str:
@@ -126,6 +131,183 @@ def _first(obj: Any, *keys: str) -> Any:
         if isinstance(obj, dict) and k in obj:
             return obj[k]
     return None
+
+
+# ── 典籍形态：考据栏 / 扉页考据缘起 / 出处脚注 ────────────────────────────────
+def _cbdb_uri(fid: str) -> str:
+    """CBDB 人物传记回查链接（best-effort，可凭记录号溯源）。"""
+    return "https://cbdb.fas.harvard.edu/chinesename/BasicBiog?biogId=" + str(fid).strip()
+
+
+def _kaoju_html(ch: BookChapter) -> str:
+    """单章「考据栏」HTML：验证章(验/核) + 新发掘标记 + 出处回查。
+
+    纯展示 artifacts.embed 注入的 per-stop 断言，不生成新文本。
+    """
+    if not ch.provenance:
+        return ""
+    items: list[str] = []
+    for a in ch.provenance:
+        stamp = (
+            '<span class="seal-ok">验</span>'
+            if a.get("aligned")
+            else '<span class="seal-pending">核</span>'
+        )
+        newbadge = '<span class="badge-new">新发掘</span>' if a.get("discovered") else ""
+        ds_label = _label(a.get("dataset", "")) if a.get("dataset") else "待考"
+        fid = a.get("fact_uri")
+        if fid:
+            if a.get("dataset") == "cbdb_classical":
+                uri_html = (
+                    f'<a class="kj-uri" href="{_cbdb_uri(fid)}" target="_blank" '
+                    f'rel="noopener">{html.escape(fid)}</a>'
+                )
+            else:
+                uri_html = f'<code class="kj-uri">{html.escape(fid)}</code>'
+        else:
+            uri_html = '<span class="kj-nouri">无编号</span>'
+        label_html = (
+            html.escape(a.get("label", ""))
+            if a.get("label")
+            else html.escape((a.get("text", "") or "")[:24])
+        )
+        items.append(
+            f"<li>{stamp}{newbadge}"
+            f'<span class="kj-label">{label_html}</span>'
+            f'<span class="kj-ds">{html.escape(ds_label)}</span>'
+            f"{uri_html}"
+            f'<span class="kj-claim">{html.escape(a.get("text", "") or "")}</span></li>'
+        )
+    return (
+        '<div class="kaoju"><span class="k">考据</span>'
+        f'<span class="kj-count">本处 {len(ch.provenance)} 条</span>'
+        '<ul>' + "".join(items) + "</ul></div>"
+    )
+
+
+def _kaoju_for_chapters(
+    envelope: dict[str, Any], chapters: list[BookChapter]
+) -> tuple[list[BookChapter], dict[str, Any]]:
+    """装配每章「考据栏」与全卷「考据缘起」(colophon)。
+
+    数据全部来自 artifacts.embed 注入的 provenance / evidence_graph，零 token。
+    - per_stop[i].assertions：每条叙事断言 ↔ fact_uri 对齐（验证章依据）
+    - evidence_graph.clusters[].facts：附 dataset / label（考据栏出处与典籍发掘标记）
+    """
+    prov = envelope.get("provenance") or {}
+    per_stop = prov.get("per_stop") or []
+    prov_by_stop: dict[Any, dict[str, Any]] = {}
+    for p in per_stop:
+        if isinstance(p, dict):
+            prov_by_stop[p.get("stop_index")] = p
+
+    eg = envelope.get("evidence_graph") or {}
+    fact_by_uri: dict[str, dict[str, Any]] = {}
+    discovered_facts: set[str] = set()
+    discovered_labels: set[str] = set()
+    dataset_labels: set[str] = set()
+    for cl in eg.get("clusters", []):
+        for f in cl.get("facts", []):
+            if not isinstance(f, dict):
+                continue
+            fid = f.get("fact_uri")
+            if fid:
+                fact_by_uri[fid] = f
+            ds = f.get("source_dataset")
+            if ds:
+                dataset_labels.add(_label(ds))
+            if ds == "cbdb_classical" or f.get("layer") == "classical":
+                if fid:
+                    discovered_facts.add(fid)
+                if f.get("label"):
+                    discovered_labels.add(f["label"])
+
+    total_assertions = int(prov.get("total_assertions", 0) or 0)
+    aligned = int(prov.get("aligned_assertions", 0) or 0)
+    ratio = float(prov.get("coverage_ratio", 1.0) or 1.0)
+    discovered_total = len(discovered_facts | discovered_labels)
+
+    for ch in chapters:
+        p = prov_by_stop.get(ch.stop_id)
+        if p is None:
+            p = prov_by_stop.get(ch.index)
+        prov_list: list[dict[str, Any]] = []
+        if p:
+            for a in p.get("assertions", []):
+                if not isinstance(a, dict):
+                    continue
+                fid = a.get("fact_uri") or None
+                f = fact_by_uri.get(fid) if fid else None
+                dataset = (f or {}).get("source_dataset") or (
+                    "classical" if a.get("layer") == "classical" else ""
+                )
+                label = (f or {}).get("label") or a.get("text") or ""
+                is_discovered = (
+                    dataset == "cbdb_classical"
+                    or a.get("layer") == "classical"
+                    or (label and label in discovered_labels)
+                    or (fid and fid in discovered_facts)
+                )
+                prov_list.append(
+                    {
+                        "text": a.get("text") or "",
+                        "fact_uri": fid,
+                        "aligned": bool(a.get("aligned")),
+                        "layer": a.get("layer") or "",
+                        "dataset": dataset,
+                        "label": label,
+                        "discovered": bool(is_discovered),
+                    }
+                )
+        ch.provenance = prov_list
+
+    colophon = {
+        "total_assertions": total_assertions,
+        "aligned_assertions": aligned,
+        "coverage_ratio": ratio,
+        "discovered_total": discovered_total,
+        "datasets": sorted(dataset_labels),
+    }
+    return chapters, colophon
+
+
+def _colophon_front_html(doc: BookDoc) -> str:
+    c = doc.colophon
+    if not c:
+        return ""
+    ratio = c.get("coverage_ratio", 1.0)
+    bits: list[str] = []
+    bits.append(
+        f"本卷 {c.get('total_assertions', 0)} 处史实陈述，"
+        f"{c.get('aligned_assertions', 0)} 条已溯源核验（{ratio * 100:.0f}%）。"
+    )
+    if c.get("discovered_total"):
+        bits.append(
+            f"自 CBDB 历代人物传记新发掘可考人物 / 古迹 {c.get('discovered_total')} 处。"
+        )
+    ds = c.get("datasets") or []
+    if ds:
+        bits.append("数据来源：" + "、".join(ds) + "。")
+    bits.append(
+        "所述人物、年代、官职均出自可公开核对的开放数据；"
+        "凭记录编号可回查原始出处，未妄加虚构。"
+    )
+    return (
+        '<section class="colophon-front"><span class="cf-k">考据缘起</span>'
+        + "".join(f"<p>{html.escape(b)}</p>" for b in bits)
+        + "</section>"
+    )
+
+
+def _colophon_summary_html(doc: BookDoc) -> str:
+    c = doc.colophon
+    if not c:
+        return ""
+    ratio = c.get("coverage_ratio", 1.0)
+    parts = [f"可溯源核验率 {ratio * 100:.0f}%"]
+    if c.get("discovered_total"):
+        parts.append(f"典籍新发掘 {c['discovered_total']} 处")
+    return '<p class="colophon-summary">' + " · ".join(html.escape(p) for p in parts) + "</p>"
 
 
 def _build_book_doc(envelope: dict[str, Any]) -> BookDoc:
@@ -203,6 +385,12 @@ def _build_book_doc(envelope: dict[str, Any]) -> BookDoc:
             for s in (card.get("sources") or [])
             if isinstance(s, dict)
         ]
+        _ch_stop_raw = ch.get("stopId")
+        if not isinstance(_ch_stop_raw, int):
+            _ch_stop_raw = ch.get("stop_order")
+        if not isinstance(_ch_stop_raw, int):
+            _ch_stop_raw = ch.get("index")
+        _ch_stop = int(_ch_stop_raw) if isinstance(_ch_stop_raw, int) else 0
         chapters.append(
             BookChapter(
                 index=int(ch.get("index", 0)),
@@ -223,8 +411,12 @@ def _build_book_doc(envelope: dict[str, Any]) -> BookDoc:
                 walking_minutes=int(ch.get("walkingMinutes") or ch.get("walking_minutes") or 0),
                 essay_title=str(essay.get("title", "")) if isinstance(essay, dict) else "",
                 essay_paragraphs=essay_body,
+                stop_id=_ch_stop,
+                provenance=[],
             )
         )
+
+    chapters, colophon = _kaoju_for_chapters(envelope, chapters)
 
     # 跋：收束语 + 路线回望
     epilogue: list[str] = []
@@ -272,6 +464,7 @@ def _build_book_doc(envelope: dict[str, Any]) -> BookDoc:
         chapters=chapters,
         epilogue=epilogue,
         sources_index=sources_index,
+        colophon=colophon,
         meta={
             "duration_min": duration_min,
             "walk_meters_est": walk_m,
@@ -357,6 +550,8 @@ def _chapter_html(ch: BookChapter) -> str:
             + "</div>"
         )
 
+    kaoju_html = _kaoju_html(ch)
+
     hook_html = f'<p class="hook">{html.escape(ch.hook)}</p>' if ch.hook else ""
     relation_html = (
         f'<p class="relation">{html.escape(ch.relation)}</p>'
@@ -391,6 +586,7 @@ def _chapter_html(ch: BookChapter) -> str:
   {scene_html}
   {paras}
   {src_html}
+  {kaoju_html}
   {essay_html}
 </section>'''
 
@@ -491,8 +687,11 @@ def render_book(envelope: dict[str, Any], *, include_toc: bool = True) -> str:
 
     src_index_html = ""
     if doc.sources_index:
+        colophon_summary = _colophon_summary_html(doc)
         src_index_html = (
-            '<section class="srcindex"><h2>出处索引</h2><span class="ornament-line"></span><ul>'
+            '<section class="srcindex"><h2>出处索引 · 脚注</h2><span class="ornament-line"></span>'
+            + (colophon_summary if colophon_summary else "")
+            + "<ul>"
             + "".join(
                 f'<li><span class="ix">{str(i + 1).zfill(2)}</span>'
                 f'<span class="dataset">{html.escape(_label(s.dataset))}</span>'
@@ -810,6 +1009,101 @@ body {{
   color: #8a7a5e;
 }}
 
+/* ── 典籍形态：扉页考据缘起 / 章节考据栏 / 验证章 / 新发掘 ── */
+.colophon-front {{
+  margin: 16mm 10mm 0;
+  padding: 8mm 0 0;
+  border-top: 0.5pt solid #c9a45c;
+  text-align: left;
+}}
+.colophon-front .cf-k {{
+  display: block;
+  font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 10pt;
+  letter-spacing: 0.3em;
+  color: #8a7a5e;
+  margin: 0 0 6mm;
+}}
+.colophon-front p {{
+  font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 9.5pt;
+  line-height: 2.0;
+  color: #4a3f2e;
+  margin: 0 0 3mm;
+  text-indent: 0;
+}}
+.colophon-summary {{
+  font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 9.5pt;
+  letter-spacing: 0.08em;
+  color: #b0925e;
+  margin: 0 0 6mm;
+}}
+.kaoju {{
+  font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 9pt;
+  color: #4a3f2e;
+  margin: 8mm 0 0;
+  padding: 4mm 0 2mm 8mm;
+  border-left: 3pt solid #b0925e;
+}}
+.kaoju .k {{
+  color: #b0925e;
+  letter-spacing: 0.22em;
+  margin-right: 0.8em;
+}}
+.kaoju .kj-count {{ color: #8a7a5e; font-size: 8.5pt; }}
+.kaoju ul {{
+  list-style: none;
+  padding: 0;
+  margin: 4mm 0 0;
+}}
+.kaoju li {{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5pt;
+  padding: 3pt 0;
+  border-bottom: 0.5pt dotted #d8c39a;
+  line-height: 1.7;
+}}
+.kaoju .kj-label {{ font-weight: 600; color: #1a1410; }}
+.kaoju .kj-ds {{ color: #8a7a5e; font-size: 8.5pt; }}
+.kaoju .kj-uri {{ font-family: "SF Mono", "Menlo", monospace; font-size: 8pt; color: #2a6be0; text-decoration: none; }}
+.kaoju .kj-uri:hover {{ text-decoration: underline; }}
+.kaoju .kj-nouri {{ color: #a08a5e; font-size: 8pt; }}
+.kaoju .kj-claim {{ flex-basis: 100%; color: #5a4d38; font-size: 8.5pt; margin-top: 1pt; }}
+.seal-ok {{
+  display: inline-block;
+  width: 14pt; height: 14pt; line-height: 14pt;
+  text-align: center;
+  border: 1pt solid #b03a2e;
+  color: #b03a2e;
+  font-size: 8.5pt;
+  font-weight: 700;
+  border-radius: 2pt;
+  transform: scale(0.92);
+}}
+.seal-pending {{
+  display: inline-block;
+  width: 14pt; height: 14pt; line-height: 14pt;
+  text-align: center;
+  border: 1pt solid #9a8a6a;
+  color: #9a8a6a;
+  font-size: 8.5pt;
+  border-radius: 2pt;
+  transform: scale(0.92);
+}}
+.badge-new {{
+  display: inline-block;
+  padding: 0 5pt;
+  background: #16b87a;
+  color: #fff;
+  font-size: 7.5pt;
+  letter-spacing: 0.1em;
+  border-radius: 2pt;
+}}
+
 .routeplan {{
   break-before: page;
   page-break-before: always;
@@ -956,6 +1250,7 @@ p {{ orphans: 3; widows: 3; }}
       {f'<p class="reading">{html.escape(doc.reading_line)}</p>' if doc.reading_line else ""}
       <p class="meta">约 {doc.meta.get('duration_min', 0)} 分钟 · 步行估 {doc.meta.get('walk_meters_est', 0)} 米 · {html.escape(doc.meta.get('scenario', ''))}</p>
       <p class="seal">可　·　溯　·　源</p>
+      {_colophon_front_html(doc)}
     </header>
     {route_plan_html}
     {toc_html}
@@ -1032,6 +1327,27 @@ def render_book_markdown(envelope: dict[str, Any], *, include_toc: bool = True) 
     if doc.reading_line:
         L.append("")
         L.append(f"_{_mdx_safe(doc.reading_line)}_")
+
+    # 考据缘起（扉页考据说明的纯文本版）
+    if doc.colophon:
+        c = doc.colophon
+        ratio = c.get("coverage_ratio", 1.0)
+        L.append("")
+        L.append("## 考据缘起")
+        L.append("")
+        L.append(
+            f"> 本卷 {c.get('total_assertions', 0)} 处史实陈述，"
+            f"{c.get('aligned_assertions', 0)} 条已溯源核验（{ratio * 100:.0f}%）。"
+        )
+        if c.get("discovered_total"):
+            L.append("")
+            L.append(f"> 自 CBDB 历代人物传记新发掘可考人物 / 古迹 {c['discovered_total']} 处。")
+        ds = c.get("datasets") or []
+        if ds:
+            L.append("")
+            L.append("> 数据来源：" + "、".join(ds) + "。")
+        L.append("")
+        L.append("> 所述人物、年代、官职均出自可公开核对的开放数据；凭记录编号可回查原始出处，未妄加虚构。")
 
     # 路线规划
     if doc.route_plan and doc.route_plan.get("stops"):
@@ -1118,6 +1434,20 @@ def render_book_markdown(envelope: dict[str, Any], *, include_toc: bool = True) 
             L.append("")
             L.append("出处：" + "、".join(_label(s.dataset) for s in ch.sources))
 
+        if ch.provenance:
+            L.append("")
+            L.append(f"**考据**（本处 {len(ch.provenance)} 条）")
+            for a in ch.provenance:
+                mark = "✓验" if a.get("aligned") else "○待核"
+                tag = " 〔新发掘〕" if a.get("discovered") else ""
+                ds = _label(a.get("dataset", "")) if a.get("dataset") else "待考"
+                uri = f" `{a['fact_uri']}`" if a.get("fact_uri") else ""
+                label = a.get("label") or (a.get("text") or "")[:20]
+                L.append(
+                    f"- {mark}{tag} {_mdx_safe(label)}"
+                    f"（{_mdx_safe(ds)}{uri}）：{_mdx_safe(a.get('text', '') or '')}"
+                )
+
     # 跋
     if doc.epilogue:
         L.append("")
@@ -1134,7 +1464,14 @@ def render_book_markdown(envelope: dict[str, Any], *, include_toc: bool = True) 
     # 出处索引
     if doc.sources_index:
         L.append("")
-        L.append("## 出处索引")
+        L.append("## 出处索引 · 脚注")
+        if doc.colophon:
+            ratio = doc.colophon.get("coverage_ratio", 1.0)
+            extra = f"可溯源核验率 {ratio * 100:.0f}%"
+            if doc.colophon.get("discovered_total"):
+                extra += f" · 典籍新发掘 {doc.colophon['discovered_total']} 处"
+            L.append("")
+            L.append(f"> {extra}")
         for i, s in enumerate(doc.sources_index, 1):
             L.append(f"{i}. {_label(s.dataset)} — `{s.record_id}`")
 
@@ -1191,6 +1528,32 @@ th { background: #f3ecdd; }
 .rp-name { font-weight: 600; }
 .rp-min { color: #8a7a5e; font-size: 0.8em; }
 .colophon li { margin: 0.4em 0; }
+.colophon-summary { color: #b0925e; font-size: 0.85em; margin: 0.4em 0; }
+.cover .cf-k { color: #8a7a5e; letter-spacing: 0.3em; font-size: 0.8em;
+  display: block; margin: 1.4em 0 0.4em; }
+.cover .colophon-front p { color: #4a3f2e; font-size: 0.82em; text-align: left;
+  text-indent: 0; margin: 0.3em 0; }
+.kaoju { color: #4a3f2e; font-size: 0.85em; margin: 1em 0 0;
+  border-left: 3px solid #b0925e; padding-left: 0.8em; }
+.kaoju .k { color: #b0925e; letter-spacing: 0.2em; margin-right: 0.6em; }
+.kaoju .kj-count { color: #8a7a5e; font-size: 0.8em; }
+.kaoju ul { list-style: none; padding: 0; margin: 0.4em 0 0; }
+.kaoju li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3em;
+  padding: 0.3em 0; border-bottom: 1px dotted #d8c39a; }
+.kaoju .kj-label { font-weight: 600; }
+.kaoju .kj-ds { color: #8a7a5e; font-size: 0.85em; }
+.kaoju .kj-uri { font-family: monospace; font-size: 0.8em; color: #2a6be0;
+  text-decoration: none; }
+.kaoju .kj-claim { flex-basis: 100%; color: #5a4d38; font-size: 0.82em;
+  margin-top: 0.1em; }
+.seal-ok { display: inline-block; width: 1.4em; height: 1.4em; line-height: 1.4em;
+  text-align: center; border: 1px solid #b03a2e; color: #b03a2e; font-size: 0.8em;
+  font-weight: 700; border-radius: 2px; }
+.seal-pending { display: inline-block; width: 1.4em; height: 1.4em; line-height: 1.4em;
+  text-align: center; border: 1px solid #9a8a6a; color: #9a8a6a; font-size: 0.8em;
+  border-radius: 2px; }
+.badge-new { display: inline-block; padding: 0 0.4em; background: #16b87a;
+  color: #fff; font-size: 0.75em; letter-spacing: 0.1em; border-radius: 2px; }
 """
 
 _CONTAINER_XML = (
@@ -1234,6 +1597,10 @@ def _cover_inner(doc: BookDoc, vol_title: str) -> str:
     if meta_bits:
         parts.append('<p class="meta">' + " · ".join(meta_bits) + "</p>")
     parts.append('<p class="seal">可 · 溯 · 源</p></div>')
+    cf = _colophon_front_html(doc)
+    if cf:
+        # _colophon_front_html 产 HTML；EPUB 内联复用（已转义安全）
+        parts.append(cf)
     return "\n".join(parts)
 
 
@@ -1324,6 +1691,9 @@ def _chapter_inner(ch: BookChapter) -> str:
             + "、".join(html.escape(_label(s.dataset)) for s in ch.sources)
             + "</div>"
         )
+    kaoju = _kaoju_html(ch)
+    if kaoju:
+        parts.append(kaoju)
     return "\n".join(parts)
 
 
@@ -1488,15 +1858,20 @@ def _review_epub_inner(data: dict[str, Any]) -> str:
 
 
 def _colophon_inner(doc: BookDoc) -> str:
+    summary = _colophon_summary_html(doc)
     if not doc.sources_index:
-        return '<h2>出处索引</h2><p class="note">（无出处记录）</p>'
+        inner = '<p class="note">（无出处记录）</p>'
+        if summary:
+            inner = summary + inner
+        return '<h2>出处索引 · 脚注</h2>\n' + inner
     items = "\n".join(
         f'<li><span class="ix">{str(i + 1).zfill(2)}</span> '
         f'<span class="dataset">{html.escape(_label(s.dataset))}</span> '
         f'<code>{html.escape(s.record_id)}</code></li>'
         for i, s in enumerate(doc.sources_index)
     )
-    return f'<h2>出处索引</h2>\n<ul class="colophon">{items}</ul>'
+    head = '<h2>出处索引 · 脚注</h2>'
+    return head + (("\n" + summary) if summary else "") + '\n<ul class="colophon">' + items + "</ul>"
 
 
 def _nav_xhtml(doc: BookDoc, sections: list[tuple[str, str, str]]) -> str:
