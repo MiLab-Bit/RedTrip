@@ -155,7 +155,7 @@ export function App() {
     (async () => {
       try {
         setLoadProgress(2);
-        setLoadPhase("正在提交策展任务…");
+        setLoadPhase("L1 · 提交取证任务…");
 
         let chapterCount = 0;
         const { envelope, assumptions, hongyuan, degraded, notices } =
@@ -167,8 +167,14 @@ export function App() {
               if (message) setLoadPhase(message);
               // B4：narrate 后进入逐章并行润色（不再是单次 160s 大调用），
               // 明确预期，避免用户误以为卡死。
-              if (stage === "narrate") {
-                setLoadPhase("叙事初稿完成，逐章润色中…");
+              if (stage === "evidence" || stage === "retrieve") {
+                setLoadPhase("L1 · 馆藏取证中…");
+              } else if (stage === "hongyuan" || stage === "voice") {
+                setLoadPhase("L2 · 红鸢抽签定声线…");
+              } else if (stage === "hotwords" || stage === "layer3") {
+                setLoadPhase("L3 · 对齐当代口吻…");
+              } else if (stage === "narrate") {
+                setLoadPhase("L2 · 叙事初稿完成，逐章润色中…");
               }
             },
             ac.signal,
@@ -307,8 +313,8 @@ export function App() {
       {!isBrief && (
         <header className="topbar">
           <div className="brand brand-mark">
-            <span className="brand-word">RedTrip</span>
-            <small className="brand-tag">城市记忆策展人</small>
+            <span className="brand-word">红鸢</span>
+            <small className="brand-tag">RedTrip · 城市记忆策展人</small>
           </div>
           <div className="source-badge">
             {cityName(activeCity)} · 可溯源书页

@@ -26,10 +26,25 @@ from .whitelist import Whitelist, WhitelistPoint, load_whitelist
 _CORPUS_DIR = Path(__file__).resolve().parent / "corpus"
 _CURATED_DIR = Path(__file__).resolve().parent.parent.parent.parent / "content" / "curated"
 
+# 实体层富化文件：含 description / characters / buri 的策展词条。
+# 排除 *-landmarks.json / *-osm.json（海量检索索引），避免模糊匹配被空壳 POI 抢先命中。
+_ENRICHMENT_GLOBS = (
+    "entity-enrichment-*.json",
+    "exterior-*.json",
+)
+
+
+def _is_rich_landmark(entry: dict[str, Any]) -> bool:
+    """有简介、人物或馆藏 buri 才算可注入的实体层。"""
+    if entry.get("description") or entry.get("buri"):
+        return True
+    chars = entry.get("characters")
+    return isinstance(chars, list) and len(chars) > 0
+
 
 @lru_cache(maxsize=4)
 def _load_landmark_facts() -> list[dict[str, Any]]:
-    """加载本地 curated 词库（外滩万国建筑等历史风貌区核心建筑+人物+简介）。
+    """加载本地 curated 实体层（外滩/武康等核心建筑+人物+简介）。
 
     命中 amap POI 时把 description / characters / year_built / style 注入
     BuildingEvidence.raw_detail，并把 characters 转 IdentityLayer（kind=person），
@@ -38,15 +53,27 @@ def _load_landmark_facts() -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     if not _CURATED_DIR.exists():
         return out
+    paths: list[Path] = []
+    for pat in _ENRICHMENT_GLOBS:
+        paths.extend(_CURATED_DIR.glob(pat))
+    # 兼容未改名的手工词库：根目录下非 landmarks/osm 的 json
     for f in sorted(_CURATED_DIR.glob("*.json")):
+        name = f.name.lower()
+        if name.endswith("-landmarks.json") or name.endswith("-osm.json"):
+            continue
+        if f not in paths:
+            paths.append(f)
+    for f in sorted(set(paths), key=lambda p: p.name):
         try:
             data = json.loads(f.read_text(encoding="utf-8"))
+            rows: list[dict[str, Any]] = []
             if isinstance(data, list):
-                out.extend([x for x in data if isinstance(x, dict)])
+                rows = [x for x in data if isinstance(x, dict)]
             elif isinstance(data, dict):
                 for v in data.values():
                     if isinstance(v, list):
-                        out.extend([x for x in v if isinstance(x, dict)])
+                        rows.extend([x for x in v if isinstance(x, dict)])
+            out.extend([x for x in rows if _is_rich_landmark(x)])
         except Exception:  # noqa: BLE001 —— 词库错就当空
             continue
     return out
@@ -55,18 +82,26 @@ def _load_landmark_facts() -> list[dict[str, Any]]:
 def _match_landmark(
     name: str, facts: list[dict[str, Any]]
 ) -> dict[str, Any] | None:
-    """按 name 或 alias 模糊匹配 landmark；返回第一条命中的词条。"""
+    """按 name 或 alias 模糊匹配；精确命中优先，其次带 buri/人物的富化词条。"""
     if not name:
         return None
     n = name.strip()
+    exact: dict[str, Any] | None = None
+    fuzzy: dict[str, Any] | None = None
     for entry in facts:
         keys = [entry.get("name"), *(entry.get("alias") or [])]
         for k in keys:
             if not k:
                 continue
-            if n == k or n in k or k in n:
-                return entry
-    return None
+            ks = str(k).strip()
+            if n == ks:
+                # 带 buri 的精确命中立刻返回
+                if entry.get("buri") or entry.get("characters"):
+                    return entry
+                exact = exact or entry
+            elif fuzzy is None and (n in ks or ks in n):
+                fuzzy = entry
+    return exact or fuzzy
 
 
 # 历史风貌区场景识别：副搜时附「万国建筑/历史建筑」等词命中真正的景点

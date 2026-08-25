@@ -1,14 +1,4 @@
 {
-  "version": "1.0",
-  "scope": "梧桐区 + 一大周边 + 上海全量文化场馆/纪念馆(OSM)",
-  "count": 180,
-  "generated_at": "2026-08-14",
-  "notes": [
-    "NG-10: 渲染只读 lat/lng/precision，不按 coord_source 分叉业务逻辑",
-    "buri 为空 = 诚实未映射；叙事不得编造上游事件",
-    "避坑四字段禁止推测：未知一律「未收录」",
-    "2026-08-14: P0-2 修复，并入 OSM 全量文化场馆/纪念馆（buri 诚实留空）"
-  ],
   "points": [
     {
       "id": "wl-001",
@@ -29,7 +19,8 @@
         "lng": "人工核录",
         "buri": "未映射",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "manual"
     },
     {
       "id": "wl-002",
@@ -50,7 +41,8 @@
         "lng": "人工核录",
         "buri": "未映射",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "manual"
     },
     {
       "id": "wl-003",
@@ -71,7 +63,8 @@
         "lng": "人工核录",
         "buri": "未映射",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "manual"
     },
     {
       "id": "wl-004",
@@ -92,7 +85,8 @@
         "lng": "人工核录",
         "buri": "未映射",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "manual"
     },
     {
       "id": "wl-005",
@@ -113,7 +107,8 @@
         "lng": "人工核录",
         "buri": "未映射",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "manual"
     },
     {
       "id": "wl-006",
@@ -134,7 +129,8 @@
         "lng": "人工核录",
         "buri": "未映射",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "manual"
     },
     {
       "id": "wl-101",
@@ -155,7 +151,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-102",
@@ -176,7 +173,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-103",
@@ -197,7 +195,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-104",
@@ -218,7 +217,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-105",
@@ -239,7 +239,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-106",
@@ -260,7 +261,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-107",
@@ -281,7 +283,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-108",
@@ -302,7 +305,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-109",
@@ -323,7 +327,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-110",
@@ -344,7 +349,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-111",
@@ -365,7 +371,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-112",
@@ -386,7 +393,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-113",
@@ -407,7 +415,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-114",
@@ -428,7 +437,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-115",
@@ -449,7 +459,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-116",
@@ -470,7 +481,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-117",
@@ -491,7 +503,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-118",
@@ -512,7 +525,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-119",
@@ -533,7 +547,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-120",
@@ -554,7 +569,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-121",
@@ -575,7 +591,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-122",
@@ -596,7 +613,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-123",
@@ -617,7 +635,8 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-124",
@@ -638,11 +657,12 @@
         "lng": "building_detail.location",
         "buri": "SLC architecture uri",
         "open_hours": "人工核录或未收录"
-      }
+      },
+      "evidence_channel": "slc"
     },
     {
       "id": "wl-031",
-      "name": "水杉夜魅",
+      "name": "中国银行大楼",
       "buri": null,
       "lat": 31.241483,
       "lng": 121.485395,
@@ -653,17 +673,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-032",
-      "name": "水杉夜魅",
+      "name": "怡和洋行大楼",
       "buri": null,
       "lat": 31.242325,
       "lng": 121.48558,
@@ -674,17 +695,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-033",
-      "name": "水杉夜魅",
+      "name": "横滨正金银行大楼",
       "buri": null,
       "lat": 31.241756,
       "lng": 121.485459,
@@ -695,17 +717,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-034",
-      "name": "水杉夜魅",
+      "name": "麦加利银行大楼",
       "buri": null,
       "lat": 31.2404,
       "lng": 121.485387,
@@ -716,17 +739,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-035",
-      "name": "水杉夜魅",
+      "name": "交通银行大楼",
       "buri": null,
       "lat": 31.239096,
       "lng": 121.485604,
@@ -737,17 +761,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-036",
-      "name": "水杉夜魅",
+      "name": "前汇丰银行大楼",
       "buri": null,
       "lat": 31.238004,
       "lng": 121.485757,
@@ -758,17 +783,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-037",
-      "name": "水杉夜魅",
+      "name": "中国通商银行大楼",
       "buri": null,
       "lat": 31.23675,
       "lng": 121.486296,
@@ -779,17 +805,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-038",
-      "name": "水杉夜魅",
+      "name": "上海总会大楼",
       "buri": null,
       "lat": 31.235862,
       "lng": 121.486886,
@@ -800,17 +827,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-039",
-      "name": "水杉夜魅",
+      "name": "十六铺码头",
       "buri": null,
       "lat": 31.230588,
       "lng": 121.493779,
@@ -821,17 +849,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-040",
-      "name": "水杉夜魅",
+      "name": "第一美术馆",
       "buri": null,
       "lat": 31.212231,
       "lng": 121.467274,
@@ -842,17 +871,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-041",
-      "name": "水杉夜魅",
+      "name": "цирк",
       "buri": null,
       "lat": 31.280012,
       "lng": 121.446927,
@@ -863,17 +893,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-042",
-      "name": "水杉夜魅",
+      "name": "上海铁路博物馆",
       "buri": null,
       "lat": 31.251986,
       "lng": 121.47179,
@@ -884,17 +915,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-043",
-      "name": "水杉夜魅",
+      "name": "毛主席像",
       "buri": null,
       "lat": 31.228542,
       "lng": 121.399846,
@@ -905,17 +937,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "普陀",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-044",
-      "name": "水杉夜魅",
+      "name": "上海地质科普馆",
       "buri": null,
       "lat": 31.179053,
       "lng": 121.778151,
@@ -926,17 +959,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-045",
-      "name": "水杉夜魅",
+      "name": "松江美术馆",
       "buri": null,
       "lat": 31.035345,
       "lng": 121.193667,
@@ -947,17 +981,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "松江",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-046",
-      "name": "水杉夜魅",
+      "name": "松江城市规划展示馆",
       "buri": null,
       "lat": 31.036057,
       "lng": 121.193544,
@@ -968,17 +1003,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "松江",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-047",
-      "name": "水杉夜魅",
+      "name": "震旦美术馆",
       "buri": null,
       "lat": 31.236503,
       "lng": 121.495396,
@@ -989,17 +1025,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-048",
-      "name": "水杉夜魅",
+      "name": "维家文化传媒(上海)有限公司",
       "buri": null,
       "lat": 31.22954,
       "lng": 121.392027,
@@ -1010,17 +1047,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "普陀",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-049",
-      "name": "水杉夜魅",
+      "name": "上海显高集团产业园",
       "buri": null,
       "lat": 31.229249,
       "lng": 121.392134,
@@ -1031,17 +1069,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "普陀",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-050",
-      "name": "水杉夜魅",
+      "name": "嘉定博物馆",
       "buri": null,
       "lat": 31.382904,
       "lng": 121.248794,
@@ -1052,17 +1091,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-051",
-      "name": "水杉夜魅",
+      "name": "江湾体育场(原上海市体育场)",
       "buri": null,
       "lat": 31.308063,
       "lng": 121.510273,
@@ -1073,17 +1113,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-052",
-      "name": "水杉夜魅",
+      "name": "孙中山先生铜像",
       "buri": null,
       "lat": 31.313617,
       "lng": 121.521286,
@@ -1094,17 +1135,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-053",
-      "name": "水杉夜魅",
+      "name": "东方汇理银行大楼",
       "buri": null,
       "lat": 31.243024,
       "lng": 121.48566,
@@ -1115,17 +1157,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-054",
-      "name": "水杉夜魅",
+      "name": "南翔古镇",
       "buri": null,
       "lat": 31.293282,
       "lng": 121.303723,
@@ -1136,17 +1179,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-055",
-      "name": "水杉夜魅",
+      "name": "李国豪像",
       "buri": null,
       "lat": 31.286252,
       "lng": 121.498778,
@@ -1157,17 +1201,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-056",
-      "name": "水杉夜魅",
+      "name": "维纳斯像",
       "buri": null,
       "lat": 31.023064,
       "lng": 121.425933,
@@ -1178,17 +1223,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "闵行",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-057",
-      "name": "水杉夜魅",
+      "name": "鹰",
       "buri": null,
       "lat": 31.02129,
       "lng": 121.42559,
@@ -1199,17 +1245,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "闵行",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-058",
-      "name": "水杉夜魅",
+      "name": "东海园旅游咨询服务中心",
       "buri": null,
       "lat": 31.238487,
       "lng": 121.44159,
@@ -1220,17 +1267,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "静安",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-059",
-      "name": "水杉夜魅",
+      "name": "龙美术馆（西岸馆）",
       "buri": null,
       "lat": 31.185916,
       "lng": 121.460193,
@@ -1241,17 +1289,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-060",
-      "name": "水杉夜魅",
+      "name": "东方之光",
       "buri": null,
       "lat": 31.224285,
       "lng": 121.534294,
@@ -1262,17 +1311,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-061",
-      "name": "水杉夜魅",
+      "name": "Zhujiajiao(Wasserdorf)",
       "buri": null,
       "lat": 31.113457,
       "lng": 121.050611,
@@ -1283,17 +1333,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "青浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-062",
-      "name": "水杉夜魅",
+      "name": "泰晤士小镇",
       "buri": null,
       "lat": 31.03492,
       "lng": 121.190997,
@@ -1304,17 +1355,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "松江",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-063",
-      "name": "水杉夜魅",
+      "name": "美国园",
       "buri": null,
       "lat": 31.281423,
       "lng": 121.171504,
@@ -1325,17 +1377,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-064",
-      "name": "水杉夜魅",
+      "name": "枫丹白露亭",
       "buri": null,
       "lat": 31.280389,
       "lng": 121.169697,
@@ -1346,17 +1399,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-065",
-      "name": "水杉夜魅",
+      "name": "英国园",
       "buri": null,
       "lat": 31.280272,
       "lng": 121.174005,
@@ -1367,17 +1421,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-066",
-      "name": "水杉夜魅",
+      "name": "日本园",
       "buri": null,
       "lat": 31.282944,
       "lng": 121.172075,
@@ -1388,17 +1443,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-067",
-      "name": "水杉夜魅",
+      "name": "上海外滩美术馆",
       "buri": null,
       "lat": 31.243175,
       "lng": 121.48302,
@@ -1409,17 +1465,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-068",
-      "name": "水杉夜魅",
+      "name": "Bazaarcompatibleprogram",
       "buri": null,
       "lat": 31.203835,
       "lng": 121.416487,
@@ -1430,17 +1487,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-069",
-      "name": "水杉夜魅",
+      "name": "上海公安博物馆",
       "buri": null,
       "lat": 31.200352,
       "lng": 121.463799,
@@ -1451,17 +1509,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-070",
-      "name": "水杉夜魅",
+      "name": "七个小矮人矿山车",
       "buri": null,
       "lat": 31.147637,
       "lng": 121.655494,
@@ -1472,17 +1531,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-071",
-      "name": "水杉夜魅",
+      "name": "晶彩奇航",
       "buri": null,
       "lat": 31.145904,
       "lng": 121.654235,
@@ -1493,17 +1553,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-072",
-      "name": "水杉夜魅",
+      "name": "爱丽丝梦游仙境迷宫",
       "buri": null,
       "lat": 31.146752,
       "lng": 121.65528,
@@ -1514,17 +1575,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-073",
-      "name": "水杉夜魅",
+      "name": "船奇戏水滩",
       "buri": null,
       "lat": 31.147023,
       "lng": 121.657865,
@@ -1535,17 +1597,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-074",
-      "name": "水杉夜魅",
+      "name": "漫游童话时光",
       "buri": null,
       "lat": 31.145856,
       "lng": 121.655399,
@@ -1556,17 +1619,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-075",
-      "name": "水杉夜魅",
+      "name": "探秘海妖复仇号",
       "buri": null,
       "lat": 31.147112,
       "lng": 121.658622,
@@ -1577,17 +1641,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-076",
-      "name": "水杉夜魅",
+      "name": "古迹探索营",
       "buri": null,
       "lat": 31.145922,
       "lng": 121.65961,
@@ -1598,17 +1663,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-077",
-      "name": "水杉夜魅",
+      "name": "雷鸣山漂流",
       "buri": null,
       "lat": 31.144942,
       "lng": 121.659261,
@@ -1619,17 +1685,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-078",
-      "name": "水杉夜魅",
+      "name": "十二朋友园",
       "buri": null,
       "lat": 31.145158,
       "lng": 121.656745,
@@ -1640,17 +1707,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-079",
-      "name": "水杉夜魅",
+      "name": "太空幸会史迪奇",
       "buri": null,
       "lat": 31.143424,
       "lng": 121.654026,
@@ -1661,17 +1729,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-080",
-      "name": "水杉夜魅",
+      "name": "巴斯光年星际营救",
       "buri": null,
       "lat": 31.143122,
       "lng": 121.653452,
@@ -1682,17 +1751,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-081",
-      "name": "水杉夜魅",
+      "name": "故事家雕像",
       "buri": null,
       "lat": 31.144218,
       "lng": 121.65702,
@@ -1703,17 +1773,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-082",
-      "name": "水杉夜魅",
+      "name": "刘海粟美术馆",
       "buri": null,
       "lat": 31.211356,
       "lng": 121.414619,
@@ -1724,17 +1795,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-083",
-      "name": "水杉夜魅",
+      "name": "ZotterChocolateTheatre",
       "buri": null,
       "lat": 31.271518,
       "lng": 121.555063,
@@ -1745,17 +1817,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-084",
-      "name": "水杉夜魅",
+      "name": "ChineseCookingWorkshop",
       "buri": null,
       "lat": 31.210527,
       "lng": 121.446445,
@@ -1766,17 +1839,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "静安",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-085",
-      "name": "水杉夜魅",
+      "name": "中共四大纪念馆",
       "buri": null,
       "lat": 31.257155,
       "lng": 121.480413,
@@ -1787,17 +1861,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-086",
-      "name": "水杉夜魅",
+      "name": "샤오닝루",
       "buri": null,
       "lat": 31.225696,
       "lng": 121.477156,
@@ -1808,17 +1883,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-087",
-      "name": "水杉夜魅",
+      "name": "内园",
       "buri": null,
       "lat": 31.228417,
       "lng": 121.488067,
@@ -1829,17 +1905,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-088",
-      "name": "水杉夜魅",
+      "name": "新美术馆",
       "buri": null,
       "lat": 31.166001,
       "lng": 121.39454,
@@ -1850,17 +1927,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-089",
-      "name": "水杉夜魅",
+      "name": "OCAT",
       "buri": null,
       "lat": 31.243624,
       "lng": 121.46853,
@@ -1871,17 +1949,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-090",
-      "name": "水杉夜魅",
+      "name": "摩天轮",
       "buri": null,
       "lat": 31.246574,
       "lng": 121.467544,
@@ -1892,17 +1971,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-091",
-      "name": "水杉夜魅",
+      "name": "飞讯艺术中心",
       "buri": null,
       "lat": 31.240107,
       "lng": 121.4278,
@@ -1913,17 +1993,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-092",
-      "name": "水杉夜魅",
+      "name": "上海玻璃博物馆",
       "buri": null,
       "lat": 31.345676,
       "lng": 121.467324,
@@ -1934,17 +2015,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "宝山",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-093",
-      "name": "水杉夜魅",
+      "name": "上海邮政博物馆",
       "buri": null,
       "lat": 31.246407,
       "lng": 121.480755,
@@ -1955,17 +2037,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-094",
-      "name": "水杉夜魅",
+      "name": "上海宣传画艺术中心",
       "buri": null,
       "lat": 31.217345,
       "lng": 121.429352,
@@ -1976,17 +2059,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-095",
-      "name": "水杉夜魅",
+      "name": "张乐平",
       "buri": null,
       "lat": 31.214393,
       "lng": 121.437434,
@@ -1997,17 +2081,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-096",
-      "name": "水杉夜魅",
+      "name": "上海城市历史发展陈列馆",
       "buri": null,
       "lat": 31.241586,
       "lng": 121.495362,
@@ -2018,17 +2103,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-097",
-      "name": "水杉夜魅",
+      "name": "XinXinGameCentre",
       "buri": null,
       "lat": 31.221384,
       "lng": 121.460676,
@@ -2039,17 +2125,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "静安",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-098",
-      "name": "水杉夜魅",
+      "name": "放歌",
       "buri": null,
       "lat": 31.182818,
       "lng": 121.505285,
@@ -2060,17 +2147,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-099",
-      "name": "水杉夜魅",
+      "name": "Globe",
       "buri": null,
       "lat": 31.184621,
       "lng": 121.51027,
@@ -2081,17 +2169,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-100",
-      "name": "水杉夜魅",
+      "name": "1930风情街",
       "buri": null,
       "lat": 31.233702,
       "lng": 121.47102,
@@ -2102,17 +2191,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-101",
-      "name": "水杉夜魅",
+      "name": "ShanghaiEvergreenPrintingMachineryCo.",
       "buri": null,
       "lat": 31.35913,
       "lng": 121.166697,
@@ -2123,17 +2213,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-102",
-      "name": "水杉夜魅",
+      "name": "陆汉斌打字机博物馆",
       "buri": null,
       "lat": 31.216309,
       "lng": 121.42941,
@@ -2144,17 +2235,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-103",
-      "name": "水杉夜魅",
+      "name": "上海杜莎夫人蜡像馆",
       "buri": null,
       "lat": 31.236539,
       "lng": 121.468997,
@@ -2165,17 +2257,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-104",
-      "name": "水杉夜魅",
+      "name": "乐高探索中心",
       "buri": null,
       "lat": 31.225211,
       "lng": 121.391,
@@ -2186,17 +2279,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "普陀",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-105",
-      "name": "水杉夜魅",
+      "name": "黄埔江观光区",
       "buri": null,
       "lat": 31.234014,
       "lng": 121.488993,
@@ -2207,17 +2301,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-106",
-      "name": "水杉夜魅",
+      "name": "中国证券博物馆",
       "buri": null,
       "lat": 31.246136,
       "lng": 121.486401,
@@ -2228,17 +2323,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-107",
-      "name": "水杉夜魅",
+      "name": "新场古镇",
       "buri": null,
       "lat": 31.026976,
       "lng": 121.64233,
@@ -2249,17 +2345,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "奉贤",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-108",
-      "name": "水杉夜魅",
+      "name": "多倫文人名人街",
       "buri": null,
       "lat": 31.264127,
       "lng": 121.477327,
@@ -2270,17 +2367,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-109",
-      "name": "水杉夜魅",
+      "name": "上海多伦现代美术馆",
       "buri": null,
       "lat": 31.263779,
       "lng": 121.478504,
@@ -2291,17 +2389,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-110",
-      "name": "水杉夜魅",
+      "name": "创界雪佛兰数字挑战",
       "buri": null,
       "lat": 31.143637,
       "lng": 121.652227,
@@ -2312,17 +2411,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-111",
-      "name": "水杉夜魅",
+      "name": "中国社会主义青年团中央机关旧址",
       "buri": null,
       "lat": 31.221981,
       "lng": 121.463816,
@@ -2333,17 +2433,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-112",
-      "name": "水杉夜魅",
+      "name": "小南门警钟楼",
       "buri": null,
       "lat": 31.217893,
       "lng": 121.493443,
@@ -2354,17 +2455,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-113",
-      "name": "水杉夜魅",
+      "name": "红皇后",
       "buri": null,
       "lat": 31.146146,
       "lng": 121.65563,
@@ -2375,17 +2477,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-114",
-      "name": "水杉夜魅",
+      "name": "认识米妮",
       "buri": null,
       "lat": 31.143999,
       "lng": 121.657739,
@@ -2396,17 +2499,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-115",
-      "name": "水杉夜魅",
+      "name": "上海儿童博物馆",
       "buri": null,
       "lat": 31.195953,
       "lng": 121.408483,
@@ -2417,17 +2521,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-116",
-      "name": "水杉夜魅",
+      "name": "畫家樓",
       "buri": null,
       "lat": 31.21035,
       "lng": 121.464576,
@@ -2438,17 +2543,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-117",
-      "name": "水杉夜魅",
+      "name": "永远",
       "buri": null,
       "lat": 31.143864,
       "lng": 121.579927,
@@ -2459,17 +2565,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-118",
-      "name": "水杉夜魅",
+      "name": "浦东老宅",
       "buri": null,
       "lat": 31.144721,
       "lng": 121.584641,
@@ -2480,17 +2587,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-119",
-      "name": "水杉夜魅",
+      "name": "上海市文史研究馆",
       "buri": null,
       "lat": 31.212309,
       "lng": 121.465725,
@@ -2501,17 +2609,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-120",
-      "name": "水杉夜魅",
+      "name": "上海琉璃艺术博物馆",
       "buri": null,
       "lat": 31.209822,
       "lng": 121.465799,
@@ -2522,17 +2631,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-121",
-      "name": "水杉夜魅",
+      "name": "空中数字花园",
       "buri": null,
       "lat": 31.228867,
       "lng": 121.493699,
@@ -2543,17 +2653,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-122",
-      "name": "水杉夜魅",
+      "name": "StatueofChairmanMao",
       "buri": null,
       "lat": 31.14586,
       "lng": 121.419979,
@@ -2564,17 +2675,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-123",
-      "name": "水杉夜魅",
+      "name": "neardorm",
       "buri": null,
       "lat": 31.313517,
       "lng": 121.48573,
@@ -2585,17 +2697,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-124",
-      "name": "水杉夜魅",
+      "name": "江泽民植树纪念碑",
       "buri": null,
       "lat": 31.320818,
       "lng": 121.546492,
@@ -2606,17 +2719,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-125",
-      "name": "水杉夜魅",
+      "name": "club",
       "buri": null,
       "lat": 31.298245,
       "lng": 121.504517,
@@ -2627,17 +2741,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-126",
-      "name": "水杉夜魅",
+      "name": "外滩历史纪念馆",
       "buri": null,
       "lat": 31.244211,
       "lng": 121.486769,
@@ -2648,17 +2763,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-127",
-      "name": "水杉夜魅",
+      "name": "阿兰·图灵",
       "buri": null,
       "lat": 31.026447,
       "lng": 121.436658,
@@ -2669,17 +2785,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "闵行",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-128",
-      "name": "水杉夜魅",
+      "name": "张钟俊院士",
       "buri": null,
       "lat": 31.026529,
       "lng": 121.43672,
@@ -2690,17 +2807,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "闵行",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-129",
-      "name": "水杉夜魅",
+      "name": "思想者",
       "buri": null,
       "lat": 31.028142,
       "lng": 121.429182,
@@ -2711,17 +2829,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "闵行",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-130",
-      "name": "水杉夜魅",
+      "name": "解放上海",
       "buri": null,
       "lat": 31.176141,
       "lng": 121.444856,
@@ -2732,17 +2851,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-131",
-      "name": "水杉夜魅",
+      "name": "百万一心一上海军民抗战",
       "buri": null,
       "lat": 31.177431,
       "lng": 121.443203,
@@ -2753,17 +2873,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-132",
-      "name": "水杉夜魅",
+      "name": "且为忠魂舞",
       "buri": null,
       "lat": 31.178059,
       "lng": 121.445999,
@@ -2774,17 +2895,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-133",
-      "name": "水杉夜魅",
+      "name": "解放建设",
       "buri": null,
       "lat": 31.177491,
       "lng": 121.445178,
@@ -2795,17 +2917,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-134",
-      "name": "水杉夜魅",
+      "name": "第二军医大学校史馆",
       "buri": null,
       "lat": 31.309885,
       "lng": 121.523296,
@@ -2816,17 +2939,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-135",
-      "name": "水杉夜魅",
+      "name": "马相伯像",
       "buri": null,
       "lat": 31.19461,
       "lng": 121.431451,
@@ -2837,17 +2961,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-136",
-      "name": "水杉夜魅",
+      "name": "1",
       "buri": null,
       "lat": 30.968721,
       "lng": 121.747534,
@@ -2858,17 +2983,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "奉贤",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-137",
-      "name": "水杉夜魅",
+      "name": "刘海粟旧居",
       "buri": null,
       "lat": 31.217578,
       "lng": 121.466932,
@@ -2879,17 +3005,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-138",
-      "name": "水杉夜魅",
+      "name": "金山规划展示馆",
       "buri": null,
       "lat": 30.746909,
       "lng": 121.344694,
@@ -2900,17 +3027,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "金山",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-139",
-      "name": "水杉夜魅",
+      "name": "金山区科技馆",
       "buri": null,
       "lat": 30.716031,
       "lng": 121.336698,
@@ -2921,17 +3049,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "金山",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-140",
-      "name": "水杉夜魅",
+      "name": "上海市历史博物馆",
       "buri": null,
       "lat": 31.232617,
       "lng": 121.46662,
@@ -2942,17 +3071,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-141",
-      "name": "水杉夜魅",
+      "name": "隆昌公寓",
       "buri": null,
       "lat": 31.273679,
       "lng": 121.541963,
@@ -2963,17 +3093,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-142",
-      "name": "水杉夜魅",
+      "name": "疯帽子的茶会",
       "buri": null,
       "lat": 31.146634,
       "lng": 121.655786,
@@ -2984,17 +3115,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-143",
-      "name": "水杉夜魅",
+      "name": "抱抱龙冲天赛车",
       "buri": null,
       "lat": 31.145737,
       "lng": 121.652307,
@@ -3005,17 +3137,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-144",
-      "name": "水杉夜魅",
+      "name": "弹簧狗团团转",
       "buri": null,
       "lat": 31.14574,
       "lng": 121.652747,
@@ -3026,17 +3159,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-145",
-      "name": "水杉夜魅",
+      "name": "上海国际音乐村",
       "buri": null,
       "lat": 31.149416,
       "lng": 121.667563,
@@ -3047,17 +3181,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-146",
-      "name": "水杉夜魅",
+      "name": "原划船俱乐部",
       "buri": null,
       "lat": 31.245341,
       "lng": 121.484251,
@@ -3068,17 +3203,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-147",
-      "name": "水杉夜魅",
+      "name": "四明公所",
       "buri": null,
       "lat": 31.227705,
       "lng": 121.478334,
@@ -3089,17 +3225,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-148",
-      "name": "水杉夜魅",
+      "name": "中国航海博物馆",
       "buri": null,
       "lat": 30.898877,
       "lng": 121.915453,
@@ -3110,17 +3247,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "奉贤",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-149",
-      "name": "水杉夜魅",
+      "name": "东方乐器博物馆",
       "buri": null,
       "lat": 31.205361,
       "lng": 121.439878,
@@ -3131,17 +3269,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-150",
-      "name": "水杉夜魅",
+      "name": "顾维钧陈列室",
       "buri": null,
       "lat": 31.386026,
       "lng": 121.24629,
@@ -3152,17 +3291,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "嘉定",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-151",
-      "name": "水杉夜魅",
+      "name": "上海益民食品一厂历史展示馆",
       "buri": null,
       "lat": 31.263611,
       "lng": 121.489218,
@@ -3173,17 +3313,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "虹口",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-152",
-      "name": "水杉夜魅",
+      "name": "老外街101火车专列",
       "buri": null,
       "lat": 31.19286,
       "lng": 121.380866,
@@ -3194,17 +3335,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-153",
-      "name": "水杉夜魅",
+      "name": "普希金雕像",
       "buri": null,
       "lat": 31.210763,
       "lng": 121.44717,
@@ -3215,17 +3357,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "静安",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-154",
-      "name": "水杉夜魅",
+      "name": "创美空间",
       "buri": null,
       "lat": 31.150434,
       "lng": 121.42621,
@@ -3236,17 +3379,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-155",
-      "name": "水杉夜魅",
+      "name": "阿婆茶楼",
       "buri": null,
       "lat": 31.113567,
       "lng": 121.05034,
@@ -3257,17 +3401,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "青浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-156",
-      "name": "水杉夜魅",
+      "name": "梦清馆--苏州河展示中心",
       "buri": null,
       "lat": 31.251516,
       "lng": 121.43534,
@@ -3278,17 +3423,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "静安",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-157",
-      "name": "水杉夜魅",
+      "name": "油罐艺术中心",
       "buri": null,
       "lat": 31.166527,
       "lng": 121.459405,
@@ -3299,17 +3445,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-158",
-      "name": "水杉夜魅",
+      "name": "水榭长廊",
       "buri": null,
       "lat": 31.218083,
       "lng": 121.464894,
@@ -3320,17 +3467,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-159",
-      "name": "水杉夜魅",
+      "name": "上海幻觉艺术博物馆",
       "buri": null,
       "lat": 31.239103,
       "lng": 121.482271,
@@ -3341,17 +3489,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-160",
-      "name": "水杉夜魅",
+      "name": "屋裡廂石庫門博物館",
       "buri": null,
       "lat": 31.221868,
       "lng": 121.470241,
@@ -3362,17 +3511,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-161",
-      "name": "水杉夜魅",
+      "name": "童涵春堂中药博物馆",
       "buri": null,
       "lat": 31.229076,
       "lng": 121.486519,
@@ -3383,17 +3533,40 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-162",
-      "name": "水杉夜魅",
+      "name": "扎西达娲藏文化体验馆",
+      "buri": null,
+      "lat": 31.111589,
+      "lng": 121.05036,
+      "coord_source": "osm",
+      "precision": "approximate",
+      "open_hours": "未收录",
+      "enterable": "未收录",
+      "need_reservation": "未收录",
+      "photo_spot": null,
+      "district_tag": "青浦",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
+      "field_sources": {
+        "lat": "OSM Overpass (WGS-84)",
+        "lng": "OSM Overpass (WGS-84)",
+        "buri": "未映射",
+        "open_hours": "未收录（多缺开放时间）"
+      }
+    },
+    {
+      "id": "wl-163",
+      "name": "上海手工艺朱家角展示馆",
       "buri": null,
       "lat": 31.111207,
       "lng": 121.050036,
@@ -3404,38 +3577,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "青浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
-      }
-    },
-    {
-      "id": "wl-163",
-      "name": "水杉夜魅",
-      "buri": null,
-      "lat": 31.111289,
-      "lng": 121.051898,
-      "coord_source": "osm",
-      "precision": "approximate",
-      "open_hours": "未收录",
-      "enterable": "未收录",
-      "need_reservation": "未收录",
-      "photo_spot": null,
-      "district_tag": "青浦",
-      "verified_at": "2026-08-14",
-      "field_sources": {
-        "lat": "OSM Overpass (WGS-84)",
-        "lng": "OSM Overpass (WGS-84)",
-        "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-164",
-      "name": "水杉夜魅",
+      "name": "延艺堂",
       "buri": null,
       "lat": 31.111241,
       "lng": 121.05124,
@@ -3446,17 +3599,40 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "青浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
       "id": "wl-165",
-      "name": "水杉夜魅",
+      "name": "全华水彩艺术馆",
+      "buri": null,
+      "lat": 31.116003,
+      "lng": 121.048681,
+      "coord_source": "osm",
+      "precision": "approximate",
+      "open_hours": "未收录",
+      "enterable": "未收录",
+      "need_reservation": "未收录",
+      "photo_spot": null,
+      "district_tag": "青浦",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
+      "field_sources": {
+        "lat": "OSM Overpass (WGS-84)",
+        "lng": "OSM Overpass (WGS-84)",
+        "buri": "未映射",
+        "open_hours": "未收录（多缺开放时间）"
+      }
+    },
+    {
+      "id": "wl-166",
+      "name": "程十发美术馆",
       "buri": null,
       "lat": 31.199284,
       "lng": 121.400344,
@@ -3467,17 +3643,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-166",
-      "name": "水杉夜魅",
+      "id": "wl-167",
+      "name": "全融博物馆银行博物馆",
       "buri": null,
       "lat": 31.218425,
       "lng": 121.47179,
@@ -3488,17 +3665,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-167",
-      "name": "水杉夜魅",
+      "id": "wl-168",
+      "name": "玄扈台",
       "buri": null,
       "lat": 31.227645,
       "lng": 121.489787,
@@ -3509,17 +3687,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-168",
-      "name": "水杉夜魅",
+      "id": "wl-169",
+      "name": "吴蕴瑞雕像",
       "buri": null,
       "lat": 31.313569,
       "lng": 121.518935,
@@ -3530,17 +3709,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "杨浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-169",
-      "name": "水杉夜魅",
+      "id": "wl-170",
+      "name": "琴键春园",
       "buri": null,
       "lat": 31.199281,
       "lng": 121.492271,
@@ -3551,17 +3731,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-170",
-      "name": "水杉夜魅",
+      "id": "wl-171",
+      "name": "花米庄行",
       "buri": null,
       "lat": 30.887348,
       "lng": 121.388666,
@@ -3572,17 +3753,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "奉贤",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-171",
-      "name": "水杉夜魅",
+      "id": "wl-172",
+      "name": "广富林郊野公园",
       "buri": null,
       "lat": 31.068188,
       "lng": 121.179589,
@@ -3593,17 +3775,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "松江",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-172",
-      "name": "水杉夜魅",
+      "id": "wl-173",
+      "name": "上海动画博物馆",
       "buri": null,
       "lat": 31.214979,
       "lng": 121.607369,
@@ -3614,17 +3797,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "浦东",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-173",
-      "name": "水杉夜魅",
+      "id": "wl-174",
+      "name": "上海之鱼向日葵",
       "buri": null,
       "lat": 30.94237,
       "lng": 121.496838,
@@ -3635,17 +3819,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "奉贤",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-174",
-      "name": "水杉夜魅",
+      "id": "wl-175",
+      "name": "江南机器制造总局旧址",
       "buri": null,
       "lat": 31.197558,
       "lng": 121.484519,
@@ -3656,17 +3841,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-175",
-      "name": "水杉夜魅",
+      "id": "wl-176",
+      "name": "东方饭店",
       "buri": null,
       "lat": 31.232447,
       "lng": 121.473019,
@@ -3677,17 +3863,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "黄浦",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-176",
-      "name": "水杉夜魅",
+      "id": "wl-177",
+      "name": "上海电影博物馆",
       "buri": null,
       "lat": 31.188091,
       "lng": 121.433655,
@@ -3698,17 +3885,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-177",
-      "name": "水杉夜魅",
+      "id": "wl-178",
+      "name": "谢晋",
       "buri": null,
       "lat": 31.188046,
       "lng": 121.433375,
@@ -3719,17 +3907,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-178",
-      "name": "水杉夜魅",
+      "id": "wl-179",
+      "name": "中共中央上海局机关旧址",
       "buri": null,
       "lat": 31.220834,
       "lng": 121.427332,
@@ -3740,17 +3929,18 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     },
     {
-      "id": "wl-179",
-      "name": "水杉夜魅",
+      "id": "wl-180",
+      "name": "后滩滨江",
       "buri": null,
       "lat": 31.182803,
       "lng": 121.464949,
@@ -3761,34 +3951,27 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "徐汇",
-      "verified_at": "2026-08-14",
+      "verified_at": "2026-08-25",
+      "evidence_channel": "osm",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
         "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
-      }
-    },
-    {
-      "id": "wl-180",
-      "name": "水杉夜魅",
-      "buri": null,
-      "lat": 31.23651,
-      "lng": 121.391843,
-      "coord_source": "osm",
-      "precision": "approximate",
-      "open_hours": "未收录",
-      "enterable": "未收录",
-      "need_reservation": "未收录",
-      "photo_spot": null,
-      "district_tag": "普陀",
-      "verified_at": "2026-08-14",
-      "field_sources": {
-        "lat": "OSM Overpass (WGS-84)",
-        "lng": "OSM Overpass (WGS-84)",
-        "buri": "未映射",
-        "open_hours": "未收录（OSM 多缺开放时间）"
+        "open_hours": "未收录（多缺开放时间）"
       }
     }
-  ]
+  ],
+  "count": 180,
+  "scope": "梧桐区 + 一大周边 + 上海全量文化场馆/纪念馆(OSM)",
+  "notes": [
+    "2026-08-14: P0-2 修复，并入 OSM 全量文化场馆/纪念馆（buri 诚实留空）"
+  ],
+  "generated_at": "2026-08-14",
+  "meta": {
+    "count": 180,
+    "notes": [
+      "P0-2 修复 name bug 后真文化场馆回填；剔除水杉夜魅",
+      "entity-enrichment-wukang 实体层"
+    ]
+  }
 }

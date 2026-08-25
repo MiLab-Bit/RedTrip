@@ -1,0 +1,484 @@
+[
+  {
+    "name": "巴金故居",
+    "alias": [
+      "巴金"
+    ],
+    "address": "",
+    "year_built": "1910s–",
+    "style": "",
+    "architect": "",
+    "characters": [
+      "巴金"
+    ],
+    "description": "作家在此居住写作；建筑与人物叠合，可与上图建筑实体交叉阅读。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-101",
+    "buri": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+  },
+  {
+    "name": "密丹公寓",
+    "alias": [
+      "密丹公寓"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "梧桐区公寓肌理，建筑层可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-102",
+    "buri": "http://data.library.sh.cn/entity/architecture/rkdm0anh4h5wenaw"
+  },
+  {
+    "name": "国富门公寓",
+    "alias": [
+      "国富门公寓"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "梧桐区公寓肌理，建筑层可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-103",
+    "buri": "http://data.library.sh.cn/entity/architecture/y7x57sifpaahpe52"
+  },
+  {
+    "name": "周作民旧居",
+    "alias": [
+      "周作民"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "周作民"
+    ],
+    "description": "金融人物旧居，建筑用途与身份可对照。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-104",
+    "buri": "http://data.library.sh.cn/entity/architecture/n6bjgtjhduhim6st"
+  },
+  {
+    "name": "周璇旧居",
+    "alias": [
+      "周璇"
+    ],
+    "address": "",
+    "year_built": "1940s",
+    "style": "",
+    "architect": "",
+    "characters": [
+      "周璇"
+    ],
+    "description": "流行文化人物与门牌用途更替可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-105",
+    "buri": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+  },
+  {
+    "name": "上海汽车工业公司办公楼",
+    "alias": [
+      "上海汽车工业公司办公楼"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "办公楼用途层，建筑可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-106",
+    "buri": "http://data.library.sh.cn/entity/architecture/fcryfptin8zm6qe4"
+  },
+  {
+    "name": "丁香花园",
+    "alias": [
+      "丁香花园"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "花园住宅对照公寓/街巷的另一种居住结构。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-107",
+    "buri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+  },
+  {
+    "name": "北平研究院旧址",
+    "alias": [
+      "北平研究院旧址"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "北平研究院"
+    ],
+    "description": "机构旧址，提供时代/机构层。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-108",
+    "buri": "http://data.library.sh.cn/entity/architecture/ch60kvos8rubcb1r"
+  },
+  {
+    "name": "唐绍仪旧居",
+    "alias": [
+      "唐绍仪"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "唐绍仪"
+    ],
+    "description": "近代人物旧居，提供人物层。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-109",
+    "buri": "http://data.library.sh.cn/entity/architecture/ak3isapn5uu1k6eu"
+  },
+  {
+    "name": "孙家花园",
+    "alias": [
+      "孙家花园"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "花园住宅意象，对照阅读。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-110",
+    "buri": "http://data.library.sh.cn/entity/architecture/d2mlofut4jyxzshk"
+  },
+  {
+    "name": "宋庆龄故居",
+    "alias": [
+      "宋庆龄"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "宋庆龄"
+    ],
+    "description": "人物—时代线索，避免路线只剩建筑清单。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-111",
+    "buri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+  },
+  {
+    "name": "开普敦公寓",
+    "alias": [
+      "开普敦公寓"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "公寓建筑层可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-112",
+    "buri": "http://data.library.sh.cn/entity/architecture/g8n2iazmx74ejlsa"
+  },
+  {
+    "name": "德利那齐宅",
+    "alias": [
+      "德利那齐宅"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "住宅建筑层可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-113",
+    "buri": "http://data.library.sh.cn/entity/architecture/hmhbhgf88kujjmnv"
+  },
+  {
+    "name": "朱作同旧居",
+    "alias": [
+      "朱作同"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "朱作同"
+    ],
+    "description": "人物旧居层。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-114",
+    "buri": "http://data.library.sh.cn/entity/architecture/1bjwxwlbyjkyqi65"
+  },
+  {
+    "name": "李及兰旧居",
+    "alias": [
+      "李及兰"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "李及兰"
+    ],
+    "description": "人物旧居层。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-115",
+    "buri": "http://data.library.sh.cn/entity/architecture/coaio4pnvqgzu6cm"
+  },
+  {
+    "name": "林道生故居",
+    "alias": [
+      "林道生"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "林道生"
+    ],
+    "description": "人物旧居层。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-116",
+    "buri": "http://data.library.sh.cn/entity/architecture/wxgrvtfgusgl18l8"
+  },
+  {
+    "name": "正广和老屋",
+    "alias": [
+      "正广和老屋"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "正广和"
+    ],
+    "description": "老字号相关旧屋，用途更替可对照。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-117",
+    "buri": "http://data.library.sh.cn/entity/architecture/4i58zbd2c3ribkcd"
+  },
+  {
+    "name": "武康大楼",
+    "alias": [
+      "武康大楼"
+    ],
+    "address": "",
+    "year_built": "1924",
+    "style": "",
+    "architect": "",
+    "characters": [
+      "邬达克"
+    ],
+    "description": "交叉路口立面即城市机制的可见界面。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-118",
+    "buri": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+  },
+  {
+    "name": "武康庭(FERGUSON LANE）",
+    "alias": [
+      "武康庭(FERGUSON LANE）"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "街巷尺度收束点，建筑与巷弄叠合。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-119",
+    "buri": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu"
+  },
+  {
+    "name": "湖南别墅",
+    "alias": [
+      "湖南别墅"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "别墅界面，建筑层可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-120",
+    "buri": "http://data.library.sh.cn/entity/architecture/h50xogw5ipn1fl5b"
+  },
+  {
+    "name": "王元化故居",
+    "alias": [
+      "王元化"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "王元化"
+    ],
+    "description": "学者故居，人物与街巷叠合。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-121",
+    "buri": "http://data.library.sh.cn/entity/architecture/ekj8766dtt3jlui6"
+  },
+  {
+    "name": "罗密欧阳台",
+    "alias": [
+      "罗密欧阳台"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "建筑细部意象，示意阅读。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-122",
+    "buri": "http://data.library.sh.cn/entity/architecture/jpewp50mwi6sv1vu"
+  },
+  {
+    "name": "美杜公寓",
+    "alias": [
+      "美杜公寓"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [],
+    "description": "公寓建筑层可核。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-123",
+    "buri": "http://data.library.sh.cn/entity/architecture/wc65cfvuwvmaxp36"
+  },
+  {
+    "name": "莫觞清旧居",
+    "alias": [
+      "莫觞清"
+    ],
+    "address": "",
+    "year_built": null,
+    "style": "",
+    "architect": "",
+    "characters": [
+      "莫觞清"
+    ],
+    "description": "实业人物旧居。",
+    "tags": [
+      "梧桐区",
+      "武康",
+      "whitelist"
+    ],
+    "whitelist_id": "wl-124",
+    "buri": "http://data.library.sh.cn/entity/architecture/w66p0twqlp6w6bw4"
+  }
+]

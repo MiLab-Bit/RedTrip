@@ -84,23 +84,24 @@ def main() -> int:
         lat, lng = float(c["lat"]), float(c["lng"])
         new_points.append({
             "id": f"wl-{next_n:03d}",
-            "name": name,
+            "name": c["name"],
             "buri": None,
             "lat": lat,
             "lng": lng,
-            "coord_source": "osm",
+            "coord_source": "osm" if c.get("source") == "osm" else "amap",
             "precision": "approximate",
             "open_hours": "未收录",
             "enterable": "未收录",
             "need_reservation": "未收录",
             "photo_spot": None,
             "district_tag": _district(lat, lng),
-            "verified_at": "2026-08-14",
+            "verified_at": "2026-08-25",
+            "evidence_channel": "osm" if c.get("source") == "osm" else "landmark",
             "field_sources": {
-                "lat": "OSM Overpass (WGS-84)",
-                "lng": "OSM Overpass (WGS-84)",
+                "lat": "OSM Overpass (WGS-84)" if c.get("source") == "osm" else "amap",
+                "lng": "OSM Overpass (WGS-84)" if c.get("source") == "osm" else "amap",
                 "buri": "未映射",
-                "open_hours": "未收录（OSM 多缺开放时间）",
+                "open_hours": "未收录（多缺开放时间）",
             },
         })
         next_n += 1

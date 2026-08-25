@@ -2027,6 +2027,52 @@ button {
   gap: 0.85rem;
 }
 
+.hongyuan-mark {
+  display: flex;
+  justify-content: center;
+  color: var(--seal, #a8322a);
+  margin-bottom: 0.15rem;
+}
+
+.hongyuan-kite {
+  animation: kite-drift 4.2s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+@keyframes kite-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(5deg);
+  }
+}
+
+.loading-layer {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  color: var(--seal, #a8322a);
+}
+
+.done-review.curator-blank {
+  margin: 1.25rem 0;
+  padding: 1rem 0 0.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+.done-review .review-block {
+  margin: 0.65rem 0;
+}
+
+.done-review .review-block ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
 .loading-phase {
   margin-bottom: 0.25rem !important;
   min-height: 2.8em;

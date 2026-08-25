@@ -318,6 +318,27 @@ export const RouteEnvelopeSchema = z.object({
   provenance: ProvenanceReportSchema.nullish(),
   sentence_provenance: SentenceProvenanceReportSchema.nullish(),
   curation_artifacts: CurationArtifactsSchema.nullish(),
+  // 反方策展人评审（非阻断）；前端「策展留白」与书页附录消费
+  curator_review: z
+    .object({
+      concerns: z
+        .array(
+          z.object({
+            claim: z.string().nullish(),
+            node: z.string().nullish(),
+            mechanism: z.string().nullish(),
+            fix: z.string().nullish(),
+          }),
+        )
+        .nullish(),
+      missed_voices: z.array(z.string()).nullish(),
+      skipped_harder_node: z.string().nullish(),
+      alternative_thesis: z.string().nullish(),
+      reverse_route_note: z.string().nullish(),
+      warnings: z.array(z.string()).nullish(),
+    })
+    .passthrough()
+    .nullish(),
   // 故事优先：CuratedStory 内容结构（前端 StoryReader / NarrativeArc 直接消费）
   thesis: z.string().nullish(),
   cast: z.array(StoryEntitySchema).nullish(),
@@ -325,6 +346,7 @@ export const RouteEnvelopeSchema = z.object({
   curated_story: CuratedStorySchema.nullish(),
 });
 export type RouteEnvelope = z.infer<typeof RouteEnvelopeSchema>;
+export type CuratorReview = NonNullable<RouteEnvelope["curator_review"]>;
 
 export const IntentSlotsSchema = z.object({
   audience: z.string().nullable(),

@@ -240,10 +240,10 @@ export function BriefForm({ onSubmit }: Props) {
       <div className="brief-copy">
         <div className="brief-wash-stain" aria-hidden />
         <p className="brief-brand brand-mark">
-          <span className="brand-word">RedTrip</span>
-          <span className="brand-tag">城市记忆策展人</span>
+          <span className="brand-word">红鸢</span>
+          <span className="brand-tag">RedTrip · 城市记忆策展人</span>
           <span className="brand-seal" aria-hidden>
-            策
+            鸢
           </span>
         </p>
         <h1 className="brief-title">用馆藏，策一场九十分钟的步行展览</h1>

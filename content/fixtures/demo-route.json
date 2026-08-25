@@ -426,5 +426,24 @@
         ]
       }
     ]
+  },
+  "curator_review": {
+    "concerns": [
+      {
+        "claim": "武康大楼街拍口吻易盖过建筑产权与人物层",
+        "node": "武康大楼",
+        "mechanism": "当代滤镜压过证据",
+        "fix": "把 L3 热词降为旁白语气，正文只保留馆藏可核句"
+      }
+    ],
+    "missed_voices": [
+      "弄堂住户的日常迁徙记录"
+    ],
+    "skipped_harder_node": null,
+    "alternative_thesis": "若以「搬家条」而非「名宅」为主线，梧桐区会读出另一张面孔",
+    "reverse_route_note": "从周璇旧居倒走回巴金故居，余像会先于钩子出现",
+    "warnings": [
+      "演示线已留策展留白：反方意见不改正文，仅供下一版追问"
+    ]
   }
 }
