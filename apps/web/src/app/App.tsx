@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { useMachine } from "@xstate/react";
@@ -81,7 +82,8 @@ function mergeStreamCards(
 export function App() {
   const [state, send] = useMachine(tripMachine);
   const [pendingSlots, setPendingSlots] = useState<IntentSlots | null>(null);
-  const [demoPending, setDemoPending] = useState(false);
+  /** 同步锁定加载意图，避免 setState 与 XState SUBMIT 竞态误走真实策展 */
+  const loadIntentRef = useRef<"demo" | "curate" | null>(null);
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadPhase, setLoadPhase] = useState("翻开馆藏…");
   const [authOpen, setAuthOpen] = useState(false);
@@ -145,7 +147,8 @@ export function App() {
 
   useEffect(() => {
     if (state.value !== "loading") return;
-    if (!demoPending && !pendingSlots) return;
+    const intent = loadIntentRef.current;
+    if (!intent) return;
     let cancelled = false;
     const ac = new AbortController();
 
@@ -155,12 +158,14 @@ export function App() {
       setLoadProgress((p) => Math.max(p, to));
     };
 
+    const isDemo = intent === "demo";
     setLoadProgress(0);
-    setLoadPhase(demoPending ? "L1 · 装载武康冻结演示线…" : "L1 · 提交取证任务…");
+    setLoadPhase(isDemo ? "L1 · 装载武康冻结演示线…" : "L1 · 提交取证任务…");
+    setDegradeNotices([]);
 
     (async () => {
       try {
-        if (demoPending) {
+        if (isDemo) {
           setLoadProgress(8);
           setLoadPhase("L1 · 装载武康冻结演示线…");
           bump(40, "L2 · 红鸢抽签读法已冻结…");
@@ -169,13 +174,17 @@ export function App() {
           if (cancelled) return;
           bump(72, "L3 · 句级溯源与馆藏 URI 已齐…");
           setDegradeNotices(degraded ? notices : []);
-          setDemoPending(false);
+          loadIntentRef.current = null;
           const osm = await fetchFootprints(envelope, ac.signal);
           if (cancelled) return;
           bump(96, "演示线装订完成…");
           await new Promise((r) => setTimeout(r, 180));
           if (cancelled) return;
           setLoadProgress(100);
+          // 防御：冻结包主题必须含武康，避免误走真实策展
+          if (!String(envelope.theme || "").includes("武康")) {
+            throw new Error(`演示线主题异常：${envelope.theme}`);
+          }
           send({
             type: "LOADED",
             envelope,
@@ -187,19 +196,22 @@ export function App() {
           return;
         }
 
+        const slots = pendingSlots;
+        if (!slots) {
+          throw new Error("策展槽位缺失");
+        }
+
         setLoadProgress(2);
         setLoadPhase("L1 · 提交取证任务…");
 
         let chapterCount = 0;
         const { envelope, assumptions, hongyuan, degraded, notices } =
           await curateRouteStream(
-            pendingSlots!,
+            slots,
             (p, stage, message) => {
               if (cancelled) return;
               setLoadProgress(p);
               if (message) setLoadPhase(message);
-              // B4：narrate 后进入逐章并行润色（不再是单次 160s 大调用），
-              // 明确预期，避免用户误以为卡死。
               if (stage === "evidence" || stage === "retrieve") {
                 setLoadPhase("L1 · 馆藏取证中…");
               } else if (stage === "hongyuan" || stage === "voice") {
@@ -212,13 +224,11 @@ export function App() {
             },
             ac.signal,
             (story) => {
-              // story_ready：模板 envelope 就绪，立即进预览（序章可读）
               if (cancelled) return;
               setPreviewEnv(story.envelope);
               setPreviewHongyuan(story.hongyuan);
             },
             (chapter) => {
-              // chapter_ready：单章润色就绪，增量替换预览正文
               if (cancelled) return;
               chapterCount += 1;
               setStreamCards((m) => ({
@@ -228,13 +238,13 @@ export function App() {
             },
           );
         if (cancelled) return;
-        // done：清理预览态，走正式流程（LOADED 用完整 envelope 接管）
         setPreviewEnv(null);
         setPreviewHongyuan(null);
         setStreamCards({});
         setPreviewReading(false);
         setPreviewChapter(1);
         setDegradeNotices(degraded ? notices : []);
+        loadIntentRef.current = null;
         const reading =
           hongyuan?.summary ??
           (hongyuan ? "红鸢已抽签" : "馆藏已齐");
@@ -262,7 +272,7 @@ export function App() {
         });
       } catch (e) {
         if (!cancelled) {
-          setDemoPending(false);
+          loadIntentRef.current = null;
           send({
             type: "FAIL",
             error: e instanceof Error ? e.message : "策展失败",
@@ -275,10 +285,20 @@ export function App() {
       cancelled = true;
       ac.abort();
     };
-  }, [state.value, pendingSlots, demoPending, send]);
+  }, [state.value, pendingSlots, send]);
 
   // 进入 loading 时的初始相位在上方 effect 开头设置；勿在此重置，
   // 否则会与 demo/流式 bump 竞态，把 L1/L2/L3 旁白冲掉。
+
+  const restart = useCallback(() => {
+    loadIntentRef.current = null;
+    setPendingSlots(null);
+    setDegradeNotices([]);
+    setPreviewEnv(null);
+    setPreviewHongyuan(null);
+    setStreamCards({});
+    send({ type: "RESTART" });
+  }, [send]);
 
   const storyView = useMemo<StoryView | null>(() => {
     const env = state.context.envelope;
@@ -389,13 +409,13 @@ export function App() {
         {isBrief && (
           <BriefForm
             onSubmit={(slots) => {
-              setDemoPending(false);
+              loadIntentRef.current = "curate";
               setPendingSlots(slots);
               send({ type: "SUBMIT" });
             }}
             onDemoWukang={() => {
+              loadIntentRef.current = "demo";
               setPendingSlots(null);
-              setDemoPending(true);
               send({ type: "SUBMIT" });
             }}
           />
@@ -449,7 +469,7 @@ export function App() {
               hongyuan={state.context.hongyuan}
               onBegin={() => send({ type: "BEGIN_STORY" })}
               onShowMap={() => send({ type: "SHOW_MAP" })}
-              onRestart={() => send({ type: "RESTART" })}
+              onRestart={restart}
             />
           </BookShell>
         )}
@@ -491,7 +511,7 @@ export function App() {
                 onBack={() => send({ type: "BACK_FROM_MAP" })}
                 onOpenStop={(order) => send({ type: "OPEN_STOP", order })}
                 onFinish={() => send({ type: "FINISH" })}
-                onRestart={() => send({ type: "RESTART" })}
+                onRestart={restart}
               />
             </Suspense>
           </BookShell>
@@ -503,7 +523,7 @@ export function App() {
               envelope={state.context.envelope}
               storyView={storyView}
               hongyuan={state.context.hongyuan}
-              onRestart={() => send({ type: "RESTART" })}
+              onRestart={restart}
             />
           </BookShell>
         )}
@@ -528,7 +548,7 @@ export function App() {
                 <button
                   className="btn"
                   type="button"
-                  onClick={() => send({ type: "RESTART" })}
+                  onClick={restart}
                 >
                   返回出题
                 </button>
