@@ -61,6 +61,26 @@
               "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "excerpt": "事件层：居住与写作的叠合（演示核录）。"
             }
+          },
+          {
+            "kind": "event",
+            "label": "1950-1955",
+            "claim": "1950-1955年，作为苏联商务代表处。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "excerpt": "1950-1955年，作为苏联商务代表处。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1950-1955",
+            "claim": "1950-1955年，作为苏联商务代表处。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "excerpt": "1950-1955年，作为苏联商务代表处。"
+            }
           }
         ],
         "geo": {
@@ -297,6 +317,46 @@
               "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
               "excerpt": "事件层：花园对照（演示核录）"
             }
+          },
+          {
+            "kind": "event",
+            "label": "1918",
+            "claim": "1918年，建3号楼。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "1918年，建3号楼。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1940",
+            "claim": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1918",
+            "claim": "1918年，建3号楼。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "1918年，建3号楼。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1940",
+            "claim": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。"
+            }
           }
         ],
         "geo": {
@@ -383,60 +443,65 @@
     {
       "type": "story_card",
       "stop_order": 1,
-      "title": "书桌对面的门牌",
-      "body": "你站在武康路的这扇门前。馆藏里的建筑记录先给你一个可核对的名字：巴金故居。楼还在，屋里的人把私人时间写成公共文字。",
+      "title": "巴金与「巴金故居」",
+      "body": "你停在武康路113号的「巴金故居」前。先别报建筑名，先报一个人的名字：巴金。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋楼不是空壳，馆藏让几个人在此交错：\n巴金——1955年9月迁入并定居于此，《随想录》等诸多重要作品都在此创作。\n史宾伯——1948年改建后，原房主返国，由丹麦人史宾伯照看这处房产。\n毛特宝林海——1923年始建时的原房主。\n萧珊——名字写进与此楼相关的记载。\n他们未必曾在同一天推开这扇门；可当名字并列，你读到的是时间在换人，楼还在。\n\n在武康路113号的「巴金故居」，时间并不温和，它一截一截改写用途：\n1923年，始建，原房主为英国人毛特宝林海。\n1948年，改建，原房主返国后由丹麦人史宾伯照看这处房产。\n1950-1955年，作为苏联商务代表处。\n1955年9月，巴金一家迁入，并定居于此，《随想录》等诸多重要作品都在此创作。\n1999年9月23日，被上海市人民政府公布为第三批上海市优秀历史建筑。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站要你回答的问题是：一栋楼如何同时装下史宾伯、毛特宝林海、巴金，以及那些改写用途的年份？答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 14 分钟就够——短篇靠密度，不靠耗尽脚力。",
       "sources": [
         {
           "dataset": "slc_building",
           "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
-          "excerpt": "巴金故居 · 上图建筑实体"
+          "excerpt": "3层，占地面积1484平方米；1923始建；1955年9月巴金迁入"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509771",
+          "excerpt": "1923年，始建，原房主为英国人毛特宝林海。"
         }
       ],
-      "age_parallel": "若你此刻二十多岁，曾在此居住写作的人，也曾以相似年纪走进这座城市。"
+      "age_parallel": "若把「巴金」当作这一站的主人公，上面的年份就是他必须穿过的布景。布景有据；更私密的心事，缺记载处不写。"
     },
     {
       "type": "scene",
       "stop_order": 1,
-      "place": "武康路一带 · 巴金故居",
-      "era_desc": "作家居住与写作叠合的公共叙事节点；建筑实体可核。",
-      "figures": "巴金",
+      "place": "武康路113号 · 巴金故居",
+      "era_desc": "1923始建；1948史宾伯照看；1955年9月巴金迁入；《随想录》在此创作；1999年第三批优秀历史建筑。",
+      "figures": "巴金、史宾伯、毛特宝林海、萧珊",
       "city_thread": "从门牌读出私人时间如何变成公共文字",
-      "today": "开放时间见避坑 · 可购票入内",
+      "today": "周二至周日约10:00–16:30 · 可购票入内",
       "visual_note": "站在人行道外侧看门牌与立面；勿扰仍在使用的空间。"
     },
     {
       "type": "story_card",
       "stop_order": 2,
-      "title": "门楣还在",
-      "body": "周璇旧居提醒你：流行文化不是抽象标签，它落在具体门牌与用途更替里。砖与窗仍在，记载可以一条条核对。",
+      "title": "周璇与「周璇旧居」",
+      "body": "你停在武康路391弄1-5号的「周璇旧居」前。此刻冲突很安静：你看得见砖与窗，却还不知道谁曾在这扇门后度过漫长的白天。\n\n在「周璇旧居」，时间并不温和，它一截一截改写用途：\n1916年，始建。\n1943年，中国最早的两栖明星、流行歌曲的先驱者——「金嗓子」周璇，搬入。\n1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。\n1953年，市房地局按无主产业予以代管。\n现为民居。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站的主题是用途的更替：谁住过、谁用过、谁离开。流行文化不是抽象标签，它落在具体门牌与用途更替里。你站在外面，等于站在一段被压缩的城市传记门口。\n\n从巴金的写作日常走到周璇的搬入搬离：同一条武康路上，文学与流行文化并行，不互相取消。抬眼看门楣，把年份轻轻放回名字里。",
       "sources": [
         {
           "dataset": "slc_building",
           "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
-          "excerpt": "周璇旧居 · 上图建筑实体"
+          "excerpt": "周璇旧居 · 1916始建；1943搬入；1946搬离"
         }
       ]
     },
     {
       "type": "scene",
       "stop_order": 2,
-      "place": "周璇旧居一带",
-      "era_desc": "流行文化人物落入具体门牌与用途更替。",
-      "figures": "周璇",
+      "place": "武康路391弄1-5号 · 周璇旧居",
+      "era_desc": "1916始建；1943周璇搬入；1946搬离；1953代管；现民居。",
+      "figures": "周璇、高礼文（档案记载）",
       "city_thread": "金嗓子与民居：传记如何住进砖瓦",
-      "today": "外立面可观 · 内不开放",
+      "today": "外立面全天可观 · 民居不可入内",
       "visual_note": "只观门楣与立面，不按门铃，不挡通道。"
     },
     {
       "type": "story_card",
       "stop_order": 3,
-      "title": "交叉口上的立面",
-      "body": "武康大楼把个人传记抬到城市界面：道路交叉处，建筑本身就是机制可见的地方。",
+      "title": "邬达克与「武康大楼」",
+      "body": "你停在淮海中路与武康路交叉口的「武康大楼」前。这里不是普通住宅，而是把个人传记抬到城市界面的地方——道路交叉处，立面本身就是机制。\n\n据上图建筑实体记载：\n1924年，诺曼底公寓始建，由邬达克设计建造。\n1930年，建新武康大楼副楼。\n1953年，诺曼底公寓被上海市人民政府接管并更名为武康大楼。\n1994年，武康大楼选入第二批上海市优秀历史建筑。\n\n大楼建成时，几乎是欧美在沪侨民的第一批主人；孤岛时期，新华影业和联华影业距离大楼只有一步之遥，王人美、吴茵、吴君谋夫妇等电影圈人士租住在此。到了新中国成立后，郑君里、赵丹黄宗英夫妇、孙道临王文娟夫妇也相继入驻——个人传记被收进同一栋交叉路口的大楼立面里。\n\n这一站要你回答：为什么同一栋楼能同时装下建筑师的名字、侨民与电影圈、再到后来文化名人的居住记忆？答案在立面的转角与门洞：城市把不同身份叠在同一界面上。\n\n街角机位请勿妨碍通行；抬头看轮船般的外形与连拱门廊。",
       "sources": [
         {
           "dataset": "slc_building",
           "record_id": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
-          "excerpt": "武康大楼 · 上图建筑实体"
+          "excerpt": "1924邬达克设计；1953更名武康大楼；1994优秀历史建筑"
         }
       ]
     },
@@ -444,30 +509,30 @@
       "type": "scene",
       "stop_order": 3,
       "place": "武康路交叉口 · 武康大楼",
-      "era_desc": "道路交叉处的城市界面；立面即机制。",
-      "figures": "邬达克（交叉阅读）",
-      "city_thread": "个人传记抬到公共立面",
-      "today": "外立面全天可观 · 公寓不可入",
+      "era_desc": "1924诺曼底公寓始建；1930副楼；1953更名；1994优秀历史建筑。",
+      "figures": "邬达克、王人美、郑君里、赵丹（交叉阅读）",
+      "city_thread": "交叉路口上的多重身份",
+      "today": "外立面全天可观 · 公寓私宅不可入",
       "visual_note": "街角机位请勿妨碍通行；抬头看转角立面。"
     },
     {
       "type": "story_card",
       "stop_order": 4,
-      "title": "另一条人物线",
-      "body": "宋庆龄故居把路线从「房子」拉回「人与时代」。关系，不是顺路。",
+      "title": "宋庆龄与「宋庆龄故居」",
+      "body": "你停在「宋庆龄故居」前（淮海中路一带）。从武康大楼的公共立面再往前走，路线从「房子」拉回「人与时代」。\n\n据上图建筑实体与公开地名志交叉阅读：\n故居始建于1920年代；1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。\n\n这与前一站的公寓肌理、电影圈与侨民记忆不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。\n\n若你刚读完武康大楼里电影圈与侨民的交错，到这里该感到对照：同样是名人故居，宋庆龄故居指向的是另一种 twentieth-century 上海人物线。\n\n开放时间以官网与现场公告为准。按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
       "sources": [
         {
           "dataset": "slc_building",
           "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
-          "excerpt": "宋庆龄故居 · 上图建筑实体"
+          "excerpt": "宋庆龄故居 · 1920年代始建；1949年后长期居此"
         }
       ]
     },
     {
       "type": "scene",
       "stop_order": 4,
-      "place": "宋庆龄故居",
-      "era_desc": "人与时代：故居作为对照节点。",
+      "place": "淮海中路1843号 · 宋庆龄故居",
+      "era_desc": "1920年代始建；1949年后宋庆龄长期居此，从事国务与公益活动。",
       "figures": "宋庆龄",
       "city_thread": "从「房子」拉回「人与时代」",
       "today": "开放时间以官网/现场为准",
@@ -476,47 +541,47 @@
     {
       "type": "story_card",
       "stop_order": 5,
-      "title": "花园作为对照",
-      "body": "丁香花园提供对照：同城不同居住结构，史实衔接比步行分钟更重要。",
+      "title": "丁香与「丁香花园」",
+      "body": "你停在华山路849号的「丁香花园」前。先别报建筑名，先报一个人的名字：丁香。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋花园住宅不是空壳，馆藏让几个人在此交错：\n丁香——名字写进与此楼相关的记载。\n李鸿章——被馆藏写进这栋楼的人物关系。\n潘汉年——名字写进与此楼相关的记载。\n李经迈、张善绅——出现在用途更替的记载里。\n1949年后，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住（据建筑实体事件层）。\n\n在华山路849号的「丁香花园」，时间并不温和，它一截一截改写用途：\n1862年，建主楼1号楼。\n1918年，建3号楼。\n1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。\n1942年，张善绅在此创办中华联合制片股份有限公司。\n1949年后，中共华东局机关所在地，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住。\n1994年，列为上海市优秀历史建筑。\n现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。\n\n这一站提供对照：同城不同居住结构——花园别墅的尺度，把前一站故居的「人与时代」拉到另一种空间语法里。史实衔接比步行分钟更重要。",
       "sources": [
         {
           "dataset": "slc_building",
           "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
-          "excerpt": "丁香花园 · 上图建筑实体"
+          "excerpt": "1862始建；1949年后华东局机关；1994优秀历史建筑"
         }
       ]
     },
     {
       "type": "scene",
       "stop_order": 5,
-      "place": "丁香花园",
-      "era_desc": "同城不同居住结构的对照阅读。",
-      "figures": "丁香",
+      "place": "华山路849号 · 丁香花园",
+      "era_desc": "1862始建；1942张善绅创办中华联合制片；1949年后华东机关；1994优秀历史建筑。",
+      "figures": "丁香、李鸿章、潘汉年、陈毅（交叉阅读）",
       "city_thread": "花园作为对照，而非顺路点缀",
-      "today": "以现场管理为准",
+      "today": "以现场管理为准 · 部分区域开放",
       "visual_note": "服从现场指示；对照前一站的故居结构。"
     },
     {
       "type": "story_card",
       "stop_order": 6,
-      "title": "把名字放回街道",
-      "body": "武康庭收束整条线：你带走的不是打卡清单，而是一串可核的名字与门牌。",
+      "title": "把名字放回「武康庭」",
+      "body": "你走进武康路376号的「武康庭(FERGUSON LANE）」巷弄尺度。前五站的名字——巴金、周璇、邬达克与大楼、宋庆龄、丁香——若只留在地图图钉上，就还是清单；收束在巷弄里，才变成可步行的序列。\n\n据公开地名志与上图建筑实体：这里由老公寓与里弄更新而成复合文化商业院落，是梧桐区「老房子新用法」的代表之一。\n\n你带走的不应是六张打卡照片，而是一串可核的名字与门牌：哪些出自上图 URI，哪些来自街巷与用途更替的记载，哪些仍标「未收录」——诚实比注水重要。\n\n慢走巷弄；在心里把前五站的名字再排一次序：作家、歌者、大楼、故居、花园，最后回到街道尺度。关系，不是顺路。",
       "sources": [
         {
           "dataset": "slc_building",
           "record_id": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
-          "excerpt": "武康庭(FERGUSON LANE） · 上图建筑实体"
+          "excerpt": "武康庭 · 武康路376号 · 复合文化商业院落"
         }
       ]
     },
     {
       "type": "scene",
       "stop_order": 6,
-      "place": "武康庭巷弄",
-      "era_desc": "街巷收束：名字回到可步行的门牌序列。",
+      "place": "武康路376号 · 武康庭巷弄",
+      "era_desc": "由老公寓与里弄更新而成的复合文化商业院落。",
       "figures": "街巷住户（关系提示）",
       "city_thread": "带走可核的名字与门牌，而非打卡清单",
-      "today": "公共巷道可走",
+      "today": "公共巷道可走 · 商户以现场为准",
       "visual_note": "慢走巷弄；把前五站的名字在心里再排一次序。"
     },
     {
@@ -534,9 +599,9 @@
     }
   ],
   "sentence_provenance": {
-    "total_sentences": 10,
-    "factual_sentences": 6,
-    "aligned_factual": 6,
+    "total_sentences": 87,
+    "factual_sentences": 40,
+    "aligned_factual": 40,
     "coverage_ratio": 1.0,
     "per_stop": [
       {
@@ -545,31 +610,273 @@
         "sentences": [
           {
             "index": 0,
-            "text": "你站在武康路的这扇门前。",
-            "kind": "connective",
-            "fact_uris": [],
-            "fact_labels": [],
-            "aligned": true
+            "text": "你停在武康路113号的「巴金故居」前。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金故居",
+              "巴金"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
           },
           {
             "index": 1,
-            "text": "馆藏里的建筑记录先给你一个可核对的名字：巴金故居。",
+            "text": "先别报建筑名，先报一个人的名字：巴金。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "建筑",
+              "巴金"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 2,
+            "text": "这座城市把人藏进门牌的本事，比把人印上标语高明。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 3,
+            "text": "这栋楼不是空壳，馆藏让几个人在此交错：",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 4,
+            "text": "巴金——1955年9月迁入并定居于此，《随想录》等诸多重要作品都在此创作。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金",
+              "1950-1955",
+              "1950-1955"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "史宾伯——1948年改建后，原房主返国，由丹麦人史宾伯照看这处房产。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 6,
+            "text": "毛特宝林海——1923年始建时的原房主。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 7,
+            "text": "萧珊——名字写进与此楼相关的记载。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 8,
+            "text": "他们未必曾在同一天推开这扇门；",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 9,
+            "text": "可当名字并列，你读到的是时间在换人，楼还在。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 10,
+            "text": "在武康路113号的「巴金故居」，时间并不温和，它一截一截改写用途：",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金故居",
+              "巴金"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 11,
+            "text": "1923年，始建，原房主为英国人毛特宝林海。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 12,
+            "text": "1948年，改建，原房主返国后由丹麦人史宾伯照看这处房产。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 13,
+            "text": "1950-1955年，作为苏联商务代表处。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "1950-1955",
+              "1950-1955"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 14,
+            "text": "1955年9月，巴金一家迁入，并定居于此，《随想录》等诸多重要作品都在此创作。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金",
+              "1950-1955",
+              "1950-1955"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 15,
+            "text": "1999年9月23日，被上海市人民政府公布为第三批上海市优秀历史建筑。",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
             ],
             "fact_labels": [
-              "巴金故居"
+              "建筑"
             ],
-            "aligned": true
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
           },
           {
-            "index": 2,
-            "text": "楼还在，屋里的人把私人时间写成公共文字。",
+            "index": 16,
+            "text": "读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。",
             "kind": "connective",
             "fact_uris": [],
             "fact_labels": [],
-            "aligned": true
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 17,
+            "text": "这一站要你回答的问题是：一栋楼如何同时装下史宾伯、毛特宝林海、巴金，以及那些改写用途的年份？",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 18,
+            "text": "答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 19,
+            "text": "抬眼看立面与门头。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 20,
+            "text": "把刚才的名字轻轻放回年份里，再决定要不要走进去。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 21,
+            "text": "驻足约 14 分钟就够——短篇靠密度，不靠耗尽脚力。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
           }
         ]
       },
@@ -579,27 +886,180 @@
         "sentences": [
           {
             "index": 0,
-            "text": "周璇旧居提醒你：流行文化不是抽象标签，它落在具体门牌与用途更替里。",
+            "text": "你停在武康路391弄1-5号的「周璇旧居」前。",
             "kind": "factual",
             "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
               "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
             ],
             "fact_labels": [
-              "周璇旧居"
+              "周璇旧居",
+              "周璇"
             ],
-            "aligned": true
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
           },
           {
             "index": 1,
-            "text": "砖与窗仍在，记载可以一条条核对。",
+            "text": "此刻冲突很安静：你看得见砖与窗，却还不知道谁曾在这扇门后度过漫长的白天。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 2,
+            "text": "在「周璇旧居」，时间并不温和，它一截一截改写用途：",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+            ],
+            "fact_labels": [
+              "周璇旧居",
+              "周璇"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "1916年，始建。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 4,
+            "text": "1943年，中国最早的两栖明星、流行歌曲的先驱者——「金嗓子」周璇，搬入。",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
             ],
             "fact_labels": [
-              "周璇旧居"
+              "周璇"
             ],
-            "aligned": true
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "1946年，周璇搬离。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+            ],
+            "fact_labels": [
+              "周璇"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 6,
+            "text": "市房管局档案载：此屋尝在捷克侨民高礼文名下。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 7,
+            "text": "1953年，市房地局按无主产业予以代管。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 8,
+            "text": "现为民居。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 9,
+            "text": "读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 10,
+            "text": "这一站的主题是用途的更替：谁住过、谁用过、谁离开。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 11,
+            "text": "流行文化不是抽象标签，它落在具体门牌与用途更替里。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+            ],
+            "fact_labels": [
+              "用途更替"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 12,
+            "text": "你站在外面，等于站在一段被压缩的城市传记门口。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 13,
+            "text": "从巴金的写作日常走到周璇的搬入搬离：同一条武康路上，文学与流行文化并行，不互相取消。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+            ],
+            "fact_labels": [
+              "周璇"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 14,
+            "text": "抬眼看门楣，把年份轻轻放回名字里。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
           }
         ]
       },
@@ -609,7 +1069,7 @@
         "sentences": [
           {
             "index": 0,
-            "text": "武康大楼把个人传记抬到城市界面：道路交叉处，建筑本身就是机制可见的地方。",
+            "text": "你停在淮海中路与武康路交叉口的「武康大楼」前。",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
@@ -617,7 +1077,178 @@
             "fact_labels": [
               "武康大楼"
             ],
-            "aligned": true
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "这里不是普通住宅，而是把个人传记抬到城市界面的地方——道路交叉处，立面本身就是机制。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "海派都市界面"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 2,
+            "text": "据上图建筑实体记载：",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "1924年，诺曼底公寓始建，由邬达克设计建造。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "邬达克"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 4,
+            "text": "1930年，建新武康大楼副楼。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "武康大楼"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "1953年，诺曼底公寓被上海市人民政府接管并更名为武康大楼。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "武康大楼"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 6,
+            "text": "1994年，武康大楼选入第二批上海市优秀历史建筑。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "武康大楼",
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 7,
+            "text": "大楼建成时，几乎是欧美在沪侨民的第一批主人；",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 8,
+            "text": "孤岛时期，新华影业和联华影业距离大楼只有一步之遥，王人美、吴茵、吴君谋夫妇等电影圈人士租住在此。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 9,
+            "text": "到了新中国成立后，郑君里、赵丹黄宗英夫妇、孙道临王文娟夫妇也相继入驻——个人传记被收进同一栋交叉路口的大楼立面里。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 10,
+            "text": "这一站要你回答：为什么同一栋楼能同时装下建筑师的名字、侨民与电影圈、再到后来文化名人的居住记忆？",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 11,
+            "text": "答案在立面的转角与门洞：城市把不同身份叠在同一界面上。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "海派都市界面"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 12,
+            "text": "街角机位请勿妨碍通行；",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 13,
+            "text": "抬头看轮船般的外形与连拱门廊。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
           }
         ]
       },
@@ -627,23 +1258,120 @@
         "sentences": [
           {
             "index": 0,
-            "text": "宋庆龄故居把路线从「房子」拉回「人与时代」。",
+            "text": "你停在「宋庆龄故居」前（淮海中路一带）。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "宋庆龄故居",
+              "宋庆龄"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "从武康大楼的公共立面再往前走，路线从「房子」拉回「人与时代」。",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
             ],
             "fact_labels": [
-              "宋庆龄故居"
+              "人与时代"
             ],
-            "aligned": true
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
           },
           {
-            "index": 1,
-            "text": "关系，不是顺路。",
+            "index": 2,
+            "text": "据上图建筑实体与公开地名志交叉阅读：",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "故居始建于1920年代；",
             "kind": "connective",
             "fact_uris": [],
             "fact_labels": [],
-            "aligned": true
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 4,
+            "text": "1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "宋庆龄"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "这与前一站的公寓肌理、电影圈与侨民记忆不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 6,
+            "text": "若你刚读完武康大楼里电影圈与侨民的交错，到这里该感到对照：同样是名人故居，宋庆龄故居指向的是另一种 twentieth-century 上海人物线。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "宋庆龄故居",
+              "宋庆龄"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 7,
+            "text": "开放时间以官网与现场公告为准。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 8,
+            "text": "按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
           }
         ]
       },
@@ -653,15 +1381,255 @@
         "sentences": [
           {
             "index": 0,
-            "text": "丁香花园提供对照：同城不同居住结构，史实衔接比步行分钟更重要。",
+            "text": "你停在华山路849号的「丁香花园」前。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "丁香花园",
+              "丁香"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "先别报建筑名，先报一个人的名字：丁香。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "建筑",
+              "丁香"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 2,
+            "text": "这座城市把人藏进门牌的本事，比把人印上标语高明。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 3,
+            "text": "这栋花园住宅不是空壳，馆藏让几个人在此交错：",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
             ],
             "fact_labels": [
-              "丁香花园"
+              "花园住宅语境"
             ],
-            "aligned": true
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 4,
+            "text": "丁香——名字写进与此楼相关的记载。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "丁香"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "李鸿章——被馆藏写进这栋楼的人物关系。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 6,
+            "text": "潘汉年——名字写进与此楼相关的记载。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 7,
+            "text": "李经迈、张善绅——出现在用途更替的记载里。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 8,
+            "text": "1949年后，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住（据建筑实体事件层）。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 9,
+            "text": "在华山路849号的「丁香花园」，时间并不温和，它一截一截改写用途：",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "丁香花园",
+              "丁香"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 10,
+            "text": "1862年，建主楼1号楼。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 11,
+            "text": "1918年，建3号楼。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "1918",
+              "1918"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 12,
+            "text": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "丁香花园",
+              "丁香",
+              "1940",
+              "1940"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A",
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 13,
+            "text": "1942年，张善绅在此创办中华联合制片股份有限公司。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 14,
+            "text": "1949年后，中共华东局机关所在地，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 15,
+            "text": "1994年，列为上海市优秀历史建筑。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 16,
+            "text": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 17,
+            "text": "这一站提供对照：同城不同居住结构——花园别墅的尺度，把前一站故居的「人与时代」拉到另一种空间语法里。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "居住结构对照"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 18,
+            "text": "史实衔接比步行分钟更重要。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
           }
         ]
       },
@@ -671,11 +1639,87 @@
         "sentences": [
           {
             "index": 0,
-            "text": "武康庭收束整条线：你带走的不是打卡清单，而是一串可核的名字与门牌。",
+            "text": "你走进武康路376号的「武康庭(FERGUSON LANE）」巷弄尺度。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu"
+            ],
+            "fact_labels": [
+              "武康庭(FERGUSON LANE）"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "前五站的名字——巴金、周璇、邬达克与大楼、宋庆龄、丁香——若只留在地图图钉上，就还是清单；",
             "kind": "connective",
             "fact_uris": [],
             "fact_labels": [],
-            "aligned": true
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 2,
+            "text": "收束在巷弄里，才变成可步行的序列。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 3,
+            "text": "据公开地名志与上图建筑实体：这里由老公寓与里弄更新而成复合文化商业院落，是梧桐区「老房子新用法」的代表之一。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 4,
+            "text": "你带走的不应是六张打卡照片，而是一串可核的名字与门牌：哪些出自上图 URI，哪些来自街巷与用途更替的记载，哪些仍标「未收录」——诚实比注水重要。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 5,
+            "text": "慢走巷弄；",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 6,
+            "text": "在心里把前五站的名字再排一次序：作家、歌者、大楼、故居、花园，最后回到街道尺度。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 7,
+            "text": "关系，不是顺路。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
           }
         ]
       }

@@ -150,6 +150,8 @@ python eval/smoke_demo.py
 
 **eval 基线**：`python eval/baseline.py`（buri 覆盖率 + 两条演示线 Gate/套话/溯源）；`python eval/smoke_demo.py`（CI 烟测）。
 
+**演示叙事加厚**：`python scripts/enrich_demo_narratives.py`（把冻结包 story_card 补到策展级密度，并重建句级溯源）。
+
 **配置**：所有密钥走环境变量（见 `.env.example`），**不落盘、不入 git**；用户可自带大模型密钥（BYOK），服务端加密存储、仅本人可见。
 
 ---
