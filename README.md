@@ -146,7 +146,9 @@ python eval/smoke_demo.py
 .venv/bin/python -m ruff check packages/
 ```
 
-**竞赛演示入口**：前端 Brief 页 **「演示武康 · 六站可溯源」** → `GET /v1/demo/wukang`（冻结包，非失败兜底）。真实策展仍走 `/v1/curate`。
+**竞赛演示入口**：前端 Brief 页 **「演示武康 · 六站可溯源」** / **「演示一大·外滩 · 通道诚实」** → `GET /v1/demo/wukang` / `GET /v1/demo/yida`（冻结包，非失败兜底）。真实策展仍走 `/v1/curate`。
+
+**eval 基线**：`python eval/baseline.py`（buri 覆盖率 + 两条演示线 Gate/套话/溯源）；`python eval/smoke_demo.py`（CI 烟测）。
 
 **配置**：所有密钥走环境变量（见 `.env.example`），**不落盘、不入 git**；用户可自带大模型密钥（BYOK），服务端加密存储、仅本人可见。
 
