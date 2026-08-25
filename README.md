@@ -135,10 +135,18 @@ python -m venv .venv && .venv/bin/pip install -r apps/api/requirements.txt
 pnpm install && pnpm --filter '@redtrip/contracts' build
 pnpm --filter '@redtrip/web' dev
 
-# 4. 测试与静态检查：
+# 4. 竞赛演示（推荐）：打开前端后点「演示武康 · 六站可溯源」
+#    或 curl http://127.0.0.1:8799/v1/demo/wukang
+#    脚本见 Doc/15-demo-script.md
+
+# 5. 测试与静态检查：
 .venv/bin/python -m pytest tests -q
+.venv/bin/python -m redtrip_gate.redteam.runner
+python eval/smoke_demo.py
 .venv/bin/python -m ruff check packages/
 ```
+
+**竞赛演示入口**：前端 Brief 页 **「演示武康 · 六站可溯源」** → `GET /v1/demo/wukang`（冻结包，非失败兜底）。真实策展仍走 `/v1/curate`。
 
 **配置**：所有密钥走环境变量（见 `.env.example`），**不落盘、不入 git**；用户可自带大模型密钥（BYOK），服务端加密存储、仅本人可见。
 

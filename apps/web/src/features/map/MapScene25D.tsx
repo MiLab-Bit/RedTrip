@@ -75,10 +75,14 @@ function CameraRig({
 }) {
   const { camera } = useThree();
   useLayoutEffect(() => {
-    camera.position.set(camDist * 0.78, camDist * 0.52, camDist * 0.78);
+    camera.position.set(
+      target[0] + camDist * 0.62,
+      camDist * 0.48,
+      target[2] + camDist * 0.62,
+    );
     camera.lookAt(target[0], target[1], target[2]);
     camera.updateProjectionMatrix();
-  }, [camera, camDist, target]);
+  }, [camera, camDist, target[0], target[1], target[2]]);
   return null;
 }
 
@@ -243,17 +247,16 @@ function Scene({
   const camDist = Math.max(72, viewSpan * 0.78);
   const fogFar = camDist * 2.8;
   const fogNear = camDist * 0.85;
-  const target: [number, number, number] = [
-    bakeCenter[0] * 0.35,
-    4,
-    bakeCenter[2] * 0.35,
-  ];
+  const activeSite = stops.find((s) => s.order === activeOrder);
+  const target: [number, number, number] = activeSite
+    ? [activeSite.x, 4.2, activeSite.z]
+    : [bakeCenter[0] * 0.35, 4, bakeCenter[2] * 0.35];
 
   return (
     <>
       <color attach="background" args={[PALETTE.xuan]} />
       <fog attach="fog" args={[PALETTE.xuan, fogNear, fogFar]} />
-      <CameraRig camDist={camDist} target={target} />
+      <CameraRig camDist={camDist * (activeSite ? 0.72 : 1)} target={target} />
 
       <ambientLight intensity={0.62} color={PALETTE.rice} />
       <hemisphereLight args={[PALETTE.xuan, PALETTE.ochre, 0.7]} />

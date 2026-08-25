@@ -155,6 +155,9 @@ export function App() {
       setLoadProgress((p) => Math.max(p, to));
     };
 
+    setLoadProgress(0);
+    setLoadPhase(demoPending ? "L1 · 装载武康冻结演示线…" : "L1 · 提交取证任务…");
+
     (async () => {
       try {
         if (demoPending) {
@@ -274,12 +277,8 @@ export function App() {
     };
   }, [state.value, pendingSlots, demoPending, send]);
 
-  useEffect(() => {
-    if (state.value === "loading") {
-      setLoadProgress(0);
-      setLoadPhase("翻开馆藏…");
-    }
-  }, [state.value]);
+  // 进入 loading 时的初始相位在上方 effect 开头设置；勿在此重置，
+  // 否则会与 demo/流式 bump 竞态，把 L1/L2/L3 旁白冲掉。
 
   const storyView = useMemo<StoryView | null>(() => {
     const env = state.context.envelope;
