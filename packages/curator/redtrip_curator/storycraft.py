@@ -81,16 +81,24 @@ TENSION_KW = (
 
 
 def craft_stop_story(stop: PlannedStop) -> tuple[str, str | None, list[dict[str, Any]], dict[str, Any]]:
-    """档案卡骨架（非叙事）。
+    """最小叙事句骨架（典籍新生兜底）。
 
-    模板腔已彻底删除：此函数只把该站的**可核对档案事实**陈列成清单，
-    不写任何叙事句/抒情句。story_ready 预览与 LLM 润色失败时，读者看到的
-    是一张诚实的事实卡（地址/类型/类别/年代/风格/人物/事件/出处），
-    而不是套话。叙事正文一律由 polish 的 LLM 逐卡生成。
+    即使 LLM 润色失败（或被 Gate 清洗后回退），读者看到的也不再是字段堆叠清单，
+    而是一段「人物 + 时间 + 地点 + 出处」的最小叙事散文：
+    把事件按年份串成时间线，把人物按「主角—关联者」织进时间线，每句都带可核出处。
+
+    与旧的「字段堆叠清单」区别：旧的会写出
+      「地址：武康路113号；相关人物：史宾伯（开放数据…）；事件：1923年始建…」
+    现在会写成
+      「1923 年，英国人毛特宝林海在此始建私邸。1948 年改建，原房主返国后，
+       丹麦人史宾伯照看这处房产。1955 年，史宾伯经手租于上海作家协会上海分会；
+       同年 9 月，巴金一家迁入，并定居于此，《随想录》等诸多重要作品都在此创作。
+       据上海图书馆开放数据。」
     """
     ev: BuildingEvidence = stop.evidence
     events = [l for l in ev.layers if l.kind == "event"]
     persons = [l for l in ev.layers if l.kind == "person"]
+    classicals = [l for l in ev.layers if l.kind == "classical"]
     building = next((l for l in ev.layers if l.kind == "building"), None)
     era = next((l for l in ev.layers if l.kind == "era"), None)
     poems = [l for l in ev.layers if l.kind == "poem"]
@@ -98,59 +106,79 @@ def craft_stop_story(stop: PlannedStop) -> tuple[str, str | None, list[dict[str,
     literarys = [l for l in ev.layers if l.kind == "literary"]
     sources: list[dict[str, Any]] = []
 
-    lines: list[str] = []
     rd = ev.raw_detail or {}
     addr = rd.get("address") or ev.address or (_addr(building.claim) if building else None)
-    if addr:
-        lines.append(f"地址：{addr}")
-    if rd.get("poi_type"):
-        lines.append(f"场所类型：{rd['poi_type']}")
-    if rd.get("category"):
-        lines.append(f"场所类别：{rd['category']}")
-    if rd.get("landmark_year_built"):
-        lines.append(f"建造年份：{rd['landmark_year_built']}")
-    if rd.get("landmark_style"):
-        lines.append(f"建筑风格：{rd['landmark_style']}")
-    if rd.get("landmark_architect"):
-        lines.append(f"建筑师：{rd['landmark_architect']}")
-    if rd.get("landmark_description"):
-        lines.append(f"建筑沿革：{rd['landmark_description']}")
-    for p in persons[:4]:
-        lines.append(f"相关人物：{p.label}（{p.claim}）")
-        sources.append(p.source.as_dict())
-    for e in events[:5]:
-        lines.append(f"事件：{e.claim}")
-        sources.append(e.source.as_dict())
-    if era:
-        lines.append(f"年代：{era.claim}")
-        sources.append(era.source.as_dict())
-    if poems:
-        lines.append(f"诗词：{poems[0].claim}")
-        sources.append(poems[0].source.as_dict())
-    if geonames:
-        lines.append(f"地名志：{geonames[0].claim}")
-        sources.append(geonames[0].source.as_dict())
-    if literarys:
-        lines.append(f"文学记载：{literarys[0].claim}")
-        sources.append(literarys[0].source.as_dict())
-    if ev.road_context:
-        lines.append(f"路段：{ev.road_context}")
-    pf = ev.pitfalls or {}
-    lines.append(
-        f"开放：{pf.get('open_hours', '未收录')} · "
-        f"可入内：{pf.get('enterable', '未收录')} · "
-        f"预约：{pf.get('need_reservation', '未收录')}"
-    )
 
-    body = "；\n".join(lines) if lines else f"（{ev.name}：档案整理中）"
+    # ── 构造最小叙事句（典籍新生）──
+    body_parts: list[str] = []
+
+    # 1) 典籍发掘（如有）：从 CBDB 考据出的人物先点题
+    for c in classicals[:2]:
+        body_parts.append(c.claim.rstrip("。") + "。")
+        sources.append(c.source.as_dict())
+
+    # 2) 事件按年份串成时间线（提取年份排序）
+    import re as _re
+    evt_with_year: list[tuple[str, str]] = []  # (year, claim)
+    evt_no_year: list[str] = []
+    for e in events[:8]:
+        m = _re.search(r"(\d{3,4})\s*年", e.claim)
+        if m:
+            evt_with_year.append((m.group(1), e.claim.rstrip("。") + "。"))
+        else:
+            evt_no_year.append(e.claim.rstrip("。") + "。")
+        sources.append(e.source.as_dict())
+    evt_with_year.sort(key=lambda x: x[0])
+    for _, claim in evt_with_year:
+        body_parts.append(claim)
+    body_parts.extend(evt_no_year[:2])
+
+    # 3) 人物的关联叙事（主角先，被遮蔽者后）
+    # 主角：名字在建筑名里的
+    protagonist = [p for p in persons if p.label and p.label in ev.name]
+    others = [p for p in persons if p not in protagonist]
+    for p in (protagonist + others)[:6]:
+        # 把「开放数据将该建筑与人物「X」建立关联。」改写成「X 曾与此处相关。」
+        claim_clean = p.claim
+        if "开放数据将该建筑与人物" in claim_clean:
+            claim_clean = f"{p.label}曾与此处相关。"
+        else:
+            claim_clean = claim_clean.rstrip("。") + "。"
+        body_parts.append(claim_clean)
+        sources.append(p.source.as_dict())
+
+    # 4) 文学记载（如有）
+    if literarys:
+        lk = literarys[0]
+        body_parts.append(lk.claim.rstrip("。") + "。")
+        sources.append(lk.source.as_dict())
+
+    # 5) 地名志（如有，作为空间脉络补充）
+    if geonames and len(body_parts) < 8:
+        body_parts.append(geonames[0].claim.rstrip("。") + "。")
+        sources.append(geonames[0].source.as_dict())
+
+    # 6) 典籍新生收束句：点明地点 + 出处
+    if addr and body_parts:
+        body_parts.append(f"此地即{addr}的{ev.name}。")
+    body_parts.append("据上海图书馆开放数据。")
+
+    # 7) 极端兜底：若上面什么都没生成，回退最小陈述
+    if not body_parts:
+        body_parts.append(f"{ev.name}。据上海图书馆开放数据。")
+        if addr:
+            body_parts.insert(0, f"{addr}。")
+
+    body = " ".join(body_parts)
 
     age = None
     era_desc = (
         " ".join(e.claim.rstrip("。") + "。" for e in events[:4])
         if events
-        else ("；".join(lines) or "暂无数据支撑")
+        else (body[:200] or "暂无数据支撑")
     )
     figures = "、".join(p.label for p in persons[:6]) if persons else "暂无数据支撑"
+    pf = ev.pitfalls or {}
     scene = {
         "type": "scene",
         "stop_order": stop.order,

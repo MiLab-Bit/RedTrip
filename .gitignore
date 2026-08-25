@@ -43,3 +43,4 @@ dist-nginx/
 dist-pages/
 dist_mv_old/
 demo_dianji_reborn.py
+demo_diag.py
