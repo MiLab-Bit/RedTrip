@@ -511,6 +511,49 @@ def _chat_card(
     # 站点名称（card.title 来自 draft_card）
     stop_meta["name"] = (card.get("title") or "").split("·")[-1].strip() or stop_meta.get("name", "")
 
+    # ── 典籍新生 B：把人物结构化喂给 LLM，叙事主体从「楼」改成「人物/记载」 ──
+    # 从 facts 抽出本站所有人物图层（person / classical），按「主角/对照/被遮蔽者」排序：
+    # - 主角：名字出现在建筑名里的（如「巴金故居」的「巴金」），或典籍已验证溯源的人物
+    # - 被遮蔽者：容易被忽略的人物（如丹麦人史宾伯、外国人毛特宝林海）——正是典籍新生要发掘的
+    # - 对照：其他人物
+    building_name = stop_meta.get("name", "")
+    figures_struct: dict[str, Any] = {"protagonist": [], "contrast": [], "obscured": [], "classical": []}
+    seen_names: set[str] = set()
+    for f in facts:
+        rid = str(f.get("fact_uri") or "")
+        label = str(f.get("label") or "")
+        claim = str(f.get("claim") or "")
+        # 人物图层
+        if rid.startswith("person:") or "开放数据将该建筑与人物" in claim:
+            # 解析人物名：从「开放数据将该建筑与人物「XXX」建立关联」里抽
+            import re as _re
+            m = _re.search(r"人物「([^」]+)」", claim)
+            name = m.group(1) if m else (label if label and len(label) <= 6 else "")
+            if not name or name in seen_names:
+                continue
+            seen_names.add(name)
+            entry = {"name": name, "claim": claim, "fact_uri": rid}
+            # 主角：名字在建筑名里
+            if name and name in building_name:
+                figures_struct["protagonist"].append(entry)
+            # 被遮蔽者：外国人名（含外文/译名特征）或非主角的非中文常见名
+            elif _re.search(r"[A-Za-z]{4,}|[A-Z][a-z]+", name) or any(
+                kw in name for kw in ("史宾伯", "毛特", "宝林", "鲍尔", "外国人", "丹麦", "英国", "俄国")
+            ):
+                figures_struct["obscured"].append(entry)
+            else:
+                figures_struct["contrast"].append(entry)
+        # 典籍图层（CBDB 已验证）
+        elif "classical" in rid or "cbdb" in rid.lower() or f.get("layer") == "classical":
+            m = _re.search(r"典籍 · ([^：\s]+)", label) or _re.search(r"人物「?([^」]+)」?", label)
+            name = m.group(1) if m else label
+            if name and name not in seen_names:
+                seen_names.add(name)
+                figures_struct["classical"].append({
+                    "name": name, "claim": claim, "fact_uri": rid, "verified": True,
+                })
+    stop_meta["figures"] = figures_struct
+
     # step④：本章在整本中的位置（卷→章→节递进），让单卡承接上一章、引出下一章
     arc = meta_ctx.get("narrative_arc") or {}
     arc_hint = ""
@@ -527,26 +570,34 @@ def _chat_card(
 
     user = (
         f"{voice_block}\n\n"
-        "请基于下面 stop_metadata 与 fact_catalog，写该站点一张独特的故事卡（title / body / age_parallel）。\n"
-        "硬性规则：\n"
-        "0) 像人在说话，不像展签在念稿：把事实讲成有温度、有观点、有去处的故事。"
-        "主语可以是地名 / 建筑 / 人，也可以用自然的「你」（如「你若在此驻足」），但严禁"
-        "「你站在 / 你脚下 / 你忽然 / 你此刻 / 你离开 / 你遇见 / 你带走 / 你眼前」这种把"
-        "读者按在街景里指挥的导游腔。\n"
-        "1) 标题与正文必须引用 stop_metadata 中的真实信息（地址/年代/风格/人物），"
-        "禁止「未收录/诚实比完整更重要/借一段旧时光」等套话；不得编造事实，"
-        "套话与禁词由 Gate 在末端统一复核。\n"
-        "1.5) 标题禁止以「在『地名』停一下」或纯地名开头——用「人物与『地名』」「地名：命题」等更有信息量的结构，且相邻章节标题句式不得重复。\n"
-        "1.6) 套话负向约束：不得用概括性抒情替代具体事实（如「历史与现代交融」「别有一番风味」「独树一帜」），"
-        "每一句都必须落到本站的某个可核实细节上。\n"
-        "2) 如有 characters，必须在正文里带出至少一位人物及其与该地点的关联。\n"
-        "3) 如有 landmark_description，直接引用其关键事实（不要逐字照抄），并改写为可读段落。\n"
-        "4) age_parallel 仅在确实有跨时代对照时填写，否则置空字符串。\n"
-        "5) 同一 JSON 内逐句溯源（provenance 数组，每句一条）。只输出该站内容，不要输出其他站点。\n"
-        f"\nstop_metadata: {json.dumps(stop_meta, ensure_ascii=False)}\n"
+        "【典籍新生叙事指令】请基于下面 stop_metadata（含 figures 人物结构）与 "
+        "fact_catalog，写该站点一张独特的叙事卡（title / body / age_parallel）。\n"
+        "核心原则——叙事主体是人，不是楼：\n"
+        "0) 这张卡的主角是「人」，不是「建筑」。建筑是人留下的舞台痕迹。"
+        "开篇第一句必须落在一个具体的人名或一个具体年份的记载上，不要以建筑名开头，"
+        "不要以「这里」「这栋」「走进」开头。\n"
+        "1) 人物结构（stop_metadata.figures）已为你分好类：\n"
+        "   - protagonist：名字写进建筑名里的主人公（如「巴金故居」的巴金）\n"
+        "   - obscured：容易被忽略的人——外国人、照看房产的中间人、被遮蔽的关联者"
+        "（如丹麦人史宾伯照看毛特宝林海的房产，再租给上海作协）。典籍新生要发掘的"
+        "正是这类被遗忘者，请给他们至少一句具体记载。\n"
+        "   - classical：从典籍（CBDB）中考据出的历史人物，已验证溯源，请点明其典籍出处。\n"
+        "   - contrast：同时代/同事件里的对照人物，用于呈现张力。\n"
+        "2) body 写成「一段人物在地点上的情节」：时间 + 人物 + 发生在此的事 + 出处。"
+        "可以穿插多位人物（主角—被遮蔽者—对照），让一栋楼成为几代人命运的容器。"
+        "禁止把建筑沿革/地址/场所类型堆成清单——这些信息只能化进人物的情节里。\n"
+        "3) 禁止导游腔：「你站在 / 你脚下 / 你忽然 / 你此刻 / 你离开 / 你遇见 / "
+        "你带走 / 你眼前 / 你带着」。可用自然的「你」（如「你若在此驻足」）。\n"
+        "4) 禁止套话：「未收录 / 诚实比完整更重要 / 借一段旧时光 / 历史与现代交融 / "
+        "别有一番风味 / 独树一帜」。每一句都必须落到本站某个可核实细节上。不得编造。\n"
+        "5) 标题用「人物与『地名』」「人名：命题」等结构，禁止以纯地名或「在『地名』停一下」开头。\n"
+        "6) age_parallel 仅在确实有跨时代对照时填写，否则置空。\n"
+        "7) 同一 JSON 内逐句溯源（provenance 数组，每句一条，fact_uri 仅取自 fact_catalog）。"
+        "只输出该站内容。\n"
+        + arc_hint
+        + f"\nstop_metadata: {json.dumps(stop_meta, ensure_ascii=False)}\n"
         + json.dumps(payload, ensure_ascii=False)
         + "\n\n" + _CARD_SCHEMA
-        + arc_hint
         + "\n\n" + _CARD_BODY_GUIDANCE
     )
     temperature = 0.55 if voice else 0.35
