@@ -1,15 +1,20 @@
-"""反方策展人：单视角对抗性评审（非阻断，仅告警）。
+"""反方策展人：单视角对抗性评审（升级版：非阻断，可回写修正）。
 
 仅取「城市漫步策展委员会」9 视角中的「视角 8 · 反方策展人」，
 在 polish 之后、Gate 判定通过之后跑一次 LLM 调用，
-产出非阻断的评审意见（concerns / missed_voices / warnings），
-供人类复核或下一轮 curate 参考。本模块不修改正文、不新增史实。
+产出评审意见（concerns / missed_voices / warnings）与**可执行的 fixes**。
+
+升级点（典籍新生）：
+- 旧版只读告警，意见（如「含导游腔『驻足时』」）无法落回正文，人力复核成本高。
+- 新版 review 额外输出 `fixes`：每条 fix 指明 stop_order + 问题片段 + 替换文本，
+  由 _apply_review_fixes 对正文做精准局部替换（删除/改写违规句），
+  替换后重新过 Gate；替换不触碰 sources、不新增史实。
+- 语义上仍是「非阻断」：fixes 只在替换后 Gate 仍通过时才落地；否则保留原文。
 
 设计要点（避免「降智 bug」）：
 - 只读取已生成的叙事文本（各节点故事卡 + 路线零件长散文）与已标注的命题字段，
   不自行补史；模型若要质疑薄弱处，应指明「此处证据等级偏低」，而非编造反证。
-- 产出的 warnings 一律非阻断：进入 CurateResult.warnings 与 envelope.curator_review，
-  由人或下一轮 curate 决定如何处理，绝不直接改写正文。
+- fixes 只做「措辞修正」（导游腔/套话/重复），不得改动事实与出处。
 """
 from __future__ import annotations
 
@@ -25,7 +30,7 @@ _REVIEW_PROMPT_PATH = (
     Path(__file__).resolve().parents[1] / "prompts" / "opposing_curator.txt"
 )
 
-_REVIEW_SCHEMA = """JSON schema（只输出评审意见，绝不修改正文）：
+_REVIEW_SCHEMA = """JSON schema（只输出评审意见与措辞修正建议，绝不新增史实）：
 {
   "concerns": [
     {"claim": "一条反对意见（具体、落到节点或叙事机制）",
@@ -37,9 +42,14 @@ _REVIEW_SCHEMA = """JSON schema（只输出评审意见，绝不修改正文）�
   "skipped_harder_node": "一个更重要但被跳过的地点或议题（无则 null）",
   "alternative_thesis": "完全不同的备选策展命题（一句话）",
   "reverse_route_note": "若从终点走回起点，故事会发生什么变化",
-  "warnings": ["面向参与者的可读告警；每条都落到具体节点、可被执行、不要求统一答案"]
+  "warnings": ["面向参与者的可读告警；每条都落到具体节点、可被执行、不要求统一答案"],
+  "fixes": [
+    {"stop_order": 2,
+     "problem": "出现导游腔命令式『驻足时』",
+     "replace": "（若只是删除该句则填空字符串；若改写则给整句替换文本，须与原文同义同事实）"}
+  ]
 }
-concerns 最多 5 条；warnings 最多 5 条，必须具体、可执行。"""
+concerns 最多 5 条；warnings 最多 5 条；fixes 最多 5 条，只修措辞不改事实。"""
 
 
 def _review_system_prompt() -> str:
@@ -142,4 +152,72 @@ def review_envelope(
         else []
     )
     obj["concerns"] = concerns[:5]
+    # 规整 fixes 为 list[dict]，丢弃异常项并封顶 5 条
+    raw_f = obj.get("fixes")
+    fixes = (
+        [f for f in raw_f if isinstance(f, dict) and f.get("stop_order") is not None]
+        if isinstance(raw_f, list)
+        else []
+    )
+    obj["fixes"] = fixes[:5]
     return obj
+
+
+def apply_review_fixes(
+    envelope: dict[str, Any],
+    review: dict[str, Any],
+) -> list[str]:
+    """把反方策展人的 fixes 精准落地到对应 story_card 正文（典籍新生升级）。
+
+    仅做「措辞修正」：problem 指出的问题片段若在正文中，按 replace 处理——
+    - replace 为空字符串 → 删除该句（连同句号）；
+    - replace 非空 → 替换原文中与 problem 最接近的句子。
+    不触碰 sources、不新增史实；替换后若句子缺失（原文不含 problem），跳过该条。
+    返回修复记录 notes（供写入 warnings 追踪）。
+    """
+    notes: list[str] = []
+    fixes = review.get("fixes") or []
+    if not isinstance(fixes, list):
+        return notes
+    for fix in fixes:
+        if not isinstance(fix, dict):
+            continue
+        so = fix.get("stop_order")
+        problem = str(fix.get("problem") or "").strip()
+        replace = str(fix.get("replace") or "").strip()
+        if not problem:
+            continue
+        # 定位对应 story_card
+        card = next(
+            (
+                b for b in envelope.get("blocks") or []
+                if isinstance(b, dict) and b.get("type") == "story_card"
+                and int(b.get("stop_order") or 0) == int(so or 0)
+            ),
+            None,
+        )
+        if not card:
+            continue
+        body = str(card.get("body") or "")
+        if not body:
+            continue
+        # 按问题片段删除/替换所在句子（保守：只处理 problem 出现的那一句）
+        import re as _re
+        sentences = _re.split(r"(?<=[。！？\n])", body)
+        changed = False
+        out_sents: list[str] = []
+        for s in sentences:
+            if problem and problem in s:
+                if replace:
+                    out_sents.append(s.replace(problem, replace))
+                # replace 为空 → 删句
+                changed = True
+            else:
+                out_sents.append(s)
+        if changed:
+            card["body"] = "".join(out_sents)
+            notes.append(
+                f"反方策展人修正: stop{so} 「{problem[:20]}…」"
+                + (" 已改写" if replace else " 已删除该句")
+            )
+    return notes
