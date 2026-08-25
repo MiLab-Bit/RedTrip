@@ -48,6 +48,7 @@ from app import auth_store as _auth_store  # noqa: E402
 WHITELIST_PATH = ROOT / "content" / "whitelist" / "points.json"
 HOTWORDS_PATH = ROOT / "content" / "hotwords" / "latest.json"
 DEMO_WUKANG_PATH = ROOT / "content" / "fixtures" / "demo-route.json"
+DEMO_YIDA_PATH = ROOT / "content" / "fixtures" / "demo-route-yida.json"
 
 
 def _hotwords_health() -> dict[str, Any]:
@@ -367,13 +368,28 @@ def health(probe: bool = Query(default=False, description="probe live providers"
 
 @app.get("/v1/demo/wukang", response_model=CurateResponse, response_model_exclude_none=True)
 def demo_wukang() -> CurateResponse:
-    """竞赛冻结演示线：显式一键加载，绝不作为普通 curate 失败兜底。"""
-    if not DEMO_WUKANG_PATH.exists():
+    """竞赛冻结演示线 A：显式一键加载武康，绝不作为普通 curate 失败兜底。"""
+    return _load_demo_fixture(DEMO_WUKANG_PATH, label="武康冻结包", theme_check="武康")
+
+
+@app.get("/v1/demo/yida", response_model=CurateResponse, response_model_exclude_none=True)
+def demo_yida() -> CurateResponse:
+    """竞赛冻结演示线 B：一大—外滩，诚实通道标注。"""
+    return _load_demo_fixture(DEMO_YIDA_PATH, label="一大外滩冻结包", theme_check="外滩")
+
+
+def _load_demo_fixture(
+    path: Path,
+    *,
+    label: str,
+    theme_check: str,
+) -> CurateResponse:
+    if not path.exists():
         return CurateResponse(
             status="error",
-            reasons=["演示线 fixture 缺失：content/fixtures/demo-route.json"],
+            reasons=[f"演示线 fixture 缺失：{path.relative_to(ROOT)}"],
         )
-    raw = json.loads(DEMO_WUKANG_PATH.read_text(encoding="utf-8"))
+    raw = json.loads(path.read_text(encoding="utf-8"))
     hongyuan_raw = raw.pop("_demo_hongyuan", None)
     hongyuan = None
     if isinstance(hongyuan_raw, dict):
@@ -385,9 +401,12 @@ def demo_wukang() -> CurateResponse:
                 summary=str(hongyuan_raw.get("summary") or "红鸢演示读法"),
             )
     assumptions = list(raw.get("assumptions") or [])
-    assumptions = list(
-        dict.fromkeys([*assumptions, "演示线=武康冻结包", "通道=slc 六站可点 URI"])
-    )
+    assumptions = list(dict.fromkeys([*assumptions, f"演示线={label}", "模式=冻结包"]))
+    if theme_check and theme_check not in str(raw.get("theme") or ""):
+        return CurateResponse(
+            status="error",
+            reasons=[f"演示线主题校验失败：期望含「{theme_check}」"],
+        )
     return CurateResponse(
         status="ok",
         phase="full",

@@ -143,6 +143,15 @@ class GateVerdict:
         }
 
 
+def _is_demo_envelope(envelope: dict[str, Any]) -> bool:
+    """竞赛冻结演示包：句级未溯源在演示路径上升为 blocker。"""
+    assumptions = envelope.get("assumptions") or []
+    sources = envelope.get("sources") or []
+    if any("演示线=" in str(a) for a in assumptions):
+        return True
+    return any(str(s).startswith("fixture:demo-route") for s in sources)
+
+
 def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
     blockers: list[str] = []
     warnings: list[str] = []
@@ -421,9 +430,11 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
         factual = int(sp.get("factual_sentences") or 0)
         aligned = int(sp.get("aligned_factual") or 0)
         if factual and aligned < factual:
-            warnings.append(
-                f"G4-sentence[warn]: {factual - aligned} 个事实句未溯源"
-            )
+            msg = f"G4-sentence: {factual - aligned} 个事实句未溯源"
+            if _is_demo_envelope(envelope):
+                blockers.append(msg)
+            else:
+                warnings.append(f"{msg}[warn]")
 
     # ---- Interest (I1): 无人物/事件实体层 → 阻断；张力偏弱 → warn ----
     tension_stops = 0

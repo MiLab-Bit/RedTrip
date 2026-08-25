@@ -6,6 +6,13 @@ import {
 } from "./sourceLabels";
 import { ProvenanceBody, findStopClaims } from "./SentenceProvenance";
 
+const ACT_LABEL: Record<string, string> = {
+  prologue: "序章",
+  focus: "聚焦",
+  transit: "过渡",
+  epilogue: "跋",
+};
+
 type Props = {
   envelope: RouteEnvelope;
   stop: RouteStop;
@@ -106,15 +113,30 @@ export function StopPanel({
               className={`channel-badge is-${stop.evidence_channel}`}
               title="证据通道"
             >
-              {stop.evidence_channel === "slc"
-                ? "馆藏"
-                : stop.evidence_channel === "landmark"
-                  ? "地标词库"
-                  : stop.evidence_channel === "osm"
-                    ? "OSM"
-                    : stop.evidence_channel === "amap"
-                      ? "地图"
-                      : "人工"}
+              {stop.evidence_channel === "slc" ? (
+                <>
+                  <span className="kite-seal-mini" aria-hidden>
+                    鸢
+                  </span>{" "}
+                  馆藏
+                </>
+              ) : stop.evidence_channel === "landmark" ? (
+                "地标词库"
+              ) : stop.evidence_channel === "osm" ? (
+                "OSM"
+              ) : stop.evidence_channel === "amap" ? (
+                "地图"
+              ) : (
+                "人工"
+              )}
+            </span>
+          </>
+        ) : null}
+        {stop.act ? (
+          <>
+            {" · "}
+            <span className={`act-badge is-${stop.act}`} title="规划节奏">
+              {ACT_LABEL[stop.act] ?? stop.act}
             </span>
           </>
         ) : null}

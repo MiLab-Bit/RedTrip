@@ -41,9 +41,11 @@ type Props = {
   onSubmit: (slots: IntentSlots) => void;
   /** 竞赛一键：加载冻结武康演示线（不等待 LLM） */
   onDemoWukang?: () => void;
+  /** 竞赛一键：加载冻结一大—外滩演示线 */
+  onDemoYida?: () => void;
 };
 
-export function BriefForm({ onSubmit, onDemoWukang }: Props) {
+export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
   const [slots, setSlots] = useState<IntentSlots>({ ...defaults });
   const [cities, setCities] = useState<CityInfo[]>([]);
   const [showMore, setShowMore] = useState(false);
@@ -243,6 +245,14 @@ export function BriefForm({ onSubmit, onDemoWukang }: Props) {
       <div className="brief-copy">
         <div className="brief-wash-stain" aria-hidden />
         <p className="brief-brand brand-mark">
+          <img
+            className="brand-kite"
+            src="/redtrip-kite.svg"
+            alt=""
+            aria-hidden
+            width={36}
+            height={36}
+          />
           <span className="brand-word">红鸢</span>
           <span className="brand-tag">RedTrip · 城市记忆策展人</span>
           <span className="brand-seal" aria-hidden>
@@ -477,6 +487,20 @@ export function BriefForm({ onSubmit, onDemoWukang }: Props) {
               }}
             >
               演示武康 · 六站可溯源
+            </button>
+          ) : null}
+          {onDemoYida ? (
+            <button
+              type="button"
+              className="btn brief-demo brief-demo-alt"
+              data-testid="demo-yida"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDemoYida();
+              }}
+            >
+              演示一大·外滩 · 通道诚实
             </button>
           ) : null}
         </div>

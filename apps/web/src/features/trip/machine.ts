@@ -40,12 +40,13 @@ export type TripContext = {
   footprints: FootprintFeature[];
   osmNote: string;
   /** brief→loading 时锁定：demo 冻结包 / curate 真实策展 */
-  loadMode: "demo" | "curate" | null;
+  loadMode: "demo-wukang" | "demo-yida" | "curate" | null;
 };
 
 export type TripEvent =
   | { type: "SUBMIT" }
-  | { type: "SUBMIT_DEMO" }
+  | { type: "SUBMIT_DEMO_WUKANG" }
+  | { type: "SUBMIT_DEMO_YIDA" }
   | {
       type: "LOADED";
       envelope: RouteEnvelope;
@@ -82,7 +83,7 @@ const resetContext = {
   error: null,
   assumptions: [],
   hongyuan: null,
-  loadMode: null as "demo" | "curate" | null,
+  loadMode: null as "demo-wukang" | "demo-yida" | "curate" | null,
   ...clearedExtras,
 };
 
@@ -117,9 +118,13 @@ export const tripMachine = setup({
           target: "loading",
           actions: assign({ loadMode: "curate" }),
         },
-        SUBMIT_DEMO: {
+        SUBMIT_DEMO_WUKANG: {
           target: "loading",
-          actions: assign({ loadMode: "demo" }),
+          actions: assign({ loadMode: "demo-wukang" }),
+        },
+        SUBMIT_DEMO_YIDA: {
+          target: "loading",
+          actions: assign({ loadMode: "demo-yida" }),
         },
       },
     },

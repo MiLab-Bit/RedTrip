@@ -272,6 +272,19 @@ def _plan_tier(intent: Intent) -> tuple[int, float]:
         return 12, 4200.0
 
 
+def _assign_acts(n: int) -> list[str]:
+    """四段节奏：prologue → focus/transit 交替 → epilogue。"""
+    if n <= 0:
+        return []
+    if n == 1:
+        return ["prologue"]
+    acts: list[str] = ["prologue"]
+    for i in range(1, n - 1):
+        acts.append("focus" if i % 2 == 1 else "transit")
+    acts.append("epilogue")
+    return acts
+
+
 def plan_route(intent: Intent, pack: EvidencePack) -> RoutePlan:
     n, target_walk = _plan_tier(intent)
 
@@ -337,6 +350,7 @@ def plan_route(intent: Intent, pack: EvidencePack) -> RoutePlan:
         minutes[minutes.index(max(minutes))] -= 1
 
     stops: list[PlannedStop] = []
+    act_seq = _assign_acts(len(ordered))
     for i, b in enumerate(ordered):
         nxt = ordered[i + 1] if i + 1 < len(ordered) else None
         stops.append(
@@ -346,6 +360,7 @@ def plan_route(intent: Intent, pack: EvidencePack) -> RoutePlan:
                 minutes=minutes[i],
                 meaning=_meaning(b),
                 transition_to_next=_transition(b, nxt) if nxt else None,
+                act=act_seq[i] if i < len(act_seq) else None,  # type: ignore[arg-type]
             )
         )
 

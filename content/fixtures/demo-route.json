@@ -74,7 +74,8 @@
           "enterable": "故居博物馆可购票入内",
           "need_reservation": "散客通常无需预约；团体建议提前联系"
         },
-        "evidence_channel": "slc"
+        "evidence_channel": "slc",
+        "act": "prologue"
       },
       {
         "order": 2,
@@ -127,7 +128,8 @@
           "enterable": "民居私宅，不可入内",
           "need_reservation": "无需"
         },
-        "evidence_channel": "slc"
+        "evidence_channel": "slc",
+        "act": "focus"
       },
       {
         "order": 3,
@@ -190,7 +192,8 @@
           "enterable": "公寓私宅，不可入内；街角机位请勿妨碍通行",
           "need_reservation": "无需"
         },
-        "evidence_channel": "slc"
+        "evidence_channel": "slc",
+        "act": "transit"
       },
       {
         "order": 4,
@@ -243,7 +246,8 @@
           "enterable": "故居可购票参观",
           "need_reservation": "旺季建议关注预约通道"
         },
-        "evidence_channel": "slc"
+        "evidence_channel": "slc",
+        "act": "focus"
       },
       {
         "order": 5,
@@ -306,7 +310,8 @@
           "enterable": "多为保护性开放/局部可观，请服从现场指示",
           "need_reservation": "未收录"
         },
-        "evidence_channel": "slc"
+        "evidence_channel": "slc",
+        "act": "transit"
       },
       {
         "order": 6,
@@ -369,7 +374,8 @@
           "enterable": "未收录",
           "need_reservation": "未收录"
         },
-        "evidence_channel": "slc"
+        "evidence_channel": "slc",
+        "act": "epilogue"
       }
     ]
   },
