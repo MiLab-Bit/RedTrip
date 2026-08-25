@@ -114,6 +114,13 @@ export function ClassicalLayer({
               </div>
               <p className="classical-claim">{e.claim}</p>
 
+              {e.excerpt && e.excerpt.trim() && !e.claim.includes(e.excerpt.trim()) && (
+                <div className="classical-excerpt">
+                  <span className="chain-k">典籍原文</span>
+                  <blockquote>{e.excerpt.trim()}</blockquote>
+                </div>
+              )}
+
               <div className="classical-chain">
                 <span className="chain-step chain-origin">
                   <span className="chain-k">出处</span>

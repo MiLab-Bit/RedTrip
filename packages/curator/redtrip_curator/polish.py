@@ -586,14 +586,23 @@ def _chat_card(
         "2) body 写成「一段人物在地点上的情节」：时间 + 人物 + 发生在此的事 + 出处。"
         "可以穿插多位人物（主角—被遮蔽者—对照），让一栋楼成为几代人命运的容器。"
         "禁止把建筑沿革/地址/场所类型堆成清单——这些信息只能化进人物的情节里。\n"
-        "3) 禁止导游腔：「你站在 / 你脚下 / 你忽然 / 你此刻 / 你离开 / 你遇见 / "
-        "你带走 / 你眼前 / 你带着」。可用自然的「你」（如「你若在此驻足」）。\n"
-        "4) 禁止套话：「未收录 / 诚实比完整更重要 / 借一段旧时光 / 历史与现代交融 / "
-        "别有一番风味 / 独树一帜」。每一句都必须落到本站某个可核实细节上。不得编造。\n"
+        "3) 禁止导游腔：绝对禁止出现以下字串（评审会逐字匹配并整篇判废）：\n"
+        "   「你站在 / 你脚下 / 你忽然 / 你此刻 / 你离开 / 你遇见 / 你会先遇见 / "
+        "你带走 / 你眼前 / 你带着」。\n"
+        "   可用自然的「你」（如「你若在此驻足」「你抬头看」）。\n"
+        "4) 禁止套话：绝对禁止出现以下字串：\n"
+        "   「一键 / 省事 / 省时 / 省力 / 再也不用查攻略 / 伟大的革命 / 永垂不朽 / "
+        "集合出发 / 打卡任务 / 带队前往 / 融汇中西 / 值得一提的是 / 仿佛穿越回老上海 / "
+        "穿越回老上海 / 仿佛穿越 / 历史与现代在此交融 / 古今交融 / 仿佛时光倒流」。\n"
+        "   每一句都必须落到本站某个可核实细节上。不得编造。\n"
         "5) 标题用「人物与『地名』」「人名：命题」等结构，禁止以纯地名或「在『地名』停一下」开头。\n"
         "6) age_parallel 仅在确实有跨时代对照时填写，否则置空。\n"
         "7) 同一 JSON 内逐句溯源（provenance 数组，每句一条，fact_uri 仅取自 fact_catalog）。"
         "只输出该站内容。\n"
+        "8) 【风格范例】这是理想的开篇写法（仅供参考，勿照抄人名地名）：\n"
+        "   「1955 年 9 月，巴金一家搬进武康路 113 号时，那扇门后还留着丹麦人史宾伯的钥匙。"
+        "他曾在 1948 年接下这栋房子的照看之责，那时原房主英国人毛特宝林海已远走。」\n"
+        "   注意：开篇是具体年份 + 具体人物 + 一个可核实的细节（钥匙），不是形容词堆砌。\n"
         + arc_hint
         + f"\nstop_metadata: {json.dumps(stop_meta, ensure_ascii=False)}\n"
         + json.dumps(payload, ensure_ascii=False)
@@ -620,6 +629,116 @@ def _chat_card(
     )
     card_patch = {k: patch.get(k) for k in ("title", "body", "age_parallel")}
     return card_patch, provenance, []
+
+
+def _chat_weave(
+    cards_snapshot: list[dict[str, Any]],
+    meta_ctx: dict[str, Any],
+    voice: VoicePack | None,
+    allowed_years: set[str],
+) -> tuple[dict[str, Any] | None, list[str]]:
+    """全书编织（典籍新生 step③）：所有卡生成后，看全本回头给每张卡加呼应句。
+
+    6 张卡是并行独立生成的，彼此不知道对方写了什么。本书要求「卷→章→节」的
+    贯穿感：意象呼应、人物跨站回响、收束感。本函数把全本卡的 title + 开篇 +
+    结尾摘要喂给 LLM，让它为每张卡产出「呼应句」（承接上一章或收束全书），
+    追加到该卡 body 末尾。只加呼应不删改原文，不触碰 sources，不臆造事实。
+
+    返回 (weave_patch_or_None, notes)。weave_patch 形如：
+    {"stops": [{"order": 2, "echo_line": "一句承接/呼应的话"}]}
+    """
+    if not llm_configured():
+        return None, ["全书编织跳过：LLM 未配置"]
+    if len(cards_snapshot) < 2:
+        return None, ["全书编织跳过：站点不足 2"]
+    digest = []
+    for c in sorted(cards_snapshot, key=lambda x: x.get("stop_order", 0)):
+        body = str(c.get("body") or "")
+        digest.append(
+            {
+                "order": c.get("stop_order"),
+                "title": c.get("title"),
+                "opening": body[:80],
+                "ending": body[-60:] if body else "",
+            }
+        )
+    payload = {
+        "all_cards_digest": digest,
+        "theme": meta_ctx.get("theme"),
+        "logic_line": meta_ctx.get("logic_line"),
+    }
+    voice_block = voice.as_prompt_block() if voice else "（未抽签，保持克制润色）"
+    schema = """JSON schema：
+{
+  "stops": [{"order": 2, "echo_line": "一句话，承接上一章或呼应全本主线的意象"}]
+}
+要求：
+- 只为「确实能形成呼应」的站输出 echo_line（通常 2-4 站），不要每站都硬写。
+- echo_line 必须基于 digest 里已有的内容（人物/事件/意象），不得引入新事实。
+- echo_line 追加到该卡 body 末尾，作为自然收束句，不得出现「上一章」「下一站」字样。"""
+    user = (
+        f"{voice_block}\n\n"
+        "以下是全本各章叙事卡的摘要（title / 开篇 / 结尾）。这是一本关于城市记忆的"
+        "「典籍」：人物与记载沿一条线递进。请找出能形成跨章呼应的意象或人物"
+        "（如一把钥匙的传递、一个被遗忘者的名字重现），为少数几站各写一句呼应句，"
+        "让全本有「书」的贯穿感。\n"
+        + json.dumps(payload, ensure_ascii=False)
+        + "\n\n" + schema
+    )
+    try:
+        patch = chat_json(
+            system="你是一位懂文学的策展编辑，只输出 JSON。",
+            user=user, temperature=0.5,
+            backend="auto", role="creative",
+            timeout=120,
+        )
+    except Exception as e:  # noqa: BLE001
+        return None, [f"全书编织失败，跳过：{e}"]
+    if not isinstance(patch, dict):
+        return None, ["全书编织返回非对象，跳过"]
+    # 校验年份（呼应句不得引入新年份）
+    stops = patch.get("stops")
+    if not isinstance(stops, list):
+        return None, ["全书编织缺少 stops，跳过"]
+    clean: list[dict[str, Any]] = []
+    notes: list[str] = []
+    for item in stops:
+        if not isinstance(item, dict):
+            continue
+        line = str(item.get("echo_line") or "").strip()
+        if not line:
+            continue
+        bad = _suspicious_new_years(line, allowed_years)
+        if bad:
+            notes.append(f"全书编织拒绝 stop{item.get('order')}：未取证年份 {bad[:3]}")
+            continue
+        clean.append({"order": item.get("order"), "echo_line": line})
+    if not clean:
+        return None, ["全书编织无有效呼应句"]
+    return {"stops": clean}, notes
+
+
+def _apply_weave(out: dict[str, Any], weave_patch: dict[str, Any]) -> list[str]:
+    """把呼应句追加到对应卡 body 末尾。返回 notes。"""
+    notes: list[str] = []
+    stop_lines = {
+        int(item.get("order") or 0): str(item.get("echo_line") or "").strip()
+        for item in (weave_patch.get("stops") or [])
+        if isinstance(item, dict)
+    }
+    for b in out.get("blocks") or []:
+        if not isinstance(b, dict) or b.get("type") != "story_card":
+            continue
+        so = int(b.get("stop_order") or 0)
+        line = stop_lines.get(so)
+        if not line:
+            continue
+        body = str(b.get("body") or "")
+        if not body:
+            continue
+        b["body"] = body.rstrip() + "\n" + line
+        notes.append(f"全书编织: stop{so} 追加呼应句")
+    return notes
 
 
 def _chat_essay(
@@ -814,29 +933,49 @@ def polish_envelope(
         except Exception:  # noqa: BLE001
             sp = None
 
+    # 3.5) 全书编织（典籍新生 step③）：所有卡生成后看全本回头加呼应句
+    # 让「卷→章→节」有贯穿感：意象呼应、人物跨站回响。失败仅跳过，不阻断。
+    if os.getenv("REDTRIP_WEAVE", "1") != "0":
+        cards_snapshot = [
+            {"stop_order": b.get("stop_order"), "title": b.get("title"), "body": b.get("body")}
+            for b in out.get("blocks") or []
+            if isinstance(b, dict) and b.get("type") == "story_card"
+            and b.get("body")
+        ]
+        weave_patch, weave_notes = _chat_weave(
+            cards_snapshot, meta_ctx, voice, allowed_years,
+        )
+        notes.extend(weave_notes)
+        if weave_patch:
+            notes.extend(_apply_weave(out, weave_patch))
+
     # 4) 逐站长散文「路线零件」并行生成（与卡片同 fact_catalog，独立成 block）
+    # 典籍新生优化：essay 长散文前端不消费、只进导出的书（book.py 渲染），
+    # 却占一次策展 ~60-90s 与 81% 的 token。默认关闭（REDTRIP_ESSAY=0），
+    # 阅读场景只生成 card（时间减半）；导出「书」要长文时再开 REDTRIP_ESSAY=1。
     essay_blocks: list[dict[str, Any]] = []
-    essay_futs = {}
-    with ThreadPoolExecutor(max_workers=min(4, len(cards))) as pool:
-        for so, _card in cards:
-            essay_futs[pool.submit(
-                _chat_essay, so, facts_by_stop.get(so, []),
-                meta_ctx, voice, allowed_years,
-            )] = so
-        for fut in as_completed(essay_futs):
-            so = essay_futs[fut]
-            essay_patch, essay_prov, essay_notes = fut.result()
-            notes.extend(essay_notes)
-            if essay_patch:
-                essay_blocks.append(
-                    {
-                        "type": "essay",
-                        "stop_order": so,
-                        "title": essay_patch.get("title", ""),
-                        "body": essay_patch.get("body", ""),
-                        "provenance": essay_prov,
-                    }
-                )
+    if os.getenv("REDTRIP_ESSAY", "0") != "0":
+        essay_futs = {}
+        with ThreadPoolExecutor(max_workers=min(4, len(cards))) as pool:
+            for so, _card in cards:
+                essay_futs[pool.submit(
+                    _chat_essay, so, facts_by_stop.get(so, []),
+                    meta_ctx, voice, allowed_years,
+                )] = so
+            for fut in as_completed(essay_futs):
+                so = essay_futs[fut]
+                essay_patch, essay_prov, essay_notes = fut.result()
+                notes.extend(essay_notes)
+                if essay_patch:
+                    essay_blocks.append(
+                        {
+                            "type": "essay",
+                            "stop_order": so,
+                            "title": essay_patch.get("title", ""),
+                            "body": essay_patch.get("body", ""),
+                            "provenance": essay_prov,
+                        }
+                    )
     if essay_blocks:
         out.setdefault("blocks", []).extend(essay_blocks)
         notes.append(f"已生成 {len(essay_blocks)} 篇路线零件长散文（待 Gate）")
