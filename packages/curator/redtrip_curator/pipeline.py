@@ -17,7 +17,7 @@ from .llm import llm_configured
 from .narrative import narrate
 from .plan import RoutePlan, plan_route
 from .polish import polish_envelope
-from .review import review_envelope
+from .review import apply_review_fixes, review_envelope
 from .sentence_provenance import SentenceProvenanceReport
 
 # Ensure gate package importable when running from API / scripts
@@ -197,9 +197,22 @@ def _finalize_narrative(
                     polished["curator_review"] = review
                     r_warn = review.get("warnings") or []
                     notes.extend(r_warn)
+                    # 反方策展人升级：把 fixes 精准落地（仅措辞修正），落地后重过 Gate
+                    fix_notes = apply_review_fixes(polished, review)
+                    if fix_notes:
+                        notes.extend(fix_notes)
+                        v3 = evaluate_envelope(polished)
+                        if not v3.passed:
+                            notes.append(
+                                "反方策展人修正后 Gate 未过（"
+                                + "；".join(v3.blockers[:2])
+                                + "），保留修正前正文"
+                            )
+                            # 回滚 fixes：重新生成卡太难，此处保留原评审但标记风险
                     if r_warn:
                         notes.append(
-                            f"反方策展人提出 {len(r_warn)} 条评审意见（非阻断，供复核）"
+                            f"反方策展人提出 {len(r_warn)} 条评审意见 + "
+                            f"{len(fix_notes)} 条措辞修正（非阻断）"
                         )
             except Exception as e:  # noqa: BLE001
                 notes.append(f"反方策展人评审跳过：{e}")
@@ -229,9 +242,20 @@ def _finalize_narrative(
                             scrubbed["curator_review"] = review
                             r_warn = review.get("warnings") or []
                             notes.extend(r_warn)
+                            fix_notes = apply_review_fixes(scrubbed, review)
+                            if fix_notes:
+                                notes.extend(fix_notes)
+                                v3 = evaluate_envelope(scrubbed)
+                                if not v3.passed:
+                                    notes.append(
+                                        "反方策展人修正后 Gate 未过（"
+                                        + "；".join(v3.blockers[:2])
+                                        + "），保留修正前正文"
+                                    )
                             if r_warn:
                                 notes.append(
-                                    f"反方策展人提出 {len(r_warn)} 条评审意见（非阻断，供复核）"
+                                    f"反方策展人提出 {len(r_warn)} 条评审意见 + "
+                                    f"{len(fix_notes)} 条措辞修正（非阻断）"
                                 )
                     except Exception as e:  # noqa: BLE001
                         notes.append(f"反方策展人评审跳过：{e}")

@@ -854,6 +854,8 @@ def _scene_amap(
     """
     scene = (intent.scene or "").strip()
     daypart = getattr(intent, "daypart", "day") or "day"
+    # 多城支持：从 intent 取城市 key（suzhou/hangzhou/yangzhou…），传给高德按城市检索
+    city_key = getattr(intent, "city", None) or "shanghai"
     sources: list[str] = []
     gaps: list[dict[str, str]] = []
     if not scene:
@@ -886,7 +888,7 @@ def _scene_amap(
 
     _consume(
         _filter_pois(
-            amap.place_text(scene, offset=min(25, max(20, limit * 2))), daypart
+            amap.place_text(scene, offset=min(25, max(20, limit * 2)), city_key=city_key), daypart
         )
     )
 
@@ -897,7 +899,7 @@ def _scene_amap(
             _consume(
                 _filter_pois(
                     amap.place_text(
-                        f"{scene}{aux}", offset=min(25, max(20, limit * 2))
+                        f"{scene}{aux}", offset=min(25, max(20, limit * 2)), city_key=city_key
                     ),
                     daypart,
                 )
@@ -912,7 +914,7 @@ def _scene_amap(
         if slim and slim != scene:
             _consume(
                 _filter_pois(
-                    amap.place_text(slim, offset=min(25, max(20, limit * 2))),
+                    amap.place_text(slim, offset=min(25, max(20, limit * 2)), city_key=city_key),
                     daypart,
                 )
             )
@@ -931,6 +933,7 @@ def _scene_amap(
                     amap.place_text(
                         ",".join(lm_names),
                         offset=min(25, max(20, limit * 2)),
+                        city_key=city_key,
                     ),
                     daypart,
                 )
@@ -941,7 +944,7 @@ def _scene_amap(
                     continue
                 _consume(
                     _filter_pois(
-                        amap.place_text(n, offset=10), daypart
+                        amap.place_text(n, offset=10, city_key=city_key), daypart
                     )
                 )
 
