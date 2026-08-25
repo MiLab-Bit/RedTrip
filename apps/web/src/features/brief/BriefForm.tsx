@@ -469,7 +469,12 @@ export function BriefForm({ onSubmit, onDemoWukang }: Props) {
             <button
               type="button"
               className="btn brief-demo"
-              onClick={onDemoWukang}
+              data-testid="demo-wukang"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDemoWukang();
+              }}
             >
               演示武康 · 六站可溯源
             </button>
