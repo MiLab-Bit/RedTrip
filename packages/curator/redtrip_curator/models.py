@@ -48,6 +48,7 @@ class BuildingEvidence:
     whitelist_id: str | None = None
     coord_source: str = "none"
     precision: str = "schematic"
+    evidence_channel: str = "manual"
     pitfalls: dict[str, str] = field(
         default_factory=lambda: {
             "open_hours": "未收录",

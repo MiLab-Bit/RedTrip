@@ -3,7 +3,7 @@ import { z } from "zod";
 export const GeoPointSchema = z.object({
   lat: z.number(),
   lng: z.number(),
-  coord_source: z.enum(["manual", "upstream", "amap", "none"]),
+  coord_source: z.enum(["manual", "upstream", "amap", "osm", "none"]),
   precision: z.enum(["exact", "approximate", "schematic"]),
 });
 export type GeoPoint = z.infer<typeof GeoPointSchema>;
@@ -38,6 +38,10 @@ export const RouteStopSchema = z.object({
     enterable: z.string(),
     need_reservation: z.string(),
   }),
+  /** L1 通道诚实标注：馆藏 / 地标词库 / OSM / 人工 */
+  evidence_channel: z
+    .enum(["slc", "landmark", "osm", "manual", "amap"])
+    .nullish(),
 });
 export type RouteStop = z.infer<typeof RouteStopSchema>;
 

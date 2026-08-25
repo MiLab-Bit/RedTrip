@@ -99,6 +99,25 @@ export function StopPanel({
         第 {stop.order} / {envelope.route.stops.length} 站 · 驻足约 {stop.minutes}{" "}
         分钟
         {stop.geo.precision !== "exact" ? " · 坐标示意" : ""}
+        {stop.evidence_channel ? (
+          <>
+            {" · "}
+            <span
+              className={`channel-badge is-${stop.evidence_channel}`}
+              title="证据通道"
+            >
+              {stop.evidence_channel === "slc"
+                ? "馆藏"
+                : stop.evidence_channel === "landmark"
+                  ? "地标词库"
+                  : stop.evidence_channel === "osm"
+                    ? "OSM"
+                    : stop.evidence_channel === "amap"
+                      ? "地图"
+                      : "人工"}
+            </span>
+          </>
+        ) : null}
       </p>
       <h2>{stop.name}</h2>
       <p className="lead stop-meaning">{stop.meaning}</p>

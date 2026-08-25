@@ -19,6 +19,7 @@ import { buildStoryView, type StoryView } from "../features/story/storyView";
 import { tripMachine } from "../features/trip/machine";
 import {
   curateRouteStream,
+  fetchDemoWukang,
   type StreamChapter,
 } from "../shared/lib/curate";
 import { fetchFootprints } from "../shared/lib/footprints";
@@ -80,6 +81,7 @@ function mergeStreamCards(
 export function App() {
   const [state, send] = useMachine(tripMachine);
   const [pendingSlots, setPendingSlots] = useState<IntentSlots | null>(null);
+  const [demoPending, setDemoPending] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadPhase, setLoadPhase] = useState("翻开馆藏…");
   const [authOpen, setAuthOpen] = useState(false);
@@ -142,7 +144,8 @@ export function App() {
   }, [state.value]);
 
   useEffect(() => {
-    if (state.value !== "loading" || !pendingSlots) return;
+    if (state.value !== "loading") return;
+    if (!demoPending && !pendingSlots) return;
     let cancelled = false;
     const ac = new AbortController();
 
@@ -154,13 +157,40 @@ export function App() {
 
     (async () => {
       try {
+        if (demoPending) {
+          setLoadProgress(8);
+          setLoadPhase("L1 · 装载武康冻结演示线…");
+          bump(40, "L2 · 红鸢抽签读法已冻结…");
+          const { envelope, assumptions, hongyuan, degraded, notices } =
+            await fetchDemoWukang(ac.signal);
+          if (cancelled) return;
+          bump(72, "L3 · 句级溯源与馆藏 URI 已齐…");
+          setDegradeNotices(degraded ? notices : []);
+          setDemoPending(false);
+          const osm = await fetchFootprints(envelope, ac.signal);
+          if (cancelled) return;
+          bump(96, "演示线装订完成…");
+          await new Promise((r) => setTimeout(r, 180));
+          if (cancelled) return;
+          setLoadProgress(100);
+          send({
+            type: "LOADED",
+            envelope,
+            assumptions,
+            hongyuan,
+            footprints: osm.features,
+            osmNote: osm.note || "演示线 · 武康冻结包",
+          });
+          return;
+        }
+
         setLoadProgress(2);
         setLoadPhase("L1 · 提交取证任务…");
 
         let chapterCount = 0;
         const { envelope, assumptions, hongyuan, degraded, notices } =
           await curateRouteStream(
-            pendingSlots,
+            pendingSlots!,
             (p, stage, message) => {
               if (cancelled) return;
               setLoadProgress(p);
@@ -229,6 +259,7 @@ export function App() {
         });
       } catch (e) {
         if (!cancelled) {
+          setDemoPending(false);
           send({
             type: "FAIL",
             error: e instanceof Error ? e.message : "策展失败",
@@ -241,7 +272,7 @@ export function App() {
       cancelled = true;
       ac.abort();
     };
-  }, [state.value, pendingSlots, send]);
+  }, [state.value, pendingSlots, demoPending, send]);
 
   useEffect(() => {
     if (state.value === "loading") {
@@ -359,7 +390,13 @@ export function App() {
         {isBrief && (
           <BriefForm
             onSubmit={(slots) => {
+              setDemoPending(false);
               setPendingSlots(slots);
+              send({ type: "SUBMIT" });
+            }}
+            onDemoWukang={() => {
+              setPendingSlots(null);
+              setDemoPending(true);
               send({ type: "SUBMIT" });
             }}
           />

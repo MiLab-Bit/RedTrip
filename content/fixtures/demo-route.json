@@ -70,10 +70,11 @@
           "precision": "approximate"
         },
         "pitfalls": {
-          "open_hours": "未收录",
-          "enterable": "未收录",
-          "need_reservation": "未收录"
-        }
+          "open_hours": "周二至周日约 10:00–16:30（周一闭馆，以现场公告为准）",
+          "enterable": "故居博物馆可购票入内",
+          "need_reservation": "散客通常无需预约；团体建议提前联系"
+        },
+        "evidence_channel": "slc"
       },
       {
         "order": 2,
@@ -112,10 +113,11 @@
           "precision": "approximate"
         },
         "pitfalls": {
-          "open_hours": "未收录",
-          "enterable": "未收录",
-          "need_reservation": "未收录"
-        }
+          "open_hours": "外立面全天可观",
+          "enterable": "民居私宅，不可入内",
+          "need_reservation": "无需"
+        },
+        "evidence_channel": "slc"
       },
       {
         "order": 3,
@@ -154,10 +156,11 @@
           "precision": "approximate"
         },
         "pitfalls": {
-          "open_hours": "未收录",
-          "enterable": "未收录",
-          "need_reservation": "未收录"
-        }
+          "open_hours": "外立面与街角全天可观",
+          "enterable": "公寓私宅，不可入内；街角机位请勿妨碍通行",
+          "need_reservation": "无需"
+        },
+        "evidence_channel": "slc"
       },
       {
         "order": 4,
@@ -196,10 +199,11 @@
           "precision": "approximate"
         },
         "pitfalls": {
-          "open_hours": "未收录",
-          "enterable": "未收录",
-          "need_reservation": "未收录"
-        }
+          "open_hours": "周二至周日开放（具体以官网/现场为准）",
+          "enterable": "故居可购票参观",
+          "need_reservation": "旺季建议关注预约通道"
+        },
+        "evidence_channel": "slc"
       },
       {
         "order": 5,
@@ -238,10 +242,11 @@
           "precision": "approximate"
         },
         "pitfalls": {
-          "open_hours": "未收录",
-          "enterable": "未收录",
+          "open_hours": "外立面与花园界面以现场管理为准",
+          "enterable": "多为保护性开放/局部可观，请服从现场指示",
           "need_reservation": "未收录"
-        }
+        },
+        "evidence_channel": "slc"
       },
       {
         "order": 6,
@@ -283,7 +288,8 @@
           "open_hours": "未收录",
           "enterable": "未收录",
           "need_reservation": "未收录"
-        }
+        },
+        "evidence_channel": "slc"
       }
     ]
   },
@@ -382,9 +388,9 @@
     }
   ],
   "sentence_provenance": {
-    "total_sentences": 3,
-    "factual_sentences": 2,
-    "aligned_factual": 2,
+    "total_sentences": 10,
+    "factual_sentences": 6,
+    "aligned_factual": 6,
     "coverage_ratio": 1.0,
     "per_stop": [
       {
@@ -414,13 +420,115 @@
           {
             "index": 2,
             "text": "楼还在，屋里的人把私人时间写成公共文字。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": true
+          }
+        ]
+      },
+      {
+        "stop_index": 2,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "周璇旧居提醒你：流行文化不是抽象标签，它落在具体门牌与用途更替里。",
             "kind": "factual",
             "fact_uris": [
-              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
             ],
             "fact_labels": [
-              "巴金故居"
+              "周璇旧居"
             ],
+            "aligned": true
+          },
+          {
+            "index": 1,
+            "text": "砖与窗仍在，记载可以一条条核对。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+            ],
+            "fact_labels": [
+              "周璇旧居"
+            ],
+            "aligned": true
+          }
+        ]
+      },
+      {
+        "stop_index": 3,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "武康大楼把个人传记抬到城市界面：道路交叉处，建筑本身就是机制可见的地方。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+            ],
+            "fact_labels": [
+              "武康大楼"
+            ],
+            "aligned": true
+          }
+        ]
+      },
+      {
+        "stop_index": 4,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "宋庆龄故居把路线从「房子」拉回「人与时代」。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "宋庆龄故居"
+            ],
+            "aligned": true
+          },
+          {
+            "index": 1,
+            "text": "关系，不是顺路。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": true
+          }
+        ]
+      },
+      {
+        "stop_index": 5,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "丁香花园提供对照：同城不同居住结构，史实衔接比步行分钟更重要。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+            ],
+            "fact_labels": [
+              "丁香花园"
+            ],
+            "aligned": true
+          }
+        ]
+      },
+      {
+        "stop_index": 6,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "武康庭收束整条线：你带走的不是打卡清单，而是一串可核的名字与门牌。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
             "aligned": true
           }
         ]
@@ -444,6 +552,70 @@
     "reverse_route_note": "从周璇旧居倒走回巴金故居，余像会先于钩子出现",
     "warnings": [
       "演示线已留策展留白：反方意见不改正文，仅供下一版追问"
+    ]
+  },
+  "_demo_hongyuan": {
+    "agent": "红鸢",
+    "seed": 20260825,
+    "summary": "红鸢今日读法：克制好奇 · 纸书声线 · 门牌对照 · 慢走留白",
+    "emotion": {
+      "category": "emotion",
+      "id": "restrained",
+      "label": "克制好奇",
+      "hint": "不抢馆藏话"
+    },
+    "voice_style": {
+      "category": "voice",
+      "id": "paper",
+      "label": "纸书声线",
+      "hint": "短句可核"
+    },
+    "narrative": {
+      "category": "narrative",
+      "id": "doorplate",
+      "label": "门牌对照",
+      "hint": "名字落在门上"
+    },
+    "knowledge_angle": {
+      "category": "angle",
+      "id": "relation",
+      "label": "关系优先",
+      "hint": "不列清单"
+    },
+    "pacing": {
+      "category": "pacing",
+      "id": "slow",
+      "label": "慢走留白",
+      "hint": "八十分钟够用"
+    },
+    "layer3_week": "2026-W35",
+    "layer3_summary": "当代口吻仅借语气：武康转角机位、梧桐树影——不作开放时间史实",
+    "layer3": [
+      {
+        "id": "xhs_wukang_corner",
+        "term": "武康大楼转角机位",
+        "places": [
+          "武康大楼"
+        ],
+        "hint": "当代街拍口吻；勿写成人流/排队史实",
+        "heat": 0.96,
+        "week": "2026-W35"
+      },
+      {
+        "id": "xhs_platanus_shadow",
+        "term": "梧桐树影斑驳",
+        "places": [
+          "武康路"
+        ],
+        "hint": "感官氛围词；勿编造树龄/年份史实",
+        "heat": 0.9,
+        "week": "2026-W35"
+      }
+    ],
+    "rag_layers": [
+      "L1",
+      "L2",
+      "L3"
     ]
   }
 }
