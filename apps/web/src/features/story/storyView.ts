@@ -65,7 +65,10 @@ export function buildStoryView(env: RouteEnvelope): StoryView {
       narrativeRole: (node?.role ?? "Bridge") as NarrativeRole,
       stopId: s.order,
       relationToPrevious: s.transition_to_next,
-      evidenceIds: [],
+      evidenceIds: s.layers
+        .map((l) => l.source.record_id)
+        .filter(Boolean)
+        .slice(0, 6),
       walkingMinutes: s.minutes,
       castRefs,
     };
@@ -88,6 +91,21 @@ export function buildStoryView(env: RouteEnvelope): StoryView {
     }
   }
 
+  const sp = env.sentence_provenance;
+  const quality: StoryQuality | null = sp
+    ? {
+        evidence_layers: env.route.stops.reduce(
+          (n, s) => n + s.layers.length,
+          0,
+        ),
+        coverage_ratio: sp.coverage_ratio,
+        aligned_ratio:
+          sp.factual_sentences > 0
+            ? sp.aligned_factual / sp.factual_sentences
+            : 1,
+      }
+    : null;
+
   return {
     id: env.intent,
     themeTitle: env.theme,
@@ -96,7 +114,7 @@ export function buildStoryView(env: RouteEnvelope): StoryView {
     chapters,
     evidenceClusters: env.evidence_graph?.clusters ?? [],
     evidenceJoins: env.evidence_graph?.joins ?? [],
-    quality: null,
+    quality,
     mode: "derived",
   };
 }

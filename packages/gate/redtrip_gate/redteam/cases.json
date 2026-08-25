@@ -163,5 +163,19 @@
     ],
     "expect_pass": false,
     "expect_blocker_contains": "Q6"
+  },
+  {
+    "id": "RT-YEAR-HALLUCINATION",
+    "description": "叙事正文出现未取证年份应阻断",
+    "base": "curated-live",
+    "mutate": [
+      {
+        "op": "set",
+        "path": "blocks.0.body",
+        "value": "这座楼在 1789 年落成，馆藏却从未记载这一年。"
+      }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "G4-year"
   }
 ]

@@ -14,6 +14,45 @@ _NOISE_NAME_RE = re.compile(
     r"电梯|扶梯|楼梯|天桥|地道|便民|服务点|咨询台)"
 )
 _SLC_URI_RE = re.compile(r"data\.library\.sh\.cn", re.I)
+# 与 polish._suspicious_new_years 对齐：未取证年份不得写入叙事正文
+_YEAR_RE = re.compile(r"(?<!\d)(?:1[6-9]\d{2}|20[0-2]\d)(?!\d)")
+
+
+def _allowed_years(envelope: dict[str, Any]) -> set[str]:
+    """从已取证层/命题字段/溯源句收集可出现的年份（Gate 兜底，防润色漏网）。"""
+    blobs: list[str] = []
+    for key in ("theme", "logic_line", "why_visit", "curator_note", "scenario"):
+        blobs.append(str(envelope.get(key) or ""))
+    for s in (envelope.get("route") or {}).get("stops") or []:
+        if not isinstance(s, dict):
+            continue
+        blobs.append(str(s.get("meaning") or ""))
+        blobs.append(str(s.get("transition_to_next") or ""))
+        for layer in s.get("layers") or []:
+            if not isinstance(layer, dict):
+                continue
+            blobs.append(str(layer.get("claim") or ""))
+            src = layer.get("source")
+            if isinstance(src, dict):
+                blobs.append(str(src.get("excerpt") or ""))
+    # 舞台说明 / 已溯源事实句中的年份视为已取证
+    for b in envelope.get("blocks") or []:
+        if not isinstance(b, dict):
+            continue
+        if b.get("type") == "scene":
+            blobs.append(str(b.get("era_desc") or ""))
+            blobs.append(str(b.get("figures") or ""))
+        if b.get("type") == "story_card":
+            blobs.append(str(b.get("age_parallel") or ""))
+        for sent in b.get("provenance") or []:
+            if not isinstance(sent, dict):
+                continue
+            if sent.get("kind") == "factual" and sent.get("fact_uris"):
+                blobs.append(str(sent.get("text") or ""))
+    out: set[str] = set()
+    for blob in blobs:
+        out.update(_YEAR_RE.findall(blob))
+    return out
 
 HAIPAI = {
     "#33333A",
@@ -270,6 +309,19 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
                 blockers.append(
                     f"Q2: story_card 缺出处 — {card.get('title') or card.get('stop_order')}"
                 )
+
+    # G4-year：叙事正文出现未取证年份 → 阻断（与 polish 年份防编造对齐）
+    allowed_years = _allowed_years(envelope)
+    for b in envelope.get("blocks") or []:
+        if not isinstance(b, dict) or b.get("type") not in ("story_card", "essay"):
+            continue
+        so = b.get("stop_order")
+        for where, blob in (("title", str(b.get("title") or "")), ("body", str(b.get("body") or ""))):
+            for y in _YEAR_RE.findall(blob):
+                if y not in allowed_years:
+                    blockers.append(
+                        f"G4-year: 未取证年份「{y}」出现在 {b.get('type')}#{so}.{where}"
+                    )
 
     blob = "\n".join(texts)
     for bad in FORBIDDEN_COPY:
