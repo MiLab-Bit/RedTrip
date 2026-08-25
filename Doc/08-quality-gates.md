@@ -76,7 +76,7 @@ packages/gate/
 ```bat
 .venv\Scripts\python.exe scripts\run_redteam.py
 REM 或
-<本地工具链>/run-redteam.cmd
+C:\Users\Administrator\AppData\Local\RedTripToolchain\run-redteam.cmd
 ```
 
 调试单份 envelope：`POST /v1/gate/check`

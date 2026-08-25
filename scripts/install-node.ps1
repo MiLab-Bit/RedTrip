@@ -1,8 +1,8 @@
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
-$nodeRoot = Join-Path $env:LOCALAPPDATA 'RedTripToolchain\node'
-$zipPath = Join-Path $env:TEMP 'node-v22.18.0-win-x64.zip'
+$nodeRoot = 'C:\Users\Administrator\AppData\Local\RedTripToolchain\node'
+$zipPath = 'C:\Users\Administrator\AppData\Local\Temp\node-v22.18.0-win-x64.zip'
 $uri = 'https://nodejs.org/dist/v22.18.0/node-v22.18.0-win-x64.zip'
 $parent = Split-Path $nodeRoot
 

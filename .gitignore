@@ -37,3 +37,8 @@ Thumbs.db
 
 # ── 端到端验证产物（含网关生成内容，非源码）──
 content/e2e/
+.cloudflared/
+web-dist.bak-*/
+dist-nginx/
+dist-pages/
+dist_mv_old/
