@@ -35,7 +35,7 @@ MCP 模板（调试用，路径按本机修改）：
     "上海图书馆开放数据": {
       "command": "python",
       "args": [
-        "<slc_mcp_server.py 绝对路径>"
+        "C:/Users/Administrator/Desktop/上海图书馆开放数据MCP/slc_mcp_server.py"
       ],
       "env": {
         "SLC_API_KEY": "从 .env 读取，勿粘贴到仓库"

@@ -3,8 +3,8 @@
 用法（仓库根目录）：
   .venv/Scripts/python.exe scripts/gen_essay_preview.py
 输出：
-  <repo>/previews/essay_preview.html
-  <repo>/previews/essay_preview.mdx
+  <workspace>/essay_preview.html
+  <workspace>/essay_preview.mdx
 """
 import sys
 from pathlib import Path
@@ -19,7 +19,7 @@ for _d in ("packages/curator", "packages/gate", "packages/library-client", "pack
 from redtrip_curator.book import render_book, render_book_markdown  # noqa: E402
 from tests.test_essay import ESSAYS, _envelope, _three_stops  # noqa: E402
 
-OUT = ROOT / "previews"
+OUT = Path(r"C:/Users/Administrator/WorkBuddy/2026-08-14-12-58-33")
 
 # 样例「反方策展人」评审：仅用于演示书籍附录「策展留白」的渲染形态，
 # 非模型真实产出（沙箱无 LLM 凭证）。真实评审由 review.review_envelope 在
