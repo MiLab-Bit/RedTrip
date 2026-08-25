@@ -1,0 +1,1067 @@
+{
+  "envelope_version": "1.0",
+  "intent": "2人 · 90分钟 · 武康路—华山路一带 · 轻社交",
+  "theme": "以巴金为线，旁及丁香、邓小平",
+  "logic_line": "整条线的主人公不是建筑目录，而是人：巴金、丁香、邓小平、荣卓如的名字如何先后钉进「巴金故居」到「周璇旧居」。建筑是舞台，事件是情节，人物关系才是你要带走的张力。",
+  "aesthetic": "轻量、具体、去说教",
+  "scenario": "成人 · 2人 · 90分钟 · 步行约1635米 · 武康路—华山路一带",
+  "why_visit": "约 90 分钟，步行大约 1.6 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，然后你离开。",
+  "curator_note": "我按『人物—冲突—年份』选这 6 站：每站至少能叫出一个名字或一句带年的记载。你会先遇见巴金，再与其他名字对照。衔接靠人物与记载的对照，不靠『顺路』。",
+  "assumptions": [
+    "未填audience → 默认成人",
+    "未填tone → 默认轻社交",
+    "未填delivery → 默认路线",
+    "未填companions → 默认2人"
+  ],
+  "companions": "duo",
+  "sources": [
+    "R-20 whitelist",
+    "building_detail",
+    "event_list"
+  ],
+  "route": {
+    "duration_min": 90,
+    "walk_meters_est": 1635,
+    "stops": [
+      {
+        "order": 1,
+        "whitelist_id": "wl-101",
+        "buri": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+        "name": "巴金故居",
+        "minutes": 24,
+        "meaning": "以史宾伯为主人公，在「巴金故居」读一段仍留在馆藏里的情节",
+        "transition_to_next": "带着史宾伯的名字离开「巴金故居」，去「丁香花园」见李鸿章。换的是人，连起来的是同一座城里不同的命运落点。",
+        "layers": [
+          {
+            "kind": "person",
+            "label": "史宾伯",
+            "claim": "开放数据将该建筑与人物「史宾伯」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/s8umm0jhfckay2sd",
+              "excerpt": "史宾伯"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "毛特宝林海",
+            "claim": "开放数据将该建筑与人物「毛特宝林海」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/wgry054vy5onv6a0",
+              "excerpt": "毛特宝林海"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "巴金",
+            "claim": "开放数据将该建筑与人物「巴金」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/6pnc6xdap3cfkcup",
+              "excerpt": "巴金"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "萧珊",
+            "claim": "开放数据将该建筑与人物「萧珊」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/rlw3ouaz2r6juixn",
+              "excerpt": "萧珊"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1923事件",
+            "claim": "1923年，始建，原房主为英国人毛特宝林海。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509771",
+              "excerpt": "1923年，始建，原房主为英国人毛特宝林海。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1948事件",
+            "claim": "1948年，改建，原房主返国后由丹麦人史宾伯照看这处房产。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509772",
+              "excerpt": "1948年，改建，原房主返国后由丹麦人史宾伯照看这处房产。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1950事件",
+            "claim": "1950-1955年，作为苏联商务代表处。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509773",
+              "excerpt": "1950-1955年，作为苏联商务代表处。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1955事件",
+            "claim": "1955年，史宾伯经手租于上海作家协会上海分会。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509774",
+              "excerpt": "1955年，史宾伯经手租于上海作家协会上海分会。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1955事件",
+            "claim": "1955年9月，巴金一家迁入，并定居于此，《随想录》等诸多重要作品都在此创作。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509775",
+              "excerpt": "1955年9月，巴金一家迁入，并定居于此，《随想录》等诸多重要作品都在此创作。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1955事件",
+            "claim": "1955年10月9日，巴金在寓所街道来上海访问的法国作家萨特和德·波伏瓦。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509776",
+              "excerpt": "1955年10月9日，巴金在寓所街道来上海访问的法国作家萨特和德·波伏瓦。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.215026,
+          "lng": 121.447147,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 2,
+        "whitelist_id": "wl-107",
+        "buri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+        "name": "丁香花园",
+        "minutes": 11,
+        "meaning": "以李鸿章为主人公，在「丁香花园」读一段仍留在馆藏里的情节",
+        "transition_to_next": "带着李鸿章的名字离开「丁香花园」，去「湖南别墅」见邓小平。换的是人，连起来的是同一座城里不同的命运落点。",
+        "layers": [
+          {
+            "kind": "person",
+            "label": "李鸿章",
+            "claim": "开放数据将该建筑与人物「李鸿章」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/7la7uay6h4ehfawq",
+              "excerpt": "李鸿章"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "潘汉年",
+            "claim": "开放数据将该建筑与人物「潘汉年」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/b6hvpk0072rrtmau",
+              "excerpt": "潘汉年"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "丁香",
+            "claim": "开放数据将该建筑与人物「丁香」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/uhiqbl312ozagmtw",
+              "excerpt": "丁香"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509589",
+              "excerpt": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1862事件",
+            "claim": "1862年，建主楼1号楼",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509580",
+              "excerpt": "1862年，建主楼1号楼"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1918事件",
+            "claim": "1918年，建3号楼",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509581",
+              "excerpt": "1918年，建3号楼"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1940事件",
+            "claim": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509583",
+              "excerpt": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1942事件",
+            "claim": "1942年，张善绅在此创办中华联合制片股份有限公司。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509584",
+              "excerpt": "1942年，张善绅在此创办中华联合制片股份有限公司。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1949事件",
+            "claim": "1949年后，中共华东局机关所在地，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509585",
+              "excerpt": "1949年后，中共华东局机关所在地，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1952事件",
+            "claim": "1952年，建2号楼",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509582",
+              "excerpt": "1952年，建2号楼"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.217898,
+          "lng": 121.444543,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 3,
+        "whitelist_id": "wl-120",
+        "buri": "http://data.library.sh.cn/entity/architecture/h50xogw5ipn1fl5b",
+        "name": "湖南别墅",
+        "minutes": 8,
+        "meaning": "以邓小平为主人公，在「湖南别墅」读一段仍留在馆藏里的情节",
+        "transition_to_next": "带着邓小平的名字离开「湖南别墅」，去「正广和老屋」见荣卓如。换的是人，连起来的是同一座城里不同的命运落点。",
+        "layers": [
+          {
+            "kind": "person",
+            "label": "邓小平",
+            "claim": "开放数据将该建筑与人物「邓小平」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/vvfp99ae712f4yye",
+              "excerpt": "邓小平"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "贺子珍",
+            "claim": "开放数据将该建筑与人物「贺子珍」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/t3ccr2cfwijbt6z7",
+              "excerpt": "贺子珍"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "现为瑞金宾馆分馆。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509743",
+              "excerpt": "现为瑞金宾馆分馆。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1931事件",
+            "claim": "1931年，英商锦隆洋行的一位大股东建造此别墅。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509736",
+              "excerpt": "1931年，英商锦隆洋行的一位大股东建造此别墅。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1943事件",
+            "claim": "1943年，汪伪政权的第三号人物周佛海从外国人手里买下这栋豪宅作为他在上海的官邸，他和其妻子杨淑慧成为了该宅的新主人。周佛海为湖南人，改门前的居尔典路为湖南路，这栋洋房也被称作“湖南别墅”。抗日战争胜利后，周佛海被逮下狱，公审公判定为死刑，后改判无期徒刑。1948年2月，病死在南京老虎桥监狱。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509737",
+              "excerpt": "1943年，汪伪政权的第三号人物周佛海从外国人手里买下这栋豪宅作为他在上海的官邸，他和其妻子杨淑慧成为了该宅的新主人。周佛海为湖南人，改门前的居尔典路为湖南路，这栋洋房也被称作“湖南别墅”。抗日战争胜利后，周佛海被逮下狱，公审公判定为死刑，后改判无期徒刑。1948年2月，病死在南京老虎桥监狱。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1945事件",
+            "claim": "1945年，该楼为国民政府接收，用为军统局一下属机关。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509738",
+              "excerpt": "1945年，该楼为国民政府接收，用为军统局一下属机关。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1946事件",
+            "claim": "1946年起，作为“中国新社会事业建设协会”总会会址。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509739",
+              "excerpt": "1946年起，作为“中国新社会事业建设协会”总会会址。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1949事件",
+            "claim": "1949年下半年，邓小平、陈毅两家曾入住此楼，当时邓家住在二楼，陈家住在一楼。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509740",
+              "excerpt": "1949年下半年，邓小平、陈毅两家曾入住此楼，当时邓家住在二楼，陈家住在一楼。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1954事件",
+            "claim": "1954年，贺子珍从前苏联回国就医，后寓居在这栋住宅之内，直到1984年病故。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509741",
+              "excerpt": "1954年，贺子珍从前苏联回国就医，后寓居在这栋住宅之内，直到1984年病故。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1999事件",
+            "claim": "1999年，入选上海市第三批优秀历史建筑。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509742",
+              "excerpt": "1999年，入选上海市第三批优秀历史建筑。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2152,
+          "lng": 121.446466,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 4,
+        "whitelist_id": "wl-117",
+        "buri": "http://data.library.sh.cn/entity/architecture/4i58zbd2c3ribkcd",
+        "name": "正广和老屋",
+        "minutes": 8,
+        "meaning": "以荣卓如为主人公，在「正广和老屋」读一段仍留在馆藏里的情节",
+        "transition_to_next": "带着荣卓如的名字离开「正广和老屋」，去「罗密欧阳台」见吴顺发。换的是人，连起来的是同一座城里不同的命运落点。",
+        "layers": [
+          {
+            "kind": "person",
+            "label": "荣卓如",
+            "claim": "开放数据将该建筑与人物「荣卓如」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/wnl65023grmfzr5f",
+              "excerpt": "荣卓如"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "潘汉年",
+            "claim": "开放数据将该建筑与人物「潘汉年」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/b6hvpk0072rrtmau",
+              "excerpt": "潘汉年"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "马玉涛",
+            "claim": "开放数据将该建筑与人物「马玉涛」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/k3xnvqsr7amuyxvf",
+              "excerpt": "马玉涛"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "张依",
+            "claim": "开放数据将该建筑与人物「张依」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/iu0plr2cnsvavpcc",
+              "excerpt": "张依"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "抗战期间，上海江海关监督唐海安占据房子。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509875",
+              "excerpt": "抗战期间，上海江海关监督唐海安占据房子。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "20世纪70年代，空军体检机构。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509879",
+              "excerpt": "20世纪70年代，空军体检机构。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "“文革”后为刘靖基宅邸。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509880",
+              "excerpt": "“文革”后为刘靖基宅邸。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1928事件",
+            "claim": "1928年，英商正广和汽水公司大班麦格雷戈初建。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509874",
+              "excerpt": "1928年，英商正广和汽水公司大班麦格雷戈初建。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1947事件",
+            "claim": "1947年，乔奇•哈同和他的妻子，“面粉大王”、“棉纱大王”荣宗敬的女儿荣桌如夫妻买下房子并在此居住。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509876",
+              "excerpt": "1947年，乔奇•哈同和他的妻子，“面粉大王”、“棉纱大王”荣宗敬的女儿荣桌如夫妻买下房子并在此居住。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1949事件",
+            "claim": "1949年-1957年归房管所所有，成为市委招待所。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509877",
+              "excerpt": "1949年-1957年归房管所所有，成为市委招待所。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.21749,
+          "lng": 121.44771,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 5,
+        "whitelist_id": "wl-122",
+        "buri": "http://data.library.sh.cn/entity/architecture/jpewp50mwi6sv1vu",
+        "name": "罗密欧阳台",
+        "minutes": 8,
+        "meaning": "以吴顺发为主人公，在「罗密欧阳台」读一段仍留在馆藏里的情节",
+        "transition_to_next": "还想着吴顺发时，下一站「周璇旧居」用一句记载接住你：「现民居。」。人退去，情节继续。",
+        "layers": [
+          {
+            "kind": "person",
+            "label": "吴顺发",
+            "claim": "开放数据将该建筑与人物「吴顺发」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/xian4yzobj21ji1x",
+              "excerpt": "吴顺发"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "周芝生",
+            "claim": "开放数据将该建筑与人物「周芝生」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/p4uilhejijmhj7ap",
+              "excerpt": "周芝生"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "李藏拙",
+            "claim": "开放数据将该建筑与人物「李藏拙」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/qaroc07b0tu6z8uf",
+              "excerpt": "李藏拙"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "李志鹏",
+            "claim": "开放数据将该建筑与人物「李志鹏」建立关联。",
+            "source": {
+              "dataset": "building_detail.relation",
+              "record_id": "http://data.library.sh.cn/entity/person/spfi2621511qp5ss",
+              "excerpt": "李志鹏"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1935事件",
+            "claim": "1935年前，此房的业主是炒房人吴顺发，他在快速获利后，将房子转手卖给了一个叫周芝生的投机商。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509671",
+              "excerpt": "1935年前，此房的业主是炒房人吴顺发，他在快速获利后，将房子转手卖给了一个叫周芝生的投机商。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1937事件",
+            "claim": "1937年，周芝生离婚，他将此房及一笔钱留给妻儿，金巧珍从此带着八个子女生活在这幢房里。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509672",
+              "excerpt": "1937年，周芝生离婚，他将此房及一笔钱留给妻儿，金巧珍从此带着八个子女生活在这幢房里。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1951事件",
+            "claim": "1951年年底，年过花甲的金女士也离开了久居的寓所，新的房主李藏拙买下了这里，举家迁入。但不久，国有化进程到来，还有那场运动，让李藏拙一家被迫搬离这里。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509673",
+              "excerpt": "1951年年底，年过花甲的金女士也离开了久居的寓所，新的房主李藏拙买下了这里，举家迁入。但不久，国有化进程到来，还有那场运动，让李藏拙一家被迫搬离这里。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1976事件",
+            "claim": "1976年，上海房产局开始陆续归还这幢房子的产权和使用权，先是单间，再是两室一厅，逐渐把一层归还给了房主。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509674",
+              "excerpt": "1976年，上海房产局开始陆续归还这幢房子的产权和使用权，先是单间，再是两室一厅，逐渐把一层归还给了房主。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1982事件",
+            "claim": "1982年，李藏拙的二儿子，已定居美国的李志鹏申请回国探亲，并请求全部归还该房产的归属权，获得批准。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509675",
+              "excerpt": "1982年，李藏拙的二儿子，已定居美国的李志鹏申请回国探亲，并请求全部归还该房产的归属权，获得批准。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1984事件",
+            "claim": "1984年，武康路210号重新回归李家旧主人手中。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509676",
+              "excerpt": "1984年，武康路210号重新回归李家旧主人手中。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.215746,
+          "lng": 121.446986,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 6,
+        "whitelist_id": "wl-105",
+        "buri": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+        "name": "周璇旧居",
+        "minutes": 8,
+        "meaning": "在「周璇旧居」读用途更替：谁来过，谁离开",
+        "transition_to_next": null,
+        "layers": [
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "现民居。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509705",
+              "excerpt": "现民居。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1916事件",
+            "claim": "1916年，始建。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509701",
+              "excerpt": "1916年，始建。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1943事件",
+            "claim": "1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509702",
+              "excerpt": "1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1946事件",
+            "claim": "1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509703",
+              "excerpt": "1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1953事件",
+            "claim": "1953年，市房地局按无主产业予以代管。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "nodeID://b18509704",
+              "excerpt": "1953年，市房地局按无主产业予以代管。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1916事件",
+            "claim": "1916年，始建。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "1916年，始建。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1943事件",
+            "claim": "1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1946事件",
+            "claim": "1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1953事件",
+            "claim": "1953年，市房地局按无主产业予以代管。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "1953年，市房地局按无主产业予以代管。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "事件",
+            "claim": "现民居。",
+            "source": {
+              "dataset": "event_list",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "现民居。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.21242,
+          "lng": 121.445595,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "type": "story_card",
+      "stop_order": 1,
+      "title": "巴金与「巴金故居」",
+      "body": "你停在武康路113号的「巴金故居」前。先别报建筑名，先报一个人的名字：巴金。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋楼不是空壳，馆藏让几个人在此交错：\n巴金——曾被记载迁入并定居于此。\n史宾伯——曾被记载为照看这处房产的人。\n毛特宝林海——曾被记载为房主。\n萧珊——名字写进与此楼相关的记载。\n他们未必曾在同一天推开这扇门；可当名字并列，你读到的是时间在换人，楼还在。\n\n在武康路113号的「巴金故居」，时间并不温和，它一截一截改写用途：\n1923年，始建，原房主为英国人毛特宝林海。\n1948年，改建，原房主返国后由丹麦人史宾伯照看这处房产。\n1950-1955年，作为苏联商务代表处。\n1955年，史宾伯经手租于上海作家协会上海分会。\n1955年9月，巴金一家迁入，并定居于此，《随想录》等诸多重要作品都在此创作。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站要你回答的问题是：一栋楼如何同时装下史宾伯、毛特宝林海、巴金，以及那些改写用途的年份？答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 24 分钟就够——短篇靠密度，不靠耗尽脚力。",
+      "sources": [
+        {
+          "dataset": "building_detail",
+          "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+          "excerpt": "3层，占地面积1484平方米，建筑面积508平方米"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/6pnc6xdap3cfkcup",
+          "excerpt": "巴金"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/s8umm0jhfckay2sd",
+          "excerpt": "史宾伯"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/wgry054vy5onv6a0",
+          "excerpt": "毛特宝林海"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/rlw3ouaz2r6juixn",
+          "excerpt": "萧珊"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509771",
+          "excerpt": "1923年，始建，原房主为英国人毛特宝林海。"
+        }
+      ],
+      "age_parallel": "若把「巴金」当作这一站的主人公，上面的年份就是他/她必须穿过的布景。布景有据；更私密的心事，缺记载处不写。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 1,
+      "place": "武康路113号的「巴金故居」",
+      "era_desc": "1923年，始建，原房主为英国人毛特宝林海。 1948年，改建，原房主返国后由丹麦人史宾伯照看这处房产。 1950-1955年，作为苏联商务代表处。 1955年，史宾伯经手租于上海作家协会上海分会。",
+      "figures": "史宾伯、毛特宝林海、巴金、萧珊",
+      "city_thread": "以史宾伯为主人公，在「巴金故居」读一段仍留在馆藏里的情节",
+      "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+      "visual_note": "站在人行道外侧；把人名与年份对照着看立面，勿扰仍在使用的空间。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 2,
+      "title": "丁香与「丁香花园」",
+      "body": "你停在华山路849号的「丁香花园」前。先别报建筑名，先报一个人的名字：丁香。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋楼不是空壳，馆藏让几个人在此交错：\n丁香——名字写进与此楼相关的记载。\n潘汉年——名字写进与此楼相关的记载。\n李鸿章——被馆藏写进这栋楼的人物关系。\n他们未必曾在同一天推开这扇门；可当名字并列，你读到的是时间在换人，楼还在。\n\n在华山路849号的「丁香花园」，时间并不温和，它一截一截改写用途：\n现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。\n1862年，建主楼1号楼。\n1918年，建3号楼。\n1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。\n1942年，张善绅在此创办中华联合制片股份有限公司。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站要你回答的问题是：一栋楼如何同时装下李鸿章、潘汉年、丁香，以及那些改写用途的年份？答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 11 分钟就够——短篇靠密度，不靠耗尽脚力。",
+      "sources": [
+        {
+          "dataset": "building_detail",
+          "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+          "excerpt": "3幢西式花园别墅，占地面积2.67万平方米，总建筑面积2934平方米，砖木结构"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/uhiqbl312ozagmtw",
+          "excerpt": "丁香"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/7la7uay6h4ehfawq",
+          "excerpt": "李鸿章"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/b6hvpk0072rrtmau",
+          "excerpt": "潘汉年"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509589",
+          "excerpt": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509580",
+          "excerpt": "1862年，建主楼1号楼"
+        }
+      ],
+      "age_parallel": "若把「丁香」当作这一站的主人公，上面的年份就是他/她必须穿过的布景。布景有据；更私密的心事，缺记载处不写。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 2,
+      "place": "华山路849号的「丁香花园」",
+      "era_desc": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。 1862年，建主楼1号楼。 1918年，建3号楼。 1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+      "figures": "李鸿章、潘汉年、丁香",
+      "city_thread": "以李鸿章为主人公，在「丁香花园」读一段仍留在馆藏里的情节",
+      "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+      "visual_note": "站在人行道外侧；把人名与年份对照着看立面，勿扰仍在使用的空间。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 3,
+      "title": "邓小平与「湖南别墅」",
+      "body": "你停在湖南路262号的「湖南别墅」前。先别报建筑名，先报一个人的名字：邓小平。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋楼不是空壳，馆藏让几个人在此交错：\n贺子珍——名字写进与此楼相关的记载。\n邓小平——名字写进与此楼相关的记载。\n他们未必曾在同一天推开这扇门；可当名字并列，你读到的是时间在换人，楼还在。\n\n在湖南路262号的「湖南别墅」，时间并不温和，它一截一截改写用途：\n现为瑞金宾馆分馆。\n1931年，英商锦隆洋行的一位大股东建造此别墅。\n1943年，汪伪政权的第三号人物周佛海从外国人手里买下这栋豪宅作为他在上海的官邸，他和其妻子杨淑慧成为了该宅的新主人。周佛海为湖南人，改门前的居尔典路为湖南路，这栋洋房也被称作“湖南别墅”。抗日战争胜利后，周佛海被逮下狱，公审公判定为死刑，后改判无期徒刑。1948年2月，病死在南京老虎桥监狱。\n1945年，该楼为国民政府接收，用为军统局一下属机关。\n1946年起，作为“中国新社会事业建设协会”总会会址。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站要你回答的问题是：一栋楼如何同时装下邓小平、贺子珍，以及那些改写用途的年份？答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 8 分钟就够——短篇靠密度，不靠耗尽脚力。",
+      "sources": [
+        {
+          "dataset": "building_detail",
+          "record_id": "http://data.library.sh.cn/entity/architecture/h50xogw5ipn1fl5b",
+          "excerpt": "假3层，歇山式屋顶，混合结构"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/vvfp99ae712f4yye",
+          "excerpt": "邓小平"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/t3ccr2cfwijbt6z7",
+          "excerpt": "贺子珍"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509743",
+          "excerpt": "现为瑞金宾馆分馆。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509736",
+          "excerpt": "1931年，英商锦隆洋行的一位大股东建造此别墅。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509737",
+          "excerpt": "1943年，汪伪政权的第三号人物周佛海从外国人手里买下这栋豪宅作为他在上海的官邸，他和其妻子杨淑慧成为了该宅的新主人。周佛海为湖南人，改门前的居尔典路为湖南路，这栋洋房也被称作“湖南别墅”。抗日战争胜利后，周佛海被逮下狱，公审公判定为死刑，后改判无期徒刑。1948年2月，病死在南京老虎桥监狱。"
+        }
+      ],
+      "age_parallel": "若把「邓小平」当作这一站的主人公，上面的年份就是他/她必须穿过的布景。布景有据；更私密的心事，缺记载处不写。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 3,
+      "place": "湖南路262号的「湖南别墅」",
+      "era_desc": "现为瑞金宾馆分馆。 1931年，英商锦隆洋行的一位大股东建造此别墅。 1943年，汪伪政权的第三号人物周佛海从外国人手里买下这栋豪宅作为他在上海的官邸，他和其妻子杨淑慧成为了该宅的新主人。周佛海为湖南人，改门前的居尔典路为湖南路，这栋洋房也被称作“湖南别墅”。抗日战争胜利后，周佛海被逮下狱，公审公判定为死刑，后改判无期徒刑。1948年2月，病死在南京老虎桥监狱。 1945年，该楼为国民政府接收，用为军统局一下属机关。",
+      "figures": "邓小平、贺子珍",
+      "city_thread": "以邓小平为主人公，在「湖南别墅」读一段仍留在馆藏里的情节",
+      "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+      "visual_note": "站在人行道外侧；把人名与年份对照着看立面，勿扰仍在使用的空间。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 4,
+      "title": "荣卓如与「正广和老屋」",
+      "body": "你停在武康路99号的「正广和老屋」前。先别报建筑名，先报一个人的名字：荣卓如。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋楼不是空壳，馆藏让几个人在此交错：\n张依——被馆藏写进这栋楼的人物关系。\n潘汉年——被馆藏写进这栋楼的人物关系。\n荣卓如——被馆藏写进这栋楼的人物关系。\n马玉涛——被馆藏写进这栋楼的人物关系。\n他们未必曾在同一天推开这扇门；可当名字并列，你读到的是时间在换人，楼还在。\n\n在武康路99号的「正广和老屋」，时间并不温和，它一截一截改写用途：\n抗战期间，上海江海关监督唐海安占据房子。\n20世纪70年代，空军体检机构。\n“文革”后为刘靖基宅邸。\n1928年，英商正广和汽水公司大班麦格雷戈初建。\n1947年，乔奇•哈同和他的妻子，“面粉大王”、“棉纱大王”荣宗敬的女儿荣桌如夫妻买下房子并在此居住。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站要你回答的问题是：一栋楼如何同时装下荣卓如、潘汉年、马玉涛，以及那些改写用途的年份？答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 8 分钟就够——短篇靠密度，不靠耗尽脚力。",
+      "sources": [
+        {
+          "dataset": "building_detail",
+          "record_id": "http://data.library.sh.cn/entity/architecture/4i58zbd2c3ribkcd",
+          "excerpt": "3层砖木结构，占地3900平方米"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/wnl65023grmfzr5f",
+          "excerpt": "荣卓如"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/b6hvpk0072rrtmau",
+          "excerpt": "潘汉年"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/k3xnvqsr7amuyxvf",
+          "excerpt": "马玉涛"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/iu0plr2cnsvavpcc",
+          "excerpt": "张依"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509875",
+          "excerpt": "抗战期间，上海江海关监督唐海安占据房子。"
+        }
+      ],
+      "age_parallel": "若把「荣卓如」当作这一站的主人公，上面的年份就是他/她必须穿过的布景。布景有据；更私密的心事，缺记载处不写。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 4,
+      "place": "武康路99号的「正广和老屋」",
+      "era_desc": "抗战期间，上海江海关监督唐海安占据房子。 20世纪70年代，空军体检机构。 “文革”后为刘靖基宅邸。 1928年，英商正广和汽水公司大班麦格雷戈初建。",
+      "figures": "荣卓如、潘汉年、马玉涛、张依",
+      "city_thread": "以荣卓如为主人公，在「正广和老屋」读一段仍留在馆藏里的情节",
+      "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+      "visual_note": "站在人行道外侧；把人名与年份对照着看立面，勿扰仍在使用的空间。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 5,
+      "title": "吴顺发与「罗密欧阳台」",
+      "body": "你停在武康路210号的「罗密欧阳台」前。先别报建筑名，先报一个人的名字：吴顺发。这座城市把人藏进门牌的本事，比把人印上标语高明。\n\n这栋楼不是空壳，馆藏让几个人在此交错：\n周芝生——名字写进与此楼相关的记载。\n李藏拙——曾被记载迁入并定居于此。\n吴顺发——名字写进与此楼相关的记载。\n李志鹏——曾被记载迁入并定居于此。\n他们未必曾在同一天推开这扇门；可当名字并列，你读到的是时间在换人，楼还在。\n\n在武康路210号的「罗密欧阳台」，时间并不温和，它一截一截改写用途：\n1935年前，此房的业主是炒房人吴顺发，他在快速获利后，将房子转手卖给了一个叫周芝生的投机商。\n1937年，周芝生离婚，他将此房及一笔钱留给妻儿，金巧珍从此带着八个子女生活在这幢房里。\n1951年年底，年过花甲的金女士也离开了久居的寓所，新的房主李藏拙买下了这里，举家迁入。但不久，国有化进程到来，还有那场运动，让李藏拙一家被迫搬离这里。\n1976年，上海房产局开始陆续归还这幢房子的产权和使用权，先是单间，再是两室一厅，逐渐把一层归还给了房主。\n1982年，李藏拙的二儿子，已定居美国的李志鹏申请回国探亲，并请求全部归还该房产的归属权，获得批准。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站要你回答的问题是：一栋楼如何同时装下吴顺发、周芝生、李藏拙，以及那些改写用途的年份？答案不在动员里，在你刚读过的句子里——人换了，记载还在，门牌仍可被路过。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 8 分钟就够——短篇靠密度，不靠耗尽脚力。",
+      "sources": [
+        {
+          "dataset": "building_detail",
+          "record_id": "http://data.library.sh.cn/entity/architecture/jpewp50mwi6sv1vu",
+          "excerpt": "2层"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/xian4yzobj21ji1x",
+          "excerpt": "吴顺发"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/p4uilhejijmhj7ap",
+          "excerpt": "周芝生"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/qaroc07b0tu6z8uf",
+          "excerpt": "李藏拙"
+        },
+        {
+          "dataset": "building_detail.relation",
+          "record_id": "http://data.library.sh.cn/entity/person/spfi2621511qp5ss",
+          "excerpt": "李志鹏"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509671",
+          "excerpt": "1935年前，此房的业主是炒房人吴顺发，他在快速获利后，将房子转手卖给了一个叫周芝生的投机商。"
+        }
+      ],
+      "age_parallel": "若把「吴顺发」当作这一站的主人公，上面的年份就是他/她必须穿过的布景。布景有据；更私密的心事，缺记载处不写。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 5,
+      "place": "武康路210号的「罗密欧阳台」",
+      "era_desc": "1935年前，此房的业主是炒房人吴顺发，他在快速获利后，将房子转手卖给了一个叫周芝生的投机商。 1937年，周芝生离婚，他将此房及一笔钱留给妻儿，金巧珍从此带着八个子女生活在这幢房里。 1951年年底，年过花甲的金女士也离开了久居的寓所，新的房主李藏拙买下了这里，举家迁入。但不久，国有化进程到来，还有那场运动，让李藏拙一家被迫搬离这里。 1976年，上海房产局开始陆续归还这幢房子的产权和使用权，先是单间，再是两室一厅，逐渐把一层归还给了房主。",
+      "figures": "吴顺发、周芝生、李藏拙、李志鹏",
+      "city_thread": "以吴顺发为主人公，在「罗密欧阳台」读一段仍留在馆藏里的情节",
+      "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+      "visual_note": "站在人行道外侧；把人名与年份对照着看立面，勿扰仍在使用的空间。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 6,
+      "title": "在「周璇旧居」停一下",
+      "body": "你停在武康路391弄1-5号的「周璇旧居」前。此刻冲突很安静：你看得见砖与窗，却还不知道谁曾在这扇门后度过漫长的白天。\n\n在武康路391弄1-5号的「周璇旧居」，时间并不温和，它一截一截改写用途：\n现民居。\n1916年，始建。\n1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。\n1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。\n1953年，市房地局按无主产业予以代管。\n读到这里，你该感到一种紧张：楼还在，屋里的人与用途却在被替换。\n\n这一站的主题是用途的更替：谁住过、谁用过、谁离开。你站在外面，等于站在一段被压缩的城市传记门口。\n\n抬眼看立面与门头。把刚才的名字轻轻放回年份里，再决定要不要走进去。驻足约 8 分钟就够——短篇靠密度，不靠耗尽脚力。",
+      "sources": [
+        {
+          "dataset": "building_detail",
+          "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+          "excerpt": "3层"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509705",
+          "excerpt": "现民居。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509701",
+          "excerpt": "1916年，始建。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509702",
+          "excerpt": "1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509703",
+          "excerpt": "1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。"
+        },
+        {
+          "dataset": "event_list",
+          "record_id": "nodeID://b18509704",
+          "excerpt": "1953年，市房地局按无主产业予以代管。"
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "stop_order": 6,
+      "place": "武康路391弄1-5号的「周璇旧居」",
+      "era_desc": "现民居。 1916年，始建。 1943年，中国最早的两栖明星、流行歌曲的先驱者——“金嗓子”周璇，搬入。 1946年，周璇搬离。市房管局档案载：此屋尝在捷克侨民高礼文名下。",
+      "figures": "暂无数据支撑",
+      "city_thread": "在「周璇旧居」读用途更替：谁来过，谁离开",
+      "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+      "visual_note": "站在人行道外侧；把人名与年份对照着看立面，勿扰仍在使用的空间。"
+    },
+    {
+      "type": "card",
+      "title": "以巴金为线，旁及丁香、邓小平",
+      "lead": "约 90 分钟，步行大约 1.6 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，然后你离开。",
+      "keywords": [
+        "史宾伯",
+        "人物关系",
+        "轻社交"
+      ],
+      "body": "整条线的主人公不是建筑目录，而是人：巴金、丁香、邓小平、荣卓如的名字如何先后钉进「巴金故居」到「周璇旧居」。建筑是舞台，事件是情节，人物关系才是你要带走的张力。",
+      "coda": "带一个名字离开，比带一张打卡照片离开，更接近这条线的目的。"
+    }
+  ]
+}

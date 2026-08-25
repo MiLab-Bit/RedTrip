@@ -1,0 +1,379 @@
+/* ====================================================================
+ *  RedTrip · 书为载体 / 策展导读排版
+ *  在既有「纸感」基调上，强化阅读舒适度与章节节奏。
+ * ==================================================================== */
+
+/* 正文阅读区：衬线、舒适行宽与行距、悬挂标点 */
+.book-page,
+.book-spread,
+.story-card,
+.stop-panel,
+.panel.book-page-flat {
+  font-family: "Songti SC", "Noto Serif SC", "Source Han Serif SC",
+    "Source Han Serif CN", "STSong", "SimSun", Georgia, serif;
+}
+
+/* 章节叙事正文 */
+.walk-col-story .story-card,
+.chapter-body,
+.reader-main {
+  font-feature-settings: "palt" 1;
+  text-align: justify;
+  text-justify: inter-character;
+}
+
+/* 章节扉页：编号 + 角色徽 + 标题，强化「翻章」的仪式感 */
+.chapter-head {
+  border-bottom: 1px solid var(--rule, #e3d6bf);
+  padding-bottom: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+.chapter-head-top {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.chapter-head-top .chapter-num {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #b0925e;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.chapter-head-top h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.chapter-hook {
+  margin: 0.55rem 0 0;
+  color: #6b5a36;
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.8;
+}
+.chapter-rel {
+  margin: 0.5rem 0 0;
+  font-size: 0.86rem;
+  color: #8a7a5e;
+}
+
+/* 叙事散文卡片：首行缩进，更像书页 */
+.story-card {
+  line-height: 1.95;
+  font-size: 1.04rem;
+  color: #2a2118;
+}
+.story-card h3 {
+  font-size: 1.1rem;
+  color: #4a3f2e;
+  margin: 0 0 0.7rem;
+  font-weight: 600;
+}
+.story-card p {
+  margin: 0 0 0.95rem;
+  text-indent: 2em;
+}
+.story-card .age {
+  text-indent: 0;
+  color: #8a7a5e;
+  font-size: 0.9rem;
+  border-left: 2px solid #d8cbb6;
+  padding-left: 0.7rem;
+}
+.source-chip-row {
+  text-indent: 0;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.source-chip-label {
+  font-size: 0.78rem;
+  color: #8a7a5e;
+}
+
+/* 序章：导读口吻 */
+.story-intro .story-title {
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+  margin: 0.2rem 0 0.6rem;
+}
+.story-intro .story-thesis {
+  font-size: 1.08rem;
+  line-height: 1.9;
+  color: #4a3f2e;
+}
+.story-intro .hongyuan-reading {
+  color: #8a6b3e;
+  font-style: italic;
+  border-top: 1px dashed #e3d6bf;
+  border-bottom: 1px dashed #e3d6bf;
+  padding: 0.5rem 0;
+  margin: 0.8rem 0;
+}
+
+/* 策展导读 kicker */
+.story-kicker,
+.stop-kicker,
+.note {
+  color: #8a7a5e;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+/* 站点场景格：书页化 */
+.scene-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1.2rem;
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  background: #fbf6ec;
+  border: 1px solid #ece0ca;
+  border-radius: 10px;
+}
+.scene-grid p {
+  margin: 0;
+  line-height: 1.7;
+}
+.scene-label {
+  display: inline-block;
+  font-size: 0.74rem;
+  color: #a8906a;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.2rem;
+}
+
+/* 章节列表（序章目录）：更书卷气 */
+.chapter-list-item {
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #efe6d4;
+}
+.chapter-num {
+  color: #b0925e;
+  font-variant-numeric: tabular-nums;
+}
+.chapter-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+/*
+ * 注意：这里必须限定在目录项内。
+ * 早前这条写成裸 .chapter-hook，会因为在文件中位置更靠后而覆盖上方
+ * 「章节扉页」的 .chapter-hook（1.02rem / italic / line-height 1.8），
+ * 导致扉页引言被压成 0.92rem 的目录小字，扉页失去应有的分量。
+ */
+.chapter-list-item .chapter-hook {
+  display: block;
+  color: #6b5a36;
+  font-size: 0.92rem;
+  font-style: normal;
+  line-height: 1.7;
+  margin-top: 0.2rem;
+}
+
+/* 跋（收尾页）：更像一封封缄的信 */
+.done-card h2 {
+  font-size: 1.7rem;
+  margin-bottom: 0.6rem;
+}
+.done-card .lead {
+  font-size: 1.05rem;
+  line-height: 1.95;
+}
+.done-toc,
+.done-cast,
+.done-sources {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #4a3f2e;
+}
+.done-toc ol {
+  margin: 0.3rem 0 0;
+  padding-left: 1.4rem;
+}
+.done-toc li {
+  margin: 0.15rem 0;
+}
+.done-sources code {
+  font-size: 0.8rem;
+  color: #6b5a36;
+}
+
+/* 导出按钮组 */
+.export-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.btn.export {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f3ead8;
+  border: 1px solid #d8c7a6;
+  color: #5a4a2e;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.btn.export:hover {
+  background: #ece0c6;
+}
+.btn.export:active {
+  transform: translateY(1px);
+}
+
+/* 阅读器顶部导出按钮（紧凑态） */
+.reader-export {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.reader-export .btn.export {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.82rem;
+}
+
+/* ── 降级提示条 ──
+ * 出现在兜底/降级结果之上。刻意不用刺眼的红黄告警色：这是「如实告知」，
+ * 不是「系统故障」。用赭石描边 + 微暖底，与书页基调同族，读者不会被惊到，
+ * 但也不会误把降级结果当成完整策展成品。
+ */
+.degrade-banner {
+  position: relative;
+  max-width: 46rem;
+  margin: 0 auto 1rem;
+  padding: 0.75rem 3.6rem 0.75rem 1rem;
+  background: #fbf3e4;
+  border: 1px solid #d9c49a;
+  border-left: 3px solid #b0925e;
+  border-radius: 8px;
+  color: #5a4a2e;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.degrade-banner .degrade-title {
+  margin: 0;
+  font-weight: 600;
+}
+.degrade-banner ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+  color: #6b5a36;
+  font-size: 0.84rem;
+}
+.degrade-banner li {
+  margin: 0.1rem 0;
+  /* 后端 warning 可能很长（含 blocker 原文），限制在两行内，避免顶开书页 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.degrade-dismiss {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  background: transparent;
+  border: 1px solid #d9c49a;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.78rem;
+  color: #6b5a36;
+  cursor: pointer;
+}
+.degrade-dismiss:hover {
+  background: #f3ead8;
+}
+
+@media (max-width: 720px) {
+  .scene-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── B4 章节级流式·预览（loading 期先行阅读）── */
+.preview-banner {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 8px 14px;
+  margin: -12px -16px 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  background: rgba(230, 205, 160, 0.28);
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: 6px 6px 0 0;
+}
+.preview-reader {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 14px;
+}
+.preview-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.preview-hint {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.preview-progress {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.preview-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.preview-rail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 13px;
+  color: var(--ink-deep);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.preview-rail-item.is-active {
+  background: var(--paper-bright);
+  border-color: var(--line-strong);
+}
+.preview-rail-no {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+.preview-badge {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  color: #1a7f37;
+  background: rgba(26, 127, 55, 0.1);
+}
+.preview-body h2 {
+  font-family: var(--font-display-cn, var(--font-serif-cn));
+  font-size: 1.35rem;
+  margin-bottom: 0.7em;
+}
+.preview-nav {
+  padding-top: 8px;
+  border-top: 1px solid var(--line-soft);
+}
