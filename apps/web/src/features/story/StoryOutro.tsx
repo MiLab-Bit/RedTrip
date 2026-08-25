@@ -8,6 +8,7 @@ import {
   type BookDoc,
 } from "./exportBook";
 import { ROLE_LABEL } from "./NarrativeMap";
+import { datasetLabel } from "../walk/sourceLabels";
 
 type Props = {
   envelope: RouteEnvelope;
@@ -15,20 +16,6 @@ type Props = {
   hongyuan?: HongyuanMeta | null;
   onRestart: () => void;
 };
-
-function datasetLabel(dataset: string): string {
-  const map: Record<string, string> = {
-    slc_building: "上图书目 · 建筑",
-    slc_event: "上图事件",
-    slc_person: "上图人物",
-    slc_era: "纪年",
-    slc_poem: "诗词",
-    geoname: "地名志",
-    literary: "文学交集",
-    source: "出处",
-  };
-  return map[dataset] ?? dataset;
-}
 
 export function StoryOutro({
   envelope,

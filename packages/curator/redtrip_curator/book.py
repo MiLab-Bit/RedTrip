@@ -45,6 +45,9 @@ _ROLE_LABEL: dict[str, str] = {
 _DATASET_LABEL: dict[str, str] = {
     "geonames_corpus": "地名志",
     "building_detail": "馆藏建筑",
+    "building_detail.relation": "人物关系",
+    "building_detail.timeline": "馆藏时间线",
+    "building_detail.event": "建筑附带事件",
     "road_corpus": "路名志",
     "literary_corpus": "文学交集",
     "curated.landmark-facts": "历史风貌区词库",
@@ -60,7 +63,16 @@ _DATASET_LABEL: dict[str, str] = {
     "amap_poi": "高德 POI",
     "source": "外部来源",
     "cbdb_classical": "CBDB 历代人物传记",
+    "cbdb": "CBDB 历代人物传记",
     "classical": "典籍考证",
+    "event_list": "事件记载",
+    "R-20 whitelist": "R-20 白名单",
+    "souyun_poem": "搜韵诗词",
+    "geonames": "地名志",
+    "road_list": "路名志",
+    "persons_list": "人物名录",
+    "persons_detail": "人物详情",
+    "fixture/demo": "演示核录",
 }
 
 
@@ -442,10 +454,12 @@ def _build_book_doc(envelope: dict[str, Any]) -> BookDoc:
                 sources_index.append(s)
     for s in envelope.get("sources") or []:
         if isinstance(s, str):
+            # 纯字符串来源：本质是 dataset 名（如 event_list / souyun_poem），
+            # 翻译成中文标签展示，record_id 留空。
             key = f"source::{s}"
             if key not in seen:
                 seen.add(key)
-                sources_index.append(BookSource(dataset="source", record_id=s))
+                sources_index.append(BookSource(dataset=_label(s), record_id=""))
 
     # reading_line 从 hongyuan 元数据拼装
     hongyuan = envelope.get("hongyuan") or {}
@@ -695,7 +709,8 @@ def render_book(envelope: dict[str, Any], *, include_toc: bool = True) -> str:
             + "".join(
                 f'<li><span class="ix">{str(i + 1).zfill(2)}</span>'
                 f'<span class="dataset">{html.escape(_label(s.dataset))}</span>'
-                f'<code>{html.escape(s.record_id)}</code></li>'
+                + (f'<code>{html.escape(s.record_id)}</code>' if s.record_id else "")
+                + "</li>"
                 for i, s in enumerate(doc.sources_index)
             )
             + "</ul></section>"
@@ -1473,7 +1488,10 @@ def render_book_markdown(envelope: dict[str, Any], *, include_toc: bool = True) 
             L.append("")
             L.append(f"> {extra}")
         for i, s in enumerate(doc.sources_index, 1):
-            L.append(f"{i}. {_label(s.dataset)} — `{s.record_id}`")
+            if s.record_id:
+                L.append(f"{i}. {_label(s.dataset)} — `{s.record_id}`")
+            else:
+                L.append(f"{i}. {_label(s.dataset)}")
 
     return "\n".join(L)
 
@@ -1867,7 +1885,8 @@ def _colophon_inner(doc: BookDoc) -> str:
     items = "\n".join(
         f'<li><span class="ix">{str(i + 1).zfill(2)}</span> '
         f'<span class="dataset">{html.escape(_label(s.dataset))}</span> '
-        f'<code>{html.escape(s.record_id)}</code></li>'
+        + (f'<code>{html.escape(s.record_id)}</code>' if s.record_id else "")
+        + "</li>"
         for i, s in enumerate(doc.sources_index)
     )
     head = '<h2>出处索引 · 脚注</h2>'

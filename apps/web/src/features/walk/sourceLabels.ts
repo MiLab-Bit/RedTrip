@@ -1,14 +1,32 @@
 import type { SourceRef } from "@redtrip/contracts";
 
 const DATASET_LABEL: Record<string, string> = {
-  building_detail: "建筑详情",
+  building_detail: "馆藏建筑",
   "building_detail.relation": "人物关系",
+  "building_detail.timeline": "馆藏时间线",
   "building_detail.event": "建筑附带事件",
   event_list: "事件记载",
   "fixture/demo": "演示核录",
   "R-20 whitelist": "R-20 白名单",
-  cbdb_classical: "CBDB 典籍",
-  cbdb: "CBDB 典籍",
+  cbdb_classical: "CBDB 历代人物传记",
+  cbdb: "CBDB 历代人物传记",
+  geonames_corpus: "地名志",
+  geonames: "地名志",
+  literary_corpus: "文学交集",
+  literary: "文学交集",
+  souyun_poem: "搜韵诗词",
+  road_corpus: "路名志",
+  road_list: "路名志",
+  "curated.landmark-facts": "历史风貌区词库",
+  slc: "上海图书馆",
+  slc_building: "上图书目 · 建筑",
+  slc_event: "上图事件",
+  slc_person: "上图人物",
+  slc_era: "纪年",
+  slc_poem: "诗词",
+  amap: "高德 POI",
+  amap_poi: "高德 POI",
+  source: "外部来源",
 };
 
 export function datasetLabel(dataset: string): string {
