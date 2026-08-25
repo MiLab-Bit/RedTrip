@@ -40,6 +40,14 @@ export type BookDoc = {
   epilogue: string[];
   sourcesIndex: { dataset: string; record_id: string }[];
   meta: { durationMin: number; walkMeters: number; scenario: string };
+  review?: {
+    warnings: string[];
+    concerns: { claim?: string; node?: string; mechanism?: string; fix?: string }[];
+    missed_voices: string[];
+    alternative_thesis: string;
+    reverse_route_note: string;
+    skipped_harder_node: string;
+  } | null;
 };
 
 function escapeHtml(s: string): string {
@@ -178,6 +186,30 @@ export function buildBookDoc(
     }
   }
 
+  const cr = env.curator_review;
+  const review =
+    cr &&
+    ((cr.warnings && cr.warnings.length) ||
+      (cr.concerns && cr.concerns.length) ||
+      (cr.missed_voices && cr.missed_voices.length) ||
+      cr.alternative_thesis ||
+      cr.reverse_route_note ||
+      cr.skipped_harder_node)
+      ? {
+          warnings: (cr.warnings ?? []).filter(Boolean),
+          concerns: (cr.concerns ?? []).map((c) => ({
+            claim: c.claim ?? undefined,
+            node: c.node ?? undefined,
+            mechanism: c.mechanism ?? undefined,
+            fix: c.fix ?? undefined,
+          })),
+          missed_voices: (cr.missed_voices ?? []).filter(Boolean),
+          alternative_thesis: cr.alternative_thesis ?? "",
+          reverse_route_note: cr.reverse_route_note ?? "",
+          skipped_harder_node: cr.skipped_harder_node ?? "",
+        }
+      : null;
+
   return {
     title: view.themeTitle || env.theme,
     thesis: view.thesis || env.why_visit || "",
@@ -187,6 +219,7 @@ export function buildBookDoc(
     chapters,
     epilogue,
     sourcesIndex,
+    review,
     meta: {
       durationMin: env.route.duration_min,
       walkMeters: env.route.walk_meters_est,
@@ -269,10 +302,40 @@ function bookHtml(doc: BookDoc): string {
         .join("")}</ul></section>`
     : "";
 
+  const review = doc.review
+    ? `<section class="review"><h2>策展留白 · 反方策展人</h2><span class="ornament-line"></span>
+    <p class="note">以下为对抗性评审留下的未决问题，不构成定论。</p>
+    ${
+      doc.review.warnings.length
+        ? `<p class="k">评审告警</p><ul>${doc.review.warnings
+            .map((w) => `<li>${escapeHtml(w)}</li>`)
+            .join("")}</ul>`
+        : ""
+    }
+    ${
+      doc.review.concerns.length
+        ? `<p class="k">反对意见</p><ul>${doc.review.concerns
+            .map(
+              (c) =>
+                `<li><strong>${escapeHtml(c.node || "全路线")}</strong>${
+                  c.claim ? ` — ${escapeHtml(c.claim)}` : ""
+                }${c.fix ? ` → ${escapeHtml(c.fix)}` : ""}</li>`,
+            )
+            .join("")}</ul>`
+        : ""
+    }
+    ${
+      doc.review.alternative_thesis
+        ? `<p class="note">备选命题：${escapeHtml(doc.review.alternative_thesis)}</p>`
+        : ""
+    }
+    </section>`
+    : "";
+
   return `<article class="print-book-inner">
   <header class="book-cover">
     <span class="top-rule" aria-hidden></span>
-    <p class="kicker">REDTRIP · 城市记忆策展人</p>
+    <p class="kicker">红鸢 · RedTrip · 城市记忆策展人</p>
     <h1>${escapeHtml(doc.title)}</h1>
     <span class="ornament" aria-hidden><span class="line"></span><span class="dot"></span><span class="line"></span></span>
     ${doc.thesis ? `<p class="thesis">${escapeHtml(doc.thesis)}</p>` : ""}
@@ -286,6 +349,7 @@ function bookHtml(doc: BookDoc): string {
   ${chapHtml}
   ${epilogue}
   ${cast}
+  ${review}
   ${srcIndex}
 </article>`;
 }

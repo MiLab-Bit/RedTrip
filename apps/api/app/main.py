@@ -46,6 +46,39 @@ from app import auth_store as _auth_store  # noqa: E402
 
 # FIXTURE_PATH 已彻底拆除——demo-route.json 不再作为降级产物使用。
 WHITELIST_PATH = ROOT / "content" / "whitelist" / "points.json"
+HOTWORDS_PATH = ROOT / "content" / "hotwords" / "latest.json"
+
+
+def _hotwords_health() -> dict[str, Any]:
+    """L3 热词新鲜度：竞赛演示期超过 14 天标 stale。"""
+    from datetime import date, datetime
+
+    if not HOTWORDS_PATH.exists():
+        return {"ok": False, "present": False, "stale": True, "week": None}
+    try:
+        data = json.loads(HOTWORDS_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        return {"ok": False, "present": True, "stale": True, "error": str(exc)}
+    week = data.get("week")
+    updated = str(data.get("updated_at") or "")
+    stale = True
+    age_days: int | None = None
+    try:
+        d = datetime.strptime(updated[:10], "%Y-%m-%d").date()
+        age_days = (date.today() - d).days
+        stale = age_days > 14
+    except ValueError:
+        stale = True
+    entries = data.get("entries") if isinstance(data.get("entries"), list) else []
+    return {
+        "ok": not stale and len(entries) >= 8,
+        "present": True,
+        "stale": stale,
+        "week": week,
+        "updated_at": updated,
+        "age_days": age_days,
+        "entries": len(entries),
+    }
 
 
 class IntentSlots(BaseModel):
@@ -316,6 +349,7 @@ def health(probe: bool = Query(default=False, description="probe live providers"
             if WHITELIST_PATH.exists()
             else "R-20 missing; indexed curate may fall back"
         ),
+        "hotwords": _hotwords_health(),
         "curate_cache": {
             "entries": len(_cache_mem),
             "hits": _cache_stats["hits"],
