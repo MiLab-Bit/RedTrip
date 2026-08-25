@@ -1,0 +1,214 @@
+{
+  "probe": {
+    "key_configured": true,
+    "bypass_proxy": true,
+    "checks": {
+      "building_list": {
+        "ok": true,
+        "status": 200,
+        "endpoint": "building_list",
+        "error": null,
+        "has_data": true
+      },
+      "building_detail": {
+        "ok": true,
+        "status": 200,
+        "endpoint": "building_detail",
+        "error": null,
+        "has_data": true
+      },
+      "event_list": {
+        "ok": true,
+        "status": 200,
+        "endpoint": "event_list",
+        "error": null,
+        "has_data": true
+      }
+    },
+    "sample_uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+    "ok": true
+  },
+  "building_detail": {
+    "data": {
+      "address": "华山路849号",
+      "created": "1862",
+      "houseNumber": "849号",
+      "designer": [
+        {
+          "name": "艾赛西·罗杰斯",
+          "uri": "http://data.library.sh.cn/entity/person/u5ol5ez1wc6c23ou"
+        }
+      ],
+      "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+      "architecturalStyle": "英国乡村建筑花园别墅，中国传统南方园林",
+      "relation": [
+        {
+          "name": "李鸿章",
+          "uri": "http://data.library.sh.cn/entity/person/7la7uay6h4ehfawq"
+        },
+        {
+          "name": "潘汉年",
+          "uri": "http://data.library.sh.cn/entity/person/b6hvpk0072rrtmau"
+        },
+        {
+          "uri": "http://data.library.sh.cn/entity/person/dxe755iab8l4iq5l"
+        },
+        {
+          "name": "丁香",
+          "uri": "http://data.library.sh.cn/entity/person/uhiqbl312ozagmtw"
+        },
+        {
+          "name": "李经迈",
+          "uri": "http://data.library.sh.cn/entity/person/5g6dh3d6haxduauo"
+        },
+        {
+          "name": "张善绅",
+          "uri": "http://data.library.sh.cn/entity/person/i66nffw0w7kzkj5l"
+        },
+        {
+          "name": "陈赓",
+          "uri": "http://data.library.sh.cn/entity/person/7pfavb6xb2jzasrn"
+        },
+        {
+          "name": "刘亚楼",
+          "uri": "http://data.library.sh.cn/entity/person/vc1dbxjwfdkcd3gv"
+        }
+      ],
+      "hasFile": "0",
+      "road": [
+        {
+          "name": "武康路",
+          "uri": "http://data.library.sh.cn/entity/road/24v4webnqbccmflv"
+        },
+        {
+          "name": "华山路",
+          "uri": "http://data.library.sh.cn/entity/road/fl84zhf34i0v6ln7"
+        }
+      ],
+      "name": "丁香花园",
+      "architectureStructure": "3幢西式花园别墅，占地面积2.67万平方米，总建筑面积2934平方米，砖木结构",
+      "location": [
+        {
+          "lat": "31.217898",
+          "long": "121.444543"
+        }
+      ],
+      "event": [
+        {
+          "startedAtTime": "1862",
+          "description": "1862年，建主楼1号楼"
+        },
+        {
+          "startedAtTime": "1918",
+          "description": "1918年，建3号楼"
+        },
+        {
+          "startedAtTime": "1940",
+          "description": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。"
+        },
+        {
+          "startedAtTime": "1942",
+          "description": "1942年，张善绅在此创办中华联合制片股份有限公司。"
+        },
+        {
+          "startedAtTime": "1949",
+          "description": "1949年后，中共华东局机关所在地，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住。"
+        },
+        {
+          "startedAtTime": "1952",
+          "description": "1952年，建2号楼"
+        },
+        {
+          "startedAtTime": "1952",
+          "description": "1952年，政府出资在花园内兴建了一幢轮船状楼房（二号楼）。"
+        },
+        {
+          "startedAtTime": "1971",
+          "description": "1971年，成立上海市委写作组，又被称为“丁香花园写作班”。"
+        },
+        {
+          "startedAtTime": "1994",
+          "description": "1994年，列为上海市优秀历史建筑。"
+        },
+        {
+          "description": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。"
+        }
+      ]
+    }
+  },
+  "event_list": {
+    "result": "0",
+    "data": [
+      {
+        "startedAtTime": "",
+        "endedAtTime": "",
+        "description": "现花园内，一号楼为上海市老干部活动中心，二号楼为申粤轩酒家。",
+        "event": "nodeID://b18509589",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1862",
+        "endedAtTime": "",
+        "description": "1862年，建主楼1号楼",
+        "event": "nodeID://b18509580",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1918",
+        "endedAtTime": "",
+        "description": "1918年，建3号楼",
+        "event": "nodeID://b18509581",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1940",
+        "endedAtTime": "",
+        "description": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+        "event": "nodeID://b18509583",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1942",
+        "endedAtTime": "",
+        "description": "1942年，张善绅在此创办中华联合制片股份有限公司。",
+        "event": "nodeID://b18509584",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1949",
+        "endedAtTime": "",
+        "description": "1949年后，中共华东局机关所在地，陈毅、潘汉年、刘亚楼、陈赓等人都曾在此居住。",
+        "event": "nodeID://b18509585",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1952",
+        "endedAtTime": "",
+        "description": "1952年，建2号楼",
+        "event": "nodeID://b18509582",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1952",
+        "endedAtTime": "",
+        "description": "1952年，政府出资在花园内兴建了一幢轮船状楼房（二号楼）。",
+        "event": "nodeID://b18509586",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1971",
+        "endedAtTime": "",
+        "description": "1971年，成立上海市委写作组，又被称为“丁香花园写作班”。",
+        "event": "nodeID://b18509587",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      },
+      {
+        "startedAtTime": "1994",
+        "endedAtTime": "",
+        "description": "1994年，列为上海市优秀历史建筑。",
+        "event": "nodeID://b18509588",
+        "uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+      }
+    ]
+  }
+}

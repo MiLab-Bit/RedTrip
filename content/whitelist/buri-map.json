@@ -1,0 +1,157 @@
+{
+  "version": "1.0",
+  "mapped": [
+    {
+      "id": "wl-101",
+      "name": "巴金故居",
+      "buri": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+    },
+    {
+      "id": "wl-102",
+      "name": "密丹公寓",
+      "buri": "http://data.library.sh.cn/entity/architecture/rkdm0anh4h5wenaw"
+    },
+    {
+      "id": "wl-103",
+      "name": "国富门公寓",
+      "buri": "http://data.library.sh.cn/entity/architecture/y7x57sifpaahpe52"
+    },
+    {
+      "id": "wl-104",
+      "name": "周作民旧居",
+      "buri": "http://data.library.sh.cn/entity/architecture/n6bjgtjhduhim6st"
+    },
+    {
+      "id": "wl-105",
+      "name": "周璇旧居",
+      "buri": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+    },
+    {
+      "id": "wl-106",
+      "name": "上海汽车工业公司办公楼",
+      "buri": "http://data.library.sh.cn/entity/architecture/fcryfptin8zm6qe4"
+    },
+    {
+      "id": "wl-107",
+      "name": "丁香花园",
+      "buri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+    },
+    {
+      "id": "wl-108",
+      "name": "北平研究院旧址",
+      "buri": "http://data.library.sh.cn/entity/architecture/ch60kvos8rubcb1r"
+    },
+    {
+      "id": "wl-109",
+      "name": "唐绍仪旧居",
+      "buri": "http://data.library.sh.cn/entity/architecture/ak3isapn5uu1k6eu"
+    },
+    {
+      "id": "wl-110",
+      "name": "孙家花园",
+      "buri": "http://data.library.sh.cn/entity/architecture/d2mlofut4jyxzshk"
+    },
+    {
+      "id": "wl-111",
+      "name": "宋庆龄故居",
+      "buri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+    },
+    {
+      "id": "wl-112",
+      "name": "开普敦公寓",
+      "buri": "http://data.library.sh.cn/entity/architecture/g8n2iazmx74ejlsa"
+    },
+    {
+      "id": "wl-113",
+      "name": "德利那齐宅",
+      "buri": "http://data.library.sh.cn/entity/architecture/hmhbhgf88kujjmnv"
+    },
+    {
+      "id": "wl-114",
+      "name": "朱作同旧居",
+      "buri": "http://data.library.sh.cn/entity/architecture/1bjwxwlbyjkyqi65"
+    },
+    {
+      "id": "wl-115",
+      "name": "李及兰旧居",
+      "buri": "http://data.library.sh.cn/entity/architecture/coaio4pnvqgzu6cm"
+    },
+    {
+      "id": "wl-116",
+      "name": "林道生故居",
+      "buri": "http://data.library.sh.cn/entity/architecture/wxgrvtfgusgl18l8"
+    },
+    {
+      "id": "wl-117",
+      "name": "正广和老屋",
+      "buri": "http://data.library.sh.cn/entity/architecture/4i58zbd2c3ribkcd"
+    },
+    {
+      "id": "wl-118",
+      "name": "武康大楼",
+      "buri": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+    },
+    {
+      "id": "wl-119",
+      "name": "武康庭(FERGUSON LANE）",
+      "buri": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu"
+    },
+    {
+      "id": "wl-120",
+      "name": "湖南别墅",
+      "buri": "http://data.library.sh.cn/entity/architecture/h50xogw5ipn1fl5b"
+    },
+    {
+      "id": "wl-121",
+      "name": "王元化故居",
+      "buri": "http://data.library.sh.cn/entity/architecture/ekj8766dtt3jlui6"
+    },
+    {
+      "id": "wl-122",
+      "name": "罗密欧阳台",
+      "buri": "http://data.library.sh.cn/entity/architecture/jpewp50mwi6sv1vu"
+    },
+    {
+      "id": "wl-123",
+      "name": "美杜公寓",
+      "buri": "http://data.library.sh.cn/entity/architecture/wc65cfvuwvmaxp36"
+    },
+    {
+      "id": "wl-124",
+      "name": "莫觞清旧居",
+      "buri": "http://data.library.sh.cn/entity/architecture/w66p0twqlp6w6bw4"
+    }
+  ],
+  "unmapped": [
+    {
+      "id": "wl-001",
+      "name": "中共一大会址纪念馆周边",
+      "reason": "暂无数据支撑"
+    },
+    {
+      "id": "wl-002",
+      "name": "兴业路石库门街巷",
+      "reason": "暂无数据支撑"
+    },
+    {
+      "id": "wl-003",
+      "name": "黄陂南路—太仓路转角",
+      "reason": "暂无数据支撑"
+    },
+    {
+      "id": "wl-004",
+      "name": "淮海中路近旁（示意点）",
+      "reason": "暂无数据支撑"
+    },
+    {
+      "id": "wl-005",
+      "name": "思南公馆周边（示意点）",
+      "reason": "暂无数据支撑"
+    },
+    {
+      "id": "wl-006",
+      "name": "回望点：香山路—兴业路意象",
+      "reason": "暂无数据支撑"
+    }
+  ]
+}

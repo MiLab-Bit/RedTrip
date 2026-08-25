@@ -1,0 +1,430 @@
+{
+  "envelope_version": "1.0",
+  "intent": "和同伴走一段约 80 分钟、少说教的武康路一带城市记忆线",
+  "theme": "武康路上的名字与门牌",
+  "logic_line": "从巴金故居出发，经周璇旧居与武康大楼，走到宋庆龄故居与丁香花园，最后在武康庭收束：建筑×人物×街巷的关系，而不是点位清单。",
+  "aesthetic": "克制、留白、海派明信片",
+  "scenario": "双人 · 轻松 · 约 80 分钟 · 武康路一带",
+  "why_visit": "你不是来完成任务，而是来辨认：这些门牌背后，馆藏里仍留着可核对的名字。",
+  "curator_note": "这条线选点，不是因为它们顺路，而是因为它们都能在上海图书馆建筑实体中核对 URI：作家、歌者、大楼、故居、花园、街巷共同指向「名字如何落在门牌上」。点与点之间用人物与建筑身份衔接，而不是用「步行五分钟」充当理由。",
+  "assumptions": [
+    "默认人群=成人",
+    "调性=轻社交",
+    "时长=80 分钟",
+    "场景=武康路一带"
+  ],
+  "companions": "duo",
+  "sources": [
+    "slc_building",
+    "R-20 whitelist",
+    "fixture:demo-route"
+  ],
+  "route": {
+    "duration_min": 80,
+    "walk_meters_est": 1800,
+    "stops": [
+      {
+        "order": 1,
+        "whitelist_id": "wl-101",
+        "buri": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+        "name": "巴金故居",
+        "minutes": 14,
+        "meaning": "作家与弄堂：公开记忆如何落在一扇门上",
+        "transition_to_next": "从巴金的日常住所，走到周璇曾进出的民居：同一条路上，文学与流行文化并行，不互相取消。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "巴金故居见上海图书馆建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "excerpt": "上图建筑实体：巴金故居"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "巴金",
+            "claim": "巴金故居承载作家在上海的日常生活与写作记忆，可与建筑层交叉阅读。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "excerpt": "与建筑实体交叉的人物/时代层（竞赛演示核录）。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "写作与居住",
+            "claim": "故居作为「写作—居住」叠合的公共叙事节点，可与建筑层对照阅读。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "excerpt": "事件层：居住与写作的叠合（演示核录）。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.215026,
+          "lng": 121.447147,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 2,
+        "whitelist_id": "wl-105",
+        "buri": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+        "name": "周璇旧居",
+        "minutes": 12,
+        "meaning": "金嗓子与民居：用途更替的城市传记",
+        "transition_to_next": "再抬到武康路交叉口的大楼立面：个人传记收进城市界面。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "周璇旧居见上海图书馆建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "上图建筑实体：周璇旧居"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "周璇",
+            "claim": "周璇相关记载把流行文化人物放进具体门牌，用途更替清晰可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+              "excerpt": "与建筑实体交叉的人物/时代层（竞赛演示核录）。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.21242,
+          "lng": 121.445595,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 3,
+        "whitelist_id": "wl-118",
+        "buri": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
+        "name": "武康大楼",
+        "minutes": 16,
+        "meaning": "武康大楼：交叉路口上的多重身份",
+        "transition_to_next": "从大楼走向宋庆龄故居：把建筑史接到人物史。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "武康大楼见上海图书馆建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
+              "excerpt": "上图建筑实体：武康大楼"
+            }
+          },
+          {
+            "kind": "era",
+            "label": "海派都市界面",
+            "claim": "武康大楼处于道路交叉，建筑本身即城市机制的可见界面。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
+              "excerpt": "与建筑实体交叉的人物/时代层（竞赛演示核录）。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.210919,
+          "lng": 121.444788,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 4,
+        "whitelist_id": "wl-111",
+        "buri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+        "name": "宋庆龄故居",
+        "minutes": 15,
+        "meaning": "宋庆龄故居：人物与时代的另一条线索",
+        "transition_to_next": "故居之后看丁香花园：花园住宅提醒另一种「住」与「聚」。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "宋庆龄故居见上海图书馆建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "excerpt": "上图建筑实体：宋庆龄故居"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "宋庆龄",
+            "claim": "宋庆龄故居提供人物—时代另一条关系线，避免路线只剩建筑清单。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "excerpt": "与建筑实体交叉的人物/时代层（竞赛演示核录）。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.210585,
+          "lng": 121.445171,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 5,
+        "whitelist_id": "wl-107",
+        "buri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+        "name": "丁香花园",
+        "minutes": 12,
+        "meaning": "丁香花园：花园住宅界面的对照",
+        "transition_to_next": "最后回到武康庭街巷尺度，把走过的名字收成一条可读的线。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "丁香花园见上海图书馆建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "上图建筑实体：丁香花园"
+            }
+          },
+          {
+            "kind": "building",
+            "label": "花园住宅语境",
+            "claim": "丁香花园一类花园住宅，对照公寓与街巷的另一种居住结构。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "与建筑实体交叉的人物/时代层（竞赛演示核录）。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.217898,
+          "lng": 121.444543,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      },
+      {
+        "order": 6,
+        "whitelist_id": "wl-119",
+        "buri": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
+        "name": "武康庭(FERGUSON LANE）",
+        "minutes": 11,
+        "meaning": "武康庭：收束——把名字放回街道尺度",
+        "transition_to_next": null,
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "武康庭(FERGUSON LANE）见上海图书馆建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
+              "excerpt": "上图建筑实体：武康庭(FERGUSON LANE）"
+            }
+          },
+          {
+            "kind": "geoname",
+            "label": "街巷收束",
+            "claim": "武康庭把点位收回到可步行的街巷尺度，完成线索回收。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
+              "excerpt": "与建筑实体交叉的人物/时代层（竞赛演示核录）。"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.212883,
+          "lng": 121.445453,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "未收录",
+          "enterable": "未收录",
+          "need_reservation": "未收录"
+        }
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "type": "story_card",
+      "stop_order": 1,
+      "title": "书桌对面的门牌",
+      "body": "你站在武康路的这扇门前。馆藏里的建筑记录先给你一个可核对的名字：巴金故居。楼还在，屋里的人把私人时间写成公共文字。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+          "excerpt": "巴金故居 · 上图建筑实体"
+        }
+      ],
+      "age_parallel": "若你此刻二十多岁，曾在此居住写作的人，也曾以相似年纪走进这座城市。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 2,
+      "title": "门楣还在",
+      "body": "周璇旧居提醒你：流行文化不是抽象标签，它落在具体门牌与用途更替里。砖与窗仍在，记载可以一条条核对。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
+          "excerpt": "周璇旧居 · 上图建筑实体"
+        }
+      ]
+    },
+    {
+      "type": "story_card",
+      "stop_order": 3,
+      "title": "交叉口上的立面",
+      "body": "武康大楼把个人传记抬到城市界面：道路交叉处，建筑本身就是机制可见的地方。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
+          "excerpt": "武康大楼 · 上图建筑实体"
+        }
+      ]
+    },
+    {
+      "type": "story_card",
+      "stop_order": 4,
+      "title": "另一条人物线",
+      "body": "宋庆龄故居把路线从「房子」拉回「人与时代」。关系，不是顺路。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+          "excerpt": "宋庆龄故居 · 上图建筑实体"
+        }
+      ]
+    },
+    {
+      "type": "story_card",
+      "stop_order": 5,
+      "title": "花园作为对照",
+      "body": "丁香花园提供对照：同城不同居住结构，史实衔接比步行分钟更重要。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+          "excerpt": "丁香花园 · 上图建筑实体"
+        }
+      ]
+    },
+    {
+      "type": "story_card",
+      "stop_order": 6,
+      "title": "把名字放回街道",
+      "body": "武康庭收束整条线：你带走的不是打卡清单，而是一串可核的名字与门牌。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
+          "excerpt": "武康庭(FERGUSON LANE） · 上图建筑实体"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "title": "武康路上的名字与门牌",
+      "lead": "约 80 分钟，把故居读成城市关系。",
+      "keywords": [
+        "梧桐区",
+        "武康路",
+        "可溯源",
+        "上图馆藏"
+      ],
+      "body": "一条以馆藏建筑实体串联的步行线：作家、歌者、大楼、故居、花园、街巷。",
+      "coda": "每句话都应能点开看出处；找不到就写未收录。"
+    }
+  ],
+  "sentence_provenance": {
+    "total_sentences": 3,
+    "factual_sentences": 2,
+    "aligned_factual": 2,
+    "coverage_ratio": 1.0,
+    "per_stop": [
+      {
+        "stop_index": 1,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你站在武康路的这扇门前。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": true
+          },
+          {
+            "index": 1,
+            "text": "馆藏里的建筑记录先给你一个可核对的名字：巴金故居。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金故居"
+            ],
+            "aligned": true
+          },
+          {
+            "index": 2,
+            "text": "楼还在，屋里的人把私人时间写成公共文字。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+            ],
+            "fact_labels": [
+              "巴金故居"
+            ],
+            "aligned": true
+          }
+        ]
+      }
+    ]
+  }
+}

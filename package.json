@@ -1,0 +1,15 @@
+{
+  "name": "redtrip",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "pnpm --filter @redtrip/web dev --host 127.0.0.1 --port 5173",
+    "dev:web": "pnpm --filter @redtrip/web dev --host 127.0.0.1 --port 5173",
+    "build": "pnpm --filter @redtrip/contracts build && pnpm --filter @redtrip/web build",
+    "typecheck": "pnpm --filter @redtrip/contracts typecheck && pnpm --filter @redtrip/web typecheck"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

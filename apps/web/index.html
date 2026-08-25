@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f2ebdd" />
+    <title>RedTrip · 城市记忆策展人</title>
+    <meta
+      name="description"
+      content="RedTrip 城市记忆策展人：以书为载体，为你策一条可溯源的上海文化漫步。目录给条目，我们给关系。"
+    />
+
+    <!--
+      字体策略（关键：不得阻塞首屏）
+      ─────────────────────────────────────────────────────────────
+      原实现用阻塞式 <link rel="stylesheet"> 直连 fonts.googleapis.com，
+      在中国大陆网络下该域名通常不可达，浏览器会等到 TCP/TLS 超时
+      （常见 5~30s）才回退，期间首屏一直白屏——对以「书页阅读」为核心
+      体验的产品是致命的。
+
+      现改为「系统衬线优先 + 网络字体渐进增强」：
+      1. 首屏立即用系统中文衬线渲染（Songti SC / STSong / SimSun /
+         Noto Serif CJK SC 在三大平台均内置），排版基调不丢；
+      2. 网络字体用 media="print" + onload 切换的非阻塞技巧异步拉取，
+         拿到就无缝升级，拿不到也完全不影响渲染；
+      3. 不使用第三方镜像域名，避免引入不可控的可用性与隐私风险。
+    -->
+    <style>
+      :root {
+        /* 正文衬线栈：网络字体在前，系统字体兜底，末位始终是通用 serif */
+        --font-serif-cn: "Noto Serif SC", "Source Han Serif SC",
+          "Source Han Serif CN", "Songti SC", "STSong", "SimSun",
+          "Noto Serif CJK SC", Georgia, "Times New Roman", serif;
+        /* 标题装饰栈：ZCOOL XiaoWei 拿不到时用系统楷体，气质最接近 */
+        --font-display-cn: "ZCOOL XiaoWei", "Kaiti SC", "STKaiti", "KaiTi",
+          "楷体", var(--font-serif-cn);
+      }
+      html {
+        font-family: var(--font-serif-cn);
+      }
+      /* 首屏骨架：避免 JS 挂载前的纯白闪烁，与书页米色基调一致 */
+      body {
+        margin: 0;
+        background: #f2ebdd;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

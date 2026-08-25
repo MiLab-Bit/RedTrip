@@ -1,0 +1,117 @@
+[
+  {
+    "id": "RT-GOOD-BASE",
+    "description": "合法 envelope 应放行",
+    "base": "curated-live",
+    "mutate": [],
+    "expect_pass": true
+  },
+  {
+    "id": "RT-COPY-EFFICIENCY",
+    "description": "效率话术应阻断",
+    "base": "curated-live",
+    "mutate": [{ "op": "set", "path": "why_visit", "value": "一键生成省时省力的红色路线" }],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q8"
+  },
+  {
+    "id": "RT-SLOGAN",
+    "description": "口号体应阻断",
+    "base": "curated-live",
+    "mutate": [{ "op": "set", "path": "curator_note", "value": "上海是伟大的革命城市！" }],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q8"
+  },
+  {
+    "id": "RT-PHYS-TRANSITION",
+    "description": "纯物理衔接应阻断",
+    "base": "curated-live",
+    "mutate": [
+      {
+        "op": "set",
+        "path": "route.stops.0.transition_to_next",
+        "value": "步行 5 分钟可达下一站"
+      }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "R19"
+  },
+  {
+    "id": "RT-MISSING-SOURCE",
+    "description": "layer 缺出处应阻断",
+    "base": "curated-live",
+    "mutate": [
+      { "op": "set", "path": "route.stops.0.layers.0.source", "value": {} }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q2"
+  },
+  {
+    "id": "RT-MISSING-PITFALL",
+    "description": "避坑字段为空应阻断",
+    "base": "curated-live",
+    "mutate": [
+      { "op": "set", "path": "route.stops.0.pitfalls.open_hours", "value": "" }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q7"
+  },
+  {
+    "id": "RT-FAKE-EXACT",
+    "description": "无坐标源却标 exact 应阻断",
+    "base": "curated-live",
+    "mutate": [
+      { "op": "set", "path": "route.stops.0.geo.precision", "value": "exact" },
+      { "op": "set", "path": "route.stops.0.geo.coord_source", "value": "none" }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q6"
+  },
+  {
+    "id": "RT-NO-LAYERS",
+    "description": "清空 layers 应阻断",
+    "base": "curated-live",
+    "mutate": [{ "op": "set", "path": "route.stops.0.layers", "value": [] }],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q2"
+  },
+  {
+    "id": "RT-STOP-COUNT",
+    "description": "点位过少应阻断",
+    "base": "curated-live",
+    "mutate": [{ "op": "truncate_stops", "count": 2 }],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q4"
+  },
+  {
+    "id": "RT-MISSING-THEME",
+    "description": "缺 theme 应阻断",
+    "base": "curated-live",
+    "mutate": [{ "op": "set", "path": "theme", "value": "" }],
+    "expect_pass": false,
+    "expect_blocker_contains": "A1"
+  },
+  {
+    "id": "RT-STORY-NO-SOURCE",
+    "description": "故事卡无出处应阻断",
+    "base": "curated-live",
+    "mutate": [
+      {
+        "op": "patch_first_story_sources",
+        "value": [{ "dataset": "", "record_id": "" }]
+      }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q2"
+  },
+  {
+    "id": "RT-MARCH-METAPHOR",
+    "description": "编队隐喻应阻断",
+    "base": "curated-live",
+    "mutate": [
+      { "op": "set", "path": "logic_line", "value": "集合出发，打卡任务式读城" }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q8"
+  }
+]

@@ -1,0 +1,14 @@
+.git
+node_modules
+**/node_modules
+*.log
+.env
+**/__pycache__
+*.pyc
+_redtrip_tmp
+_rt_diag
+_learn_raw
+RedTrip_*.md
+redtrip_repo.zip
+*.zip
+.DS_Store

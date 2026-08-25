@@ -1,0 +1,66 @@
+/**
+ * 海派 6 色（产品设计锁死）+ 水墨语义层
+ * 墨 / 赭石 / 青灰 / 米白 / 朱 / 宣纸
+ */
+:root {
+  --ink: #33333a;
+  --ochre: #b9824f;
+  --slate: #7c8a8d;
+  --rice: #ede4d3;
+  --vermilion: #a8322a;
+  --xuan: #f2ebdd;
+
+  /* 水墨：更深墨、案台、朱砂印章 */
+  --ink-deep: #1a1c21;
+  --ink-wash: color-mix(in srgb, var(--ink) 55%, var(--slate));
+  --sumi: #12141a;
+  --paper: #f6f2e9;
+  --paper-deep: #e8e0d0;
+  --paper-bright: #fbf8f1;
+  --cover: #2a2a30;
+  --cover-deep: #14161c;
+  --cover-edge: color-mix(in srgb, var(--ink) 82%, var(--ochre) 18%);
+  --seal: var(--vermilion);
+  --brand-from: color-mix(in srgb, var(--ink-deep) 72%, var(--vermilion));
+  --brand-mid: var(--vermilion);
+  --brand-to: color-mix(in srgb, var(--vermilion) 78%, var(--ochre));
+
+  --text: var(--ink-deep);
+  --muted: color-mix(in srgb, var(--ink) 68%, var(--slate) 32%);
+  --faint: color-mix(in srgb, var(--ink) 40%, var(--slate) 60%);
+  --line: color-mix(in srgb, var(--ink) 12%, transparent);
+  --line-strong: color-mix(in srgb, var(--ink) 26%, transparent);
+  --accent: var(--vermilion);
+  --accent-soft: color-mix(in srgb, var(--vermilion) 12%, var(--paper));
+  --warm-soft: color-mix(in srgb, var(--ochre) 14%, var(--paper));
+  --mist: color-mix(in srgb, var(--slate) 20%, var(--xuan) 80%);
+
+  --font-display: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+  --font-body: "Noto Serif SC", "Songti SC", serif;
+
+  --radius: 2px;
+
+  /* 宣纸纤维 */
+  --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+
+  /* 墨晕（大块不规则） */
+  --ink-bloom: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.13  0 0 0 0 0.16  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+
+  --shadow-soft:
+    0 1px 0 rgba(255, 253, 248, 0.65) inset,
+    0 10px 28px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 2px 6px color-mix(in srgb, var(--ink) 5%, transparent);
+  --shadow-lift:
+    0 1px 0 rgba(255, 253, 248, 0.75) inset,
+    0 18px 42px color-mix(in srgb, var(--ink) 12%, transparent),
+    0 6px 14px color-mix(in srgb, var(--ink) 7%, transparent);
+  --shadow-book:
+    0 22px 48px color-mix(in srgb, var(--ink) 30%, transparent),
+    0 8px 18px color-mix(in srgb, var(--ink) 14%, transparent);
+  --shadow-well:
+    inset 0 2px 8px color-mix(in srgb, var(--ink) 9%, transparent),
+    inset 0 0 0 1px var(--line);
+  --shadow-chip:
+    0 1px 0 rgba(255, 255, 255, 0.45) inset,
+    0 2px 4px color-mix(in srgb, var(--ink) 8%, transparent);
+}
