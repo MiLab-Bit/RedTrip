@@ -14,6 +14,11 @@ from redtrip_gate import PLAN_ENVELOPE  # noqa: E402
 
 from .evidence import _road_of  # noqa: E402
 from .models import BuildingEvidence, EvidencePack, Intent, PlannedStop, RoutePlan  # noqa: E402
+from .storyline import narrative_bonus_map  # noqa: E402
+
+# 叙事主线契合度加分（step③：典籍新生）。plan_route 每次规划时按候选集重算，
+# _score 读取它把「同人物/同时代/同典籍出处」的楼往前推，让路线沿一条主线铺开。
+_NARRATIVE_BONUS: dict[int, float] = {}
 
 # 9 大类（与地标库 categories 对齐）：culture/historic/waterfront/persona/
 # nature/religion/commercial/nightlife/suburb。类别多样性约束防止路线被单
@@ -93,7 +98,10 @@ def _haversine_m(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
 def _score(b: BuildingEvidence) -> float:
     events = sum(1 for l in b.layers if l.kind == "event")
     persons = sum(1 for l in b.layers if l.kind == "person")
-    return events * 3.0 + persons * 1.5 + (1.0 if b.lat is not None else 0.0)
+    base = events * 3.0 + persons * 1.5 + (1.0 if b.lat is not None else 0.0)
+    # 叙事主线加分：让「同人物/同朝代/同典籍出处」的楼在选点与 dwell 上占优，
+    # 路线因此沿一条可溯源的线铺开（城市记忆被放大、古老足迹被发掘与验证）。
+    return base + _NARRATIVE_BONUS.get(id(b), 0.0)
 
 
 def _spread_once(
@@ -221,6 +229,25 @@ def _transition(a: BuildingEvidence, b: BuildingEvidence) -> str:
             f"你会发现{name}的痕迹也钉在下一站。同一个人，把两栋楼串成一条暗线。"
         )
 
+    # 同典籍出处（CBDB 已验证溯源）→ 强主线：把两站收成一条可回查的线
+    a_cb = {l.source.record_id for l in a.layers if l.kind == "classical" and l.source}
+    b_cb = {l.source.record_id for l in b.layers if l.kind == "classical" and l.source}
+    shared_cb = a_cb & b_cb
+    if shared_cb and not shared:
+        rid = next(iter(shared_cb))
+        nm = next(
+            (l.label.replace("典籍 · ", "")
+             for l in a.layers
+             if l.kind == "classical" and l.source and l.source.record_id == rid),
+            "",
+        )
+        tag = f"（{nm}）" if nm else ""
+        return (
+            f"「{a.name}」与「{b.name}」都钉着同一位典籍人物{tag}的痕迹——"
+            f"CBDB 已把它验证成一条可回查的溯源线。你沿着这条线走，读的是一段被"
+            f"放大的城市记忆，不是散落的楼。"
+        )
+
     # 同一条马路 → 容器关系
     a_road = _road_of(a)
     b_road = _road_of(b)
@@ -273,6 +300,10 @@ def _plan_tier(intent: Intent) -> tuple[int, float]:
 
 
 def plan_route(intent: Intent, pack: EvidencePack) -> RoutePlan:
+    global _NARRATIVE_BONUS
+    # step③：按候选集重算叙事主线契合度加分，偏置后续选点与 dwell 权重
+    _NARRATIVE_BONUS = narrative_bonus_map(pack.buildings)
+
     n, target_walk = _plan_tier(intent)
 
     # 最低 5 站：用户硬要求 + 步行连贯性。不足 5 时返回 Info 日志，让上层决定
