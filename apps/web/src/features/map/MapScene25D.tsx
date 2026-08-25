@@ -42,6 +42,14 @@ type StopSite = {
   x: number;
   z: number;
   heroKind: "shikumen" | "villa";
+  act?: string | null;
+};
+
+const ACT_SHORT: Record<string, string> = {
+  prologue: "序",
+  focus: "聚",
+  transit: "渡",
+  epilogue: "跋",
 };
 
 function usePerfProfile() {
@@ -134,6 +142,11 @@ function StopMarker({
           <div className={`map25-card${active ? " is-active" : ""}`}>
             <span className="map25-num">{site.order}</span>
             <span className="map25-name">{site.name}</span>
+            {site.act ? (
+              <span className={`map25-act is-${site.act}`}>
+                {ACT_SHORT[site.act] ?? site.act}
+              </span>
+            ) : null}
           </div>
         </Html>
       </Billboard>
@@ -170,6 +183,7 @@ function Scene({
         x,
         z,
         heroKind: i % 2 === 0 ? "shikumen" : "villa",
+        act: stop.act ?? null,
       })),
     [points],
   );

@@ -109,6 +109,18 @@ export async function fetchDemoWukang(
   return toOutcome(json);
 }
 
+/** 竞赛冻结演示线 B：一大—外滩。 */
+export async function fetchDemoYida(
+  signal?: AbortSignal,
+): Promise<CurateOutcome> {
+  const res = await fetch(`${API_BASE}/v1/demo/yida`, { signal });
+  if (!res.ok) {
+    throw new Error(`演示线接口 HTTP ${res.status}`);
+  }
+  const json: unknown = await res.json();
+  return toOutcome(json);
+}
+
 /**
  * P0：异步策展 + SSE 实时进度。
  * 先 POST /v1/curate/start 拿到 task_id，再经 EventSource 订阅

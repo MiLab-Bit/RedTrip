@@ -84,6 +84,9 @@ class Intent:
     city: str = "shanghai"  # 策展城市 key（见 redtrip_curator.cities.CITY_REGISTRY）
 
 
+PlanAct = Literal["prologue", "focus", "transit", "epilogue"]
+
+
 @dataclass
 class PlannedStop:
     order: int
@@ -91,6 +94,7 @@ class PlannedStop:
     minutes: int
     meaning: str
     transition_to_next: str | None
+    act: PlanAct | None = None
 
 
 @dataclass

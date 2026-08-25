@@ -3144,3 +3144,60 @@ button {
 .hongyuan-slot-chip.is-l3 {
   color: var(--seal);
 }
+
+.brand-kite {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.35rem;
+  filter: drop-shadow(0 1px 0 color-mix(in srgb, var(--ink) 12%, transparent));
+}
+
+.brief-demo-alt {
+  border-color: color-mix(in srgb, var(--ink-wash) 45%, transparent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 92%, var(--ink) 4%);
+}
+
+.kite-seal-mini {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.85em;
+  color: var(--seal);
+  border: 1px solid color-mix(in srgb, var(--seal) 45%, transparent);
+  padding: 0 0.15rem;
+  line-height: 1.1;
+  vertical-align: baseline;
+}
+
+.act-badge {
+  display: inline-block;
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  color: var(--ink-wash);
+}
+
+.act-badge.is-prologue,
+.act-badge.is-epilogue {
+  border-color: color-mix(in srgb, var(--seal) 50%, transparent);
+  color: var(--seal);
+}
+
+.map25-act {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--seal);
+  margin-top: 0.15rem;
+}
+
+.curator-review-inline {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.curator-alt {
+  font-style: italic;
+}

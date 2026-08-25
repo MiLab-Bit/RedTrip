@@ -42,6 +42,8 @@ export const RouteStopSchema = z.object({
   evidence_channel: z
     .enum(["slc", "landmark", "osm", "manual", "amap"])
     .nullish(),
+  /** 规划四段节奏：序章 / 聚焦 / 过渡 / 跋 */
+  act: z.enum(["prologue", "focus", "transit", "epilogue"]).nullish(),
 });
 export type RouteStop = z.infer<typeof RouteStopSchema>;
 

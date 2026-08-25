@@ -20,6 +20,7 @@ import { tripMachine } from "../features/trip/machine";
 import {
   curateRouteStream,
   fetchDemoWukang,
+  fetchDemoYida,
   type StreamChapter,
 } from "../shared/lib/curate";
 import { fetchFootprints } from "../shared/lib/footprints";
@@ -155,28 +156,46 @@ export function App() {
       setLoadProgress((p) => Math.max(p, to));
     };
 
-    const isDemo = mode === "demo";
+    const isDemoWukang = mode === "demo-wukang";
+    const isDemoYida = mode === "demo-yida";
+    const isDemo = isDemoWukang || isDemoYida;
     setLoadProgress(0);
-    setLoadPhase(isDemo ? "L1 · 装载武康冻结演示线…" : "L1 · 提交取证任务…");
+    setLoadPhase(
+      isDemoWukang
+        ? "L1 · 装载武康冻结演示线…"
+        : isDemoYida
+          ? "L1 · 装载一大—外滩冻结演示线…"
+          : "L1 · 提交取证任务…",
+    );
     setDegradeNotices([]);
 
     (async () => {
       try {
         if (isDemo) {
           setLoadProgress(8);
-          setLoadPhase("L1 · 装载武康冻结演示线…");
+          setLoadPhase(
+            isDemoWukang
+              ? "L1 · 装载武康冻结演示线…"
+              : "L1 · 装载一大—外滩冻结演示线…",
+          );
           bump(40, "L2 · 红鸢抽签读法已冻结…");
           const { envelope, assumptions, hongyuan, degraded, notices } =
-            await fetchDemoWukang(ac.signal);
+            isDemoWukang
+              ? await fetchDemoWukang(ac.signal)
+              : await fetchDemoYida(ac.signal);
           if (cancelled) return;
-          bump(72, "L3 · 句级溯源与馆藏 URI 已齐…");
+          bump(72, "L3 · 句级溯源与证据通道已齐…");
           setDegradeNotices(degraded ? notices : []);
           const osm = await fetchFootprints(envelope, ac.signal);
           if (cancelled) return;
           bump(96, "演示线装订完成…");
           await new Promise((r) => setTimeout(r, 120));
           if (cancelled) return;
-          if (!String(envelope.theme || "").includes("武康")) {
+          const theme = String(envelope.theme || "");
+          if (isDemoWukang && !theme.includes("武康")) {
+            throw new Error(`演示线主题异常：${envelope.theme}`);
+          }
+          if (isDemoYida && !theme.includes("外滩")) {
             throw new Error(`演示线主题异常：${envelope.theme}`);
           }
           setLoadProgress(100);
@@ -186,7 +205,9 @@ export function App() {
             assumptions,
             hongyuan,
             footprints: osm.features,
-            osmNote: osm.note || "演示线 · 武康冻结包",
+            osmNote:
+              osm.note ||
+              (isDemoWukang ? "演示线 · 武康冻结包" : "演示线 · 一大外滩冻结包"),
           });
           return;
         }
@@ -406,7 +427,11 @@ export function App() {
             }}
             onDemoWukang={() => {
               setPendingSlots(null);
-              send({ type: "SUBMIT_DEMO" });
+              send({ type: "SUBMIT_DEMO_WUKANG" });
+            }}
+            onDemoYida={() => {
+              setPendingSlots(null);
+              send({ type: "SUBMIT_DEMO_YIDA" });
             }}
           />
         )}

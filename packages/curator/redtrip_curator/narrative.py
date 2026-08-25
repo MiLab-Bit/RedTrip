@@ -115,6 +115,7 @@ def narrate(intent: Intent, plan: RoutePlan, sources_used: list[str]) -> dict[st
                     s.evidence.evidence_channel
                     or ("slc" if s.evidence.buri else "manual")
                 ),
+                "act": s.act,
                 "landmark": landmark or None,
                 # 透传 raw_detail（landmarks 已分离到 landmark 字段；raw_detail
                 # 仍含 amap 内部字段如 location/type/address，前端可选展示）

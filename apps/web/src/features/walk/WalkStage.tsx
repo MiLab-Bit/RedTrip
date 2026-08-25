@@ -57,6 +57,7 @@ export function WalkStage({
     : [];
   const isLast = currentChapter >= storyView.chapters.length;
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const review = envelope.curator_review;
   const doc: BookDoc = useMemo(
     () => buildBookDoc(envelope, storyView, null),
     [envelope, storyView],
@@ -192,6 +193,22 @@ export function WalkStage({
                     </div>
                   </div>
                 )}
+                {review && (review.concerns?.length || review.alternative_thesis) ? (
+                  <div className="curator-review-inline">
+                    <p className="scene-label">策展留白</p>
+                    {(review.concerns ?? []).slice(0, 2).map((c, i) => (
+                      <p className="note" key={i}>
+                        <strong>{c.node ?? "反方"}</strong>：{c.claim}
+                        {c.fix ? ` → ${c.fix}` : ""}
+                      </p>
+                    ))}
+                    {review.alternative_thesis ? (
+                      <p className="note curator-alt">
+                        若换主线：{review.alternative_thesis}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
             )}
             <p className="note reader-footnote">
