@@ -24,6 +24,7 @@ from typing import Any, Callable
 from .hongyuan import VoicePack
 from .llm import chat_json, llm_configured
 from .models import RoutePlan
+from .storyline import detect_arc
 from .sentence_provenance import (
     SentenceClaim,
     SentenceProvenanceReport,
@@ -370,6 +371,21 @@ def _chat_meta(
         "fact_catalog_by_stop": _fact_catalog_by_stop(plan),
     }
     voice_block = voice.as_prompt_block() if voice else "（未抽签，保持克制润色）"
+
+    # step④：叙事弧——仅据证据识别贯穿主线，要求 theme/logic_line 写成可贯穿全本的线
+    arc = detect_arc(plan)
+    arc_block = ""
+    main = arc.get("main_thread")
+    if main:
+        arc_block = (
+            "\n\n【叙事弧（典籍新生主线）】本路线的贯穿主线已据证据自动识别为："
+            f"类型={main['type']}，人物/朝代={main['label']}，覆盖第 {main['orders']} 站。"
+            "请把 theme / logic_line 写成一条可贯穿全本的「线」：开头点出这条主线"
+            "（城市记忆被放大、古老足迹被发掘与溯源），中间各章沿主线递进，"
+            "结尾收束到「写成书」的策展感。logic_line 必须显式串起主线与每一站的关联，"
+            "不要用泛泛的「历史与现代交融」「独树一帜」替代具体事实。"
+        )
+
     user = (
         f"{voice_block}\n\n"
         "以下是已取证事实目录（fact_catalog_by_stop）与模板草稿。"
@@ -377,6 +393,7 @@ def _chat_meta(
         "meaning / transition_to_next），返回 JSON。\n"
         + json.dumps(payload, ensure_ascii=False)
         + "\n\n" + _META_SCHEMA
+        + arc_block
         + "\n\n【衔接句纪律】transition_to_next 必须仍是史实/人物/记载理由，"
         "禁止「步行可达/顺路」当主理由；套话与禁词由 Gate 在末端统一复核，"
         "本提示不再重复列举，请自然写出即可。"
@@ -494,6 +511,20 @@ def _chat_card(
     # 站点名称（card.title 来自 draft_card）
     stop_meta["name"] = (card.get("title") or "").split("·")[-1].strip() or stop_meta.get("name", "")
 
+    # step④：本章在整本中的位置（卷→章→节递进），让单卡承接上一章、引出下一章
+    arc = meta_ctx.get("narrative_arc") or {}
+    arc_hint = ""
+    main = arc.get("main_thread")
+    total = int(arc.get("total_stops", 1) or 1)
+    if main:
+        pos = "开篇" if stop_order == 1 else ("收束" if stop_order == total else f"第 {stop_order}/{total} 章")
+        arc_hint = (
+            f"\n【本章位置】本文是整本的第 {stop_order}/{total} 章（{pos}）。"
+            f"全本主线：{main['label']}（{main['type']}）。"
+            "请让本卡的 title / body 承接上一章、引出下一章，使全本像一册被翻开的典籍："
+            "人物与记载沿主线递进，避免各章各自为战；不要写「下一站是」式转场。"
+        )
+
     user = (
         f"{voice_block}\n\n"
         "请基于下面 stop_metadata 与 fact_catalog，写该站点一张独特的故事卡（title / body / age_parallel）。\n"
@@ -515,6 +546,7 @@ def _chat_card(
         f"\nstop_metadata: {json.dumps(stop_meta, ensure_ascii=False)}\n"
         + json.dumps(payload, ensure_ascii=False)
         + "\n\n" + _CARD_SCHEMA
+        + arc_hint
         + "\n\n" + _CARD_BODY_GUIDANCE
     )
     temperature = 0.55 if voice else 0.35
@@ -679,6 +711,8 @@ def polish_envelope(
             "why_visit": out.get("why_visit"),
             "curator_note": out.get("curator_note"),
         }
+        # step④：把贯穿主线随风格上下文一起传给逐卡，使单卡知道自己在整本中的章位置
+        meta_ctx["narrative_arc"] = detect_arc(plan)
 
     # 2) 逐卡并行 + 完成即回调
     facts_by_stop = _fact_catalog_by_stop(plan)
