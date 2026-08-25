@@ -7,6 +7,8 @@ const DATASET_LABEL: Record<string, string> = {
   event_list: "事件记载",
   "fixture/demo": "演示核录",
   "R-20 whitelist": "R-20 白名单",
+  cbdb_classical: "CBDB 典籍",
+  cbdb: "CBDB 典籍",
 };
 
 export function datasetLabel(dataset: string): string {
@@ -25,6 +27,12 @@ export function kindLabel(kind: string): string {
       return "年代";
     case "poem":
       return "诗文";
+    case "geoname":
+      return "地名";
+    case "literary":
+      return "文史";
+    case "classical":
+      return "典籍";
     default:
       return kind;
   }
@@ -43,3 +51,17 @@ export function shortRecordId(recordId: string): string {
 export function sourceHeadline(source: SourceRef): string {
   return datasetLabel(source.dataset);
 }
+
+/** CBDB 人物记录回查 URL（典籍溯源链外链） */
+export function cbdbRecordUrl(recordId: string): string | null {
+  // record_id 形如 cbdb:616847 或纯 616847
+  const m = recordId.match(/(\d+)$/);
+  if (!m) return null;
+  return `https://cbdb.fas.harvard.edu/cbdbapi/person.php?id=${m[1]}&o=db`;
+}
+
+/** 是否为典籍（CBDB）来源 */
+export function isClassicalSource(dataset: string): boolean {
+  return dataset === "cbdb_classical" || dataset === "cbdb" || /cbdb/i.test(dataset);
+}
+

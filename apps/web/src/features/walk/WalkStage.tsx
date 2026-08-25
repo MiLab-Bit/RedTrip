@@ -7,7 +7,14 @@ import {
   type StoryView,
 } from "../story/storyView";
 import { NarrativeMap, ROLE_LABEL } from "../story/NarrativeMap";
-import { shortRecordId, kindLabel } from "./sourceLabels";
+import {
+  shortRecordId,
+  kindLabel,
+  datasetLabel,
+  isClassicalSource,
+  cbdbRecordUrl,
+} from "./sourceLabels";
+import { classicalVerificationRate } from "./ClassicalLayer";
 import { buildBookDoc, exportPdf, exportEpub, type BookDoc } from "../story/exportBook";
 
 type Props = {
@@ -58,6 +65,18 @@ export function WalkStage({
   const doc: BookDoc = useMemo(
     () => buildBookDoc(envelope, storyView, null),
     [envelope, storyView],
+  );
+
+  // 典籍溯源分组：本章证据中来自 CBDB 的，单独前置展示
+  const classicalFactsHere = facts.filter(
+    (f) => f.layer === "classical" || isClassicalSource(f.source_dataset),
+  );
+  const otherFacts = facts.filter(
+    (f) => !(f.layer === "classical" || isClassicalSource(f.source_dataset)),
+  );
+  const verification = useMemo(
+    () => classicalVerificationRate(envelope),
+    [envelope],
   );
 
   return (
@@ -153,29 +172,88 @@ export function WalkStage({
                     本章未单独标注证据清单；叙事正文的句末标记仍可逐句溯源。
                   </p>
                 )}
-                {facts.map((f) => (
-                  <button
-                    type="button"
-                    key={f.fact_uri}
-                    className="evidence-item"
-                    onClick={() =>
-                      onOpenSource({
-                        dataset: f.source_dataset,
-                        record_id: f.fact_uri,
-                        excerpt: f.assertion,
-                      })
-                    }
-                  >
-                    <span className={`layer-badge layer-${f.layer}`}>
-                      {kindLabel(f.layer)}
-                    </span>
-                    <span className="evidence-label">{f.label}</span>
-                    <span className="evidence-assertion">{f.assertion}</span>
-                    <span className="evidence-record">
-                      <code title={f.fact_uri}>{shortRecordId(f.fact_uri)}</code>
-                    </span>
-                  </button>
-                ))}
+
+                {classicalFactsHere.length > 0 && (
+                  <div className="evidence-group evidence-group-classical">
+                    <p className="evidence-group-label">
+                      <span className="classical-badge small">典</span>
+                      典籍溯源
+                      <span className="evidence-group-count">
+                        {classicalFactsHere.length}
+                      </span>
+                    </p>
+                    {classicalFactsHere.map((f) => {
+                      const cbdbUrl = cbdbRecordUrl(f.fact_uri);
+                      return (
+                        <button
+                          type="button"
+                          key={f.fact_uri}
+                          className="evidence-item evidence-item-classical"
+                          onClick={() =>
+                            onOpenSource({
+                              dataset: f.source_dataset,
+                              record_id: f.fact_uri,
+                              excerpt: f.assertion,
+                            })
+                          }
+                        >
+                          <span className={`layer-badge layer-${f.layer}`}>
+                            {kindLabel(f.layer)}
+                          </span>
+                          <span className="evidence-label">{f.label}</span>
+                          <span className="evidence-assertion">{f.assertion}</span>
+                          <span className="evidence-record">
+                            <code title={f.fact_uri}>{shortRecordId(f.fact_uri)}</code>
+                            {cbdbUrl && (
+                              <a
+                                className="evidence-cbdb-link"
+                                href={cbdbUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                title="在哈佛 CBDB 原库回查"
+                              >
+                                原库 ↗
+                              </a>
+                            )}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {otherFacts.length > 0 && (
+                  <div className="evidence-group">
+                    {classicalFactsHere.length > 0 && (
+                      <p className="evidence-group-label">其他证据</p>
+                    )}
+                    {otherFacts.map((f) => (
+                      <button
+                        type="button"
+                        key={f.fact_uri}
+                        className="evidence-item"
+                        onClick={() =>
+                          onOpenSource({
+                            dataset: f.source_dataset,
+                            record_id: f.fact_uri,
+                            excerpt: f.assertion,
+                          })
+                        }
+                      >
+                        <span className={`layer-badge layer-${f.layer}`}>
+                          {kindLabel(f.layer)}
+                        </span>
+                        <span className="evidence-label">{f.label}</span>
+                        <span className="evidence-assertion">{f.assertion}</span>
+                        <span className="evidence-record">
+                          <code title={f.fact_uri}>{shortRecordId(f.fact_uri)}</code>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 {castEntities.length > 0 && (
                   <div className="evidence-cast">
                     <p className="scene-label">本章人物</p>
@@ -192,6 +270,13 @@ export function WalkStage({
             )}
             <p className="note reader-footnote">
               证据来自上海图书馆开放数据 · 逐条可核
+              {verification.total > 0 && (
+                <span className="reader-footnote-verify">
+                  {" · "}
+                  典籍核验 {verification.aligned}/{verification.total}（
+                  {Math.round(verification.rate * 100)}%）
+                </span>
+              )}
             </p>
           </div>
         </div>
