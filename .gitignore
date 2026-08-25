@@ -34,6 +34,7 @@ backups/
 Thumbs.db
 .vscode/
 .idea/
+.cursor/
 
 # ── 端到端验证产物（含网关生成内容，非源码）──
 content/e2e/
