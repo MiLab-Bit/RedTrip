@@ -222,6 +222,19 @@
   font-size: 11px;
   color: var(--faint);
 }
+.usermenu-byok {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--seal) 12%, transparent);
+  color: var(--seal);
+  border: 1px solid color-mix(in srgb, var(--seal) 35%, transparent);
+}
+.usermenu-byok-line {
+  color: var(--seal) !important;
+  font-size: 12px !important;
+}
 .usermenu-pop {
   position: absolute;
   right: 0;

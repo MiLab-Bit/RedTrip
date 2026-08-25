@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "city": "shanghai",
+  "updated_at": "2026-08-25",
+  "source": "placeholder",
+  "notes": [
+    "占位展讯：供 Gate 时效维度和策展 RAG 预筛接入；尚未接实时 API",
+    "正文不得把展期当作史实写入 story_card，仅可在 curator_note / 假设中标注",
+    "接实时后由 scripts/sync_exhibitions.py 或运维周更覆盖"
+  ],
+  "exhibitions": [
+    {
+      "id": "ex-shl-competition-2026",
+      "venue": "上海图书馆",
+      "venue_alias": ["上图", "上海图书馆东馆"],
+      "title": "典籍新生——开放数据创意应用",
+      "start": "2026-08-01",
+      "end": "2026-09-30",
+      "tags": ["竞赛", "开放数据"],
+      "district": "徐汇",
+      "hint": "展期以官方公示为准，不作路线开放时间依据"
+    },
+    {
+      "id": "ex-yida-memorial",
+      "venue": "中共一大会址纪念馆",
+      "venue_alias": ["一大", "兴业路76号"],
+      "title": "伟大的开端——中国共产党创建史陈列",
+      "start": "2026-01-01",
+      "end": "2026-12-31",
+      "tags": ["红色文化", "常设"],
+      "district": "黄浦",
+      "hint": "常设展；参观预约以纪念馆现场与官网为准"
+    },
+    {
+      "id": "ex-ram-bund",
+      "venue": "上海外滩美术馆",
+      "venue_alias": ["外滩美术馆", "RAM"],
+      "title": "城市界面——当代视角下的外滩",
+      "start": "2026-07-15",
+      "end": "2026-10-15",
+      "tags": ["当代艺术", "外滩"],
+      "district": "黄浦",
+      "hint": "特展档期占位；开放时间与票价以馆方为准"
+    },
+    {
+      "id": "ex-power-station",
+      "venue": "上海当代艺术博物馆",
+      "venue_alias": ["PSA", "电厂"],
+      "title": "工业记忆与当代策展",
+      "start": "2026-06-01",
+      "end": "2026-11-30",
+      "tags": ["当代艺术", "工业遗产"],
+      "district": "黄浦",
+      "hint": "占位条目；不可写入未核实的展名细节"
+    }
+  ]
+}

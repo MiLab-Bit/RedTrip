@@ -6,6 +6,7 @@ import {
 } from "@redtrip/contracts";
 
 import { API_BASE } from "./apiBase";
+import { authHeaders } from "./authClient";
 
 /**
  * 策展结果。
@@ -81,7 +82,7 @@ function toOutcome(raw: unknown): CurateOutcome {
 export async function curateRoute(slots: IntentSlots): Promise<CurateOutcome> {
   const res = await fetch(`${API_BASE}/v1/curate`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify({
       message: undefined,
       slots,
@@ -135,7 +136,7 @@ export async function curateRouteStream(
 ): Promise<CurateOutcome> {
   const startRes = await fetch(`${API_BASE}/v1/curate/start`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify({ message: undefined, slots, retry_count: 0 }),
     signal,
   });

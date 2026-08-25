@@ -376,8 +376,19 @@ export function App() {
       {!isBrief && (
         <header className="topbar">
           <div className="brand brand-mark">
+            <img
+              className="brand-kite"
+              src="/redtrip-kite.svg"
+              alt=""
+              aria-hidden
+              width={28}
+              height={28}
+            />
             <span className="brand-word">红鸢</span>
             <small className="brand-tag">RedTrip · 城市记忆策展人</small>
+            <span className="brand-seal" aria-hidden>
+              鸢
+            </span>
           </div>
           <div className="source-badge">
             {cityName(activeCity)} · 可溯源书页

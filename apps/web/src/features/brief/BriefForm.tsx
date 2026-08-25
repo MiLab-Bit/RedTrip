@@ -12,6 +12,8 @@ import {
   type CityInfo,
 } from "../../shared/lib/cities";
 import { useCityStore } from "../../shared/lib/cityStore";
+import { useAuthStore } from "../auth/authStore";
+import { listModelProviders } from "../../shared/lib/authClient";
 
 const defaults: IntentSlots = {
   audience: "成人",
@@ -51,6 +53,8 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
   const [showMore, setShowMore] = useState(false);
   const setCityStore = useCityStore((s) => s.setCity);
   const activeCity = useCityStore((s) => s.city);
+  const authStatus = useAuthStore((s) => s.status);
+  const [byokReady, setByokReady] = useState(false);
   const [suggestions, setSuggestions] = useState<PlaceSuggestItem[]>([]);
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [suggestMeta, setSuggestMeta] = useState("馆藏 · 走廊 · 热词");
@@ -78,6 +82,25 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
       cancelled = true;
     };
   }, [slots.city, setCityStore]);
+
+  useEffect(() => {
+    if (authStatus !== "authenticated") {
+      setByokReady(false);
+      return;
+    }
+    let cancelled = false;
+    void listModelProviders()
+      .then((list) => {
+        if (cancelled) return;
+        setByokReady(list.some((p) => p.status === "active" && p.slot === "text"));
+      })
+      .catch(() => {
+        if (!cancelled) setByokReady(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [authStatus]);
 
   const selectedScene = slots.scene ?? "";
 
@@ -468,6 +491,21 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
         </div>
 
         <div className="brief-actions">
+          {authStatus !== "authenticated" && (
+            <p className="brief-byok-hint">
+              登录并配置模型密钥后，策展将优先使用你的 BYOK 大模型；未登录则走服务端默认模型。
+            </p>
+          )}
+          {authStatus === "authenticated" && !byokReady && (
+            <p className="brief-byok-hint is-soft">
+              已登录。在右上角「模型配置」保存并验证 API Key 后，策展将走 BYOK。
+            </p>
+          )}
+          {byokReady && (
+            <p className="brief-byok-hint is-on">
+              BYOK 已就绪 · 本次策展将使用你配置的文本模型
+            </p>
+          )}
           <button
             type="button"
             className="btn brief-cta"
