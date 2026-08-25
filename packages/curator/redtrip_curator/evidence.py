@@ -16,6 +16,7 @@ from .models import BuildingEvidence, EvidencePack, IdentityLayer, Intent, Sourc
 from .rag import _is_noise_name
 from .rag import retrieve as _rag_retrieve
 from .whitelist import Whitelist, WhitelistPoint, load_whitelist
+from .classics import attach_classical_layers  # 典籍源（CBDB）
 
 # ---------------------------------------------------------------------------
 # 本地策展语料：地名志 / 文学交集（静态兜底）
@@ -1307,6 +1308,17 @@ def fetch_evidence(client: SlcClient, intent: Intent, *, limit: int = 10) -> Evi
             gaps.append(
                 {"subject": "partner 数据源", "note": "接入异常（已跳过，不影响主链路）"}
             )
+
+    # 典籍源（CBDB 中国历代人物传记）：对每栋建筑已挂的 person 图层，
+    # 按「同名同城市」查典籍传记，附加 classical 图层。零 token、纯本地查表。
+    try:
+        _city = getattr(intent, "city", None) or "shanghai"
+        for _be in buildings:
+            attach_classical_layers(_be, city=_city)
+        if any(any(l.kind == "classical" for l in b.layers) for b in buildings):
+            sources_used.append("cbdb_classical")
+    except Exception:  # noqa: BLE001
+        gaps.append({"subject": "cbdb_classical", "note": "典籍层挂载异常（已跳过）"})
 
     if len(buildings) < 3:
         gaps.append({"subject": "候选建筑不足", "note": "暂无数据支撑"})

@@ -22,7 +22,7 @@ class SourceRef:
 
 @dataclass
 class IdentityLayer:
-    kind: Literal["building", "event", "era", "poem", "person", "geoname", "literary"]
+    kind: Literal["building", "event", "era", "poem", "person", "geoname", "literary", "classical"]
     label: str
     claim: str
     source: SourceRef
