@@ -97,6 +97,18 @@ export async function curateRoute(slots: IntentSlots): Promise<CurateOutcome> {
   return toOutcome(json);
 }
 
+/** 竞赛冻结演示线：一键武康，不等待 LLM。 */
+export async function fetchDemoWukang(
+  signal?: AbortSignal,
+): Promise<CurateOutcome> {
+  const res = await fetch(`${API_BASE}/v1/demo/wukang`, { signal });
+  if (!res.ok) {
+    throw new Error(`演示线接口 HTTP ${res.status}`);
+  }
+  const json: unknown = await res.json();
+  return toOutcome(json);
+}
+
 /**
  * P0：异步策展 + SSE 实时进度。
  * 先 POST /v1/curate/start 拿到 task_id，再经 EventSource 订阅

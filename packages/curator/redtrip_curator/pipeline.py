@@ -18,7 +18,7 @@ from .narrative import narrate
 from .plan import RoutePlan, plan_route
 from .polish import polish_envelope
 from .review import review_envelope
-from .sentence_provenance import SentenceProvenanceReport
+from .sentence_provenance import SentenceProvenanceReport, build_sp_from_envelope
 
 # Ensure gate package importable when running from API / scripts
 _GATE = Path(__file__).resolve().parents[2] / "gate"
@@ -57,14 +57,20 @@ def _finalize_narrative(
     """
     notes: list[str] = []
     if not llm_configured():
-        return draft, ["叙事：模板（未配置 LLM）"], "template", None
+        sp = build_sp_from_envelope(draft)
+        if sp:
+            draft = {**draft, "sentence_provenance": sp.as_dict()}
+        return draft, ["叙事：模板（未配置 LLM）"], "template", sp
 
     polished, polish_notes, sp = polish_envelope(
         draft, voice=voice, plan=plan, on_chapter=on_chapter
     )
     notes.extend(polish_notes)
     if not polished:
-        return draft, notes, "template", None
+        sp_fb = build_sp_from_envelope(draft)
+        if sp_fb:
+            draft = {**draft, "sentence_provenance": sp_fb.as_dict()}
+        return draft, notes, "template", sp_fb
 
     verdict = evaluate_envelope(polished)
     if verdict.passed:
@@ -85,13 +91,20 @@ def _finalize_narrative(
                         )
             except Exception as e:  # noqa: BLE001
                 notes.append(f"反方策展人评审跳过：{e}")
+        if sp is None:
+            sp = build_sp_from_envelope(polished)
+            if sp:
+                polished["sentence_provenance"] = sp.as_dict()
         return polished, notes, "llm_polish", sp
 
     notes.append(
         "叙事：LLM 润色未过 Gate，已回退模板 — "
         + "；".join(verdict.blockers[:3])
     )
-    return draft, notes, "template", None
+    sp_fb = build_sp_from_envelope(draft)
+    if sp_fb:
+        draft = {**draft, "sentence_provenance": sp_fb.as_dict()}
+    return draft, notes, "template", sp_fb
 
 
 def curate(

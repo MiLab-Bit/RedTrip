@@ -3065,3 +3065,88 @@ button {
 .relation-legend-btn:hover {
   color: var(--vermilion);
 }
+
+.brief-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.brief-demo {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  border: 1px solid color-mix(in srgb, var(--seal) 55%, transparent);
+  color: var(--seal);
+  background: color-mix(in srgb, var(--seal) 8%, transparent);
+}
+
+.brief-more-toggle {
+  display: block;
+  margin: 0.35rem 0 0.15rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-wash);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.channel-badge {
+  display: inline-block;
+  font-size: 0.72em;
+  letter-spacing: 0.12em;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  color: var(--ink-wash);
+}
+
+.channel-badge.is-slc {
+  border-color: color-mix(in srgb, var(--seal) 55%, transparent);
+  color: var(--seal);
+}
+
+.hongyuan-seal-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.85rem 0 1rem;
+  padding: 0.55rem 0.65rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.hongyuan-seal {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  color: var(--seal);
+  border: 1.5px solid color-mix(in srgb, var(--seal) 75%, transparent);
+  transform: rotate(8deg);
+  animation: seal-stamp 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hongyuan-seal-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.hongyuan-slot-chip {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-wash);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  padding-bottom: 0.05rem;
+}
+
+.hongyuan-slot-chip.is-l3 {
+  color: var(--seal);
+}

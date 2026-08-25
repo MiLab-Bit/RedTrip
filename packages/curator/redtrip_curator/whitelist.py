@@ -27,6 +27,7 @@ class WhitelistPoint:
     need_reservation: str
     photo_spot: str | None
     district_tag: str
+    evidence_channel: str = "manual"
 
     def pitfalls(self) -> dict[str, str]:
         return {
@@ -65,6 +66,16 @@ def _parse_point(raw: dict[str, Any]) -> WhitelistPoint | None:
             buri = None
         if isinstance(buri, str) and not buri.strip():
             buri = None
+        channel = str(raw.get("evidence_channel") or "").strip().lower()
+        if not channel:
+            if buri:
+                channel = "slc"
+            elif str(raw.get("coord_source") or "") == "osm":
+                channel = "osm"
+            elif str(raw.get("coord_source") or "") == "amap":
+                channel = "landmark"
+            else:
+                channel = "manual"
         return WhitelistPoint(
             id=str(raw["id"]),
             name=str(raw["name"]),
@@ -78,6 +89,7 @@ def _parse_point(raw: dict[str, Any]) -> WhitelistPoint | None:
             need_reservation=str(raw.get("need_reservation") or "未收录"),
             photo_spot=raw.get("photo_spot") if isinstance(raw.get("photo_spot"), str) else None,
             district_tag=str(raw.get("district_tag") or ""),
+            evidence_channel=channel,
         )
     except (KeyError, TypeError, ValueError):
         return None

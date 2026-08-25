@@ -39,11 +39,14 @@ const companions = ["独自", "2人", "3–4人"] as const;
 
 type Props = {
   onSubmit: (slots: IntentSlots) => void;
+  /** 竞赛一键：加载冻结武康演示线（不等待 LLM） */
+  onDemoWukang?: () => void;
 };
 
-export function BriefForm({ onSubmit }: Props) {
+export function BriefForm({ onSubmit, onDemoWukang }: Props) {
   const [slots, setSlots] = useState<IntentSlots>({ ...defaults });
   const [cities, setCities] = useState<CityInfo[]>([]);
+  const [showMore, setShowMore] = useState(false);
   const setCityStore = useCityStore((s) => s.setCity);
   const activeCity = useCityStore((s) => s.city);
   const [suggestions, setSuggestions] = useState<PlaceSuggestItem[]>([]);
@@ -364,9 +367,9 @@ export function BriefForm({ onSubmit }: Props) {
           </div>
 
           <div className="brief-chips-block">
-            <span className="brief-chip-label">时长 · 街区漫游</span>
-            <div className="brief-chips" role="group" aria-label="街区漫游时长">
-              {streetDurations.map((d) => (
+            <span className="brief-chip-label">多久</span>
+            <div className="brief-chips" role="group" aria-label="步行时长">
+              {[...streetDurations, ...cityDurations].map((d) => (
                 <button
                   key={d}
                   type="button"
@@ -374,39 +377,6 @@ export function BriefForm({ onSubmit }: Props) {
                   onClick={() => setSlots({ ...slots, duration_min: d })}
                 >
                   {durationLabel(d)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="brief-chips-block">
-            <span className="brief-chip-label">时长 · 城市漫游</span>
-            <div className="brief-chips" role="group" aria-label="城市漫游时长">
-              {cityDurations.map((d) => (
-                <button
-                  key={d}
-                  type="button"
-                  className={`brief-chip${slots.duration_min === d ? " is-on" : ""}`}
-                  onClick={() => setSlots({ ...slots, duration_min: d })}
-                >
-                  {durationLabel(d)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="brief-chips-block">
-            <span className="brief-chip-label">时段</span>
-            <div className="brief-chips" role="group" aria-label="时段">
-              {dayparts.map((dp) => (
-                <button
-                  key={dp.id}
-                  type="button"
-                  title={dp.hint}
-                  className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
-                  onClick={() => setSlots({ ...slots, daypart: dp.id })}
-                >
-                  {dp.label}
                 </button>
               ))}
             </div>
@@ -429,7 +399,7 @@ export function BriefForm({ onSubmit }: Props) {
           </div>
 
           <div className="brief-chips-block">
-            <span className="brief-chip-label">同行</span>
+            <span className="brief-chip-label">和谁</span>
             <div className="brief-chips" role="group" aria-label="同行">
               {companions.map((c) => (
                 <button
@@ -444,18 +414,47 @@ export function BriefForm({ onSubmit }: Props) {
             </div>
           </div>
 
-          <div className="field brief-audience">
-            <label htmlFor="brief-audience">对象</label>
-            <select
-              id="brief-audience"
-              value={slots.audience ?? "成人"}
-              onChange={(e) => setSlots({ ...slots, audience: e.target.value })}
-            >
-              <option value="成人">成人</option>
-              <option value="青年">青年</option>
-              <option value="亲子">亲子</option>
-            </select>
-          </div>
+          <button
+            type="button"
+            className="brief-more-toggle"
+            onClick={() => setShowMore((v) => !v)}
+          >
+            {showMore ? "收起时段与对象" : "更多：时段与对象"}
+          </button>
+
+          {showMore && (
+            <>
+              <div className="brief-chips-block">
+                <span className="brief-chip-label">时段</span>
+                <div className="brief-chips" role="group" aria-label="时段">
+                  {dayparts.map((dp) => (
+                    <button
+                      key={dp.id}
+                      type="button"
+                      title={dp.hint}
+                      className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
+                      onClick={() => setSlots({ ...slots, daypart: dp.id })}
+                    >
+                      {dp.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="field brief-audience">
+                <label htmlFor="brief-audience">对象</label>
+                <select
+                  id="brief-audience"
+                  value={slots.audience ?? "成人"}
+                  onChange={(e) => setSlots({ ...slots, audience: e.target.value })}
+                >
+                  <option value="成人">成人</option>
+                  <option value="青年">青年</option>
+                  <option value="亲子">亲子</option>
+                </select>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="brief-actions">
@@ -466,6 +465,15 @@ export function BriefForm({ onSubmit }: Props) {
           >
             开始策展
           </button>
+          {onDemoWukang ? (
+            <button
+              type="button"
+              className="btn brief-demo"
+              onClick={onDemoWukang}
+            >
+              演示武康 · 六站可溯源
+            </button>
+          ) : null}
         </div>
         <p className="brief-footnote">
           {cityName(activeCity)}开放数据 · 证据先于叙事 · 高度缺省处标「示意」

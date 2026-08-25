@@ -47,6 +47,7 @@ from app import auth_store as _auth_store  # noqa: E402
 # FIXTURE_PATH 已彻底拆除——demo-route.json 不再作为降级产物使用。
 WHITELIST_PATH = ROOT / "content" / "whitelist" / "points.json"
 HOTWORDS_PATH = ROOT / "content" / "hotwords" / "latest.json"
+DEMO_WUKANG_PATH = ROOT / "content" / "fixtures" / "demo-route.json"
 
 
 def _hotwords_health() -> dict[str, Any]:
@@ -362,6 +363,46 @@ def health(probe: bool = Query(default=False, description="probe live providers"
         payload["provider_probe"] = live_probe
         payload["ok"] = all(live_results.values())
     return payload
+
+
+@app.get("/v1/demo/wukang", response_model=CurateResponse, response_model_exclude_none=True)
+def demo_wukang() -> CurateResponse:
+    """竞赛冻结演示线：显式一键加载，绝不作为普通 curate 失败兜底。"""
+    if not DEMO_WUKANG_PATH.exists():
+        return CurateResponse(
+            status="error",
+            reasons=["演示线 fixture 缺失：content/fixtures/demo-route.json"],
+        )
+    raw = json.loads(DEMO_WUKANG_PATH.read_text(encoding="utf-8"))
+    hongyuan_raw = raw.pop("_demo_hongyuan", None)
+    hongyuan = None
+    if isinstance(hongyuan_raw, dict):
+        try:
+            hongyuan = HongyuanMeta.model_validate(hongyuan_raw)
+        except Exception:  # noqa: BLE001
+            hongyuan = HongyuanMeta(
+                agent="红鸢",
+                summary=str(hongyuan_raw.get("summary") or "红鸢演示读法"),
+            )
+    assumptions = list(raw.get("assumptions") or [])
+    assumptions = list(
+        dict.fromkeys([*assumptions, "演示线=武康冻结包", "通道=slc 六站可点 URI"])
+    )
+    return CurateResponse(
+        status="ok",
+        phase="full",
+        envelope=raw,
+        reasons=[],
+        meta=CurateMeta(
+            latency_ms=0,
+            assumptions=assumptions,
+            mode="snapshot",
+            evidence_count=len((raw.get("route") or {}).get("stops") or []),
+            narrative="template",
+            hongyuan=hongyuan,
+            gate=GateMeta(passed=True, warnings=[]),
+        ),
+    )
 
 
 @app.get("/v1/slc/probe")

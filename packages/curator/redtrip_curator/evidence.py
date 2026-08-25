@@ -236,6 +236,7 @@ def _scene_landmark_db(
             raw_detail=raw,
             coord_source="amap",
             precision="approximate",
+            evidence_channel="landmark",
         )
         if lk and lk.get("characters"):
             for ch in lk["characters"]:
@@ -407,6 +408,9 @@ def _apply_whitelist_geo(be: BuildingEvidence, wp: WhitelistPoint | None) -> Non
     be.lng = wp.lng
     be.coord_source = wp.coord_source
     be.precision = wp.precision
+    be.evidence_channel = wp.evidence_channel or (
+        "slc" if wp.buri else "manual"
+    )
     if wp.name:
         be.name = wp.name
 
@@ -1039,6 +1043,7 @@ def _scene_amap(
                 raw_detail=raw,
                 coord_source="amap",
                 precision="approximate",
+                evidence_channel="slc" if g and g.get("uri") else "landmark",
                 layers=layers,
             )
         )
