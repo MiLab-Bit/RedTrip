@@ -4,6 +4,7 @@ import type {
   SourceRef,
 } from "@redtrip/contracts";
 import type { StoryView } from "./storyView";
+import { datasetLabel as dsLabel } from "../walk/sourceLabels";
 
 /* ------------------------------------------------------------------ *
  *  RedTrip 导出引擎（零依赖）
@@ -75,16 +76,7 @@ function bodyToParagraphs(raw: string | undefined): string[] {
 }
 
 function datasetLabel(dataset: string): string {
-  const map: Record<string, string> = {
-    slc_building: "上图书目 · 建筑",
-    slc_event: "上图事件",
-    slc_person: "上图人物",
-    slc_era: "纪年",
-    slc_poem: "诗词",
-    geoname: "地名志",
-    literary: "文学交集",
-  };
-  return map[dataset] ?? dataset;
+  return dsLabel(dataset);
 }
 
 /** 汇总全书内容：序章 + 各章散文 + 跋 + 出处索引。 */
