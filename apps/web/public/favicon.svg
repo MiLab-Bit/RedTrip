@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Favicon-optimized ¢"¸" —Ï¹:øÍï¨¤ -->
+  <rect width="64" height="64" rx="12" fill="#F2EBDD"/>
+  <path d="M32 10 L50 30 L32 50 L14 30 Z" fill="#A8322A" fill-opacity="0.12" stroke="#A8322A" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M32 10 L32 50" stroke="#A8322A" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M14 30 L50 30" stroke="#A8322A" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M24 48 L20 57 M28 50 L26 57" stroke="#A8322A" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  <path d="M40 48 L44 57 M36 50 L38 57" stroke="#A8322A" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  <path d="M32 50 C36 54 42 56 48 54 C52 53 55 50 56 46" stroke="#A8322A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <circle cx="56" cy="46" r="2.8" fill="#A8322A"/>
+</svg>
