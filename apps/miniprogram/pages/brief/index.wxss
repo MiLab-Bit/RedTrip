@@ -11,3 +11,8 @@
   color: #a8906a;
   text-decoration: underline;
 }
+
+.input-placeholder {
+  color: #b0a898;
+  font-size: 28rpx;
+}

@@ -135,6 +135,22 @@ page {
   color: var(--ink-deep);
 }
 
+/* 原生 input 在部分机型上 padding 撑不开高度，强制可点区域 */
+.input {
+  min-height: 88rpx;
+  height: 88rpx;
+  line-height: 44rpx;
+  padding: 22rpx 24rpx;
+}
+
+.scene-input {
+  min-height: 96rpx;
+  height: 96rpx;
+  font-size: 32rpx;
+  line-height: 48rpx;
+  padding: 24rpx 28rpx;
+}
+
 .picker-value {
   min-height: 88rpx;
   display: flex;
