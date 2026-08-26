@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
@@ -1079,6 +1079,25 @@ def curate_start(req: CurateRequest, request: Request) -> CurateStartResponse:
 
 def _sse(event: str, data: dict) -> str:
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
+
+
+@app.get("/v1/curate/status/{task_id}")
+def curate_status(task_id: str) -> dict:
+    """轮询策展任务状态（微信小程序等无 EventSource 的客户端）。"""
+    with _curate_tasks_lock:
+        task = _curate_tasks.get(task_id)
+        if task is None:
+            raise HTTPException(status_code=404, detail="task not found")
+        return {
+            "task_id": task.task_id,
+            "status": task.status,
+            "progress": round(task.progress, 2),
+            "stage": task.stage,
+            "message": task.message,
+            "ok": task.ok,
+            "result": task.result if task.status == "done" else None,
+            "error": task.error,
+        }
 
 
 @app.get("/v1/curate/stream/{task_id}")

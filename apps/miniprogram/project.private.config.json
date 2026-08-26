@@ -1,0 +1,7 @@
+{
+  "description": "本地开发覆盖项（可改 urlCheck 等，勿提交敏感信息）",
+  "projectname": "RedTrip",
+  "setting": {
+    "urlCheck": false
+  }
+}

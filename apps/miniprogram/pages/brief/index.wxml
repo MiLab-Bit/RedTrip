@@ -1,0 +1,130 @@
+<view class="container brief-page">
+  <view class="brand-row">
+    <image class="brand-logo" src="/assets/kite.png" mode="aspectFit" />
+    <text class="brand-word">红鸢</text>
+    <view class="brand-seal">鸢</view>
+    <text class="brand-tag">RedTrip · 城市记忆策展人</text>
+  </view>
+
+  <view class="title">用馆藏，策一场九十分钟的步行展览</view>
+  <view class="lead">目录给条目，我们给关系——把散落在馆藏里的建筑、人物与事件，编成一条走得动、站站可溯源的故事线。</view>
+
+  <view class="wont-list">
+    <text class="wont-item">不做实时导航</text>
+    <text class="wont-item">不做景点点评聚合</text>
+    <text class="wont-item">不编造无出处的史实</text>
+  </view>
+
+  <view class="field">
+    <text class="field-label">在哪个城市走</text>
+    <picker mode="selector" range="{{cityLabels}}" value="{{cityIndex}}" bindchange="onCityChange">
+      <view class="picker-value">{{cityLabels[cityIndex]}}</view>
+    </picker>
+  </view>
+
+  <view class="field">
+    <view class="field-head">
+      <text class="field-label">从哪里走起</text>
+      <text class="field-meta">{{suggestMeta}}</text>
+    </view>
+    <input
+      class="input"
+      value="{{scene}}"
+      placeholder="输入地名，随字联想"
+      bindinput="onSceneInput"
+      bindfocus="onSceneFocus"
+      bindblur="onSceneBlur"
+    />
+    <view wx:if="{{suggestOpen && suggestions.length}}" class="suggest-list">
+      <view
+        wx:for="{{suggestions}}"
+        wx:key="id"
+        class="suggest-item {{scene === item.scene ? 'is-on' : ''}}"
+        data-scene="{{item.scene}}"
+        bindtap="onPickSuggest"
+      >
+        <text class="suggest-num">{{index < 9 ? '0' : ''}}{{index + 1}}</text>
+        <view>
+          <text class="suggest-label">{{item.label}}</text>
+          <text class="suggest-src">{{item.sourceLabel}}</text>
+          <text wx:if="{{item.hint || item.district}}" class="suggest-hint">{{item.hint || item.district}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{!suggestOpen}}" class="field-tip">点选联想，或直接填写任意起点</view>
+  </view>
+
+  <view class="chips-block">
+    <text class="chip-label">多久</text>
+    <view class="chips">
+      <view
+        wx:for="{{durations}}"
+        wx:key="value"
+        class="chip {{durationMin === item.value ? 'is-on' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="onDurationTap"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="chips-block">
+    <text class="chip-label">调性</text>
+    <view class="chips">
+      <view
+        wx:for="{{tones}}"
+        wx:key="*this"
+        class="chip {{tone === item ? 'is-on' : ''}}"
+        data-value="{{item}}"
+        bindtap="onToneTap"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <view class="chips-block">
+    <text class="chip-label">和谁</text>
+    <view class="chips">
+      <view
+        wx:for="{{companions}}"
+        wx:key="*this"
+        class="chip {{companion === item ? 'is-on' : ''}}"
+        data-value="{{item}}"
+        bindtap="onCompanionTap"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <view class="chips-block">
+    <text class="chip-label">时段</text>
+    <view class="chips">
+      <view
+        wx:for="{{dayparts}}"
+        wx:key="id"
+        class="chip {{daypart === item.id ? 'is-on' : ''}}"
+        data-value="{{item.id}}"
+        bindtap="onDaypartTap"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="chips-block">
+    <text class="chip-label">对象</text>
+    <view class="chips">
+      <view
+        wx:for="{{audiences}}"
+        wx:key="*this"
+        class="chip {{audience === item ? 'is-on' : ''}}"
+        data-value="{{item}}"
+        bindtap="onAudienceTap"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="onSubmit" loading="{{submitting}}">开始策展</button>
+  <view class="hint">完整策展通常需要数分钟 · 进度页会说明当前阶段</view>
+
+  <button class="btn-secondary" bindtap="onDemoWukang" disabled="{{submitting}}">演示武康 · 六站可溯源</button>
+  <button class="btn-secondary" bindtap="onDemoYida" disabled="{{submitting}}">演示一大·外滩 · 通道诚实</button>
+  <view class="hint">演示为冻结包 · 秒开，用于查看成书形态</view>
+
+  <view class="footnote">深挖上海馆藏 · 证据先于叙事 · 高度缺省处标「示意」</view>
+</view>

@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/brief/index",
+    "pages/loading/index",
+    "pages/intro/index",
+    "pages/reader/index",
+    "pages/fail/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "红鸢 RedTrip",
+    "navigationBarBackgroundColor": "#fbf8f1",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f2ebdd",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
