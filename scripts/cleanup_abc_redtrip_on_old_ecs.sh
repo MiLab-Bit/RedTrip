@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# 在旧 ECS 47.103.102.36 上执行：卸掉 abc-ai.cn 上的 /redtrip 挂载与相关服务。
+# 在旧 ECS 上彻底卸掉 abc-ai.cn 上的 RedTrip：nginx 挂载、systemd 单元、模板。
+# 不删 /opt/redtrip 数据目录（需手动确认后再 rm -rf）。
 # 用法（在旧机上）：
 #   sudo bash scripts/cleanup_abc_redtrip_on_old_ecs.sh
 set -euo pipefail
@@ -20,7 +21,7 @@ from pathlib import Path
 import re, sys
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8", errors="replace")
-# Remove RedTrip location blocks inserted for pages.dev CORS / API proxy
+# Strip any RedTrip locations (proxy, auth, hard 404)
 patterns = [
     re.compile(
         r"\n?#\s*=+\s*RedTrip[\s\S]*?location\s+/redtrip/\s*\{[\s\S]*?\n\}\n?",
@@ -41,59 +42,47 @@ new = text
 for p in patterns:
     new = p.sub("\n", new)
 new = re.sub(r"\n{3,}", "\n\n", new)
-
-# Hard 404 so /redtrip no longer falls through to FastToken SPA
-hard_404 = (
-    "\n    # RedTrip retired from abc-ai.cn — do not fall through to FastToken SPA\n"
-    "    location = /redtrip { return 404; }\n"
-    "    location ^~ /redtrip/ { return 404; }\n"
-)
-if "location ^~ /redtrip/" not in new:
-    needle = "    location = /fasttoken_linux    { return 404; }\n"
-    if needle in new:
-        new = new.replace(needle, needle + hard_404, 1)
-        print("OK: inserted hard /redtrip 404 after security denylist")
-    else:
-        # fallback: inject before first location / in SSL-ish block
-        m = re.search(r"(\n    location / \{\n)", new)
-        if m:
-            new = new[: m.start()] + hard_404 + new[m.start() :]
-            print("OK: inserted hard /redtrip 404 before location /")
-        else:
-            print("WARN: could not place hard 404 — add manually", file=sys.stderr)
-
 if new != text:
     path.write_text(new, encoding="utf-8")
-    print("OK: updated", path)
+    print("OK: stripped /redtrip locations from", path)
 else:
-    print("WARN: no changes — inspect", path, "manually")
+    print("OK: no /redtrip locations left in", path)
 PY
 
 nginx -t
 systemctl reload nginx || nginx -s reload
-echo "==> nginx reloaded"
+echo "==> nginx reloaded (no dedicated /redtrip; may fall through to FastToken)"
 
-for svc in redtrip-api redtrip-auth cloudflared; do
-  if systemctl list-unit-files "${svc}.service" 2>/dev/null | grep -q "${svc}.service"; then
-    systemctl stop "${svc}.service" || true
-    systemctl disable "${svc}.service" || true
-    echo "==> stopped/disabled ${svc}"
-  fi
+for svc in redtrip-api redtrip-auth; do
+  systemctl stop "${svc}.service" 2>/dev/null || true
+  systemctl disable "${svc}.service" 2>/dev/null || true
+  for d in /etc/systemd/system /usr/lib/systemd/system /lib/systemd/system; do
+    if [[ -f "$d/${svc}.service" ]]; then
+      mv "$d/${svc}.service" "$d/${svc}.service.removed.${STAMP}"
+      echo "==> removed $d/${svc}.service"
+    fi
+  done
 done
+systemctl daemon-reload
+systemctl reset-failed redtrip-api redtrip-auth 2>/dev/null || true
 
-# Optional leftovers listed in 部署清单 §6
 for f in \
   /etc/nginx/conf.d/redtrip-direct.conf \
   /etc/nginx/conf.d/redtrip-backend.conf \
   /etc/nginx/conf.d/redtrip-tunnel.conf
 do
   if [[ -f "$f" ]]; then
-    mv "$f" "${f}.disabled.${STAMP}"
-    echo "==> disabled $f"
+    mv "$f" "${f}.removed.${STAMP}"
+    echo "==> removed $f"
   fi
 done
+if [[ -d /etc/nginx/redtrip-templates ]]; then
+  mv /etc/nginx/redtrip-templates "/etc/nginx/redtrip-templates.removed.${STAMP}"
+  echo "==> removed /etc/nginx/redtrip-templates"
+fi
 
-echo "==> verify (expect 404 on /redtrip):"
+echo "==> verify (expect no redtrip unit; /redtrip may be FastToken 200)"
+systemctl list-unit-files 2>/dev/null | grep redtrip || echo "no redtrip unit files"
 curl -sI -o /dev/null -w "https://www.abc-ai.cn/redtrip/ → %{http_code}\n" https://www.abc-ai.cn/redtrip/ || true
-curl -sI -o /dev/null -w "https://www.abc-ai.cn/redtrip/v1/health → %{http_code}\n" https://www.abc-ai.cn/redtrip/v1/health || true
-echo "done. FastToken 本体勿动；仅卸 RedTrip 挂载并硬 404。"
+echo "done. FastToken 本体勿动。"
+echo "optional: rm -rf /opt/redtrip   # only after confirming accounts live on sy-realm"
