@@ -93,7 +93,7 @@ do
   fi
 done
 
-echo "==> verify (expect non-200 or empty redtrip):"
+echo "==> verify (expect 404 on /redtrip):"
 curl -sI -o /dev/null -w "https://www.abc-ai.cn/redtrip/ → %{http_code}\n" https://www.abc-ai.cn/redtrip/ || true
 curl -sI -o /dev/null -w "https://www.abc-ai.cn/redtrip/v1/health → %{http_code}\n" https://www.abc-ai.cn/redtrip/v1/health || true
-echo "done. FastToken 本体勿动；仅卸 RedTrip 挂载。"
+echo "done. FastToken 本体勿动；仅卸 RedTrip 挂载并硬 404。"
