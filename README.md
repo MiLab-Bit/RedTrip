@@ -94,12 +94,14 @@
 
 | 环境 | 地址 |
 |---|---|
+| **总入口** | https://sy-realm.ltd/ |
 | **正式站点** | https://sy-realm.ltd/redtrip/ |
 | www | https://www.sy-realm.ltd/redtrip/ |
 | 健康检查 | https://sy-realm.ltd/redtrip/v1/health |
-| 历史演示镜像（维护中） | https://redtrip.pages.dev |
 
-正式域名经 **Cloudflare 命名隧道** 接入边缘 HTTPS。运维说明见 `docs/cloudflare-named-tunnel.md`（文档已脱敏，不含密钥与主机 IP）。
+同机其它应用：`/vesta/` · `/cardio/` · `/bizatlas/`（见 `docs/sy-realm-apps.md`）。
+
+正式域名经 **Cloudflare 命名隧道** 接入边缘 HTTPS（ICP 备案完成前继续走 CF）。运维说明见 `docs/cloudflare-named-tunnel.md`（文档已脱敏，不含密钥与主机 IP）。原 `*.pages.dev` 演示站已下线。
 
 ---
 
