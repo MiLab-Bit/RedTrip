@@ -41,14 +41,31 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
   }
 
   useEffect(() => {
-    if (open) {
-      setErr(null);
-      setTestResult(null);
-      setBusy(false);
-      setTesting(false);
-      void load();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!open) return;
+    setErr(null);
+    setTestResult(null);
+    setBusy(false);
+    setTesting(false);
+    void (async () => {
+      try {
+        const [ps, list] = await Promise.all([listProviderPresets(), listModelProviders()]);
+        setPresets(ps);
+        setProviders(list);
+        // 打开时：把当前槽位已保存配置回填到上方填写栏（密钥不回显）
+        const existing = list.find((x) => x.slot === "text") ?? list[0];
+        if (existing) {
+          const match = ps.find((x) => x.provider === existing.provider) ?? null;
+          setPreset(match);
+          setName(existing.name);
+          setSlot(existing.slot === "multimodal" ? "multimodal" : "text");
+          setBaseUrl(existing.base_url ?? match?.baseUrl ?? "");
+          setModel(existing.model ?? match?.defaultModel ?? "");
+          setApiKey("");
+        }
+      } catch (e) {
+        setErr(e instanceof Error ? e.message : "加载失败");
+      }
+    })();
   }, [open]);
 
   if (!open) return null;
@@ -148,6 +165,20 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
     }
   }
 
+  /** 点选已保存配置 → 回填上方填写栏（密钥不可回显，需重填才可覆盖保存） */
+  function loadIntoForm(p: ModelProvider) {
+    const match = presets.find((x) => x.provider === p.provider) ?? null;
+    setPreset(match);
+    setName(p.name);
+    setSlot(p.slot === "multimodal" ? "multimodal" : "text");
+    setBaseUrl(p.base_url ?? match?.baseUrl ?? "");
+    setModel(p.model ?? match?.defaultModel ?? "");
+    setApiKey("");
+    setShowKey(false);
+    setTestResult(null);
+    setErr(null);
+  }
+
   const statusLabel: Record<string, string> = {
     active: "有效",
     unverified: "未验证",
@@ -177,7 +208,11 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
             <button
               type="button"
               className="auth-input"
-              onClick={() => setSlot("text")}
+              onClick={() => {
+                setSlot("text");
+                const existing = providers.find((x) => x.slot === "text");
+                if (existing) loadIntoForm(existing);
+              }}
               style={{
                 flex: 1,
                 cursor: "pointer",
@@ -191,7 +226,11 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
             <button
               type="button"
               className="auth-input"
-              onClick={() => setSlot("multimodal")}
+              onClick={() => {
+                setSlot("multimodal");
+                const existing = providers.find((x) => x.slot === "multimodal");
+                if (existing) loadIntoForm(existing);
+              }}
               style={{
                 flex: 1,
                 cursor: "pointer",
@@ -277,10 +316,15 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
             className="auth-input"
             value={model}
             onChange={(e) => setModel(e.target.value)}
-            placeholder="例如：gpt-4o-mini"
+            placeholder={preset?.defaultModel || "例如：gpt-4o-mini"}
             autoComplete="off"
           />
         </label>
+        {providers.some((p) => p.slot === slot) && !apiKey && (
+          <p className="auth-sub" style={{ marginTop: -4 }}>
+            已回填该槽位配置；密钥不回显。若仅查看可直接关闭；若要覆盖保存请重新填写 API Key。
+          </p>
+        )}
 
         <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
           <button className="auth-link" onClick={() => void handleTest()} disabled={testing}>
@@ -312,6 +356,15 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           {providers.map((p) => (
             <div
               key={p.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => loadIntoForm(p)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  loadIntoForm(p);
+                }
+              }}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -319,7 +372,9 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
                 gap: 12,
                 padding: "10px 0",
                 borderTop: "1px solid rgba(0,0,0,0.08)",
+                cursor: "pointer",
               }}
+              title="点击回填到上方填写栏"
             >
               <div>
                 <div style={{ fontWeight: 600 }}>
@@ -342,7 +397,10 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
                   {p.status === "error" && p.last_error ? ` · ${p.last_error.slice(0, 60)}` : ""}
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 10, flexShrink: 0 }}>
+              <div style={{ display: "flex", gap: 10, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+                <button className="auth-link" disabled={busy} onClick={() => loadIntoForm(p)}>
+                  填入
+                </button>
                 <button className="auth-link" disabled={busy} onClick={() => void handleRetest(p.id)}>
                   重测
                 </button>
