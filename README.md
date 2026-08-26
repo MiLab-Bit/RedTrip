@@ -177,7 +177,9 @@ AppID：`wxc7953007477c1980` · 源码：`apps/miniprogram/`
 开发阶段可勾选「不校验合法域名」；上线需在公众平台配置 request 合法域名 https://sy-realm.ltd
 ```
 
-详见 [`apps/miniprogram/README.md`](apps/miniprogram/README.md)。
+- 交付总览：[`docs/小程序交付清单.md`](docs/小程序交付清单.md)
+- 上线粘贴文案：[`apps/miniprogram/SUBMIT.md`](apps/miniprogram/SUBMIT.md)
+- 开发说明：[`apps/miniprogram/README.md`](apps/miniprogram/README.md)
 
 ---
 
