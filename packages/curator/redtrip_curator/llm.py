@@ -1,7 +1,7 @@
 """Minimal OpenAI-compatible chat client (stdlib only).
 
 支持「混合路由」：通过 REDTRIP_LLM_POLICY 选择云端 / 本地小模型 / 二者混合。
-- 云端：abc-ai.cn 网关（Qwen-flash），质量高、但并发仅 ~2 路、延迟波动大。
+- 云端：OpenAI 兼容网关（质量高；并发与延迟取决于供应商）。
 - 本地：ollama 暴露的 OpenAI 兼容端点（默认 127.0.0.1:11434），零网络、
   可预测，适合把「结构化抽取」类子调用从云端网关卸载下来。
 """
