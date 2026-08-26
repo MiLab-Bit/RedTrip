@@ -97,10 +97,9 @@
 | **正式站点** | https://sy-realm.ltd/redtrip/ |
 | www | https://www.sy-realm.ltd/redtrip/ |
 | 健康检查 | https://sy-realm.ltd/redtrip/v1/health |
-| 直连 IP（调试） | http://139.224.163.203/redtrip/ |
 | 历史演示镜像（维护中） | https://redtrip.pages.dev |
 
-正式域名经 **Cloudflare 命名隧道** `redtrip-sy-realm` 接入边缘 HTTPS（绕过大陆未备案对阿里云 IP 的 Host 拦截）。运维说明见 `docs/cloudflare-named-tunnel.md`。
+正式域名经 **Cloudflare 命名隧道** 接入边缘 HTTPS。运维说明见 `docs/cloudflare-named-tunnel.md`（文档已脱敏，不含密钥与主机 IP）。
 
 ---
 

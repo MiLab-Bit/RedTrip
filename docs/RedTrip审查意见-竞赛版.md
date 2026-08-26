@@ -2,7 +2,7 @@
 
 > 审查对象：GitHub `MiLab-Bit/RedTrip`（与服务器 `/opt/redtrip` 同步基线）+ 线上 `https://www.abc-ai.cn/redtrip/`  
 > 审查方式：源码精读 + 本地跑红队 + 线上 health/providers 抽查  
-> 说明：本环境无法 SSH 登录 `139.224.163.203`，审查以已同步仓库与公开 API 为准。
+> 说明：本环境无法 SSH 登录生产主机，审查以已同步仓库与公开 API 为准。
 
 ---
 
