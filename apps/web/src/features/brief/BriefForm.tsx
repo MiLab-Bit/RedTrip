@@ -269,10 +269,10 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
         <p className="brief-brand brand-mark">
           <RedTripKiteLogo size={36} className="brand-kite is-brief" />
           <span className="brand-word">红鸢</span>
-          <span className="brand-tag">RedTrip · 城市记忆策展人</span>
           <span className="brand-seal" aria-hidden>
             鸢
           </span>
+          <span className="brand-tag">RedTrip · 城市记忆策展人</span>
         </p>
         <h1 className="brief-title">用馆藏，策一场九十分钟的步行展览</h1>
         <p className="brief-lead">
