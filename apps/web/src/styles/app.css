@@ -3238,20 +3238,6 @@ button {
   background: color-mix(in srgb, var(--seal) 8%, transparent);
 }
 
-.brief-more-toggle {
-  display: block;
-  margin: 0.35rem 0 0.15rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--ink-wash);
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 .channel-badge {
   display: inline-block;
   font-size: 0.72em;
