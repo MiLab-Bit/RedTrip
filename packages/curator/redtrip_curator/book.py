@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import html
 import io
+import logging
 import shutil
 import subprocess
 import uuid
@@ -32,6 +33,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger("redtrip.book")
 
 _ROLE_LABEL: dict[str, str] = {
     "Hook": "引子",
@@ -297,6 +300,7 @@ def _build_route_plan(envelope: dict[str, Any]) -> dict[str, Any]:
         try:
             intent = _json.loads(intent)
         except Exception:
+            logger.warning("book: intent JSON 解析失败，按空 dict 降级", exc_info=True)
             intent = {}
     if not isinstance(intent, dict):
         intent = {}

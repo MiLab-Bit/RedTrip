@@ -28,11 +28,14 @@ def test_thread_provider_configures_llm():
     assert llm_model() == "m-test"
 
 
-def test_clear_thread_provider_falls_back():
+def test_clear_thread_provider_falls_back(monkeypatch):
     set_thread_provider({"api_base": "https://api.test/v1", "api_key": "sk-test"})
     clear_thread_provider()
+    # clear 只清 BYOK 覆盖；隔离 env，避免机器上已配默认 LLM 时假红
+    monkeypatch.delenv("LLM_API_BASE", raising=False)
+    monkeypatch.delenv("LLM_API_KEY", raising=False)
     assert llm_configured() is False
-    # 回落到环境变量默认值
+    # 回落到环境变量默认模型名
     assert llm_model() == "Qwen-flash"
 
 

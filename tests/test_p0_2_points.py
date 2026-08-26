@@ -35,5 +35,12 @@ def test_points_has_exhibitions():
     # 3) 存在展览/文化类锚点（新增 OSM 点 source=osm）
     osm_added = [p for p in pts if p.get("coord_source") == "osm"]
     assert osm_added, "未发现 OSM 并入的文化场馆锚点"
-    # 4) 诚实约定：新增点 buri 为空（未映射 SLC）
-    assert all(p.get("buri") is None for p in osm_added)
+    # 4) 诚实约定：未做上图映射的 OSM 点 buri 必须为空；
+    #    已通过 SLC 真实映射的点允许保留 http://data.library.sh.cn/… URI。
+    for p in osm_added:
+        buri = p.get("buri")
+        if buri is None:
+            continue
+        assert str(buri).startswith("http://data.library.sh.cn/"), (
+            f"OSM 点 {p.get('name')!r} 的 buri 不是上图 URI: {buri!r}"
+        )

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -16,6 +17,9 @@ from .models import BuildingEvidence, EvidencePack, IdentityLayer, Intent, Sourc
 from .rag import _is_noise_name
 from .rag import retrieve as _rag_retrieve
 from .whitelist import Whitelist, WhitelistPoint, load_whitelist
+from .cities import get_city
+
+logger = logging.getLogger("redtrip.evidence")
 
 # ---------------------------------------------------------------------------
 # 本地策展语料：地名志 / 文学交集（静态兜底）
@@ -75,6 +79,7 @@ def _load_landmark_facts() -> list[dict[str, Any]]:
                         rows.extend([x for x in v if isinstance(x, dict)])
             out.extend([x for x in rows if _is_rich_landmark(x)])
         except Exception:  # noqa: BLE001 —— 词库错就当空
+            logger.warning("evidence: 富化词库条目加载失败，已跳过", exc_info=True)
             continue
     return out
 
@@ -159,6 +164,7 @@ def _load_landmark_db(city: str = "shanghai") -> dict[str, Any]:
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except Exception:  # noqa: BLE001 —— 词库损坏当空
+        logger.warning("evidence: 地标库 JSON 损坏，按空库降级 city=%s", city, exc_info=True)
         return {}
 
 
@@ -172,6 +178,7 @@ def _scene_landmark_db(
     的 dayparts 必须覆盖当前时段（night 只留夜景/滨水/商业等可夜游类目）。
     """
     city = getattr(intent, "city", None) or "shanghai"
+    city = get_city(city).key
     db = _load_landmark_db(city)
     landmarks = db.get("landmarks") or []
     if not landmarks:
@@ -264,6 +271,7 @@ def _load_corpus(name: str) -> dict[str, Any]:
         with p.open(encoding="utf-8") as f:
             return json.load(f)
     except Exception:  # noqa: BLE001
+        logger.warning("evidence: 本地语料 %s 读取失败，按空降级", name, exc_info=True)
         return {}
 
 
@@ -670,6 +678,7 @@ def _road_cache_get(client: SlcClient, name: str) -> str | None:
     try:
         claim = _road_claim(client.road(name))
     except Exception:  # noqa: BLE001
+        logger.warning("evidence: SLC road 查询失败 name=%s", name, exc_info=True)
         claim = None
     _ROAD_CACHE[name] = claim
     return claim
@@ -723,7 +732,7 @@ def _fetch_one(
         if poem_layer is not None:
             be.layers.append(poem_layer)
     except Exception:  # noqa: BLE001 — 诗词缺失/超时不影响主流程
-        pass
+        logger.warning("evidence: 诗词层跳过 item=%s", item_name, exc_info=True)
 
     # road 层（路段脉络 —— 漫步的容器；SLC road_list 已有但此前未接入）
     try:
@@ -733,13 +742,13 @@ def _fetch_one(
             if claim:
                 be.road_context = claim
     except Exception:  # noqa: BLE001
-        pass
+        logger.warning("evidence: 路段层跳过 item=%s", item_name, exc_info=True)
 
     # 地名志 / 文学交集（本地策展语料，SLC 端点返回空时的承接层）
     try:
         _attach_corpus_layers(be)
     except Exception:  # noqa: BLE001
-        pass
+        logger.warning("evidence: 本地语料层跳过 item=%s", item_name, exc_info=True)
 
     has_event = any(l.kind == "event" for l in be.layers)
     if be.lat is None or be.lng is None:
@@ -848,6 +857,7 @@ def _scene_geonames_places(client: SlcClient, scene: str) -> list[dict[str, str]
     try:
         r = client.call("geonames_list", {"freetext": scene})
     except Exception:  # noqa: BLE001 —— 取证层统一降级
+        logger.warning("evidence: geonames_list 失败 scene=%s", scene, exc_info=True)
         return []
     if not r.ok:
         return []
@@ -864,6 +874,7 @@ def _scene_geonames_places(client: SlcClient, scene: str) -> list[dict[str, str]
                 data = d.data.get("data") if isinstance(d.data.get("data"), dict) else d.data
                 desc = str(data.get("description") or "").strip()
         except Exception:  # noqa: BLE001
+            logger.warning("evidence: geonames_detail 失败 uri=%s", uri, exc_info=True)
             desc = ""
         out.append(
             {
@@ -1223,9 +1234,11 @@ def _scene_rag_corpus(
     POI 语料（amap <city>-landmarks + 免 key 的 OSM <city>-osm）按 intent
     预筛候选，保证路线非空（避免空壳 / 电子垃圾）。纯本地、无网络、无 LLM。"""
     city = getattr(intent, "city", None) or "shanghai"
+    city = get_city(city).key
     try:
         buildings = _rag_retrieve(intent, top_k=limit)
     except Exception:  # noqa: BLE001
+        logger.warning("evidence: RAG 检索失败 city=%s", city, exc_info=True)
         return [], [], [{"subject": "RAG 语料", "note": "检索失败"}]
     if not buildings:
         return [], [], [{"subject": "RAG 语料", "note": f"{city}-landmarks/osm 语料为空"}]
@@ -1344,6 +1357,7 @@ def fetch_evidence(client: SlcClient, intent: Intent, *, limit: int = 10) -> Evi
                 sources_used.extend(_ps)
             gaps.extend(_pg)
         except Exception:  # noqa: BLE001
+            logger.warning("evidence: partner 数据源接入异常", exc_info=True)
             gaps.append(
                 {"subject": "partner 数据源", "note": "接入异常（已跳过，不影响主链路）"}
             )
