@@ -222,7 +222,7 @@ def retrieve(intent: Intent, top_k: int = 40, curated_dir: str | None = None) ->
     城市由 intent.city 决定（缺省上海），只取该城市的 OSM/地标语料。
     """
     daypart = getattr(intent, "daypart", "day") or "day"
-    city = getattr(intent, "city", None) or "shanghai"
+    city = get_city(getattr(intent, "city", None) or "shanghai").key
     terms = _scene_terms(intent.scene or "", city)
     pois = _all_pois(Path(curated_dir) if curated_dir else None, city)
     if not pois:

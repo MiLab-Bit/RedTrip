@@ -15,12 +15,16 @@ area_query 用 Overpass「按名取边界」写法（relation["name:zh"="X市"];
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 # content/curated 目录（packages/curator/redtrip_curator → RedTrip/content/curated）
 _CURATED = Path(__file__).resolve().parents[3] / "content" / "curated"
+
+# city 会拼进 <city>-landmarks.json / <city>-osm.json 路径：只允许安全 key
+_SAFE_CITY_RE = re.compile(r"^[a-z]{2,32}$")
 
 
 @dataclass(frozen=True)
@@ -281,10 +285,13 @@ DEFAULT_CITY = "shanghai"
 
 
 def get_city(key: str | None) -> CitySpec:
-    """按 key 取城市；空/未知 → 默认上海（兼容旧调用）。"""
+    """按 key 取城市；空/非法/未知 → 默认上海（兼容旧调用，防路径穿越）。"""
     if not key:
         return CITY_REGISTRY[DEFAULT_CITY]
-    return CITY_REGISTRY.get(key, CITY_REGISTRY[DEFAULT_CITY])
+    raw = str(key).strip()
+    if not _SAFE_CITY_RE.fullmatch(raw):
+        return CITY_REGISTRY[DEFAULT_CITY]
+    return CITY_REGISTRY.get(raw, CITY_REGISTRY[DEFAULT_CITY])
 
 
 def list_cities(curated: Path | None = None) -> list[dict[str, Any]]:

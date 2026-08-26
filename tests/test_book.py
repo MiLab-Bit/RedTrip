@@ -129,10 +129,10 @@ def test_build_book_doc_extracts_chapters_and_scenes():
 
 def test_build_book_doc_sources_index_deduped():
     doc = _build_book_doc(_make_envelope())
-    # 两章来源不同，source 列表额外 2 条
+    # 两章来源不同 + envelope.sources 归入 dataset="source"
     assert len(doc.sources_index) == 4
     datasets = {s.dataset for s in doc.sources_index}
-    assert "source" in datasets
+    assert datasets == {"slc_building", "curated.landmark-facts", "source"}
 
 
 def test_render_book_contains_cover_and_toc_and_chapters():
