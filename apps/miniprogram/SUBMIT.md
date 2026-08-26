@@ -2,7 +2,8 @@
 
 AppID：`wxc7953007477c1980`  
 代码目录：`apps/miniprogram`  
-业务域名（已配）：`https://sy-realm.ltd`
+业务域名（已配）：`https://sy-realm.ltd`  
+**总览清单**：[`docs/小程序交付清单.md`](../../docs/小程序交付清单.md)
 
 ---
 
@@ -39,20 +40,18 @@ AppID：`wxc7953007477c1980`
 
 ---
 
-## B. 开发者工具：上传
+## B. 开发者工具 / 版本
 
 1. 打开微信开发者工具 → 导入 `apps/miniprogram`
-2. **详情 → 本地设置**：**取消勾选**「不校验合法域名」
+2. **详情 → 本地设置**：**取消勾选**「不校验合法域名」（域名已配好）
 3. 编译 → **预览**扫码，真机测：
    - 演示武康 → 序章 → 阅读
    - 开始策展 → 进度 → 序章
-4. 菜单 **上传**  
-   - 版本号：`0.1.0`  
-   - 项目备注：`MVP：出题 / 策展进度 / 序章 / 章节阅读 / 演示线`
+4. 当前 CI 已上传 **`0.1.1`**（起点输入加大 + 大赛 LLM）
 5. 登录 [mp.weixin.qq.com](https://mp.weixin.qq.com/) → **管理 → 版本管理**
-6. 选开发版本 → **选为体验版** → 自己扫码再测一遍
+6. 选 **0.1.1** → **选为体验版** → 扫码再测
 7. **提交审核**  
-   - 测试账号：可写「访客无需登录；点演示武康即可完整体验」  
+   - 测试说明：可写「访客无需登录；点演示武康即可完整体验」  
    - 审核说明：见下方
 
 ### 审核说明（粘贴）
@@ -62,24 +61,24 @@ AppID：`wxc7953007477c1980`
 
 ---
 
-## C. 若要我代为「上传代码」
+## C. 再上传代码
 
-1. 公众平台 → 开发 → 开发管理 → 开发设置 → **小程序代码上传** → 生成并下载私钥  
-2. 把私钥全文放入环境 Secret：`WECHAT_UPLOAD_PRIVATE_KEY`  
-3. （可选）`WECHAT_APPID=wxc7953007477c1980`  
-4. 回复「上传小程序」
-
-本地也可自行执行：
+1. 公众平台 → 开发 → 开发管理 → 开发设置 → **小程序代码上传** → 下载私钥  
+2. 存为 `apps/miniprogram/private.key`（已 gitignore）或设环境变量 `WECHAT_UPLOAD_PRIVATE_KEY`  
+3. **关闭 IP 白名单**（云端出口会变）或本机开发者工具上传  
 
 ```bash
 cd apps/miniprogram
 npm i miniprogram-ci --no-save
-# 将私钥存为 private.key 后：
-node scripts/upload.js
+WECHAT_APPID=wxc7953007477c1980 WECHAT_VERSION=0.1.2 \
+  WECHAT_DESC='说明' node scripts/upload.js
 ```
 
 ---
 
-## D. GitHub 同步
+## D. 仓库同步
 
-环境缺 `GH_TOKEN`。加上后回复「继续推送」，会执行 `git push github main`。
+已推送：
+
+- Origin（dev）：`cat-dev/tmp-634d5d7771341c52` → `main`
+- GitHub：`MiLab-Bit/RedTrip` → `main`
