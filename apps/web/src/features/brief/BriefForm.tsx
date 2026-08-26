@@ -14,6 +14,7 @@ import {
 import { useCityStore } from "../../shared/lib/cityStore";
 import { useAuthStore } from "../auth/authStore";
 import { listModelProviders } from "../../shared/lib/authClient";
+import { RedTripKiteLogo } from "../../shared/ui/RedTripKiteLogo";
 
 const defaults: IntentSlots = {
   audience: "成人",
@@ -268,14 +269,7 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
       <div className="brief-copy">
         <div className="brief-wash-stain" aria-hidden />
         <p className="brief-brand brand-mark">
-          <img
-            className="brand-kite"
-            src="/redtrip-kite.svg"
-            alt=""
-            aria-hidden
-            width={36}
-            height={36}
-          />
+          <RedTripKiteLogo size={36} className="brand-kite is-brief" />
           <span className="brand-word">红鸢</span>
           <span className="brand-tag">RedTrip · 城市记忆策展人</span>
           <span className="brand-seal" aria-hidden>

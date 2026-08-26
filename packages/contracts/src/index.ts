@@ -56,6 +56,15 @@ export const StoryCardBlockSchema = z.object({
   sources: z.array(SourceRefSchema),
 });
 
+export const EssayBlockSchema = z.object({
+  type: z.literal("essay"),
+  stop_order: z.number().int().positive(),
+  title: z.string(),
+  body: z.string(),
+  /** LLM 溯源附注；前端可不消费 */
+  provenance: z.unknown().optional(),
+});
+
 export const SceneBlockSchema = z.object({
   type: z.literal("scene"),
   stop_order: z.number().int().positive(),
@@ -78,10 +87,12 @@ export const CardBlockSchema = z.object({
 
 export const BlockSchema = z.discriminatedUnion("type", [
   StoryCardBlockSchema,
+  EssayBlockSchema,
   SceneBlockSchema,
   CardBlockSchema,
 ]);
 export type Block = z.infer<typeof BlockSchema>;
+export type EssayBlock = z.infer<typeof EssayBlockSchema>;
 
 
 // ===========================================================================

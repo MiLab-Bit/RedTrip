@@ -171,7 +171,7 @@ class CurateResponse(BaseModel):
 CACHE_FILE = ROOT / ".curate_cache.json"
 CACHE_TTL_S = int(os.getenv("REDTRIP_CACHE_TTL_S", "86400"))  # 默认 24h
 CACHE_MAX = int(os.getenv("REDTRIP_CACHE_MAX", "200"))
-CACHE_SCHEMA = "v1"
+CACHE_SCHEMA = "v2"
 
 
 def _compute_code_version() -> str:
@@ -225,7 +225,22 @@ def _cache_save() -> None:
     tmp.replace(CACHE_FILE)  # 原子替换，避免并发/崩溃损坏
 
 
-def _fingerprint(req: CurateRequest, mode: str) -> str:
+def _provider_cache_key(provider: dict[str, str] | None) -> str:
+    """BYOK 与默认环境模型必须分桶，避免串缓存。"""
+    if not provider:
+        return "env-default"
+    base = (provider.get("api_base") or "").strip().lower()
+    model = (provider.get("model") or "").strip().lower()
+    pid = (provider.get("id") or provider.get("name") or "").strip().lower()
+    raw = f"{pid}|{base}|{model}"
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def _fingerprint(
+    req: CurateRequest,
+    mode: str,
+    provider: dict[str, str] | None = None,
+) -> str:
     norm = {
         "schema": CACHE_SCHEMA,
         "code": CODE_VERSION,
@@ -233,6 +248,7 @@ def _fingerprint(req: CurateRequest, mode: str) -> str:
         "message": (req.message or "").strip().lower(),
         "slots": req.slots.model_dump() if req.slots else None,
         "retry": req.retry_count,
+        "llm": _provider_cache_key(provider),
     }
     s = json.dumps(norm, ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
@@ -675,7 +691,7 @@ def _run_curate_sync(req: CurateRequest, *, provider: dict[str, str] | None) -> 
         )
 
     try:
-        fp = _fingerprint(req, mode)
+        fp = _fingerprint(req, mode, provider)
         hit = _cache_get(fp)
         if hit is not None:
             _cache_stats["hits"] += 1
@@ -1010,7 +1026,8 @@ class CurateStartResponse(BaseModel):
 @app.post("/v1/curate/start", response_model=CurateStartResponse)
 def curate_start(req: CurateRequest, request: Request) -> CurateStartResponse:
     mode = os.getenv("REDTRIP_MODE", "indexed")
-    fp = _fingerprint(req, mode)
+    provider = _active_llm_provider_from_request(request)
+    fp = _fingerprint(req, mode, provider)
 
     # ① 缓存命中：直接构造已完成任务返回，SSE 立即推 done（Bug #4）
     hit = _cache_get(fp)
@@ -1033,7 +1050,6 @@ def curate_start(req: CurateRequest, request: Request) -> CurateStartResponse:
             _evict_tasks()
         return CurateStartResponse(task_id=task_id)
 
-    provider = _active_llm_provider_from_request(request)
     with _curate_tasks_lock:
         _cache_stats["misses"] += 1
         # ② 请求去重：相同指纹且有在途任务时复用，避免惊群打满网关（Bug #4）
