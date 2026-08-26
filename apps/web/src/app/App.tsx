@@ -7,21 +7,19 @@ import {
   useState,
 } from "react";
 import { useMachine } from "@xstate/react";
-import type { HongyuanMeta, IntentSlots, RouteEnvelope } from "@redtrip/contracts";
+import type { IntentSlots } from "@redtrip/contracts";
 import { BriefForm } from "../features/brief/BriefForm";
 import { LoadingStage } from "../features/loading/LoadingStage";
 import { BookShell } from "../features/shell/BookShell";
 import { WalkStage } from "../features/walk/WalkStage";
 import { StoryIntro } from "../features/story/StoryIntro";
 import { StoryOutro } from "../features/story/StoryOutro";
-import { PreviewReader } from "../features/story/PreviewReader";
 import { buildStoryView, type StoryView } from "../features/story/storyView";
 import { tripMachine } from "../features/trip/machine";
 import {
   curateRouteStream,
   fetchDemoWukang,
   fetchDemoYida,
-  type StreamChapter,
 } from "../shared/lib/curate";
 import { fetchFootprints } from "../shared/lib/footprints";
 import { useAuthStore } from "../features/auth/authStore";
@@ -59,27 +57,6 @@ function MapLoadingFallback() {
   );
 }
 
-/** B4：把流式就绪的润色卡合并进 envelope 的 blocks（只碰 title/body/age_parallel）。 */
-function mergeStreamCards(
-  env: RouteEnvelope,
-  cards: Record<number, StreamChapter["card"]>,
-): RouteEnvelope {
-  const keys = Object.keys(cards);
-  if (keys.length === 0) return env;
-  const blocks = (env.blocks ?? []).map((b) => {
-    if (b.type !== "story_card") return b;
-    const c = cards[b.stop_order];
-    if (!c) return b;
-    return {
-      ...b,
-      title: c.title ?? b.title,
-      body: c.body ?? b.body,
-      age_parallel: c.age_parallel ?? b.age_parallel,
-    };
-  });
-  return { ...env, blocks };
-}
-
 export function App() {
   const [state, send] = useMachine(tripMachine);
   const [pendingSlots, setPendingSlots] = useState<IntentSlots | null>(null);
@@ -87,18 +64,6 @@ export function App() {
   const [loadPhase, setLoadPhase] = useState("翻开馆藏…");
   const [authOpen, setAuthOpen] = useState(false);
   const [modelConfigOpen, setModelConfigOpen] = useState(false);
-  /**
-   * B4 章节级流式预览：story_ready 到达后即可读模板序章/章节，
-   * chapter_ready 逐章替换为润色版；done 后清理并走正式流程。
-   */
-  const [previewEnv, setPreviewEnv] = useState<RouteEnvelope | null>(null);
-  const [previewHongyuan, setPreviewHongyuan] =
-    useState<HongyuanMeta | null>(null);
-  const [streamCards, setStreamCards] = useState<
-    Record<number, StreamChapter["card"]>
-  >({});
-  const [previewReading, setPreviewReading] = useState(false);
-  const [previewChapter, setPreviewChapter] = useState(1);
   /** 邮箱验证 / 密码重置链接回跳的结果提示。 */
   const [verifyMsg, setVerifyMsg] = useState<string | null>(null);
   /**
@@ -221,7 +186,6 @@ export function App() {
         setLoadProgress(2);
         setLoadPhase("L1 · 提交取证任务…");
 
-        let chapterCount = 0;
         const { envelope, assumptions, hongyuan, degraded, notices } =
           await curateRouteStream(
             slots,
@@ -236,30 +200,15 @@ export function App() {
               } else if (stage === "hotwords" || stage === "layer3") {
                 setLoadPhase("L3 · 对齐当代口吻…");
               } else if (stage === "narrate") {
-                setLoadPhase("L2 · 叙事初稿完成，逐章润色中…");
+                setLoadPhase("L2 · 叙事初稿完成，正在润色全文…");
+              } else if (stage === "polish") {
+                setLoadPhase("L2 · 大模型润色中，请稍候…");
               }
             },
             ac.signal,
-            (story) => {
-              if (cancelled) return;
-              setPreviewEnv(story.envelope);
-              setPreviewHongyuan(story.hongyuan);
-            },
-            (chapter) => {
-              if (cancelled) return;
-              chapterCount += 1;
-              setStreamCards((m) => ({
-                ...m,
-                [chapter.stop_order]: chapter.card,
-              }));
-            },
+            // 故意不接 story_ready / chapter_ready：等整本润色与后续工作完成后再呈现
           );
         if (cancelled) return;
-        setPreviewEnv(null);
-        setPreviewHongyuan(null);
-        setStreamCards({});
-        setPreviewReading(false);
-        setPreviewChapter(1);
         setDegradeNotices(degraded ? notices : []);
         const reading =
           hongyuan?.summary ??
@@ -308,9 +257,6 @@ export function App() {
   const restart = useCallback(() => {
     setPendingSlots(null);
     setDegradeNotices([]);
-    setPreviewEnv(null);
-    setPreviewHongyuan(null);
-    setStreamCards({});
     send({ type: "RESTART" });
   }, [send]);
 
@@ -318,19 +264,6 @@ export function App() {
     const env = state.context.envelope;
     return env ? buildStoryView(env) : null;
   }, [state.context.envelope]);
-
-  /** B4 预览视图：模板 envelope + 已就绪的润色卡合并，供 loading 期先行阅读。 */
-  const previewViewEnv = useMemo<RouteEnvelope | null>(() => {
-    return previewEnv ? mergeStreamCards(previewEnv, streamCards) : null;
-  }, [previewEnv, streamCards]);
-  const previewView = useMemo<StoryView | null>(() => {
-    return previewViewEnv ? buildStoryView(previewViewEnv) : null;
-  }, [previewViewEnv]);
-  const previewStreamed = useMemo<Record<number, boolean>>(() => {
-    const m: Record<number, boolean> = {};
-    for (const k of Object.keys(streamCards)) m[Number(k)] = true;
-    return m;
-  }, [streamCards]);
 
   // 阅读进度按账号隔离（未登录记到 "anon"）；翻章 / 收尾时落盘，供用户菜单回显。
   const recordProgress = useCallback(() => {
@@ -441,41 +374,7 @@ export function App() {
           />
         )}
 
-        {state.value === "loading" && previewViewEnv && previewView && (
-          <BookShell
-            mode={previewReading ? "spread" : "folio"}
-            className="book-scene--preview"
-          >
-            {previewReading ? (
-              <PreviewReader
-                envelope={previewViewEnv}
-                streamed={previewStreamed}
-                currentChapter={previewChapter}
-                onOpenChapter={(i) => setPreviewChapter(i)}
-                onPrev={() => setPreviewChapter((c) => Math.max(1, c - 1))}
-                onNext={() => setPreviewChapter((c) => c + 1)}
-                onBack={() => setPreviewReading(false)}
-              />
-            ) : (
-              <>
-                <div className="preview-banner" role="status">
-                  模板预览已就绪 · 正在逐章润色（已润色{" "}
-                  {Object.keys(streamCards).length} 章）
-                </div>
-                <StoryIntro
-                  envelope={previewViewEnv}
-                  storyView={previewView}
-                  hongyuan={previewHongyuan}
-                  onBegin={() => setPreviewReading(true)}
-                  onShowMap={() => undefined}
-                  onRestart={() => undefined}
-                />
-              </>
-            )}
-          </BookShell>
-        )}
-
-        {state.value === "loading" && !previewEnv && (
+        {state.value === "loading" && (
           <BookShell mode="folio">
             <LoadingStage progress={loadProgress} phase={loadPhase} />
           </BookShell>
