@@ -38,6 +38,7 @@ const dayparts = [
 ] as const;
 const tones = ["文艺", "轻社交", "硬核"] as const;
 const companions = ["独自", "2人", "3–4人"] as const;
+const audiences = ["成人", "青年", "亲子"] as const;
 
 type Props = {
   onSubmit: (slots: IntentSlots) => void;
@@ -50,7 +51,6 @@ type Props = {
 export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
   const [slots, setSlots] = useState<IntentSlots>({ ...defaults });
   const [cities, setCities] = useState<CityInfo[]>([]);
-  const [showMore, setShowMore] = useState(false);
   const setCityStore = useCityStore((s) => s.setCity);
   const activeCity = useCityStore((s) => s.city);
   const authStatus = useAuthStore((s) => s.status);
@@ -447,47 +447,38 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
             </div>
           </div>
 
-          <button
-            type="button"
-            className="brief-more-toggle"
-            onClick={() => setShowMore((v) => !v)}
-          >
-            {showMore ? "收起时段与对象" : "更多：时段与对象"}
-          </button>
-
-          {showMore && (
-            <>
-              <div className="brief-chips-block">
-                <span className="brief-chip-label">时段</span>
-                <div className="brief-chips" role="group" aria-label="时段">
-                  {dayparts.map((dp) => (
-                    <button
-                      key={dp.id}
-                      type="button"
-                      title={dp.hint}
-                      className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
-                      onClick={() => setSlots({ ...slots, daypart: dp.id })}
-                    >
-                      {dp.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="field brief-audience">
-                <label htmlFor="brief-audience">对象</label>
-                <select
-                  id="brief-audience"
-                  value={slots.audience ?? "成人"}
-                  onChange={(e) => setSlots({ ...slots, audience: e.target.value })}
+          <div className="brief-chips-block">
+            <span className="brief-chip-label">时段</span>
+            <div className="brief-chips" role="group" aria-label="时段">
+              {dayparts.map((dp) => (
+                <button
+                  key={dp.id}
+                  type="button"
+                  title={dp.hint}
+                  className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
+                  onClick={() => setSlots({ ...slots, daypart: dp.id })}
                 >
-                  <option value="成人">成人</option>
-                  <option value="青年">青年</option>
-                  <option value="亲子">亲子</option>
-                </select>
-              </div>
-            </>
-          )}
+                  {dp.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="brief-chips-block">
+            <span className="brief-chip-label">对象</span>
+            <div className="brief-chips" role="group" aria-label="对象">
+              {audiences.map((a) => (
+                <button
+                  key={a}
+                  type="button"
+                  className={`brief-chip${(slots.audience ?? "成人") === a ? " is-on" : ""}`}
+                  onClick={() => setSlots({ ...slots, audience: a })}
+                >
+                  {a}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="brief-actions">
