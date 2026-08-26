@@ -28,9 +28,10 @@
       <text class="field-meta">{{suggestMeta}}</text>
     </view>
     <input
-      class="input"
+      class="input scene-input"
       value="{{scene}}"
       placeholder="输入地名，随字联想"
+      placeholder-class="input-placeholder"
       bindinput="onSceneInput"
       bindfocus="onSceneFocus"
       bindblur="onSceneBlur"
