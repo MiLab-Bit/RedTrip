@@ -14,3 +14,9 @@ Nginx：`/etc/nginx/conf.d/sy-realm.ltd.conf` 与 `00-redtrip-default.conf`（�
 
 BizAtlas 前端需 `base=/bizatlas/`、`BrowserRouter basename=/bizatlas`、`VITE_API_BASE=/bizatlas`。
 Cardio 前端已按 `/cardio` 构建；API 默认同源 `/cardio`。
+
+## Cloudflare
+
+- **保留**：`sy-realm.ltd` 命名隧道（`cloudflared-redtrip-sy-realm`）— ICP 备案完成前继续用 CF 边缘 HTTPS。
+- **已停**：各应用临时 Quick Tunnel（`cloudflared-redtrip/cardio/bizatlas`）。
+- **已删 Pages**：`redtrip`、`card-io`、`bizaltas`、`vesta`（原 `*.pages.dev` 演示站）。其它无关 Pages（freya / digitalgrave 等）未动。
