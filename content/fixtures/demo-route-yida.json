@@ -63,16 +63,6 @@
               "record_id": "中共一大会址纪念馆",
               "excerpt": "中共一大会址纪念馆周边 · 竞赛演示核录"
             }
-          },
-          {
-            "kind": "event",
-            "label": "1950-1955",
-            "claim": "1950-1955年，作为苏联商务代表处。",
-            "source": {
-              "dataset": "slc_building",
-              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
-              "excerpt": "1950-1955年，作为苏联商务代表处。"
-            }
           }
         ],
         "geo": {
@@ -298,26 +288,6 @@
               "dataset": "landmark_corpus",
               "record_id": "中国银行大楼",
               "excerpt": "中国银行大楼 · 竞赛演示核录"
-            }
-          },
-          {
-            "kind": "event",
-            "label": "1918",
-            "claim": "1918年，建3号楼。",
-            "source": {
-              "dataset": "slc_building",
-              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
-              "excerpt": "1918年，建3号楼。"
-            }
-          },
-          {
-            "kind": "event",
-            "label": "1940",
-            "claim": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
-            "source": {
-              "dataset": "slc_building",
-              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
-              "excerpt": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。"
             }
           }
         ],
@@ -1083,116 +1053,103 @@
     "missed_voices": [
       "弄堂住户的日常迁徙记录"
     ],
-    "skipped_harder_node": null,
+    "skipped_harder_node": "海关大楼钟楼（可作外滩替代入口，本演示线未收录）",
     "alternative_thesis": "若以「海关钟楼」而非「汇丰柱廊」为外滩入口，开埠权力叙事会更集中",
-    "reverse_route_note": "从周璇旧居倒走回巴金故居，余像会先于钩子出现",
+    "reverse_route_note": "从怡和洋行倒走回兴业路石库门，开埠界面会先于组织史出现",
     "warnings": [
       "演示线已留策展留白：反方意见不改正文，仅供下一版追问"
     ]
   },
   "narrative_arc": {
-    "theme_id": "demo-wukang-names",
+    "theme_id": "demo-yida-bund",
     "nodes": [
       {
         "stop_index": 1,
         "role": "Hook",
-        "beat": "作家与弄堂：公开记忆如何落在一扇门上",
+        "beat": "石库门与组织史：门牌如何承接可核的史实节点",
         "facts_referenced": [
-          "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+          "中共一大会址纪念馆"
         ]
       },
       {
         "stop_index": 2,
         "role": "Anchor",
-        "beat": "金嗓子与民居：用途更替的城市传记",
-        "facts_referenced": [
-          "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
-        ]
-      },
-      {
-        "stop_index": 3,
-        "role": "Contrast",
-        "beat": "武康大楼：交叉路口上的多重身份",
-        "facts_referenced": [
-          "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
-        ]
-      },
-      {
-        "stop_index": 4,
-        "role": "Reveal",
-        "beat": "宋庆龄故居：人物与时代的另一条线索",
+        "beat": "宋庆龄故居：从组织史接到人物史",
         "facts_referenced": [
           "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
         ]
       },
       {
+        "stop_index": 3,
+        "role": "Contrast",
+        "beat": "汇丰柱廊：开埠金融权力写进立面",
+        "facts_referenced": [
+          "汇丰银行大楼"
+        ]
+      },
+      {
+        "stop_index": 4,
+        "role": "Reveal",
+        "beat": "外滩18：银行立面到艺术入口的用途更替",
+        "facts_referenced": [
+          "外滩18号"
+        ]
+      },
+      {
         "stop_index": 5,
         "role": "Afterimage",
-        "beat": "丁香花园：花园住宅界面的对照",
+        "beat": "中国银行大楼：民族资本与万国建筑并置",
         "facts_referenced": [
-          "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+          "中国银行大楼"
         ]
       },
       {
         "stop_index": 6,
         "role": "Bridge",
-        "beat": "武康庭：收束——把名字放回街道尺度",
+        "beat": "怡和洋行：贸易洋行收束开埠天际线",
         "facts_referenced": [
-          "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu"
+          "怡和洋行大楼"
         ]
       }
     ],
     "tension_curve": [
-      0.35,
-      0.5,
+      0.4,
+      0.55,
       0.7,
-      0.85,
+      0.8,
       0.75,
-      0.55
+      0.6
     ]
   },
   "curated_story": {
-    "id": "demo-wukang",
+    "id": "demo-yida-bund",
     "theme": {
-      "id": "demo-wukang-theme",
-      "title": "武康路上的名字与门牌",
-      "open_question": "名字如何落在门牌上？",
+      "id": "demo-yida-theme",
+      "title": "从一大到外滩：石库门与万国建筑",
+      "open_question": "从石库门到江岸，哪些名字仍能在馆藏或词库里核对？",
       "research_axes": [
         {
-          "axis": "建筑×人物",
-          "hypothesis": "从巴金故居出发，经周璇旧居与武康大楼，走到宋庆龄故居与丁香花园，最后在武康庭收束：建筑×人物×街巷的关系，而不是点位清单。",
+          "axis": "组织史×人物史×开埠界面",
+          "hypothesis": "从中共一大会址片区出发，经宋庆龄故居，走到外滩汇丰、外滩18、中国银行与怡和洋行：关系，而不是点位清单。",
           "evidence_cluster_ids": [
             "c-building",
-            "c-person"
+            "c-person",
+            "c-event"
           ]
         }
       ],
-      "why_visit": "你不是来完成任务，而是来辨认：这些门牌背后，馆藏里仍留着可核对的名字。",
-      "estimated_duration_min": 80,
-      "scope_note": "竞赛冻结演示线 · 六站可点 URI"
+      "why_visit": "你不是来完成任务，而是来辨认：从石库门到江岸，哪些名字仍能在馆藏或词库里核对。",
+      "estimated_duration_min": 90,
+      "scope_note": "竞赛冻结演示线 B · 通道诚实（SLC + landmark）"
     },
-    "thesis": "你不是来完成任务，而是来辨认：这些门牌背后，馆藏里仍留着可核对的名字。",
+    "thesis": "你不是来完成任务，而是来辨认：从石库门到江岸，哪些名字仍能在馆藏或词库里核对。",
     "cast": [
       {
-        "id": "p-巴金",
-        "kind": "person",
-        "name": "巴金",
-        "fact_uri": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
-        "note": null
-      },
-      {
-        "id": "p-周璇",
-        "kind": "person",
-        "name": "周璇",
-        "fact_uri": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
-        "note": null
-      },
-      {
-        "id": "p-邬达克",
-        "kind": "person",
-        "name": "邬达克",
-        "fact_uri": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
-        "note": null
+        "id": "p-一大",
+        "kind": "event",
+        "name": "中共一大",
+        "fact_uri": null,
+        "note": "地名志/纪念馆核录"
       },
       {
         "id": "p-宋庆龄",
@@ -1202,197 +1159,96 @@
         "note": null
       },
       {
-        "id": "p-丁香",
-        "kind": "person",
-        "name": "丁香",
-        "fact_uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
-        "note": null
+        "id": "p-汇丰",
+        "kind": "building",
+        "name": "汇丰银行大楼",
+        "fact_uri": null,
+        "note": "landmark 词库"
       },
       {
-        "id": "p-街巷住户",
-        "kind": "person",
-        "name": "街巷住户",
-        "fact_uri": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
-        "note": null
+        "id": "p-麦加利",
+        "kind": "building",
+        "name": "麦加利银行大楼",
+        "fact_uri": null,
+        "note": "landmark 词库"
+      },
+      {
+        "id": "p-中行",
+        "kind": "building",
+        "name": "中国银行大楼",
+        "fact_uri": null,
+        "note": "landmark / OSM"
+      },
+      {
+        "id": "p-怡和",
+        "kind": "building",
+        "name": "怡和洋行大楼",
+        "fact_uri": null,
+        "note": "landmark 词库"
       }
     ],
     "chapters": [
       {
-        "id": "ch-1",
-        "index": 1,
+        "stop_order": 1,
         "title": "中共一大会址纪念馆周边",
+        "whitelist_id": "wl-001",
+        "buri": null,
+        "evidence_channel": "manual",
+        "act": "prologue",
         "hook": "石库门里的组织史：从门牌进入可核的史实节点",
-        "narrativeRole": "Hook",
-        "stopId": 1,
-        "relationToPrevious": "带着「一大」的名字走向淮海中路：人物史会把红色叙事接到城市居住记忆。",
-        "evidenceIds": [],
-        "walkingMinutes": 16,
-        "castRefs": [
-          "代表与组织"
-        ],
-        "act": "prologue"
+        "relationToPrevious": null
       },
       {
-        "id": "ch-2",
-        "index": 2,
+        "stop_order": 2,
         "title": "宋庆龄故居",
+        "whitelist_id": "wl-111",
+        "buri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+        "evidence_channel": "slc",
+        "act": "focus",
         "hook": "从组织史接到人物史：故居作为时代对照节点",
-        "narrativeRole": "Anchor",
-        "stopId": 2,
-        "relationToPrevious": "从淮海路的故居走向外滩：开埠天际线会把「人与时代」放大成城市界面。",
-        "evidenceIds": [
-          "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
-        ],
-        "walkingMinutes": 14,
-        "castRefs": [
-          "宋庆龄"
-        ],
-        "act": "focus"
+        "relationToPrevious": "带着「一大」的名字走向淮海中路：人物史会把红色叙事接到城市居住记忆。"
       },
       {
-        "id": "ch-3",
-        "index": 3,
+        "stop_order": 3,
         "title": "前汇丰银行大楼",
+        "whitelist_id": "wl-036",
+        "buri": null,
+        "evidence_channel": "landmark",
+        "act": "transit",
         "hook": "开埠金融权力如何写进立面",
-        "narrativeRole": "Contrast",
-        "stopId": 3,
-        "relationToPrevious": "从汇丰的柱廊走向海关钟楼：同一排界面里，公私权力交替可见。",
-        "evidenceIds": [],
-        "walkingMinutes": 13,
-        "castRefs": [
-          "赫伯特·查尔斯·派克"
-        ],
-        "act": "transit"
+        "relationToPrevious": "从淮海路的故居走向外滩：开埠天际线会把「人与时代」放大成城市界面。"
       },
       {
-        "id": "ch-4",
-        "index": 4,
+        "stop_order": 4,
         "title": "麦加利银行大楼",
+        "whitelist_id": "wl-034",
+        "buri": null,
+        "evidence_channel": "landmark",
+        "act": "focus",
         "hook": "外滩18号：从银行立面到艺术入口",
-        "narrativeRole": "Reveal",
-        "stopId": 4,
-        "relationToPrevious": "沿万国建筑博览群继续：中国银行大楼会把民族资本写进同一天际线。",
-        "evidenceIds": [],
-        "walkingMinutes": 12,
-        "castRefs": [
-          "托玛斯·杰克逊"
-        ],
-        "act": "focus"
+        "relationToPrevious": "从汇丰的柱廊走向海关钟楼：同一排界面里，公私权力交替可见。"
       },
       {
-        "id": "ch-5",
-        "index": 5,
+        "stop_order": 5,
         "title": "中国银行大楼",
+        "whitelist_id": "wl-031",
+        "buri": null,
+        "evidence_channel": "landmark",
+        "act": "transit",
         "hook": "民族资本与万国建筑并置",
-        "narrativeRole": "Bridge",
-        "stopId": 5,
-        "relationToPrevious": "最后停在怡和洋行：贸易洋行把开埠早期逻辑收束到江岸。",
-        "evidenceIds": [],
-        "walkingMinutes": 12,
-        "castRefs": [
-          "中国银行"
-        ],
-        "act": "transit"
+        "relationToPrevious": "沿万国建筑博览群继续：中国银行大楼会把民族资本写进同一天际线。"
       },
       {
-        "id": "ch-6",
-        "index": 6,
+        "stop_order": 6,
         "title": "怡和洋行大楼",
+        "whitelist_id": "wl-032",
+        "buri": null,
+        "evidence_channel": "landmark",
+        "act": "epilogue",
         "hook": "收束：贸易洋行写进开埠天际线",
-        "narrativeRole": "Afterimage",
-        "stopId": 6,
-        "relationToPrevious": null,
-        "evidenceIds": [],
-        "walkingMinutes": 13,
-        "castRefs": [
-          "怡和洋行"
-        ],
-        "act": "epilogue"
+        "relationToPrevious": "最后停在怡和洋行：贸易洋行把开埠早期逻辑收束到江岸。"
       }
-    ],
-    "evidenceGraph": {
-      "theme_id": "demo-wukang-theme",
-      "clusters": [
-        {
-          "id": "c-building",
-          "dimension": "building",
-          "label": "建筑",
-          "facts": [
-            {
-              "fact_uri": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
-              "label": "建筑",
-              "assertion": "巴金故居见上海图书馆建筑实体记录，坐标与命名可核。",
-              "layer": "building",
-              "source_dataset": "slc_building",
-              "confidence": 0.9
-            },
-            {
-              "fact_uri": "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4",
-              "label": "建筑",
-              "assertion": "周璇旧居见上海图书馆建筑实体记录，坐标与命名可核。",
-              "layer": "building",
-              "source_dataset": "slc_building",
-              "confidence": 0.9
-            },
-            {
-              "fact_uri": "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng",
-              "label": "建筑",
-              "assertion": "武康大楼见上海图书馆建筑实体记录，坐标与命名可核。",
-              "layer": "building",
-              "source_dataset": "slc_building",
-              "confidence": 0.9
-            },
-            {
-              "fact_uri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
-              "label": "建筑",
-              "assertion": "宋庆龄故居见上海图书馆建筑实体记录，坐标与命名可核。",
-              "layer": "building",
-              "source_dataset": "slc_building",
-              "confidence": 0.9
-            },
-            {
-              "fact_uri": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
-              "label": "建筑",
-              "assertion": "丁香花园见上海图书馆建筑实体记录，坐标与命名可核。",
-              "layer": "building",
-              "source_dataset": "slc_building",
-              "confidence": 0.9
-            },
-            {
-              "fact_uri": "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu",
-              "label": "建筑",
-              "assertion": "武康庭(FERGUSON LANE）见上海图书馆建筑实体记录，坐标与命名可核。",
-              "layer": "building",
-              "source_dataset": "slc_building",
-              "confidence": 0.9
-            }
-          ]
-        },
-        {
-          "id": "c-person",
-          "dimension": "person",
-          "label": "人物",
-          "facts": []
-        },
-        {
-          "id": "c-event",
-          "dimension": "event",
-          "label": "事件",
-          "facts": []
-        }
-      ],
-      "joins": [],
-      "coverage": {
-        "stops": 6,
-        "with_buri": 6
-      }
-    },
-    "quality": {
-      "evidence_layers": 18,
-      "coverage_ratio": 1.0,
-      "aligned_ratio": 1.0
-    },
-    "theme_id": "demo-yida-theme"
+    ]
   },
   "_demo_hongyuan": {
     "agent": "红鸢",

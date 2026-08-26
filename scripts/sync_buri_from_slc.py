@@ -116,7 +116,7 @@ def main() -> int:
     parser.add_argument(
         "--district",
         default="一大周边",
-        help="only update points with this district_tag (default: 一大周边)",
+        help="only update points with this district_tag; use ALL for every point with a query",
     )
     args = parser.parse_args()
 
@@ -137,10 +137,10 @@ def main() -> int:
     log: list[str] = []
 
     query_map = {**YIDA_QUERIES, **BUND_QUERIES}
+    district_filter = None if args.district in ("", "ALL", "*") else args.district
 
     for p in points:
-        if args.district and p.get("district_tag") != args.district:
-            # Also allow name-based bund queries on any point matching id
+        if district_filter and p.get("district_tag") != district_filter:
             if p["id"] not in query_map:
                 continue
         queries = query_map.get(p["id"])

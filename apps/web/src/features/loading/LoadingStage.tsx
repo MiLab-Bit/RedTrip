@@ -80,31 +80,42 @@ export function LoadingStage({ progress, phase }: Props) {
         style={{ "--line-progress": lineProgress } as CSSProperties}
         aria-hidden
       >
-        <svg viewBox="0 0 120 96" width="120" height="96" className="loading-kite-svg">
+        <svg viewBox="0 0 120 100" width="128" height="106" className="loading-kite-svg">
+          {/* string spool → kite: drawn by progress */}
           <path
-            className="kite-tail"
-            d="M60 68 Q54 78 46 86 Q38 92 30 94"
+            className="kite-string-draw"
+            d="M60 78 C66 70 74 62 82 54 C88 48 92 42 94 36"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.4"
+            strokeWidth="1.5"
             strokeLinecap="round"
           />
           <g className="hongyuan-kite loading-kite-body">
             <path
-              d="M60 16 L88 40 L60 64 L32 40 Z"
-              fill="none"
+              d="M60 10 L82 34 L60 58 L38 34 Z"
+              fill="currentColor"
+              fillOpacity="0.08"
               stroke="currentColor"
-              strokeWidth="1.6"
+              strokeWidth="1.7"
+              strokeLinejoin="round"
             />
             <path
-              d="M60 16 L60 64 M32 40 L88 40"
+              d="M60 10 L60 58 M38 34 L82 34"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1"
-              opacity="0.55"
+              strokeWidth="1.2"
+              opacity="0.85"
+            />
+            <path
+              d="M48 54 L44 66 M52 56 L50 66 M72 54 L76 66 M68 56 L70 66"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.1"
+              strokeLinecap="round"
+              opacity="0.7"
             />
           </g>
-          <circle className="kite-spool" cx="60" cy="72" r="2.2" fill="currentColor" opacity="0.35" />
+          <circle className="kite-spool" cx="60" cy="80" r="2.4" fill="currentColor" opacity="0.4" />
         </svg>
 
         <div className="loading-seal-track">
