@@ -148,7 +148,7 @@ export function StoryIntro({
           开始这场漫步
         </button>
         <button type="button" className="btn" onClick={onShowMap}>
-          先看全图
+          看本章在街上的位置
         </button>
         <button type="button" className="btn secondary" onClick={onRestart}>
           重新出题

@@ -339,7 +339,7 @@ export function App() {
         {!isBrief && degradeNotices.length > 0 && (
           <div className="degrade-banner" role="status">
             <p className="degrade-title">
-              这一程是降级结果：内容可读，但未走完整策展。
+              这一程可读，但未完整过检——内容可用，请带着保留态度阅读。
             </p>
             <ul>
               {degradeNotices.slice(0, 3).map((n, i) => (
@@ -450,19 +450,23 @@ export function App() {
         {state.value === "degraded" && (
           <BookShell mode="folio">
             <section className="panel degraded-card book-page-flat" role="alert">
-              <p className="degraded-kicker">演示降级</p>
-              <h2>这条线暂时未能放行</h2>
+              <p className="degraded-kicker">未能成书</p>
+              <h2>这一程暂时无法展示</h2>
               <p className="lead">
                 {state.context.error ||
-                  "取证或闸门未通过。未编造内容，故不展示路线。"}
+                  "取证或质量检查未通过。红鸢不编造无出处的史实，故宁可不展示，也不硬凑一条线。"}
               </p>
-              <ul className="degraded-hints">
-                <li>确认本机 API（8799）与 Web（5173）均已启动</li>
-                <li>
-                  上游抖动时可改 <code>REDTRIP_MODE=snapshot</code> 后重启 API
-                </li>
-                <li>备援：播放预先录好的演示片（见 Doc/15-demo-script.md）</li>
-              </ul>
+              <p className="note">
+                你可以换一个起点或时段再试，或先走下方的冻结演示线，看看成书长什么样。
+              </p>
+              <details className="degraded-tech">
+                <summary>技术说明（可选）</summary>
+                <ul className="degraded-hints">
+                  <li>确认 API 与页面均已启动，且能访问当前站点的策展接口</li>
+                  <li>上游馆藏抖动时，运维可切换快照模式后重试</li>
+                  <li>演示线为冻结包，不依赖当场取证</li>
+                </ul>
+              </details>
               <div className="btn-row">
                 <button
                   className="btn"

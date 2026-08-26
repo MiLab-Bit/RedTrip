@@ -171,9 +171,31 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
       setTestResult(
         r.ok
           ? { ok: true, kind: "success", msg: `连通成功（${r.latency_ms ?? "?"}ms）` }
-          : (r.error ?? "").includes("超时")
-            ? { ok: false, kind: "timeout", msg: r.error ?? "未知错误" }
-            : { ok: false, kind: "fail", msg: r.error ?? "未知错误" },
+          : (() => {
+              const err = r.error ?? "未知错误";
+              if (err.includes("超时")) {
+                return {
+                  ok: false,
+                  kind: "timeout" as const,
+                  msg: `${err} · 请检查网络或 Base URL 后重试`,
+                };
+              }
+              if (/401|无权|unauthorized|invalid.*key|api.?key/i.test(err)) {
+                return {
+                  ok: false,
+                  kind: "fail" as const,
+                  msg: `${err} · 请核对 API Key 是否正确、未过期`,
+                };
+              }
+              if (/model|模型|not found|404/i.test(err)) {
+                return {
+                  ok: false,
+                  kind: "fail" as const,
+                  msg: `${err} · 请核对模型名是否与供应商一致`,
+                };
+              }
+              return { ok: false, kind: "fail" as const, msg: err };
+            })(),
       );
     } catch (e) {
       setTestResult({ ok: false, kind: "fail", msg: e instanceof Error ? e.message : "测试失败" });

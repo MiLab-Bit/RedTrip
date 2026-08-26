@@ -6,7 +6,6 @@ import {
 } from "../../shared/lib/places";
 import {
   fetchCities,
-  cityName,
   DEFAULT_CITY,
   STATIC_CITIES,
   type CityInfo,
@@ -53,7 +52,6 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
   const [slots, setSlots] = useState<IntentSlots>({ ...defaults });
   const [cities, setCities] = useState<CityInfo[]>([]);
   const setCityStore = useCityStore((s) => s.setCity);
-  const activeCity = useCityStore((s) => s.city);
   const authStatus = useAuthStore((s) => s.status);
   const [byokReady, setByokReady] = useState(false);
   const [suggestions, setSuggestions] = useState<PlaceSuggestItem[]>([]);
@@ -278,8 +276,13 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
         </p>
         <h1 className="brief-title">用馆藏，策一场九十分钟的步行展览</h1>
         <p className="brief-lead">
-          不报名、不集合。选定城市、一带与同行——证据先于叙事，站站可溯源。
+          目录给条目，我们给关系——把散落在馆藏里的建筑、人物与事件，编成一条走得动、站站可溯源的故事线。
         </p>
+        <ul className="brief-wont">
+          <li>不做实时导航</li>
+          <li>不做景点点评聚合</li>
+          <li>不编造无出处的史实</li>
+        </ul>
 
         <div className="brief-intent">
           <div className="field brief-city">
@@ -488,6 +491,7 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
           >
             开始策展
           </button>
+          <p className="brief-cta-hint">完整策展通常需要数分钟 · 进度条会说明当前阶段</p>
           {onDemoWukang ? (
             <button
               type="button"
@@ -516,9 +520,12 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
               演示一大·外滩 · 通道诚实
             </button>
           ) : null}
+          {(onDemoWukang || onDemoYida) && (
+            <p className="brief-demo-hint">演示为冻结包 · 秒开，用于查看成书形态</p>
+          )}
         </div>
         <p className="brief-footnote">
-          {cityName(activeCity)}开放数据 · 证据先于叙事 · 高度缺省处标「示意」
+          深挖上海馆藏 · 证据先于叙事 · 高度缺省处标「示意」
         </p>
       </div>
     </section>

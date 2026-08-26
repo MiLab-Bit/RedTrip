@@ -249,7 +249,7 @@ export function WalkStage({
           ·
         </span>
         <button type="button" className="toc-action" onClick={onShowMap}>
-          看全图
+          本章在街上的位置
         </button>
         <span className="toc-action-sep" aria-hidden>
           ·
