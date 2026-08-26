@@ -58,8 +58,8 @@ export function UserMenu({
       >
         <span className="usermenu-name">{name}</span>
         {byokActive && (
-          <span className="usermenu-byok" title="已配置自带大模型密钥">
-            BYOK
+          <span className="usermenu-byok" title="已配置自己的大模型">
+            自有模型
           </span>
         )}
         <span className="usermenu-caret">▾</span>
@@ -71,7 +71,7 @@ export function UserMenu({
           </div>
           {byokActive && (
             <div className="usermenu-row usermenu-byok-line">
-              文本模型 BYOK 已启用 · 策展走你的密钥
+              已启用你配置的文本模型 · 策展使用你的密钥
             </div>
           )}
           {progress && (
@@ -88,7 +88,7 @@ export function UserMenu({
               onOpenModelConfig();
             }}
           >
-            模型配置{byokActive ? "" : "（BYOK）"}
+            模型配置
           </button>
           <button
             className="usermenu-action"

@@ -478,12 +478,7 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
         <div className="brief-actions">
           {authStatus === "authenticated" && !byokReady && (
             <p className="brief-byok-hint is-soft">
-              已登录。在右上角「模型配置」保存并验证 API Key 后，策展将走 BYOK。
-            </p>
-          )}
-          {byokReady && (
-            <p className="brief-byok-hint is-on">
-              BYOK 已就绪 · 本次策展将使用你配置的文本模型
+              已登录。可在右上角「模型配置」填入你自己的大模型 API Key，之后策展会优先用你的模型。
             </p>
           )}
           <button
