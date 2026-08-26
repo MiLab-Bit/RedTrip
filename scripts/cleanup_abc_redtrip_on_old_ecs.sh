@@ -26,22 +26,47 @@ patterns = [
         r"\n?#\s*=+\s*RedTrip[\s\S]*?location\s+/redtrip/\s*\{[\s\S]*?\n\}\n?",
         re.I,
     ),
+    re.compile(
+        r"\n?\s*#\s*RedTrip retired[\s\S]*?location\s+\^~\s+/redtrip/\s*\{[^}]*\}\n?",
+        re.I,
+    ),
     re.compile(r"\n?location\s+/redtrip/v1/[\s\S]*?\n\}\n?", re.I),
     re.compile(r"\n?location\s+/redtrip/auth/v1/[\s\S]*?\n\}\n?", re.I),
+    re.compile(r"\n?location\s+\^~\s+/redtrip/\s*\{[^}]*\}\n?", re.I),
     re.compile(r"\n?location\s+/redtrip/\s*\{\s*return\s+404;\s*\}\n?", re.I),
-    re.compile(r"\n?location\s+=\s+/redtrip\s*\{[\s\S]*?\n\}\n?", re.I),
+    re.compile(r"\n?location\s+=\s+/redtrip\s*\{[^}]*\}\n?", re.I),
     re.compile(r"\n?location\s+/redtrip/[\s\S]*?\n\}\n?", re.I),
 ]
 new = text
 for p in patterns:
     new = p.sub("\n", new)
-# collapse excess blank lines
 new = re.sub(r"\n{3,}", "\n\n", new)
-if new == text:
-    print("WARN: no /redtrip blocks matched — inspect", path, "manually")
-else:
+
+# Hard 404 so /redtrip no longer falls through to FastToken SPA
+hard_404 = (
+    "\n    # RedTrip retired from abc-ai.cn — do not fall through to FastToken SPA\n"
+    "    location = /redtrip { return 404; }\n"
+    "    location ^~ /redtrip/ { return 404; }\n"
+)
+if "location ^~ /redtrip/" not in new:
+    needle = "    location = /fasttoken_linux    { return 404; }\n"
+    if needle in new:
+        new = new.replace(needle, needle + hard_404, 1)
+        print("OK: inserted hard /redtrip 404 after security denylist")
+    else:
+        # fallback: inject before first location / in SSL-ish block
+        m = re.search(r"(\n    location / \{\n)", new)
+        if m:
+            new = new[: m.start()] + hard_404 + new[m.start() :]
+            print("OK: inserted hard /redtrip 404 before location /")
+        else:
+            print("WARN: could not place hard 404 — add manually", file=sys.stderr)
+
+if new != text:
     path.write_text(new, encoding="utf-8")
-    print("OK: stripped /redtrip locations from", path)
+    print("OK: updated", path)
+else:
+    print("WARN: no changes — inspect", path, "manually")
 PY
 
 nginx -t
