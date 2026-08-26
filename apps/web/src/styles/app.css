@@ -59,7 +59,9 @@ button {
 }
 
 .topbar .brand-mark {
-  padding-right: 2.4rem;
+  padding-right: 0;
+  max-width: min(100%, 28rem);
+  z-index: 1;
 }
 
 .topbar .brand-kite {
@@ -79,6 +81,20 @@ button {
   margin-left: 0.35rem;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
+}
+
+/* 顶栏印章跟在品牌词后，勿 absolute 外溢压到「上海 · 可溯源书页」 */
+.topbar .brand-seal {
+  position: static;
+  top: auto;
+  right: auto;
+  margin-left: 0.2rem;
+  flex-shrink: 0;
+  width: 1.55rem;
+  height: 1.55rem;
+  font-size: 0.82rem;
+  transform: rotate(7deg);
+  opacity: 0.9;
 }
 
 .brief-byok-hint {
@@ -151,6 +167,10 @@ button {
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
   padding-bottom: 0.15rem;
   letter-spacing: 0.06em;
+  flex-shrink: 0;
+  margin-left: auto;
+  position: relative;
+  z-index: 0;
 }
 
 .app-shell.is-reading .topbar {

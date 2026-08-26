@@ -312,10 +312,10 @@ export function App() {
           <div className="brand brand-mark">
             <RedTripKiteLogo size={28} className="brand-kite is-topbar" />
             <span className="brand-word">红鸢</span>
-            <small className="brand-tag">RedTrip · 城市记忆策展人</small>
             <span className="brand-seal" aria-hidden>
               鸢
             </span>
+            <small className="brand-tag">RedTrip · 城市记忆策展人</small>
           </div>
           <div className="source-badge">
             {cityName(activeCity)} · 可溯源书页
