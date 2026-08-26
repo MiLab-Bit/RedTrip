@@ -87,6 +87,9 @@ export function StopPanel({
   const story = envelope.blocks.find(
     (b) => b.type === "story_card" && b.stop_order === stop.order,
   );
+  const essay = envelope.blocks.find(
+    (b) => b.type === "essay" && b.stop_order === stop.order,
+  );
   const scene = envelope.blocks.find(
     (b) => b.type === "scene" && b.stop_order === stop.order,
   );
@@ -184,6 +187,25 @@ export function StopPanel({
             ))}
           </div>
         </article>
+      )}
+
+      {essay && essay.type === "essay" && essay.body.trim() && (
+        <details className="essay-panel">
+          <summary>
+            深读 · 长散文
+            <span className="essay-len">{essay.body.trim().length} 字</span>
+          </summary>
+          {essay.title ? <h3 className="essay-title">{essay.title}</h3> : null}
+          <div className="essay-body">
+            {essay.body
+              .split(/\n{2,}/)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+          </div>
+        </details>
       )}
 
       <div className="pitfalls-block" aria-label="避坑信息">

@@ -41,7 +41,9 @@ def _require_verified() -> bool:
 
 
 def _email_base() -> str:
-    return os.environ.get("REDTRIP_EMAIL_BASE_URL", "https://redtrip.pages.dev").rstrip("/")
+    return os.environ.get(
+        "REDTRIP_EMAIL_BASE_URL", "https://sy-realm.ltd/redtrip"
+    ).rstrip("/")
 
 
 def _email_ttl() -> int:

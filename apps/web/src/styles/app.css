@@ -3297,18 +3297,112 @@ button {
   display: inline-block;
   vertical-align: middle;
   margin-right: 0.35rem;
+  overflow: visible;
   filter: drop-shadow(0 1px 0 color-mix(in srgb, var(--ink) 12%, transparent));
   animation: kite-drift 5s ease-in-out infinite;
   transform-origin: 50% 80%;
 }
 
-.brief-brand .brand-kite {
+.brand-kite .kite-logo-string {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: kite-string-draw 3.6s ease-in-out infinite;
+}
+
+.brand-kite .kite-logo-tails {
+  transform-origin: 32px 48px;
+  animation: kite-tail-sway 2.8s ease-in-out infinite;
+}
+
+.brand-kite .kite-logo-bead {
+  animation: kite-bead-pulse 3.6s ease-in-out infinite;
+}
+
+.brief-brand .brand-kite,
+.brand-kite.is-brief {
   width: 2.35rem;
   height: 2.35rem;
 }
 
-.topbar .brand-kite {
-  animation: none;
+.topbar .brand-kite,
+.brand-kite.is-topbar {
+  animation: kite-drift 6.5s ease-in-out infinite;
+}
+
+@keyframes kite-string-draw {
+  0%,
+  100% {
+    stroke-dashoffset: 0.15;
+    opacity: 0.85;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes kite-tail-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes kite-bead-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.essay-panel {
+  margin: 1rem 0 0.35rem;
+  padding: 0.75rem 0.85rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.essay-panel > summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  letter-spacing: 0.14em;
+  color: var(--seal);
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.essay-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.essay-len {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-wash);
+}
+
+.essay-title {
+  margin: 0.65rem 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.essay-body {
+  margin-top: 0.55rem;
+}
+
+.essay-body p {
+  margin: 0 0 0.75rem;
+  line-height: 1.75;
+  color: var(--ink);
 }
 
 .brief-demo-alt {

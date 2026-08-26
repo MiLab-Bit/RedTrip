@@ -28,6 +28,7 @@ import { useAuthStore } from "../features/auth/authStore";
 import { useProgressStore } from "../features/progress/progressStore";
 import { useCityStore } from "../shared/lib/cityStore";
 import { cityName } from "../shared/lib/cities";
+import { RedTripKiteLogo } from "../shared/ui/RedTripKiteLogo";
 import { UserMenu } from "../features/auth/UserMenu";
 import { AuthModal } from "../features/auth/AuthModal";
 import { ModelConfigPanel } from "../features/auth/ModelConfigPanel";
@@ -376,14 +377,7 @@ export function App() {
       {!isBrief && (
         <header className="topbar">
           <div className="brand brand-mark">
-            <img
-              className="brand-kite"
-              src="/redtrip-kite.svg"
-              alt=""
-              aria-hidden
-              width={28}
-              height={28}
-            />
+            <RedTripKiteLogo size={28} className="brand-kite is-topbar" />
             <span className="brand-word">红鸢</span>
             <small className="brand-tag">RedTrip · 城市记忆策展人</small>
             <span className="brand-seal" aria-hidden>
