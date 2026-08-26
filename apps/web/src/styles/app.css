@@ -2098,6 +2098,13 @@ button {
   opacity: 0.85;
 }
 
+.kite-string-draw {
+  stroke-dasharray: 56;
+  stroke-dashoffset: calc(56px * (1 - var(--line-progress)));
+  transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.88;
+}
+
 .kite-spool {
   animation: spool-pulse 2.4s ease-in-out infinite;
   transform-origin: center;
@@ -3305,6 +3312,17 @@ button {
   vertical-align: middle;
   margin-right: 0.35rem;
   filter: drop-shadow(0 1px 0 color-mix(in srgb, var(--ink) 12%, transparent));
+  animation: kite-drift 5s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+.brief-brand .brand-kite {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+.topbar .brand-kite {
+  animation: none;
 }
 
 .brief-demo-alt {

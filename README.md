@@ -94,8 +94,8 @@
 
 | 环境 | 地址 |
 |---|---|
-| 正式站点（推荐） | https://www.abc-ai.cn/redtrip/ |
-| 演示镜像 · Cloudflare Pages（维护中） | https://redtrip.pages.dev |
+| 正式站点 | https://sy-realm.ltd/redtrip/ |
+| 历史演示镜像（维护中） | https://redtrip.pages.dev |
 
 ---
 
