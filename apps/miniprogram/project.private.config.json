@@ -1,7 +1,7 @@
 {
-  "description": "本地开发覆盖项（可改 urlCheck 等，勿提交敏感信息）",
+  "description": "本地覆盖：正式测域名时请把 urlCheck 改为 true",
   "projectname": "RedTrip",
   "setting": {
-    "urlCheck": false
+    "urlCheck": true
   }
 }
