@@ -1,5 +1,11 @@
 <p align="center">
-  <img src="docs/assets/redtrip-logo.jpg" alt="红鸢 RedTrip" width="360" />
+  <img src="docs/assets/redtrip-logo.jpg" alt="红鸢 RedTrip · 老版标志" width="320" />
+  &nbsp;&nbsp;
+  <img src="docs/assets/redtrip-kite.svg" alt="红鸢 RedTrip · 风筝标志" width="160" />
+</p>
+
+<p align="center">
+  <sub>左：早期品牌主视觉 · 右：现行红鸢风筝标识</sub>
 </p>
 
 <h1 align="center">红鸢 RedTrip · 城市记忆策展人</h1>
