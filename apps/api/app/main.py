@@ -304,6 +304,7 @@ def _assumptions_from_slots(slots: IntentSlots | None) -> list[str]:
 def _active_llm_provider_from_request(request: Request) -> dict[str, str] | None:
     """从请求的 Bearer token 解析用户，并返回 DB 中 active 的 LLM provider。
 
+    优先 text 槽；若无则回落 multimodal（同为 OpenAI 兼容 chat）。
     无 token / 无 active provider / 解密失败 → 返回 None，回落到环境变量。
     """
     auth_header = request.headers.get("Authorization") or ""
@@ -316,14 +317,23 @@ def _active_llm_provider_from_request(request: Request) -> dict[str, str] | None
     )
     if not secret:
         return None
-    payload = _auth_lib.decode_token(token, secret)
+    payload = _auth_lib.decode_token(token, secret, expect_typ="access")
     if not payload:
         return None
     uid = payload.get("sub")
     if not uid:
         return None
-    return _auth_store.get_active_provider(uid, "text")
-
+    # 旧 JWT 无 typ/ver 时仍可能 decode；再核对 token_version
+    try:
+        ver = int(payload.get("ver", 0) or 0)
+        if ver != _auth_store.get_token_version(uid):
+            return None
+    except Exception:
+        return None
+    return (
+        _auth_store.get_active_provider(uid, "text")
+        or _auth_store.get_active_provider(uid, "multimodal")
+    )
 
 def _probe_live_providers(client: SlcClient) -> tuple[dict[str, bool], dict[str, Any]]:
     """实际访问 live provider；只有本次成功才可标记 ready。"""

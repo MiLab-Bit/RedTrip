@@ -43,7 +43,6 @@ def decrypt(token: str) -> str:
 # ── 常见大模型供应商预设（仅展示用，不含任何密钥）──
 PROVIDER_PRESETS = [
     {"provider": "openai", "label": "OpenAI", "baseUrl": "https://api.openai.com/v1", "defaultModel": "gpt-4o-mini"},
-    {"provider": "anthropic", "label": "Anthropic", "baseUrl": "https://api.anthropic.com/v1", "defaultModel": "claude-3-5-sonnet-latest"},
     {"provider": "deepseek", "label": "DeepSeek", "baseUrl": "https://api.deepseek.com/v1", "defaultModel": "deepseek-chat"},
     {"provider": "moonshot", "label": "Moonshot 月之暗面", "baseUrl": "https://api.moonshot.cn/v1", "defaultModel": "moonshot-v1-8k"},
     {"provider": "qwen", "label": "通义千问", "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1", "defaultModel": "qwen-plus"},

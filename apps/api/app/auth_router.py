@@ -59,7 +59,8 @@ def _send_email(to: str, subject: str, text: str) -> bool:
         if not (s.get("host") and s.get("username")):
             raise ValueError("no smtp config")
     except Exception:
-        print(f"[mail:noop] -> {to} | {subject}\n{text[:300]}")
+        # 不打印正文（可能含验证/重置 token）
+        print(f"[mail:noop] -> {to} | {subject} | body_len={len(text)}")
         return False
     msg = EmailMessage()
     msg["From"] = s["from"]
@@ -88,10 +89,32 @@ def _current_user(request: Request) -> dict:
     h = request.headers.get("Authorization", "")
     if not h.startswith("Bearer "):
         raise HTTPException(401, "missing token")
-    payload = auth.decode_token(h[7:], _secret())
+    payload = auth.decode_token(h[7:], _secret(), expect_typ="access")
     if not payload:
         raise HTTPException(401, "invalid token")
+    uid = payload.get("sub")
+    u = store.get_user(uid) if uid else None
+    if not u:
+        raise HTTPException(401, "user gone")
+    if u.get("status") == "disabled":
+        raise HTTPException(403, "账号已停用")
+    ver = int(payload.get("ver", 0) or 0)
+    if ver != store.get_token_version(uid):
+        raise HTTPException(401, "token 已失效，请重新登录")
     return payload
+
+
+def _issue_pair(uid: str, email: str) -> dict:
+    sec = _secret()
+    ver = store.get_token_version(uid)
+    at = auth.issue_token(uid, email, sec, ACCESS_TTL, typ="access", token_version=ver)
+    rt = auth.issue_token(uid, email, sec, REFRESH_TTL, typ="refresh", token_version=ver)
+    return {
+        "accessToken": at,
+        "refreshToken": rt,
+        "expiresIn": ACCESS_TTL,
+        "user": store._public_user(store.get_user(uid)),
+    }
 
 
 def _public(uid: str) -> dict:
@@ -124,11 +147,15 @@ async def register(request: Request) -> dict:
     link = f"{_email_base()}/verify-email?token={tok}"
     ok = _send_email(email, "RedTrip 邮箱验证", f"欢迎注册 RedTrip。请点击验证：\n{link}\n（24 小时内有效）")
     if not ok:
-        # 单用户内部系统：邮件发送失败则降级为直接激活，避免锁死账号
-        store.set_email_verified(uid)
-        print(f"[auth] 注册邮件发送失败，已降级激活账号 {email}")
+        # 不再降级自动激活：避免未持有邮箱即可注册
+        print(f"[auth] 注册邮件发送失败，账号保持未验证 {email}")
+        return {
+            "user": store._public_user(store.get_user(uid)),
+            "emailSent": False,
+            "message": "账号已创建，但验证邮件发送失败。请稍后使用「重发验证邮件」或联系管理员。",
+        }
     u = store.get_user(uid)
-    return {"user": store._public_user(u)}
+    return {"user": store._public_user(u), "emailSent": True}
 
 
 @router.post("/auth/verify-email")
@@ -158,8 +185,12 @@ async def resend(request: Request) -> dict:
     if u["email_verified"]:
         raise HTTPException(400, "已验证")
     tok = auth.make_verify_token()
-    store.save_verify_token(auth.hash_token(tok), u["id"], "verify_email", str(int(time.time()) + _email_ttl()))
-    _send_email(email, "RedTrip 邮箱验证", f"{_email_base()}/verify-email?token={tok}")
+    store.save_verify_token(
+        auth.hash_token(tok), u["id"], "verify_email", str(int(time.time()) + _email_ttl())
+    )
+    ok = _send_email(email, "RedTrip 邮箱验证", f"{_email_base()}/verify-email?token={tok}")
+    if not ok:
+        raise HTTPException(503, "验证邮件发送失败，请稍后重试")
     return {"ok": True}
 
 
@@ -175,33 +206,42 @@ async def login(request: Request) -> dict:
     if not auth.verify_password(phash, password):
         raise HTTPException(401, "邮箱或密码错误")
     u = store.get_user(uid)
+    if u.get("status") == "disabled":
+        raise HTTPException(403, "账号已停用")
     if _require_verified() and not u["email_verified"]:
         raise HTTPException(403, "邮箱未验证，请查收验证邮件")
-    sec = _secret()
-    at = auth.issue_token(uid, email, sec, ACCESS_TTL)
-    rt = auth.issue_token(uid, email, sec, REFRESH_TTL)
-    return {"accessToken": at, "refreshToken": rt, "expiresIn": ACCESS_TTL, "user": store._public_user(u)}
+    return _issue_pair(uid, email)
 
 
 @router.post("/auth/refresh")
 async def refresh(request: Request) -> dict:
     body = await request.json()
     rt = body.get("refreshToken") or ""
-    payload = auth.decode_token(rt, _secret())
+    payload = auth.decode_token(rt, _secret(), expect_typ="refresh")
     if not payload:
         raise HTTPException(401, "refresh token 无效")
     uid = payload.get("sub")
     email = payload.get("email")
-    if not store.get_user(uid):
+    u = store.get_user(uid)
+    if not u:
         raise HTTPException(401, "用户不存在")
-    sec = _secret()
-    at = auth.issue_token(uid, email, sec, ACCESS_TTL)
-    new_rt = auth.issue_token(uid, email, sec, REFRESH_TTL)
-    return {"accessToken": at, "refreshToken": new_rt, "expiresIn": ACCESS_TTL, "user": _public(uid)}
+    if u.get("status") == "disabled":
+        raise HTTPException(403, "账号已停用")
+    ver = int(payload.get("ver", 0) or 0)
+    if ver != store.get_token_version(uid):
+        raise HTTPException(401, "token 已失效，请重新登录")
+    return _issue_pair(uid, email)
 
 
 @router.post("/auth/logout")
 async def logout(request: Request) -> dict:
+    """登出：递增 token_version，使 access/refresh 全部失效。"""
+    try:
+        p = _current_user(request)
+        store.bump_token_version(p["sub"])
+    except HTTPException:
+        # 无 token / 已失效也视为登出成功
+        pass
     return {"ok": True}
 
 
@@ -212,8 +252,17 @@ async def request_reset(request: Request) -> dict:
     u = store.get_user_by_email(email)
     if u:
         tok = auth.make_verify_token()
-        store.save_verify_token(auth.hash_token(tok), u["id"], "reset_password", str(int(time.time()) + _email_ttl()))
-        _send_email(email, "RedTrip 密码重置", f"{_email_base()}/reset-password?token={tok}")
+        store.save_verify_token(
+            auth.hash_token(tok),
+            u["id"],
+            "reset_password",
+            str(int(time.time()) + _email_ttl()),
+        )
+        ok = _send_email(
+            email, "RedTrip 密码重置", f"{_email_base()}/reset-password?token={tok}"
+        )
+        if not ok:
+            print(f"[auth] 密码重置邮件发送失败 {email}")
     return {"ok": True, "message": "若邮箱存在，重置链接已发送"}
 
 
@@ -232,6 +281,7 @@ async def reset_password(request: Request) -> dict:
         raise HTTPException(400, "链接已过期")
     store.set_password(rec["user_id"], auth.hash_password(npw))
     store.delete_verify_token(auth.hash_token(token))
+    store.bump_token_version(rec["user_id"])
     return {"ok": True}
 
 
@@ -286,11 +336,47 @@ async def revoke_key(request: Request) -> dict:
 
 
 # ── 模型配置（用户自带大模型供应商密钥）──
+def _blocked_base_url(base: str) -> str | None:
+    """基础 SSRF 防护：禁止明显内网/元数据地址（Ollama localhost 例外）。"""
+    from urllib.parse import urlparse
+
+    try:
+        u = urlparse(base)
+    except Exception:
+        return "Base URL 无效"
+    host = (u.hostname or "").lower()
+    if not host:
+        return "Base URL 缺少主机名"
+    if host in ("localhost", "127.0.0.1", "::1"):
+        return None  # 允许本地 Ollama
+    if host.endswith(".local") or host.endswith(".internal"):
+        return "不允许访问内网主机"
+    # 粗粒度私网/链路本地
+    blocked_prefixes = (
+        "10.", "192.168.", "169.254.", "0.", "100.64.",
+    )
+    if any(host.startswith(p) for p in blocked_prefixes):
+        return "不允许访问私网地址"
+    if host.startswith("172."):
+        try:
+            second = int(host.split(".")[1])
+            if 16 <= second <= 31:
+                return "不允许访问私网地址"
+        except Exception:
+            pass
+    if u.scheme not in ("http", "https"):
+        return "Base URL 仅支持 http/https"
+    return None
+
+
 def _test_provider(api_key: str, base_url: str, model: str, provider: str = "") -> dict:
     """直连供应商做一次最小 chat 调用，验证 key 可用。返回 {ok, latency_ms, model}。"""
     base = (base_url or "").rstrip("/")
     if not base:
         raise HTTPException(400, "自定义供应商需填写 Base URL")
+    block = _blocked_base_url(base)
+    if block:
+        return {"ok": False, "latency_ms": 0, "error": block}
     # Anthropic 使用 /v1/messages 而非 OpenAI 兼容 /chat/completions，当前尚未接入。
     if provider == "anthropic" or "anthropic.com" in base:
         return {
@@ -311,18 +397,24 @@ def _test_provider(api_key: str, base_url: str, model: str, provider: str = "") 
     }
     t0 = time.time()
     try:
-        with httpx.Client(timeout=20.0) as cli:
+        with httpx.Client(timeout=20.0, follow_redirects=False) as cli:
             r = cli.post(url, headers=headers, json=payload)
         latency = int((time.time() - t0) * 1000)
-        if r.status_code == 200:
-            return {"ok": True, "latency_ms": latency, "model": model or "gpt-4o-mini"}
-        # 尝试解析错误信息（供应商常返回 JSON）
-        detail = r.text[:300]
+        if r.status_code != 200:
+            detail = r.text[:300]
+            try:
+                detail = r.json().get("error", {}).get("message", detail)
+            except Exception:
+                pass
+            return {"ok": False, "latency_ms": latency, "error": f"HTTP {r.status_code}: {detail}"}
         try:
-            detail = r.json().get("error", {}).get("message", detail)
+            body = r.json()
         except Exception:
-            pass
-        return {"ok": False, "latency_ms": latency, "error": f"HTTP {r.status_code}: {detail}"}
+            return {"ok": False, "latency_ms": latency, "error": "响应不是 JSON"}
+        choices = body.get("choices") if isinstance(body, dict) else None
+        if not choices:
+            return {"ok": False, "latency_ms": latency, "error": "响应缺少 choices，可能不是 OpenAI 兼容接口"}
+        return {"ok": True, "latency_ms": latency, "model": model or "gpt-4o-mini"}
     except Exception as exc:  # noqa: BLE001
         latency = int((time.time() - t0) * 1000)
         return {"ok": False, "latency_ms": latency, "error": str(exc)[:300]}
@@ -384,6 +476,33 @@ async def test_provider(request: Request) -> dict:
     return _test_provider(
         api_key, base_url or _preset_base(provider), model or _preset_model(provider), provider=provider,
     )
+
+
+@router.post("/model-providers/{pid}/retest")
+def retest_saved_provider(pid: str, request: Request) -> dict:
+    """用库内已存密钥重测，并写回 active/error 状态。"""
+    p = _current_user(request)
+    rec = store.get_model_provider(pid, p["sub"])
+    if not rec:
+        raise HTTPException(404, "配置不存在")
+    try:
+        api_key = crypto.decrypt(rec["api_key_enc"])
+    except Exception as exc:  # noqa: BLE001
+        store.update_model_provider_status(
+            pid, p["sub"], "error", f"解密失败: {exc}", str(int(time.time()))
+        )
+        raise HTTPException(400, "密钥解密失败，请重新保存配置") from exc
+    base = rec.get("base_url") or _preset_base(rec.get("provider") or "")
+    model = rec.get("model") or _preset_model(rec.get("provider") or "")
+    test = _test_provider(api_key, base or "", model or "", provider=rec.get("provider") or "")
+    status = "active" if test["ok"] else "error"
+    store.update_model_provider_status(
+        pid, p["sub"], status, (test.get("error") if not test["ok"] else None),
+        str(int(time.time())),
+    )
+    out = store.get_model_provider(pid, p["sub"]) or {}
+    out.pop("api_key_enc", None)
+    return {"status": "ok", "provider": out, "test": test}
 
 
 @router.delete("/model-providers/{pid}")

@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .hongyuan import VoicePack
-from .llm import chat_json, llm_configured
+from .llm import chat_json, llm_configured, submit_with_provider
 from .models import RoutePlan
 from .sentence_provenance import (
     SentenceClaim,
@@ -693,9 +693,15 @@ def polish_envelope(
     prov_parts: list[dict[str, Any]] = []
     with ThreadPoolExecutor(max_workers=min(4, len(cards))) as pool:
         futs = {
-            pool.submit(
-                _chat_card, so, card, facts_by_stop.get(so, []),
-                meta_ctx, voice, allowed_years,
+            submit_with_provider(
+                pool,
+                _chat_card,
+                so,
+                card,
+                facts_by_stop.get(so, []),
+                meta_ctx,
+                voice,
+                allowed_years,
             ): so
             for so, card in cards
         }
@@ -734,10 +740,17 @@ def polish_envelope(
     essay_futs = {}
     with ThreadPoolExecutor(max_workers=min(4, len(cards))) as pool:
         for so, _card in cards:
-            essay_futs[pool.submit(
-                _chat_essay, so, facts_by_stop.get(so, []),
-                meta_ctx, voice, allowed_years,
-            )] = so
+            essay_futs[
+                submit_with_provider(
+                    pool,
+                    _chat_essay,
+                    so,
+                    facts_by_stop.get(so, []),
+                    meta_ctx,
+                    voice,
+                    allowed_years,
+                )
+            ] = so
         for fut in as_completed(essay_futs):
             so = essay_futs[fut]
             essay_patch, essay_prov, essay_notes = fut.result()

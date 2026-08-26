@@ -1,6 +1,7 @@
 """RedTrip 鉴权密码学 — 零依赖（PBKDF2 + HS256 JWT），与 Cardio/BizAtlas 同范式。
 
 机器凭证前缀默认 rt_。所有函数纯标准库，无需额外依赖。
+JWT 含 typ(access|refresh)、jti、ver(token_version)，便于类型隔离与撤销。
 """
 from __future__ import annotations
 
@@ -11,6 +12,7 @@ import json
 import os
 import secrets
 import time
+import uuid
 
 
 def _b64u(b: bytes) -> str:
@@ -24,8 +26,8 @@ def _b64d(s: str) -> bytes:
 def hash_password(pw: str) -> str:
     """返回 'pbkdf2$<iters>$<salt_b64>$<dk_b64>' 存储串。"""
     salt = os.urandom(16)
-    dk = hashlib.pbkdf2_hmac("sha256", pw.encode("utf-8"), salt, 100_000)
-    return "pbkdf2$100000$" + _b64u(salt) + "$" + _b64u(dk)
+    dk = hashlib.pbkdf2_hmac("sha256", pw.encode("utf-8"), salt, 200_000)
+    return "pbkdf2$200000$" + _b64u(salt) + "$" + _b64u(dk)
 
 
 def verify_password(stored: str, pw: str) -> bool:
@@ -37,19 +39,45 @@ def verify_password(stored: str, pw: str) -> bool:
         return False
 
 
-def issue_token(user_id: str, email: str, secret: str, ttl: int = 60 * 60 * 24 * 7) -> str:
-    """签发 HS256 JWT（默认 7 天）。"""
+def issue_token(
+    user_id: str,
+    email: str,
+    secret: str,
+    ttl: int = 60 * 60 * 24 * 7,
+    *,
+    typ: str = "access",
+    token_version: int = 0,
+) -> str:
+    """签发 HS256 JWT。typ=access|refresh；token_version 用于登出/改密后整批作废。"""
+    if typ not in ("access", "refresh"):
+        typ = "access"
     header = {"alg": "HS256", "typ": "JWT"}
     now = int(time.time())
-    payload = {"sub": user_id, "email": email, "iat": now, "exp": now + ttl}
+    payload = {
+        "sub": user_id,
+        "email": email,
+        "iat": now,
+        "exp": now + ttl,
+        "typ": typ,
+        "jti": uuid.uuid4().hex,
+        "ver": int(token_version),
+    }
     h = _b64u(json.dumps(header, separators=(",", ":")).encode())
     p = _b64u(json.dumps(payload, separators=(",", ":")).encode())
     sig = hmac.new(secret.encode("utf-8"), f"{h}.{p}".encode(), hashlib.sha256).digest()
     return f"{h}.{p}.{_b64u(sig)}"
 
 
-def decode_token(token: str, secret: str) -> dict | None:
-    """校验签名与有效期，成功返回 payload，失败返回 None。"""
+def decode_token(
+    token: str,
+    secret: str,
+    *,
+    expect_typ: str | None = None,
+) -> dict | None:
+    """校验签名与有效期，成功返回 payload，失败返回 None。
+
+    expect_typ: 若指定则要求 payload.typ 匹配（旧 token 无 typ 时仅当 expect_typ=None 放行）。
+    """
     try:
         h, p, s = token.split(".")
     except ValueError:
@@ -63,6 +91,14 @@ def decode_token(token: str, secret: str) -> dict | None:
         return None
     if payload.get("exp", 0) < int(time.time()):
         return None
+    if expect_typ is not None:
+        tok_typ = payload.get("typ")
+        # 兼容旧 token：无 typ 时只允许当作 access 使用，禁止当 refresh
+        if tok_typ is None:
+            if expect_typ != "access":
+                return None
+        elif tok_typ != expect_typ:
+            return None
     return payload
 
 

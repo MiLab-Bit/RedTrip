@@ -5,6 +5,7 @@ import {
   testProvider,
   createModelProvider,
   deleteModelProvider,
+  retestModelProvider,
   type ModelProvider,
   type ProviderPreset,
 } from "../../shared/lib/authClient";
@@ -126,6 +127,22 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
       await load();
     } catch (e) {
       setErr(e instanceof Error ? e.message : "删除失败");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleRetest(id: string) {
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await retestModelProvider(id);
+      if (!r.test.ok) {
+        setErr(r.test.error || "重测失败，已标记为无效");
+      }
+      await load();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "重测失败");
     } finally {
       setBusy(false);
     }
@@ -325,9 +342,14 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
                   {p.status === "error" && p.last_error ? ` · ${p.last_error.slice(0, 60)}` : ""}
                 </div>
               </div>
-              <button className="auth-link" disabled={busy} onClick={() => void handleDelete(p.id)}>
-                删除
-              </button>
+              <div style={{ display: "flex", gap: 10, flexShrink: 0 }}>
+                <button className="auth-link" disabled={busy} onClick={() => void handleRetest(p.id)}>
+                  重测
+                </button>
+                <button className="auth-link" disabled={busy} onClick={() => void handleDelete(p.id)}>
+                  删除
+                </button>
+              </div>
             </div>
           ))}
         </div>

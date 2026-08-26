@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { AUTH_BASE } from "../../shared/lib/authConfig";
+import { redtripCookieStorage } from "./cookieStorage";
 
 export type AuthUserStatus = "pending" | "active" | "disabled";
 
@@ -29,7 +30,15 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
   });
   const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
   if (!res.ok) {
+    const detail = data.detail;
+    let detailMsg: string | null = null;
+    if (typeof detail === "string") detailMsg = detail;
+    else if (Array.isArray(detail) && detail[0] && typeof detail[0] === "object") {
+      const d0 = detail[0] as { msg?: string };
+      detailMsg = typeof d0.msg === "string" ? d0.msg : null;
+    }
     const message =
+      detailMsg ||
       (typeof data.message === "string" && data.message) ||
       (typeof data.error === "string" && data.error) ||
       `请求失败 (${res.status})`;
@@ -70,6 +79,14 @@ export const useAuthStore = create<AuthState>()(
       error: null,
 
       bootstrap: async () => {
+        // 一次性清掉旧的 origin-wide localStorage，避免同域其它子路径读到会话
+        try {
+          if (typeof localStorage !== "undefined") {
+            localStorage.removeItem("redtrip:auth");
+          }
+        } catch {
+          /* ignore */
+        }
         const rt = get().refreshToken;
         if (!rt) {
           set({ status: "unauthenticated" });
@@ -102,14 +119,13 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
-        const rt = get().refreshToken;
+        const at = get().accessToken;
         try {
-          if (rt) {
-            await api("/auth/logout", {
-              method: "POST",
-              body: JSON.stringify({ refreshToken: rt }),
-            });
-          }
+          await api("/auth/logout", {
+            method: "POST",
+            headers: at ? { Authorization: `Bearer ${at}` } : {},
+            body: "{}",
+          });
         } catch {
           /* 忽略网络错误，本地状态照清 */
         }
@@ -153,10 +169,13 @@ export const useAuthStore = create<AuthState>()(
       },
 
       verifyEmail: async (token) => {
-        const user = await api<AuthUser>("/auth/verify-email", {
+        const raw = await api<{ user?: AuthUser } & AuthUser>("/auth/verify-email", {
           method: "POST",
           body: JSON.stringify({ token }),
         });
+        const user = (raw && typeof raw === "object" && "user" in raw && raw.user
+          ? raw.user
+          : raw) as AuthUser;
         set({ user, error: null });
         return user;
       },
@@ -180,8 +199,8 @@ export const useAuthStore = create<AuthState>()(
       setError: (e) => set({ error: e }),
     }),
     {
-      name: "redtrip:auth",
-      storage: createJSONStorage(() => localStorage),
+      name: "redtrip_auth",
+      storage: createJSONStorage(() => redtripCookieStorage),
       partialize: (s) => ({
         user: s.user,
         accessToken: s.accessToken,
