@@ -4,6 +4,72 @@ import { shortRecordId } from "./sourceLabels";
 
 const SENT_SPLIT = /(?<=[。！？；])/;
 
+/** 读者可见的置信度标签（对应后端 A–E） */
+function gradeLabelZh(grade: string | undefined): string {
+  const g = (grade || "").toUpperCase();
+  if (g === "A") return "馆藏一手";
+  if (g === "B") return "可靠二手";
+  if (g === "C") return "通识";
+  if (g === "D") return "未核实";
+  if (g === "E") return "推测";
+  return "";
+}
+
+function ProvenancePopover({
+  claim,
+  numByUri,
+  onClose,
+}: {
+  claim: SentenceClaim;
+  numByUri: Map<string, number>;
+  onClose: () => void;
+}) {
+  return (
+    <span className="prov-popover" role="dialog" aria-label="本句溯源">
+      <button
+        type="button"
+        className="prov-popover-close"
+        aria-label="关闭"
+        onClick={onClose}
+      >
+        ×
+      </button>
+      <span className="prov-popover-title">本句可溯源至</span>
+      <ul className="prov-fact-list">
+        {claim.fact_uris.map((u, i) => {
+          const gradeZh = gradeLabelZh(claim.grades?.[i]);
+          return (
+            <li key={u} className="prov-fact-item">
+              <sup className="prov-fact-num">{numByUri.get(u) ?? i + 1}</sup>
+              <span className="prov-fact-label">
+                {claim.fact_labels[i] ?? "馆藏事实"}
+              </span>
+              {gradeZh ? (
+                <span className="prov-grade" title={`置信度 ${claim.grades?.[i] ?? ""}`}>
+                  {gradeZh}
+                </span>
+              ) : null}
+              <code className="prov-record" title={u}>
+                {shortRecordId(u)}
+              </code>
+              {u.startsWith("http") && (
+                <a
+                  className="prov-link"
+                  href={u}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  原记录
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </span>
+  );
+}
+
 /** 取某站点、某叙事块（story_card）的句子级溯源标注。 */
 export function findStopClaims(
   envelope: RouteEnvelope,
@@ -28,53 +94,6 @@ function findByContainment(
     if (sent.includes(t) || t.includes(sent)) return c;
   }
   return undefined;
-}
-
-function ProvenancePopover({
-  claim,
-  numByUri,
-  onClose,
-}: {
-  claim: SentenceClaim;
-  numByUri: Map<string, number>;
-  onClose: () => void;
-}) {
-  return (
-    <span className="prov-popover" role="dialog" aria-label="本句溯源">
-      <button
-        type="button"
-        className="prov-popover-close"
-        aria-label="关闭"
-        onClick={onClose}
-      >
-        ×
-      </button>
-      <span className="prov-popover-title">本句可溯源至</span>
-      <ul className="prov-fact-list">
-        {claim.fact_uris.map((u, i) => (
-          <li key={u} className="prov-fact-item">
-            <sup className="prov-fact-num">{numByUri.get(u) ?? i + 1}</sup>
-            <span className="prov-fact-label">
-              {claim.fact_labels[i] ?? "馆藏事实"}
-            </span>
-            <code className="prov-record" title={u}>
-              {shortRecordId(u)}
-            </code>
-            {u.startsWith("http") && (
-              <a
-                className="prov-link"
-                href={u}
-                target="_blank"
-                rel="noreferrer"
-              >
-                原记录
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </span>
-  );
 }
 
 /** 把叙事正文按段落、句子拆分，并在事实句句末渲染可点击的溯源标记。 */

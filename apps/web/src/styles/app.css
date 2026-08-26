@@ -764,6 +764,47 @@ button {
 }
 
 .brief-lead {
+  margin: 0 0 1rem;
+  max-width: 36rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink-muted, #5c5346);
+}
+
+.brief-wont {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  font-size: 0.88rem;
+  color: var(--ink-muted, #6a6154);
+}
+
+.brief-wont li {
+  position: relative;
+  padding-left: 0.9rem;
+}
+
+.brief-wont li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  opacity: 0.55;
+}
+
+.brief-cta-hint,
+.brief-demo-hint {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.82rem;
+  color: var(--ink-muted, #7a7164);
+  line-height: 1.4;
+}
+
+.brief-demo-hint {
+  margin-top: 0.15rem;
+}
   position: relative;
   z-index: 1;
   margin: 0 0 1.75rem;
@@ -1877,6 +1918,15 @@ button {
   color: var(--ink-deep);
 }
 
+.prov-grade {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--vermilion, #a8322a);
+  border: 1px solid color-mix(in srgb, var(--vermilion, #a8322a) 35%, transparent);
+  padding: 0 0.35em;
+  border-radius: 2px;
+}
+
 .prov-record {
   font-size: 0.72rem;
   color: var(--muted);
@@ -2342,6 +2392,18 @@ button {
   color: var(--ink);
   background: rgba(51, 51, 58, 0.06);
   padding: 0.1rem 0.35rem;
+}
+
+.degraded-tech {
+  margin: 0 0 1.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.degraded-tech summary {
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 860px) {
