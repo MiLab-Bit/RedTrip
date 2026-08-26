@@ -229,4 +229,8 @@ Page({
     getApp().setSession({ ...outcome, storyView });
     wx.navigateTo({ url: "/pages/intro/index" });
   },
+
+  onPrivacy() {
+    wx.navigateTo({ url: "/pages/privacy/index" });
+  },
 });

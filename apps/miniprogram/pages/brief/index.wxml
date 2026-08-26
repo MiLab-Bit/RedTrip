@@ -127,4 +127,5 @@
   <view class="hint">演示为冻结包 · 秒开，用于查看成书形态</view>
 
   <view class="footnote">深挖上海馆藏 · 证据先于叙事 · 高度缺省处标「示意」</view>
+  <view class="privacy-link" bindtap="onPrivacy">隐私政策</view>
 </view>

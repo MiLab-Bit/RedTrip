@@ -4,7 +4,8 @@
     "pages/loading/index",
     "pages/intro/index",
     "pages/reader/index",
-    "pages/fail/index"
+    "pages/fail/index",
+    "pages/privacy/index"
   ],
   "window": {
     "navigationBarTitleText": "红鸢 RedTrip",
@@ -15,5 +16,6 @@
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "__usePrivacyCheck__": true
 }

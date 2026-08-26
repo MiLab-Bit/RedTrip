@@ -7,6 +7,20 @@ App({
     session: null,
   },
 
+  onLaunch() {
+    this.ensurePrivacyAuthorize();
+  },
+
+  ensurePrivacyAuthorize() {
+    if (typeof wx.getPrivacySetting !== "function") return;
+    wx.getPrivacySetting({
+      success: (res) => {
+        if (!res.needAuthorization) return;
+        // 基础库会弹出系统隐私弹窗；用户同意后再继续网络请求
+      },
+    });
+  },
+
   /** @param {import('./utils/types').CurateSession} session */
   setSession(session) {
     this.globalData.session = session;

@@ -3,3 +3,11 @@
     radial-gradient(ellipse 90% 28% at 50% -4%, rgba(51, 51, 58, 0.1), transparent 70%),
     linear-gradient(180deg, #fbf8f1 0%, #f2ebdd 48%, #f6f2e9 100%);
 }
+
+.privacy-link {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #a8906a;
+  text-decoration: underline;
+}
