@@ -79,7 +79,7 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "一大周边",
-      "verified_at": "2026-08-06",
+      "verified_at": "2026-08-26",
       "field_sources": {
         "lat": "人工核录",
         "lng": "人工核录",
@@ -2070,8 +2070,8 @@
     },
     {
       "id": "wl-095",
-      "name": "张乐平",
-      "buri": null,
+      "name": "张乐平故居",
+      "buri": "http://data.library.sh.cn/entity/architecture/xbfa2broqvrss7ce",
       "lat": 31.214393,
       "lng": 121.437434,
       "coord_source": "osm",
@@ -2081,12 +2081,12 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "长宁",
-      "verified_at": "2026-08-25",
-      "evidence_channel": "osm",
+      "verified_at": "2026-08-26",
+      "evidence_channel": "slc",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
-        "buri": "未映射",
+        "buri": "SLC architecture uri",
         "open_hours": "未收录（多缺开放时间）"
       }
     },
@@ -2972,7 +2972,7 @@
     },
     {
       "id": "wl-136",
-      "name": "1",
+      "name": "孔令侃故居",
       "buri": null,
       "lat": 30.968721,
       "lng": 121.747534,
@@ -2983,8 +2983,8 @@
       "need_reservation": "未收录",
       "photo_spot": null,
       "district_tag": "奉贤",
-      "verified_at": "2026-08-25",
-      "evidence_channel": "osm",
+      "verified_at": "2026-08-26",
+      "evidence_channel": "manual",
       "field_sources": {
         "lat": "OSM Overpass (WGS-84)",
         "lng": "OSM Overpass (WGS-84)",
@@ -3964,9 +3964,10 @@
   "count": 180,
   "scope": "梧桐区 + 一大周边 + 上海全量文化场馆/纪念馆(OSM)",
   "notes": [
-    "2026-08-14: P0-2 修复，并入 OSM 全量文化场馆/纪念馆（buri 诚实留空）"
+    "2026-08-14: P0-2 修复，并入 OSM 全量文化场馆/纪念馆（buri 诚实留空）",
+    "2026-08-26 sync_buri_from_slc: +3 buri (ALL)"
   ],
-  "generated_at": "2026-08-14",
+  "generated_at": "2026-08-26",
   "meta": {
     "count": 180,
     "notes": [

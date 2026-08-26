@@ -94,7 +94,8 @@
 
 | 环境 | 地址 |
 |---|---|
-| 正式站点 | https://sy-realm.ltd/redtrip/ |
+| 正式站点（IP） | http://139.224.163.203/redtrip/ |
+| 域名 sy-realm.ltd | DNS 已指向本机；**大陆未备案时 Host 访问会被拦截**，需备案或走 Cloudflare Tunnel |
 | 历史演示镜像（维护中） | https://redtrip.pages.dev |
 
 ---

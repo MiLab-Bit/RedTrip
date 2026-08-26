@@ -80,6 +80,21 @@ def _name_of(item: dict) -> str:
     return ""
 
 
+def _name_close(query: str, name: str) -> bool:
+    q = (query or "").strip()
+    n = (name or "").strip()
+    if not q or not n:
+        return False
+    if q in n or n in q:
+        return True
+    # require shared meaningful stem (>=2 chars) for Chinese names
+    for i in range(len(q) - 1):
+        stem = q[i : i + 2]
+        if stem in n:
+            return True
+    return False
+
+
 def _search_buri(client: SlcClient, queries: list[str], seen: set[str]) -> tuple[str | None, str | None]:
     for q in queries:
         resp = client.building_list(q)
@@ -90,6 +105,8 @@ def _search_buri(client: SlcClient, queries: list[str], seen: set[str]) -> tuple
             if not uri or uri in seen:
                 continue
             name = _name_of(item)
+            if not _name_close(q, name):
+                continue
             return uri, name or q
     return None, None
 
