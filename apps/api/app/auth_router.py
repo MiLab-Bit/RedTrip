@@ -392,9 +392,11 @@ def _test_provider(api_key: str, base_url: str, model: str, provider: str = "") 
     payload = {
         "model": model or "gpt-4o-mini",
         "messages": [{"role": "user", "content": "ping"}],
-        "max_tokens": 4,
+        "max_tokens": 16,
         "temperature": 0,
     }
+    if "weixin.qq.com" in base or "chatapi.weixin" in base or (model or "").upper().startswith("GLM"):
+        payload["chat_template_kwargs"] = {"enable_thinking": False}
     t0 = time.time()
     # 微信 ChatAPI 偶发冷启动较慢，给更长超时
     timeout_s = 60.0 if "weixin.qq.com" in base or "chatapi.weixin" in base else 20.0
