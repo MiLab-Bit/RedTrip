@@ -145,6 +145,10 @@ def chat_completion(
     }
     if max_tokens is not None:
         payload["max_tokens"] = max_tokens
+    # 微信大赛 GLM-5.2 默认会把 tokens 花在 reasoning_content，导致 content 为空。
+    # 关闭 thinking，保证策展 JSON 落在 message.content。
+    if "chatapi.weixin.qq.com" in base or model.upper().startswith("GLM"):
+        payload["chat_template_kwargs"] = {"enable_thinking": False}
     data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         url,
@@ -181,6 +185,11 @@ def chat_completion(
         raise RuntimeError("LLM response missing choices")
     msg = choices[0].get("message") or {}
     content = msg.get("content")
+    if not isinstance(content, str) or not content.strip():
+        # 部分思考模型把最终答案放在 reasoning_content
+        alt = msg.get("reasoning_content")
+        if isinstance(alt, str) and alt.strip():
+            content = alt
     if not isinstance(content, str) or not content.strip():
         raise RuntimeError("LLM response missing content")
     return content.strip()
