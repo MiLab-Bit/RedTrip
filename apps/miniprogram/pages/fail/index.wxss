@@ -1,0 +1,34 @@
+.fail-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.fail-page .panel {
+  width: 100%;
+}
+
+.fail-page .kicker {
+  font-size: 22rpx;
+  color: #8a7a5e;
+  letter-spacing: 0.1em;
+}
+
+.fail-page .msg {
+  margin: 20rpx 0 24rpx;
+  font-size: 28rpx;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+.hints {
+  margin-bottom: 28rpx;
+}
+
+.hint-item {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}

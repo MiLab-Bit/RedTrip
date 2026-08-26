@@ -162,6 +162,17 @@ python eval/smoke_demo.py
 
 **产品改进建议**（定位 / 品牌 / 主流程 / 溯源 / 读感 / 等待 / 账号 / 数据 / 工程 / 文档对齐）：见 [`docs/产品改进建议.md`](docs/产品改进建议.md)。
 
+### 微信小程序
+
+AppID：`wxc7953007477c1980` · 源码：`apps/miniprogram/`
+
+```text
+微信开发者工具 → 导入项目 → 选择 apps/miniprogram 目录
+开发阶段可勾选「不校验合法域名」；上线需在公众平台配置 request 合法域名 https://sy-realm.ltd
+```
+
+详见 [`apps/miniprogram/README.md`](apps/miniprogram/README.md)。
+
 ---
 
 ## 品牌故事

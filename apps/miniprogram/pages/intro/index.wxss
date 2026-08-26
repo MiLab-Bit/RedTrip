@@ -1,0 +1,111 @@
+.intro-page .kicker {
+  font-size: 22rpx;
+  color: #8a7a5e;
+  letter-spacing: 0.12em;
+  margin-bottom: 12rpx;
+}
+
+.degrade-banner {
+  margin-bottom: 24rpx;
+  padding: 20rpx 24rpx;
+  background: #fbf3e4;
+  border: 1rpx solid #d9c49a;
+  border-left: 6rpx solid #b0925e;
+  border-radius: 8rpx;
+}
+
+.degrade-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+  color: #5a4a2e;
+}
+
+.degrade-line {
+  display: block;
+  font-size: 24rpx;
+  color: #6b5a36;
+  line-height: 1.55;
+}
+
+.hongyuan-line {
+  margin: 20rpx 0;
+  padding: 16rpx 0;
+  border-top: 1rpx dashed #e3d6bf;
+  border-bottom: 1rpx dashed #e3d6bf;
+  color: #8a6b3e;
+  font-style: italic;
+  font-size: 26rpx;
+}
+
+.section-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--seal);
+  letter-spacing: 0.14em;
+  margin-bottom: 16rpx;
+}
+
+.cast-block {
+  margin: 28rpx 0;
+}
+
+.cast-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.cast-chip {
+  padding: 10rpx 20rpx;
+  border: 1rpx solid rgba(168, 50, 42, 0.35);
+  background: rgba(168, 50, 42, 0.08);
+  color: var(--seal);
+  border-radius: 4rpx;
+  font-size: 26rpx;
+}
+
+.chapter-block {
+  margin: 28rpx 0 36rpx;
+}
+
+.chapter-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx dotted rgba(51, 51, 58, 0.14);
+}
+
+.chapter-num {
+  font-size: 36rpx;
+  color: var(--seal);
+  font-weight: 600;
+}
+
+.chapter-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ink-deep);
+}
+
+.chapter-hook {
+  display: block;
+  font-size: 24rpx;
+  color: var(--ink-muted);
+  margin-top: 6rpx;
+  line-height: 1.55;
+}
+
+.chapter-rel {
+  display: block;
+  font-size: 22rpx;
+  color: var(--seal);
+  margin-top: 6rpx;
+}
+
+.chapter-min {
+  font-size: 22rpx;
+  color: #999;
+}

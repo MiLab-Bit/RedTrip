@@ -1,0 +1,105 @@
+.reader-page .reader-head {
+  margin-bottom: 28rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.reader-page .kicker {
+  font-size: 22rpx;
+  color: #8a7a5e;
+  letter-spacing: 0.1em;
+}
+
+.reader-page .hook {
+  font-size: 26rpx;
+  color: #6b5a36;
+  font-style: italic;
+  margin-top: 12rpx;
+  line-height: 1.65;
+}
+
+.story-body {
+  font-size: 30rpx;
+  line-height: 1.95;
+  color: var(--ink-deep);
+  text-align: justify;
+  margin-bottom: 32rpx;
+}
+
+.fallback {
+  font-size: 28rpx;
+  line-height: 1.85;
+  margin-bottom: 28rpx;
+}
+
+.layers {
+  margin-top: 24rpx;
+}
+
+.layer-item {
+  margin-bottom: 16rpx;
+  padding-left: 16rpx;
+  border-left: 4rpx solid rgba(168, 50, 42, 0.35);
+}
+
+.layer-kind {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+  letter-spacing: 0.08em;
+  margin-bottom: 4rpx;
+}
+
+.layer-claim {
+  font-size: 26rpx;
+  color: var(--ink-muted);
+}
+
+.pitfalls {
+  margin-bottom: 32rpx;
+  padding: 20rpx 24rpx;
+  background: rgba(237, 228, 211, 0.45);
+  border-radius: 8rpx;
+}
+
+.pitfall-line {
+  display: block;
+  font-size: 24rpx;
+  color: var(--ink-muted);
+  margin-top: 6rpx;
+}
+
+.reader-nav {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.nav-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.rail-scroll {
+  white-space: nowrap;
+  padding: 8rpx 0;
+}
+
+.rail-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56rpx;
+  height: 56rpx;
+  margin-right: 12rpx;
+  border: 1rpx solid var(--line-strong);
+  border-radius: 4rpx;
+  font-size: 24rpx;
+  color: var(--ink-muted);
+}
+
+.rail-chip.is-on {
+  border-color: var(--seal);
+  color: var(--seal);
+  background: rgba(168, 50, 42, 0.08);
+}
