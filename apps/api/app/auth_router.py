@@ -396,8 +396,10 @@ def _test_provider(api_key: str, base_url: str, model: str, provider: str = "") 
         "temperature": 0,
     }
     t0 = time.time()
+    # 微信 ChatAPI 偶发冷启动较慢，给更长超时
+    timeout_s = 60.0 if "weixin.qq.com" in base or "chatapi.weixin" in base else 20.0
     try:
-        with httpx.Client(timeout=20.0, follow_redirects=False) as cli:
+        with httpx.Client(timeout=timeout_s, follow_redirects=False) as cli:
             r = cli.post(url, headers=headers, json=payload)
         latency = int((time.time() - t0) * 1000)
         if r.status_code != 200:
@@ -414,6 +416,11 @@ def _test_provider(api_key: str, base_url: str, model: str, provider: str = "") 
         choices = body.get("choices") if isinstance(body, dict) else None
         if not choices:
             return {"ok": False, "latency_ms": latency, "error": "响应缺少 choices，可能不是 OpenAI 兼容接口"}
+        # 部分推理模型 content 可能为空但仍有 reasoning_content / choices
+        msg = (choices[0] or {}).get("message") or {}
+        if not (msg.get("content") or msg.get("reasoning_content") or msg.get("tool_calls")):
+            # 仍算连通：有 choices 即说明鉴权与路由成功
+            pass
         return {"ok": True, "latency_ms": latency, "model": model or "gpt-4o-mini"}
     except Exception as exc:  # noqa: BLE001
         latency = int((time.time() - t0) * 1000)
