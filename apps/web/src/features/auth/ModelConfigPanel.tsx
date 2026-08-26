@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import {
   listProviderPresets,
   listModelProviders,
@@ -202,6 +202,20 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           可分别配置「文本模型」与「多模态模型」两个槽位。
         </p>
 
+        {/* 显式 form + 诱饵字段，避免浏览器把登录邮箱/密码自动填进模型配置 */}
+        <form
+          className="auth-model-form"
+          autoComplete="off"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void handleSave();
+          }}
+        >
+          <div aria-hidden="true" style={{ position: "absolute", left: -9999, width: 1, height: 1, overflow: "hidden" }}>
+            <input type="text" name="username" tabIndex={-1} autoComplete="username" />
+            <input type="password" name="password" tabIndex={-1} autoComplete="current-password" />
+          </div>
+
         <label className="auth-field">
           <span>槽位</span>
           <div style={{ display: "flex", gap: 8 }}>
@@ -248,7 +262,9 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           <span>供应商</span>
           <select
             className="auth-input"
+            name="redtrip-llm-provider"
             value={preset?.provider ?? ""}
+            autoComplete="off"
             onChange={(e) => {
               const p = presets.find((x) => x.provider === e.target.value) ?? null;
               if (p) applyPreset(p);
@@ -269,10 +285,13 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           <span>名称（便于识别）</span>
           <input
             className="auth-input"
+            name="redtrip-llm-label"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="例如：我的模型配置"
             autoComplete="off"
+            data-1p-ignore
+            data-lpignore="true"
           />
         </label>
 
@@ -281,12 +300,25 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           <div style={{ position: "relative" }}>
             <input
               className="auth-input"
-              type={showKey ? "text" : "password"}
+              name="redtrip-llm-api-key"
+              type="text"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder="sk-... / 你的供应商密钥"
+              placeholder="sk-... / 你的供应商密钥（不是登录密码）"
               autoComplete="off"
-              style={{ paddingRight: 56 }}
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
+              data-1p-ignore
+              data-lpignore="true"
+              data-form-type="other"
+              style={
+                {
+                  paddingRight: 56,
+                  // 不用 type=password，避免浏览器把账号密码填进来；用 CSS 遮罩
+                  WebkitTextSecurity: showKey ? "none" : "disc",
+                } as CSSProperties
+              }
             />
             <button
               type="button"
@@ -303,10 +335,13 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           <span>Base URL（自定义 API 网关）</span>
           <input
             className="auth-input"
+            name="redtrip-llm-base-url"
             value={baseUrl}
             onChange={(e) => setBaseUrl(e.target.value)}
             placeholder="留空则使用供应商默认地址"
             autoComplete="off"
+            data-1p-ignore
+            data-lpignore="true"
           />
         </label>
 
@@ -314,10 +349,13 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           <span>模型</span>
           <input
             className="auth-input"
+            name="redtrip-llm-model"
             value={model}
             onChange={(e) => setModel(e.target.value)}
             placeholder={preset?.defaultModel || "例如：gpt-4o-mini"}
             autoComplete="off"
+            data-1p-ignore
+            data-lpignore="true"
           />
         </label>
         {providers.some((p) => p.slot === slot) && !apiKey && (
@@ -327,7 +365,7 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
         )}
 
         <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-          <button className="auth-link" onClick={() => void handleTest()} disabled={testing}>
+          <button type="button" className="auth-link" onClick={() => void handleTest()} disabled={testing}>
             {testing ? "测试中…" : "测试连通性"}
           </button>
           {testResult && (
@@ -343,9 +381,10 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
           )}
         </div>
 
-        <button className="auth-submit" onClick={() => void handleSave()} disabled={busy || !preset}>
+        <button type="submit" className="auth-submit" disabled={busy || !preset}>
           {busy ? "保存中…" : "保存配置"}
         </button>
+        </form>
 
         {err && <p className="auth-error">{err}</p>}
 
@@ -398,13 +437,13 @@ export function ModelConfigPanel({ open, onClose }: { open: boolean; onClose: ()
                 </div>
               </div>
               <div style={{ display: "flex", gap: 10, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
-                <button className="auth-link" disabled={busy} onClick={() => loadIntoForm(p)}>
+                <button type="button" className="auth-link" disabled={busy} onClick={() => loadIntoForm(p)}>
                   填入
                 </button>
-                <button className="auth-link" disabled={busy} onClick={() => void handleRetest(p.id)}>
+                <button type="button" className="auth-link" disabled={busy} onClick={() => void handleRetest(p.id)}>
                   重测
                 </button>
-                <button className="auth-link" disabled={busy} onClick={() => void handleDelete(p.id)}>
+                <button type="button" className="auth-link" disabled={busy} onClick={() => void handleDelete(p.id)}>
                   删除
                 </button>
               </div>
