@@ -41,7 +41,11 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
       detailMsg ||
       (typeof data.message === "string" && data.message) ||
       (typeof data.error === "string" && data.error) ||
-      `请求失败 (${res.status})`;
+      (res.status === 401 && path.includes("/auth/login")
+        ? "邮箱或密码错误"
+        : res.status === 403 && path.includes("/auth/login")
+          ? "邮箱未验证或账号不可用"
+          : `请求失败 (${res.status})`);
     throw new Error(message);
   }
   return data as T;
