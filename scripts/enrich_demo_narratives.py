@@ -539,6 +539,20 @@ def _patch_yida_meta(env: dict) -> None:
         env["_demo_hongyuan"] = hy
 
 
+def _dedupe_layers(layers: list[dict]) -> list[dict]:
+    out: list[dict] = []
+    seen: set[tuple] = set()
+    for layer in layers or []:
+        if not isinstance(layer, dict):
+            continue
+        key = (layer.get("kind"), layer.get("label"), layer.get("claim"))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(layer)
+    return out
+
+
 def _merge_extra_layers(stop: dict, extras: list[dict]) -> None:
     if not extras:
         return
@@ -550,7 +564,7 @@ def _merge_extra_layers(stop: dict, extras: list[dict]) -> None:
             continue
         existing.append(layer)
         keys.add(key)
-    stop["layers"] = existing
+    stop["layers"] = _dedupe_layers(existing)
 
 
 def _enrich(path: Path, cards: dict[int, dict], layer_map: dict[int, list[dict]]) -> None:
@@ -560,6 +574,7 @@ def _enrich(path: Path, cards: dict[int, dict], layer_map: dict[int, list[dict]]
         if not isinstance(s, dict):
             continue
         order = int(s.get("order") or 0)
+        s["layers"] = _dedupe_layers(s.get("layers") or [])
         _merge_extra_layers(s, _extra_layers(order, layer_map))
     if path.name == "demo-route-yida.json":
         _patch_yida_meta(env)

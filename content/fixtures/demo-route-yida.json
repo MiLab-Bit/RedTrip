@@ -235,16 +235,6 @@
               "record_id": "外滩18号",
               "excerpt": "2004年改造为艺术中心"
             }
-          },
-          {
-            "kind": "event",
-            "label": "2004",
-            "claim": "2004年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心。",
-            "source": {
-              "dataset": "landmark_corpus",
-              "record_id": "外滩18号",
-              "excerpt": "2004年改造为艺术中心"
-            }
           }
         ],
         "geo": {
