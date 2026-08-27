@@ -1,5 +1,11 @@
 const { curateStart, curateStatus, toOutcome } = require("../../utils/api");
-const { buildStoryView } = require("../../utils/story");
+const {
+  buildStoryView,
+  getStoryBlock,
+  splitParagraphs,
+  channelLabel,
+} = require("../../utils/story");
+const { mergeStreamCard, envelopeFromStoryReady } = require("../../utils/preview");
 
 const MILESTONES = [
   { at: 22, id: "l1", seal: "证", label: "L1" },
@@ -30,6 +36,13 @@ Page({
     layerLabel: "红鸢装订中",
     tip: TIPS[0],
     milestones: MILESTONES.map((m) => ({ ...m, hit: false })),
+    previewMode: false,
+    previewChapterIndex: 0,
+    previewChapters: [],
+    previewTitle: "",
+    previewBody: "",
+    previewChannel: "",
+    polishedCount: 0,
   },
 
   taskId: "",
@@ -38,6 +51,8 @@ Page({
   tipIdx: 0,
   cancelled: false,
   slots: null,
+  previewEnv: null,
+  streamed: {},
 
   onLoad() {
     const channel = this.getOpenerEventChannel();
@@ -68,6 +83,44 @@ Page({
     }
   },
 
+  renderPreviewChapter(index) {
+    const env = this.previewEnv;
+    if (!env) return;
+    const view = buildStoryView(env);
+    const chapters = view.chapters || [];
+    const idx = Math.max(0, Math.min(chapters.length - 1, index));
+    const ch = chapters[idx];
+    const stop = env.route.stops.find((s) => s.order === ch.stopId);
+    const story = getStoryBlock(env, ch.stopId);
+    const body = story && story.body ? story.body : "";
+    this.setData({
+      previewChapterIndex: idx,
+      previewChapters: chapters,
+      previewTitle: (story && story.title) || ch.title,
+      previewBody: body,
+      previewParagraphs: splitParagraphs(body),
+      previewChannel: stop ? channelLabel(stop.evidence_channel) : "",
+      polishedCount: Object.keys(this.streamed).length,
+    });
+  },
+
+  applyStoryReady(payload) {
+    const env = envelopeFromStoryReady(payload);
+    if (!env) return;
+    this.previewEnv = env;
+    const view = buildStoryView(env);
+    this.setData({ previewMode: true });
+    this.renderPreviewChapter(0);
+  },
+
+  applyChapterReady(ch) {
+    if (!this.previewEnv || !ch || typeof ch.stop_order !== "number") return;
+    const card = ch.card || {};
+    this.previewEnv = mergeStreamCard(this.previewEnv, ch.stop_order, card);
+    this.streamed[ch.stop_order] = true;
+    this.renderPreviewChapter(this.data.previewChapterIndex);
+  },
+
   poll() {
     if (this.cancelled) return;
     curateStatus(this.taskId)
@@ -84,6 +137,17 @@ Page({
           layerLabel: layerLabel(snap.stage),
           milestones,
         });
+
+        if (snap.story_ready && !this.previewEnv) {
+          this.applyStoryReady(snap.story_ready);
+        }
+        if (Array.isArray(snap.chapters_ready)) {
+          snap.chapters_ready.forEach((ch) => {
+            if (ch && ch.stop_order && !this.streamed[ch.stop_order]) {
+              this.applyChapterReady(ch);
+            }
+          });
+        }
 
         if (snap.status === "done") {
           try {
@@ -119,5 +183,24 @@ Page({
   onCancel() {
     this.cancelled = true;
     wx.navigateBack();
+  },
+
+  onTogglePreview() {
+    this.setData({ previewMode: !this.data.previewMode });
+  },
+
+  onPreviewPrev() {
+    if (this.data.previewChapterIndex <= 0) return;
+    this.renderPreviewChapter(this.data.previewChapterIndex - 1);
+  },
+
+  onPreviewNext() {
+    if (this.data.previewChapterIndex >= this.data.previewChapters.length - 1) return;
+    this.renderPreviewChapter(this.data.previewChapterIndex + 1);
+  },
+
+  onPreviewJump(e) {
+    const index = Number(e.currentTarget.dataset.index);
+    this.renderPreviewChapter(index);
   },
 });

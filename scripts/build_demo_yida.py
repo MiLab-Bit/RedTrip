@@ -193,7 +193,12 @@ def main() -> None:
         "aesthetic": "克制、留白、海派明信片",
         "scenario": "双人 · 轻松 · 约 90 分钟 · 一大—外滩",
         "why_visit": "你不是来完成任务，而是来辨认：从石库门到江岸，哪些名字仍能在馆藏或词库里核对。",
-        "curator_note": "这条线选点，不是因为它们顺路，而是因为它们能诚实标注证据通道：一大片区以地名志核录，宋庆龄故居可点上图 URI，外滩段以 curated 词库核录（尚未映射 SLC buri 的建筑不伪装馆藏）。点与点之间用人物与开埠理由衔接，而不是用「步行五分钟」充当理由。",
+        "curator_note": (
+            "这条线选点，不是因为它们顺路，而是因为它们能诚实标注证据通道："
+            "一大片区以地名志核录，宋庆龄故居可点上图 URI，"
+            "外滩段以策展词库与 OSM 坐标核录（无 URI 者不伪装馆藏）。"
+            "点与点之间用人物与开埠理由衔接，而不是用「步行五分钟」充当理由。"
+        ),
         "assumptions": [
             "默认人群=成人",
             "调性=轻社交",
@@ -218,7 +223,7 @@ def main() -> None:
     if env["curator_review"]:
         env["curator_review"]["concerns"] = [
             {
-                "claim": "外滩段部分建筑尚未映射 SLC buri，不可自称「全站馆藏 URI」",
+                "claim": "外滩段以策展词库核录，不可自称「全站上图 URI」",
                 "node": "外滩万国建筑段",
                 "mechanism": "通道诚实",
                 "fix": "前端显式标注 landmark/osm 通道，正文不注水馆藏号",
@@ -232,6 +237,25 @@ def main() -> None:
     if hy:
         hy["summary"] = "红鸢今日读法：开埠好奇 · 纸书声线 · 界面并置 · 慢走留白"
         hy.setdefault("narrative", {})["label"] = "界面并置"
+        hy["layer3_summary"] = "当代口吻仅借语气：外滩天际线、石库门门牌——不作开放时间史实"
+        hy["layer3"] = [
+            {
+                "id": "xhs_bund_skyline",
+                "term": "外滩万国建筑天际线",
+                "places": ["外滩", "中山东一路"],
+                "hint": "当代街拍口吻；勿写成建筑年代或开放史实",
+                "heat": 0.94,
+                "week": "2026-W35",
+            },
+            {
+                "id": "xhs_shikumen_lane",
+                "term": "石库门里弄门牌",
+                "places": ["兴业路", "一大"],
+                "hint": "感官氛围词；勿编造一大具体门牌细节",
+                "heat": 0.88,
+                "week": "2026-W35",
+            },
+        ]
 
     roles = ["Hook", "Anchor", "Contrast", "Reveal", "Bridge", "Afterimage"]
     chapters = []

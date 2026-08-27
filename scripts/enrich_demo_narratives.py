@@ -276,9 +276,33 @@ YIDA_CARDS: dict[int, dict] = {
     },
     2: {
         "title": "宋庆龄与「宋庆龄故居」",
-        "body": WUKANG_CARDS[4]["body"],
-        "sources": WUKANG_CARDS[4]["sources"],
-        "scene": WUKANG_CARDS[4]["scene"],
+        "body": (
+            "你停在淮海中路一带的「宋庆龄故居」前。"
+            "从兴业路的组织史再往前走，人物史会把红色叙事接到城市居住记忆。\n\n"
+            "据上图建筑实体与公开记载交叉阅读："
+            "故居始建于1920年代；1949年后，宋庆龄长期居此，"
+            "是其从事国务与公益活动的主要住所之一。\n\n"
+            "这与前一站的门牌与里弄结构不同："
+            "这里更靠近「居住—公务」叠合的公共叙事——"
+            "一个人如何把私人生活与时代责任放在同一扇门后。\n\n"
+            "开放时间以官网与现场公告为准。"
+            "按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。"
+        ),
+        "sources": [
+            {
+                "dataset": "slc_building",
+                "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+                "excerpt": "宋庆龄故居 · 1920年代始建；1949年后长期居此",
+            },
+        ],
+        "scene": {
+            "place": "淮海中路 · 宋庆龄故居",
+            "era_desc": "1920年代始建；1949年后宋庆龄长期居此，从事国务与公益活动。",
+            "figures": "宋庆龄",
+            "city_thread": "从组织史接到人物史",
+            "today": "开放时间以官网/现场为准",
+            "visual_note": "按参观动线行走；把人名轻轻放回年代。",
+        },
     },
     3: {
         "title": "汇丰与「前汇丰银行大楼」",
@@ -442,20 +466,33 @@ WUKANG_EXTRA_LAYERS: dict[int, list[dict]] = {
     ],
 }
 
-YIDA_EXTRA_LAYERS: dict[int, list[dict]] = {
-    4: [
-        {
-            "kind": "event",
-            "label": "2004",
-            "claim": "2004年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心。",
-            "source": {
-                "dataset": "landmark_corpus",
-                "record_id": "外滩18号",
-                "excerpt": "2004年改造为艺术中心",
-            },
-        },
-    ],
-}
+YIDA_EXTRA_LAYERS: dict[int, list[dict]] = {}
+
+YIDA_CURATOR_NOTE = (
+    "这条线选点，不是因为它们顺路，而是因为它们能诚实标注证据通道："
+    "一大片区以地名志核录，宋庆龄故居可点上图 URI，"
+    "外滩段以策展词库与 OSM 坐标核录（无 URI 者不伪装馆藏）。"
+    "点与点之间用人物与开埠理由衔接，而不是用「步行五分钟」充当理由。"
+)
+
+YIDA_HONGYUAN_LAYER3 = [
+    {
+        "id": "xhs_bund_skyline",
+        "term": "外滩万国建筑天际线",
+        "places": ["外滩", "中山东一路"],
+        "hint": "当代街拍口吻；勿写成建筑年代或开放史实",
+        "heat": 0.94,
+        "week": "2026-W35",
+    },
+    {
+        "id": "xhs_shikumen_lane",
+        "term": "石库门里弄门牌",
+        "places": ["兴业路", "一大"],
+        "hint": "感官氛围词；勿编造一大具体门牌细节",
+        "heat": 0.88,
+        "week": "2026-W35",
+    },
+]
 
 
 def _extra_layers(order: int, layer_map: dict[int, list[dict]]) -> list[dict]:
@@ -485,6 +522,37 @@ def _patch_blocks(env: dict, cards: dict[int, dict]) -> None:
     env["blocks"] = new_blocks + card_tail
 
 
+def _patch_yida_meta(env: dict) -> None:
+    env["curator_note"] = YIDA_CURATOR_NOTE
+    review = env.get("curator_review") or {}
+    concerns = review.get("concerns") or []
+    for c in concerns:
+        if isinstance(c, dict) and "尚未映射 SLC buri" in str(c.get("claim", "")):
+            c["claim"] = "外滩段以策展词库核录，不可自称「全站上图 URI」"
+            c["fix"] = "前端显式标注 landmark/osm 通道，正文不注水馆藏号"
+    review["concerns"] = concerns
+    env["curator_review"] = review
+    hy = env.get("_demo_hongyuan") or {}
+    if hy:
+        hy["layer3_summary"] = "当代口吻仅借语气：外滩天际线、石库门门牌——不作开放时间史实"
+        hy["layer3"] = YIDA_HONGYUAN_LAYER3
+        env["_demo_hongyuan"] = hy
+
+
+def _merge_extra_layers(stop: dict, extras: list[dict]) -> None:
+    if not extras:
+        return
+    existing = list(stop.get("layers") or [])
+    keys = {(l.get("kind"), l.get("label")) for l in existing}
+    for layer in extras:
+        key = (layer.get("kind"), layer.get("label"))
+        if key in keys:
+            continue
+        existing.append(layer)
+        keys.add(key)
+    stop["layers"] = existing
+
+
 def _enrich(path: Path, cards: dict[int, dict], layer_map: dict[int, list[dict]]) -> None:
     env = json.loads(path.read_text(encoding="utf-8"))
     _patch_blocks(env, cards)
@@ -492,9 +560,9 @@ def _enrich(path: Path, cards: dict[int, dict], layer_map: dict[int, list[dict]]
         if not isinstance(s, dict):
             continue
         order = int(s.get("order") or 0)
-        extras = _extra_layers(order, layer_map)
-        if extras:
-            s["layers"] = list(s.get("layers") or []) + extras
+        _merge_extra_layers(s, _extra_layers(order, layer_map))
+    if path.name == "demo-route-yida.json":
+        _patch_yida_meta(env)
     sp = build_sp_from_envelope(env)
     if sp:
         env["sentence_provenance"] = sp.as_dict()

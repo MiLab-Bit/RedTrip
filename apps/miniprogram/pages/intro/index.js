@@ -20,6 +20,8 @@ Page({
     hongyuanLine: "",
     degraded: false,
     notices: [],
+    noticesExpanded: false,
+    visibleNotices: [],
   },
 
   onShow() {
@@ -29,6 +31,7 @@ Page({
       return;
     }
     const { storyView, hongyuan, degraded, notices } = session;
+    const list = notices || [];
     this.setData({
       ready: true,
       storyView,
@@ -36,7 +39,17 @@ Page({
       cast: storyView.cast || [],
       hongyuanLine: readingLine(hongyuan),
       degraded: !!degraded,
-      notices: notices || [],
+      notices: list,
+      noticesExpanded: false,
+      visibleNotices: list.slice(0, 3),
+    });
+  },
+
+  onToggleNotices() {
+    const expanded = !this.data.noticesExpanded;
+    this.setData({
+      noticesExpanded: expanded,
+      visibleNotices: expanded ? this.data.notices : this.data.notices.slice(0, 3),
     });
   },
 

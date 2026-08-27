@@ -6,7 +6,7 @@
   "aesthetic": "克制、留白、海派明信片",
   "scenario": "双人 · 轻松 · 约 90 分钟 · 一大—外滩",
   "why_visit": "你不是来完成任务，而是来辨认：从石库门到江岸，哪些名字仍能在馆藏或词库里核对。",
-  "curator_note": "这条线选点，不是因为它们顺路，而是因为它们能诚实标注证据通道：一大片区以地名志核录，宋庆龄故居可点上图 URI，外滩段以 curated 词库核录（尚未映射 SLC buri 的建筑不伪装馆藏）。点与点之间用人物与开埠理由衔接，而不是用「步行五分钟」充当理由。",
+  "curator_note": "这条线选点，不是因为它们顺路，而是因为它们能诚实标注证据通道：一大片区以地名志核录，宋庆龄故居可点上图 URI，外滩段以策展词库与 OSM 坐标核录（无 URI 者不伪装馆藏）。点与点之间用人物与开埠理由衔接，而不是用「步行五分钟」充当理由。",
   "assumptions": [
     "默认人群=成人",
     "调性=轻社交",
@@ -399,7 +399,7 @@
       "type": "story_card",
       "stop_order": 2,
       "title": "宋庆龄与「宋庆龄故居」",
-      "body": "你停在「宋庆龄故居」前（淮海中路一带）。从武康大楼的公共立面再往前走，路线从「房子」拉回「人与时代」。\n\n据上图建筑实体与公开地名志交叉阅读：\n故居始建于1920年代；1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。\n\n这与前一站的公寓肌理、电影圈与侨民记忆不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。\n\n若你刚读完武康大楼里电影圈与侨民的交错，到这里该感到对照：同样是名人故居，宋庆龄故居指向的是另一种 twentieth-century 上海人物线。\n\n开放时间以官网与现场公告为准。按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
+      "body": "你停在淮海中路一带的「宋庆龄故居」前。从兴业路的组织史再往前走，人物史会把红色叙事接到城市居住记忆。\n\n据上图建筑实体与公开记载交叉阅读：故居始建于1920年代；1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。\n\n这与前一站的门牌与里弄结构不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。\n\n开放时间以官网与现场公告为准。按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
       "sources": [
         {
           "dataset": "slc_building",
@@ -411,10 +411,10 @@
     {
       "type": "scene",
       "stop_order": 2,
-      "place": "淮海中路1843号 · 宋庆龄故居",
+      "place": "淮海中路 · 宋庆龄故居",
       "era_desc": "1920年代始建；1949年后宋庆龄长期居此，从事国务与公益活动。",
       "figures": "宋庆龄",
-      "city_thread": "从「房子」拉回「人与时代」",
+      "city_thread": "从组织史接到人物史",
       "today": "开放时间以官网/现场为准",
       "visual_note": "按参观动线行走；把人名轻轻放回年代。"
     },
@@ -525,9 +525,9 @@
     }
   ],
   "sentence_provenance": {
-    "total_sentences": 40,
-    "factual_sentences": 19,
-    "aligned_factual": 19,
+    "total_sentences": 38,
+    "factual_sentences": 18,
+    "aligned_factual": 18,
     "coverage_ratio": 1.0,
     "per_stop": [
       {
@@ -602,7 +602,7 @@
         "sentences": [
           {
             "index": 0,
-            "text": "你停在「宋庆龄故居」前（淮海中路一带）。",
+            "text": "你停在淮海中路一带的「宋庆龄故居」前。",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
@@ -620,7 +620,7 @@
           },
           {
             "index": 1,
-            "text": "从武康大楼的公共立面再往前走，路线从「房子」拉回「人与时代」。",
+            "text": "从兴业路的组织史再往前走，人物史会把红色叙事接到城市居住记忆。",
             "kind": "connective",
             "fact_uris": [],
             "fact_labels": [],
@@ -629,7 +629,7 @@
           },
           {
             "index": 2,
-            "text": "据上图建筑实体与公开地名志交叉阅读：",
+            "text": "据上图建筑实体与公开记载交叉阅读：故居始建于1920年代；",
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
@@ -644,15 +644,6 @@
           },
           {
             "index": 3,
-            "text": "故居始建于1920年代；",
-            "kind": "connective",
-            "fact_uris": [],
-            "fact_labels": [],
-            "aligned": false,
-            "grades": []
-          },
-          {
-            "index": 4,
             "text": "1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。",
             "kind": "factual",
             "fact_uris": [
@@ -667,8 +658,8 @@
             ]
           },
           {
-            "index": 5,
-            "text": "这与前一站的公寓肌理、电影圈与侨民记忆不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。",
+            "index": 4,
+            "text": "这与前一站的门牌与里弄结构不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。",
             "kind": "connective",
             "fact_uris": [],
             "fact_labels": [],
@@ -676,25 +667,7 @@
             "grades": []
           },
           {
-            "index": 6,
-            "text": "若你刚读完武康大楼里电影圈与侨民的交错，到这里该感到对照：同样是名人故居，宋庆龄故居指向的是另一种 twentieth-century 上海人物线。",
-            "kind": "factual",
-            "fact_uris": [
-              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
-              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
-            ],
-            "fact_labels": [
-              "宋庆龄故居",
-              "宋庆龄"
-            ],
-            "aligned": true,
-            "grades": [
-              "A",
-              "A"
-            ]
-          },
-          {
-            "index": 7,
+            "index": 5,
             "text": "开放时间以官网与现场公告为准。",
             "kind": "connective",
             "fact_uris": [],
@@ -703,7 +676,7 @@
             "grades": []
           },
           {
-            "index": 8,
+            "index": 6,
             "text": "按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
             "kind": "connective",
             "fact_uris": [],
@@ -1060,7 +1033,7 @@
   "curator_review": {
     "concerns": [
       {
-        "claim": "外滩段部分建筑尚未映射 SLC buri，不可自称「全站馆藏 URI」",
+        "claim": "外滩段以策展词库核录，不可自称「全站上图 URI」",
         "node": "外滩万国建筑段",
         "mechanism": "通道诚实",
         "fix": "前端显式标注 landmark/osm 通道，正文不注水馆藏号"
@@ -1437,26 +1410,28 @@
       "hint": "八十分钟够用"
     },
     "layer3_week": "2026-W35",
-    "layer3_summary": "当代口吻仅借语气：武康转角机位、梧桐树影——不作开放时间史实",
+    "layer3_summary": "当代口吻仅借语气：外滩天际线、石库门门牌——不作开放时间史实",
     "layer3": [
       {
-        "id": "xhs_wukang_corner",
-        "term": "武康大楼转角机位",
+        "id": "xhs_bund_skyline",
+        "term": "外滩万国建筑天际线",
         "places": [
-          "武康大楼"
+          "外滩",
+          "中山东一路"
         ],
-        "hint": "当代街拍口吻；勿写成人流/排队史实",
-        "heat": 0.96,
+        "hint": "当代街拍口吻；勿写成建筑年代或开放史实",
+        "heat": 0.94,
         "week": "2026-W35"
       },
       {
-        "id": "xhs_platanus_shadow",
-        "term": "梧桐树影斑驳",
+        "id": "xhs_shikumen_lane",
+        "term": "石库门里弄门牌",
         "places": [
-          "武康路"
+          "兴业路",
+          "一大"
         ],
-        "hint": "感官氛围词；勿编造树龄/年份史实",
-        "heat": 0.9,
+        "hint": "感官氛围词；勿编造一大具体门牌细节",
+        "heat": 0.88,
         "week": "2026-W35"
       }
     ],
