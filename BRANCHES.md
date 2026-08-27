@@ -1,42 +1,23 @@
-# GitHub 分支清单（2026-08-27 脱敏快照后）
+# GitHub 分支现状（2026-08-27）
 
-## 正式源
+## 当前分支
 
-| 引用 | 说明 | 建议 |
+| 分支 | 角色 | 状态 |
 |---|---|---|
-| `main` | 服务器 `/opt/redtrip` 脱敏快照（由 release-sy-realm 改名）（`d24c7e2`） | **保留，作为线上对齐源** |
-| tag `snapshot/sy-realm-20260827` | 同上 tip 的归档标签 | **保留，勿删** |
+| **`main`**（默认） | 服务器 `/opt/redtrip` 脱敏快照 + `Doc/deck` | **正式源，保留** |
+| `feat/dianji-reborn` | 旧开发线；含尚未并入 main 的修复（enrich 去重、CBDB、小程序 preview 等） | **暂保留，勿删** |
 
-## 现有分支处置
+## 已删除
 
-| 分支 | 与 release 关系 | 建议 | 条件 |
-|---|---|---|---|
-| `cursor/server-mobile-demo-f285` | Agent 实验线；历史 tip 已被线上工作树覆盖大半 | **可归档后删除** | 先确认无独有未合并提交要保留；建议先打 tag `archive/server-mobile-demo-f285` |
-| `main` | ~~原默认分支~~ | **已删除**（2026-08-27） | deck 已并入本分支；历史见 `archive/main-pre-release` |
-| `feat/dianji-reborn` | GitHub tip 比服务器基线新（含 enrich 去重、CBDB、小程序 0.1.3 等） | **暂勿删** | 与 `cursor/release-sy-realm-f285` 做一次内容 diff；确认独有修复已在线上或可放弃后再归档删除 |
+| 原分支 | 归档标签 | 说明 |
+|---|---|---|
+| `cursor/server-mobile-demo-f285` | `archive/server-mobile-demo-f285` | 已删 |
+| `cursor/release-sy-realm-f285` | tip 已重建为 `main`；快照见 `snapshot/sy-realm-20260827` | 已改名为 `main` 后删除旧名 |
+| 旧 `main`（deck 专用 tip） | `archive/main-pre-release` | 已删；deck 已并入现 `main` |
 
-## 不建议
+## 日常约定
 
-- **不要**三个旧分支一起删完只留空仓
-- **不要** force-push 覆盖 `feat/dianji-reborn` / `main` 除非已做 tag 备份
-- **不要**把服务器 `.env` / cloudflared 凭证推进任何分支
-
-## 推荐后续顺序
-
-1. 日常开发以 `cursor/release-sy-realm-f285` 为基（或将其合并进 `main` 后只维护 `main`）
-2. `git fetch && git diff cursor/release-sy-realm-f285...feat/dianji-reborn --stat` 审计 dianji 独有改动
-3. 确认后：`feat/dianji-reborn` → tag `archive/dianji-reborn` → 删分支
-4. `cursor/server-mobile-demo-f285` → tag → 删分支
-5. 可选：把 `main` 快进到 release（先备份 deck）
-
-## 2026-08-27 更新
-
-- 已将 `Doc/deck/**` 从 `archive/main-pre-release` 并入本分支。
-- `main` 已删除；默认分支已改为本分支；演示稿以本分支 + `archive/main-pre-release` 为准。
-- `feat/dianji-reborn` 仍暂保留，待独有修复合并后再删。
-
-## 2026-08-27 分支改名
-
-- `cursor/release-sy-realm-f285` 已改名为 / 重建为 **`main`**（同一 tip）。
-- 仓库默认分支：`main`
-- `feat/dianji-reborn` 仍暂保留。
+1. 新改动基于 **`main`**
+2. 服务器跟踪 **`origin/main`**
+3. 密钥只在服务器 `.env` / cloudflared，不入库
+4. `feat/dianji-reborn` 独有修复合并进 `main` 后，再删该分支（标签 `archive/dianji-reborn` 已存在）
