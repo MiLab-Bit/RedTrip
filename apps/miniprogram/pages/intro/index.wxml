@@ -1,32 +1,34 @@
 <view class="container intro-page" wx:if="{{ready}}">
-  <view wx:if="{{degraded}}" class="degrade-banner">
-    <text class="degrade-title">本次策展有保留</text>
-    <text wx:for="{{notices}}" wx:key="*this" class="degrade-line">{{item}}</text>
-  </view>
-
-  <text class="kicker">城市记忆策展人 · 可溯源书页</text>
-  <view class="title">{{storyView.themeTitle}}</view>
-  <view class="lead">{{storyView.thesis}}</view>
-
-  <view wx:if="{{hongyuanLine}}" class="hongyuan-line">{{hongyuanLine}}</view>
-
-  <view wx:if="{{cast.length}}" class="cast-block">
-    <text class="section-label">出场人物</text>
-    <view class="cast-chips">
-      <text wx:for="{{cast}}" wx:key="id" class="cast-chip">{{item.name}}</text>
+  <view class="book-frame">
+    <view wx:if="{{degraded}}" class="degrade-banner">
+      <text class="degrade-title">本次策展有保留</text>
+      <text wx:for="{{notices}}" wx:key="*this" class="degrade-line">{{item}}</text>
     </view>
-  </view>
 
-  <view class="chapter-block">
-    <text class="section-label">章节脉络</text>
-    <view wx:for="{{chapters}}" wx:key="id" class="chapter-item">
-      <text class="chapter-num">{{item.index}}</text>
-      <view class="chapter-body">
-        <text class="chapter-name">{{item.title}}</text>
-        <text class="chapter-hook">{{item.hook}}</text>
-        <text wx:if="{{item.relationToPrevious}}" class="chapter-rel">{{item.relationToPrevious}}</text>
+    <text class="kicker">城市记忆策展人 · 可溯源书页</text>
+    <view class="title">{{storyView.themeTitle}}</view>
+    <view class="lead">{{storyView.thesis}}</view>
+
+    <view wx:if="{{hongyuanLine}}" class="hongyuan-line">{{hongyuanLine}}</view>
+
+    <view wx:if="{{cast.length}}" class="cast-block">
+      <text class="section-label">出场人物</text>
+      <view class="cast-chips">
+        <text wx:for="{{cast}}" wx:key="id" class="cast-chip">{{item.name}}</text>
       </view>
-      <text class="chapter-min">{{item.walkingMinutes}}分</text>
+    </view>
+
+    <view class="chapter-block">
+      <text class="section-label">章节脉络</text>
+      <view wx:for="{{chapters}}" wx:key="id" class="chapter-item">
+        <text class="chapter-num">{{item.index}}</text>
+        <view class="chapter-body">
+          <text class="chapter-name">{{item.title}}</text>
+          <text class="chapter-hook">{{item.hook}}</text>
+          <text wx:if="{{item.relationToPrevious}}" class="chapter-rel">{{item.relationToPrevious}}</text>
+        </view>
+        <text class="chapter-min">{{item.walkingMinutes}}分</text>
+      </view>
     </view>
   </view>
 

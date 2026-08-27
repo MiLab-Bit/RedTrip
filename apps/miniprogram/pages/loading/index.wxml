@@ -1,25 +1,28 @@
 <view class="container loading-page">
-  <view class="loading-hero">
-    <image class="brand-logo large" src="/assets/kite.png" mode="aspectFit" />
-    <text class="loading-layer">{{layerLabel}}</text>
-  </view>
-
-  <view class="progress-wrap">
-    <view class="progress-track">
-      <view class="progress-fill" style="width: {{progress}}%;"></view>
+  <view class="loading-card">
+    <view class="loading-hero">
+      <image class="brand-logo large" src="/assets/kite.png" mode="aspectFit" />
+      <text class="brand-word loading-brand">红鸢</text>
+      <text class="loading-layer">{{layerLabel}}</text>
     </view>
-    <text class="progress-pct">{{progress}}%</text>
-  </view>
 
-  <view class="seal-track">
-    <view wx:for="{{milestones}}" wx:key="id" class="seal-slot {{item.hit ? 'is-hit' : ''}}">
-      <view class="seal {{item.hit ? 'is-stamped' : ''}}">{{item.seal}}</view>
-      <text class="seal-label">{{item.label}}</text>
+    <view class="progress-wrap">
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{progress}}%;"></view>
+      </view>
+      <text class="progress-pct">{{progress}}%</text>
     </view>
-  </view>
 
-  <view class="phase-line">{{phaseText}}</view>
-  <view class="tip-line">{{tip}}</view>
+    <view class="seal-track">
+      <view wx:for="{{milestones}}" wx:key="id" class="seal-slot {{item.hit ? 'is-hit' : ''}}">
+        <view class="seal {{item.hit ? 'is-stamped' : ''}}">{{item.seal}}</view>
+        <text class="seal-label">{{item.label}}</text>
+      </view>
+    </view>
+
+    <view class="phase-line">{{phaseText}}</view>
+    <view class="tip-line">{{tip}}</view>
+  </view>
 
   <button class="btn-secondary cancel-btn" bindtap="onCancel">取消</button>
 </view>

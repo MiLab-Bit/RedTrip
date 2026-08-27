@@ -9,26 +9,29 @@
   width: 100%;
 }
 
-.fail-page .kicker {
-  font-size: 22rpx;
-  color: #8a7a5e;
-  letter-spacing: 0.1em;
-}
-
 .fail-page .msg {
-  margin: 20rpx 0 24rpx;
+  margin: 22rpx 0 26rpx;
   font-size: 28rpx;
   color: var(--ink-muted);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .hints {
-  margin-bottom: 28rpx;
+  margin-bottom: 32rpx;
+  padding: 20rpx 22rpx;
+  background: rgba(237, 228, 211, 0.4);
+  border-radius: 4rpx;
+  border: 1rpx solid var(--line);
 }
 
 .hint-item {
   display: block;
   font-size: 24rpx;
-  color: #999;
-  margin-bottom: 8rpx;
+  color: var(--slate);
+  margin-bottom: 10rpx;
+  line-height: 1.5;
+}
+
+.hint-item:last-child {
+  margin-bottom: 0;
 }
