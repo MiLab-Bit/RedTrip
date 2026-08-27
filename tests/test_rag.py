@@ -162,3 +162,12 @@ def test_a1_landmark_db_excludes_noise():
     assert not (names & noise), f"噪声点漏入候选：{names & noise}"
     # 真实地标仍在
     assert names, "候选不应为空"
+
+
+def test_load_exhibitions_placeholder():
+    from redtrip_curator.rag import load_exhibitions
+
+    items = load_exhibitions()
+    assert len(items) >= 2
+    assert all(isinstance(e.get("venue"), str) for e in items)
+    assert all(isinstance(e.get("hint"), str) and e["hint"] for e in items)

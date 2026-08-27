@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { RouteEnvelope, HongyuanMeta } from "@redtrip/contracts";
+import type { RouteEnvelope, HongyuanMeta, CuratorReview } from "@redtrip/contracts";
 import type { StoryView } from "./storyView";
 import {
   buildBookDoc,
@@ -8,7 +8,6 @@ import {
   type BookDoc,
 } from "./exportBook";
 import { ROLE_LABEL } from "./NarrativeMap";
-import { datasetLabel } from "../walk/sourceLabels";
 
 type Props = {
   envelope: RouteEnvelope;
@@ -16,6 +15,32 @@ type Props = {
   hongyuan?: HongyuanMeta | null;
   onRestart: () => void;
 };
+
+function datasetLabel(dataset: string): string {
+  const map: Record<string, string> = {
+    slc_building: "上图书目 · 建筑",
+    slc_event: "上图事件",
+    slc_person: "上图人物",
+    slc_era: "纪年",
+    slc_poem: "诗词",
+    geoname: "地名志",
+    literary: "文学交集",
+    source: "出处",
+  };
+  return map[dataset] ?? dataset;
+}
+
+function hasReview(r: CuratorReview | null | undefined): boolean {
+  if (!r) return false;
+  return Boolean(
+    (r.warnings && r.warnings.length) ||
+      (r.concerns && r.concerns.length) ||
+      (r.missed_voices && r.missed_voices.length) ||
+      r.alternative_thesis ||
+      r.reverse_route_note ||
+      r.skipped_harder_node,
+  );
+}
 
 export function StoryOutro({
   envelope,
@@ -40,6 +65,9 @@ export function StoryOutro({
     }
     return out;
   }, [doc]);
+
+  const review = envelope.curator_review;
+  const showReview = hasReview(review);
 
   return (
     <section className="panel done-card book-page-flat">
@@ -73,6 +101,56 @@ export function StoryOutro({
         <div className="done-cast">
           <p className="scene-label">出场人物</p>
           <p>{storyView.cast.map((e) => e.name).join("、")}</p>
+        </div>
+      )}
+
+      {showReview && review && (
+        <div className="done-review curator-blank">
+          <p className="scene-label">策展留白 · 反方策展人</p>
+          <p className="note">
+            以下为对抗性评审留下的未决问题，不构成定论；它们指向值得在下一版或现场继续追问的方向。
+          </p>
+          {review.warnings && review.warnings.length > 0 && (
+            <div className="review-block">
+              <p className="scene-label">评审告警</p>
+              <ul>
+                {review.warnings.map((w) => (
+                  <li key={w}>{w}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {review.concerns && review.concerns.length > 0 && (
+            <div className="review-block">
+              <p className="scene-label">反对意见</p>
+              <ul>
+                {review.concerns.map((c, i) => (
+                  <li key={`${c.node ?? "n"}-${i}`}>
+                    <strong>{c.node || "全路线"}</strong>
+                    {c.mechanism ? ` · ${c.mechanism}` : ""}
+                    {c.claim ? ` — ${c.claim}` : ""}
+                    {c.fix ? (
+                      <span className="note"> → {c.fix}</span>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {review.missed_voices && review.missed_voices.length > 0 && (
+            <p className="note">
+              被忽略的声音：{review.missed_voices.join("、")}
+            </p>
+          )}
+          {review.skipped_harder_node && (
+            <p className="note">更难却被跳过的节点：{review.skipped_harder_node}</p>
+          )}
+          {review.alternative_thesis && (
+            <p className="note">备选命题：{review.alternative_thesis}</p>
+          )}
+          {review.reverse_route_note && (
+            <p className="note">逆走注记：{review.reverse_route_note}</p>
+          )}
         </div>
       )}
 

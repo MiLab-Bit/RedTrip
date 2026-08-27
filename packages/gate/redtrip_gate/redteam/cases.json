@@ -113,5 +113,69 @@
     ],
     "expect_pass": false,
     "expect_blocker_contains": "Q8"
+  },
+  {
+    "id": "RT-NOISE-POI",
+    "description": "导航噪声点位名应阻断",
+    "base": "curated-live",
+    "mutate": [
+      { "op": "set", "path": "route.stops.0.name", "value": "外滩轮渡口" }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q2"
+  },
+  {
+    "id": "RT-NO-ENTITY",
+    "description": "仅有建筑层、无人/事件实体应阻断",
+    "base": "curated-live",
+    "mutate": [{ "op": "building_layers_only" }],
+    "expect_pass": false,
+    "expect_blocker_contains": "I1"
+  },
+  {
+    "id": "RT-FAKE-BURI",
+    "description": "宣称馆藏 buri 但 layers 无馆藏出处应阻断",
+    "base": "curated-live",
+    "mutate": [
+      {
+        "op": "set",
+        "path": "route.stops.0.buri",
+        "value": "http://data.library.sh.cn/entity/architecture/FAKE000"
+      },
+      {
+        "op": "set",
+        "path": "route.stops.0.layers",
+        "value": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "高德分类为历史建筑",
+            "source": { "dataset": "amap", "record_id": "poi-only" }
+          },
+          {
+            "kind": "person",
+            "label": "某人",
+            "claim": "地方传闻提及某人",
+            "source": { "dataset": "amap", "record_id": "poi-person" }
+          }
+        ]
+      }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "Q6"
+  },
+  {
+    "id": "RT-YEAR-HALLUCINATION",
+    "description": "叙事正文出现未取证年份应阻断",
+    "base": "curated-live",
+    "mutate": [
+      {
+        "op": "set",
+        "path": "blocks.0.body",
+        "value": "这座楼在 1789 年落成，馆藏却从未记载这一年。"
+      }
+    ],
+    "expect_pass": false,
+    "expect_blocker_contains": "G4-year"
   }
 ]

@@ -6,6 +6,7 @@ import {
 } from "@redtrip/contracts";
 
 import { API_BASE } from "./apiBase";
+import { authHeaders } from "./authClient";
 
 /**
  * 策展结果。
@@ -81,7 +82,7 @@ function toOutcome(raw: unknown): CurateOutcome {
 export async function curateRoute(slots: IntentSlots): Promise<CurateOutcome> {
   const res = await fetch(`${API_BASE}/v1/curate`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify({
       message: undefined,
       slots,
@@ -93,6 +94,30 @@ export async function curateRoute(slots: IntentSlots): Promise<CurateOutcome> {
     throw new Error(`策展接口 HTTP ${res.status}`);
   }
 
+  const json: unknown = await res.json();
+  return toOutcome(json);
+}
+
+/** 竞赛冻结演示线：一键武康，不等待 LLM。 */
+export async function fetchDemoWukang(
+  signal?: AbortSignal,
+): Promise<CurateOutcome> {
+  const res = await fetch(`${API_BASE}/v1/demo/wukang`, { signal });
+  if (!res.ok) {
+    throw new Error(`演示线接口 HTTP ${res.status}`);
+  }
+  const json: unknown = await res.json();
+  return toOutcome(json);
+}
+
+/** 竞赛冻结演示线 B：一大—外滩。 */
+export async function fetchDemoYida(
+  signal?: AbortSignal,
+): Promise<CurateOutcome> {
+  const res = await fetch(`${API_BASE}/v1/demo/yida`, { signal });
+  if (!res.ok) {
+    throw new Error(`演示线接口 HTTP ${res.status}`);
+  }
   const json: unknown = await res.json();
   return toOutcome(json);
 }
@@ -111,7 +136,7 @@ export async function curateRouteStream(
 ): Promise<CurateOutcome> {
   const startRes = await fetch(`${API_BASE}/v1/curate/start`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify({ message: undefined, slots, retry_count: 0 }),
     signal,
   });

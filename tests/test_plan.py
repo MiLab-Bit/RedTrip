@@ -5,7 +5,7 @@
 from collections import Counter
 
 from redtrip_curator.models import BuildingEvidence
-from redtrip_curator.plan import _category, _diversity_select, _score
+from redtrip_curator.plan import _assign_acts, _category, _diversity_select, _score
 
 
 def _be(name: str, *, category=None, poi_type=None, lat=31.23, lng=121.47) -> BuildingEvidence:
@@ -83,3 +83,15 @@ def test_diversity_relax_min5():
     cands = [_be(f"c{i}", category="commercial") for i in range(3)]
     sel = _diversity_select(cands, target_n=10, max_per_cat=2)
     assert len(sel) == 3  # 全部候选都用上（仍 <5，但只有 3 个）
+
+
+def test_assign_acts_sequence():
+    assert _assign_acts(6) == [
+        "prologue",
+        "focus",
+        "transit",
+        "focus",
+        "transit",
+        "epilogue",
+    ]
+    assert _assign_acts(1) == ["prologue"]

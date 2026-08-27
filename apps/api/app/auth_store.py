@@ -89,6 +89,13 @@ def _migrate(conn: sqlite3.Connection) -> None:
         )
     except sqlite3.OperationalError:
         pass
+    # JWT 撤销：token_version 递增后旧 JWT 全部失效
+    try:
+        conn.execute(
+            "ALTER TABLE users ADD COLUMN token_version INTEGER NOT NULL DEFAULT 0"
+        )
+    except sqlite3.OperationalError:
+        pass
     conn.commit()
 
 
@@ -151,9 +158,33 @@ def set_password(uid: str, password_hash: str) -> None:
         c.execute("UPDATE users SET password_hash=? WHERE id=?", (password_hash, uid))
 
 
+def bump_token_version(uid: str) -> int:
+    """递增 token_version，使该用户既有 JWT 全部失效。返回新版本号。"""
+    with _connect() as c:
+        c.execute(
+            "UPDATE users SET token_version = COALESCE(token_version, 0) + 1 WHERE id=?",
+            (uid,),
+        )
+        r = c.execute("SELECT token_version FROM users WHERE id=?", (uid,)).fetchone()
+    return int(r["token_version"]) if r else 0
+
+
+def get_token_version(uid: str) -> int:
+    with _connect() as c:
+        r = c.execute("SELECT token_version FROM users WHERE id=?", (uid,)).fetchone()
+    if not r:
+        return 0
+    return int(r["token_version"] or 0)
+
+
 # ── email_verifications（验证邮件 + 密码重置共用，purpose 区分）──
 def save_verify_token(token_hash: str, uid: str, purpose: str, expires_at: str) -> None:
+    """写入新 token 前作废同用户同 purpose 的旧链接。"""
     with _connect() as c:
+        c.execute(
+            "DELETE FROM email_verifications WHERE user_id=? AND purpose=?",
+            (uid, purpose),
+        )
         c.execute(
             "INSERT OR REPLACE INTO email_verifications "
             "(token_hash,user_id,purpose,expires_at,created_at) VALUES (?,?,?,?,?)",

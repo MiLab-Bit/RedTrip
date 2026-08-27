@@ -19,6 +19,8 @@ import { buildStoryView, type StoryView } from "../features/story/storyView";
 import { tripMachine } from "../features/trip/machine";
 import {
   curateRouteStream,
+  fetchDemoWukang,
+  fetchDemoYida,
   type StreamChapter,
 } from "../shared/lib/curate";
 import { fetchFootprints } from "../shared/lib/footprints";
@@ -142,7 +144,9 @@ export function App() {
   }, [state.value]);
 
   useEffect(() => {
-    if (state.value !== "loading" || !pendingSlots) return;
+    if (state.value !== "loading") return;
+    const mode = state.context.loadMode;
+    if (!mode) return;
     let cancelled = false;
     const ac = new AbortController();
 
@@ -152,34 +156,95 @@ export function App() {
       setLoadProgress((p) => Math.max(p, to));
     };
 
+    const isDemoWukang = mode === "demo-wukang";
+    const isDemoYida = mode === "demo-yida";
+    const isDemo = isDemoWukang || isDemoYida;
+    setLoadProgress(0);
+    setLoadPhase(
+      isDemoWukang
+        ? "L1 · 装载武康冻结演示线…"
+        : isDemoYida
+          ? "L1 · 装载一大—外滩冻结演示线…"
+          : "L1 · 提交取证任务…",
+    );
+    setDegradeNotices([]);
+
     (async () => {
       try {
+        if (isDemo) {
+          setLoadProgress(8);
+          setLoadPhase(
+            isDemoWukang
+              ? "L1 · 装载武康冻结演示线…"
+              : "L1 · 装载一大—外滩冻结演示线…",
+          );
+          bump(40, "L2 · 红鸢抽签读法已冻结…");
+          const { envelope, assumptions, hongyuan, degraded, notices } =
+            isDemoWukang
+              ? await fetchDemoWukang(ac.signal)
+              : await fetchDemoYida(ac.signal);
+          if (cancelled) return;
+          bump(72, "L3 · 句级溯源与证据通道已齐…");
+          setDegradeNotices(degraded ? notices : []);
+          const osm = await fetchFootprints(envelope, ac.signal);
+          if (cancelled) return;
+          bump(96, "演示线装订完成…");
+          await new Promise((r) => setTimeout(r, 120));
+          if (cancelled) return;
+          const theme = String(envelope.theme || "");
+          if (isDemoWukang && !theme.includes("武康")) {
+            throw new Error(`演示线主题异常：${envelope.theme}`);
+          }
+          if (isDemoYida && !theme.includes("外滩")) {
+            throw new Error(`演示线主题异常：${envelope.theme}`);
+          }
+          setLoadProgress(100);
+          send({
+            type: "LOADED",
+            envelope,
+            assumptions,
+            hongyuan,
+            footprints: osm.features,
+            osmNote:
+              osm.note ||
+              (isDemoWukang ? "演示线 · 武康冻结包" : "演示线 · 一大外滩冻结包"),
+          });
+          return;
+        }
+
+        const slots = pendingSlots;
+        if (!slots) {
+          throw new Error("策展槽位缺失");
+        }
+
         setLoadProgress(2);
-        setLoadPhase("正在提交策展任务…");
+        setLoadPhase("L1 · 提交取证任务…");
 
         let chapterCount = 0;
         const { envelope, assumptions, hongyuan, degraded, notices } =
           await curateRouteStream(
-            pendingSlots,
+            slots,
             (p, stage, message) => {
               if (cancelled) return;
               setLoadProgress(p);
               if (message) setLoadPhase(message);
-              // B4：narrate 后进入逐章并行润色（不再是单次 160s 大调用），
-              // 明确预期，避免用户误以为卡死。
-              if (stage === "narrate") {
-                setLoadPhase("叙事初稿完成，逐章润色中…");
+              if (stage === "evidence" || stage === "retrieve") {
+                setLoadPhase("L1 · 馆藏取证中…");
+              } else if (stage === "hongyuan" || stage === "voice") {
+                setLoadPhase("L2 · 红鸢抽签定声线…");
+              } else if (stage === "hotwords" || stage === "layer3") {
+                setLoadPhase("L3 · 对齐当代口吻…");
+              } else if (stage === "narrate") {
+                setLoadPhase("L2 · 叙事初稿完成，逐章润色中…");
               }
             },
             ac.signal,
             (story) => {
-              // story_ready：模板 envelope 就绪，立即进预览（序章可读）
               if (cancelled) return;
               setPreviewEnv(story.envelope);
               setPreviewHongyuan(story.hongyuan);
             },
             (chapter) => {
-              // chapter_ready：单章润色就绪，增量替换预览正文
               if (cancelled) return;
               chapterCount += 1;
               setStreamCards((m) => ({
@@ -189,7 +254,6 @@ export function App() {
             },
           );
         if (cancelled) return;
-        // done：清理预览态，走正式流程（LOADED 用完整 envelope 接管）
         setPreviewEnv(null);
         setPreviewHongyuan(null);
         setStreamCards({});
@@ -235,14 +299,19 @@ export function App() {
       cancelled = true;
       ac.abort();
     };
-  }, [state.value, pendingSlots, send]);
+  }, [state.value, state.context.loadMode, pendingSlots, send]);
 
-  useEffect(() => {
-    if (state.value === "loading") {
-      setLoadProgress(0);
-      setLoadPhase("翻开馆藏…");
-    }
-  }, [state.value]);
+  // 进入 loading 时的初始相位在上方 effect 开头设置；勿在此重置，
+  // 否则会与 demo/流式 bump 竞态，把 L1/L2/L3 旁白冲掉。
+
+  const restart = useCallback(() => {
+    setPendingSlots(null);
+    setDegradeNotices([]);
+    setPreviewEnv(null);
+    setPreviewHongyuan(null);
+    setStreamCards({});
+    send({ type: "RESTART" });
+  }, [send]);
 
   const storyView = useMemo<StoryView | null>(() => {
     const env = state.context.envelope;
@@ -307,8 +376,19 @@ export function App() {
       {!isBrief && (
         <header className="topbar">
           <div className="brand brand-mark">
-            <span className="brand-word">RedTrip</span>
-            <small className="brand-tag">城市记忆策展人</small>
+            <img
+              className="brand-kite"
+              src="/redtrip-kite.svg"
+              alt=""
+              aria-hidden
+              width={28}
+              height={28}
+            />
+            <span className="brand-word">红鸢</span>
+            <small className="brand-tag">RedTrip · 城市记忆策展人</small>
+            <span className="brand-seal" aria-hidden>
+              鸢
+            </span>
           </div>
           <div className="source-badge">
             {cityName(activeCity)} · 可溯源书页
@@ -355,6 +435,14 @@ export function App() {
             onSubmit={(slots) => {
               setPendingSlots(slots);
               send({ type: "SUBMIT" });
+            }}
+            onDemoWukang={() => {
+              setPendingSlots(null);
+              send({ type: "SUBMIT_DEMO_WUKANG" });
+            }}
+            onDemoYida={() => {
+              setPendingSlots(null);
+              send({ type: "SUBMIT_DEMO_YIDA" });
             }}
           />
         )}
@@ -407,7 +495,7 @@ export function App() {
               hongyuan={state.context.hongyuan}
               onBegin={() => send({ type: "BEGIN_STORY" })}
               onShowMap={() => send({ type: "SHOW_MAP" })}
-              onRestart={() => send({ type: "RESTART" })}
+              onRestart={restart}
             />
           </BookShell>
         )}
@@ -449,7 +537,7 @@ export function App() {
                 onBack={() => send({ type: "BACK_FROM_MAP" })}
                 onOpenStop={(order) => send({ type: "OPEN_STOP", order })}
                 onFinish={() => send({ type: "FINISH" })}
-                onRestart={() => send({ type: "RESTART" })}
+                onRestart={restart}
               />
             </Suspense>
           </BookShell>
@@ -461,7 +549,7 @@ export function App() {
               envelope={state.context.envelope}
               storyView={storyView}
               hongyuan={state.context.hongyuan}
-              onRestart={() => send({ type: "RESTART" })}
+              onRestart={restart}
             />
           </BookShell>
         )}
@@ -486,7 +574,7 @@ export function App() {
                 <button
                   className="btn"
                   type="button"
-                  onClick={() => send({ type: "RESTART" })}
+                  onClick={restart}
                 >
                   返回出题
                 </button>

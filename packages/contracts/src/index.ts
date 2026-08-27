@@ -3,7 +3,7 @@ import { z } from "zod";
 export const GeoPointSchema = z.object({
   lat: z.number(),
   lng: z.number(),
-  coord_source: z.enum(["manual", "upstream", "amap", "none"]),
+  coord_source: z.enum(["manual", "upstream", "amap", "osm", "none"]),
   precision: z.enum(["exact", "approximate", "schematic"]),
 });
 export type GeoPoint = z.infer<typeof GeoPointSchema>;
@@ -16,7 +16,7 @@ export const SourceRefSchema = z.object({
 export type SourceRef = z.infer<typeof SourceRefSchema>;
 
 export const IdentityLayerSchema = z.object({
-  kind: z.enum(["building", "event", "era", "poem", "person", "geoname", "literary", "classical"]),
+  kind: z.enum(["building", "event", "era", "poem", "person", "geoname", "literary"]),
   label: z.string(),
   claim: z.string(),
   source: SourceRefSchema,
@@ -38,6 +38,12 @@ export const RouteStopSchema = z.object({
     enterable: z.string(),
     need_reservation: z.string(),
   }),
+  /** L1 通道诚实标注：馆藏 / 地标词库 / OSM / 人工 */
+  evidence_channel: z
+    .enum(["slc", "landmark", "osm", "manual", "amap"])
+    .nullish(),
+  /** 规划四段节奏：序章 / 聚焦 / 过渡 / 跋 */
+  act: z.enum(["prologue", "focus", "transit", "epilogue"]).nullish(),
 });
 export type RouteStop = z.infer<typeof RouteStopSchema>;
 
@@ -48,6 +54,15 @@ export const StoryCardBlockSchema = z.object({
   body: z.string(),
   age_parallel: z.string().optional(),
   sources: z.array(SourceRefSchema),
+});
+
+export const EssayBlockSchema = z.object({
+  type: z.literal("essay"),
+  stop_order: z.number().int().positive(),
+  title: z.string(),
+  body: z.string(),
+  /** LLM 溯源附注；前端可不消费 */
+  provenance: z.unknown().optional(),
 });
 
 export const SceneBlockSchema = z.object({
@@ -72,10 +87,12 @@ export const CardBlockSchema = z.object({
 
 export const BlockSchema = z.discriminatedUnion("type", [
   StoryCardBlockSchema,
+  EssayBlockSchema,
   SceneBlockSchema,
   CardBlockSchema,
 ]);
 export type Block = z.infer<typeof BlockSchema>;
+export type EssayBlock = z.infer<typeof EssayBlockSchema>;
 
 
 // ===========================================================================
@@ -91,7 +108,6 @@ export const LayerKindSchema = z.enum([
   "person",
   "geoname",
   "literary",
-  "classical",
 ]);
 export type LayerKind = z.infer<typeof LayerKindSchema>;
 
@@ -319,6 +335,27 @@ export const RouteEnvelopeSchema = z.object({
   provenance: ProvenanceReportSchema.nullish(),
   sentence_provenance: SentenceProvenanceReportSchema.nullish(),
   curation_artifacts: CurationArtifactsSchema.nullish(),
+  // 反方策展人评审（非阻断）；前端「策展留白」与书页附录消费
+  curator_review: z
+    .object({
+      concerns: z
+        .array(
+          z.object({
+            claim: z.string().nullish(),
+            node: z.string().nullish(),
+            mechanism: z.string().nullish(),
+            fix: z.string().nullish(),
+          }),
+        )
+        .nullish(),
+      missed_voices: z.array(z.string()).nullish(),
+      skipped_harder_node: z.string().nullish(),
+      alternative_thesis: z.string().nullish(),
+      reverse_route_note: z.string().nullish(),
+      warnings: z.array(z.string()).nullish(),
+    })
+    .passthrough()
+    .nullish(),
   // 故事优先：CuratedStory 内容结构（前端 StoryReader / NarrativeArc 直接消费）
   thesis: z.string().nullish(),
   cast: z.array(StoryEntitySchema).nullish(),
@@ -326,6 +363,7 @@ export const RouteEnvelopeSchema = z.object({
   curated_story: CuratedStorySchema.nullish(),
 });
 export type RouteEnvelope = z.infer<typeof RouteEnvelopeSchema>;
+export type CuratorReview = NonNullable<RouteEnvelope["curator_review"]>;
 
 export const IntentSlotsSchema = z.object({
   audience: z.string().nullable(),

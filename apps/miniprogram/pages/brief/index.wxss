@@ -1,0 +1,58 @@
+.brief-page {
+  background: transparent;
+}
+
+.brief-page .hero {
+  position: relative;
+  margin-bottom: 8rpx;
+  padding-bottom: 8rpx;
+}
+
+.brief-page .hero::after {
+  content: "";
+  position: absolute;
+  right: -20rpx;
+  top: -12rpx;
+  width: 220rpx;
+  height: 180rpx;
+  background: radial-gradient(
+      ellipse 55% 45% at 55% 40%,
+      rgba(51, 51, 58, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 70% 60%,
+      rgba(124, 138, 141, 0.1),
+      transparent 68%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brief-page .brand-row,
+.brief-page .title,
+.brief-page .lead,
+.brief-page .wont-list {
+  position: relative;
+  z-index: 1;
+}
+
+.brief-page .sheet .btn-primary {
+  margin-top: 20rpx;
+}
+
+.privacy-link {
+  margin-top: 28rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--ochre);
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+  text-underline-offset: 6rpx;
+}
+
+.input-placeholder {
+  color: #b0a898;
+  font-size: 28rpx;
+  font-family: var(--font-body);
+}

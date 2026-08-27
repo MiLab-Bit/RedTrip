@@ -167,6 +167,14 @@
   color: var(--seal);
 }
 
+.auth-disabled-tag {
+  cursor: default;
+  opacity: 0.72;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  pointer-events: none;
+}
+
 /* 首页（出题页）右上角浮动登录入口 */
 .auth-float {
   position: fixed;
@@ -221,6 +229,19 @@
 .usermenu-caret {
   font-size: 11px;
   color: var(--faint);
+}
+.usermenu-byok {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--seal) 12%, transparent);
+  color: var(--seal);
+  border: 1px solid color-mix(in srgb, var(--seal) 35%, transparent);
+}
+.usermenu-byok-line {
+  color: var(--seal) !important;
+  font-size: 12px !important;
 }
 .usermenu-pop {
   position: absolute;

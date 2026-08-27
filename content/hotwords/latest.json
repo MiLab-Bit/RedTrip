@@ -1,12 +1,13 @@
 {
-  "week": "2026-W32",
-  "updated_at": "2026-08-04",
+  "week": "2026-W35",
+  "updated_at": "2026-08-25",
   "source": "xiaohongshu_weekly",
   "collector": "seed+public_signals",
   "notes": [
     "第三层只提供当代社交读法口吻，禁止当作史实/开放时间/坐标写入正文",
     "景点优先；城市通用热词 heat 较低作兜底",
-    "每周二由 scripts/update_hotwords.py 或 Agent 采集后覆盖本文件"
+    "每周二由 scripts/update_hotwords.py 或 Agent 采集后覆盖本文件",
+    "2026-W35 竞赛周刷新：沿用武康/梧桐核心热词，强化非史实提示"
   ],
   "entries": [
     {

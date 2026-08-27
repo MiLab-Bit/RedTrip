@@ -5,7 +5,6 @@ web-dist/
 apps/web/dist/
 packages/*/dist/
 *.tsbuildinfo
-
 # ── 环境变量与密钥（严禁提交）──
 .env
 .env.*
@@ -16,35 +15,27 @@ data/
 *.db-wal
 .curate_cache.json
 .crypto_key
-
 # ── Python ──
 __pycache__/
 *.py[cod]
 .venv/
 venv/
-
 # ── 部署 / 备份 ──
 backups/
 *.bak
 *.bak-*
 *.tgz
-
 # ── 系统 / 编辑器 ──
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
-
+.cursor/
 # ── 端到端验证产物（含网关生成内容，非源码）──
 content/e2e/
+# secrets / local (release snapshot)
+apps/web/.env
 .cloudflared/
-web-dist.bak-*/
-dist-nginx/
-dist-pages/
-dist_mv_old/
-demo_dianji_reborn.py
-demo_diag.py
-demo_v3.py
-check_labels.py
-demo_v4.py
-verify_multi_city.py
+*.token
+logs/
+web-dist.bak*

@@ -29,3 +29,37 @@ jobs:
         run: pnpm --filter @redtrip/web test
       - name: Build web
         run: pnpm build
+
+  python-gate-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r apps/api/requirements.txt
+          pip install pytest ruff
+      - name: Ruff (packages)
+        run: python -m ruff check packages/
+      - name: Red team (must be green)
+        env:
+          PYTHONPATH: packages/gate:packages/curator:packages/library-client
+        run: python -m redtrip_gate.redteam.runner
+      - name: Pytest
+        env:
+          PYTHONPATH: packages/gate:packages/curator:packages/library-client
+        run: python -m pytest tests -q
+      - name: Demo smoke (frozen routes)
+        env:
+          PYTHONPATH: packages/gate:packages/curator:packages/library-client
+        run: python eval/smoke_demo.py
+      - name: Baseline metrics
+        env:
+          PYTHONPATH: packages/gate:packages/curator:packages/library-client
+        run: python eval/baseline.py
+      - name: L3 hotwords freshness
+        run: python eval/check_hotwords_stale.py --warn-days 14
