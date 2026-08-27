@@ -28,3 +28,9 @@
 3. 确认后：`feat/dianji-reborn` → tag `archive/dianji-reborn` → 删分支
 4. `cursor/server-mobile-demo-f285` → tag → 删分支
 5. 可选：把 `main` 快进到 release（先备份 deck）
+
+## 2026-08-27 更新
+
+- 已将 `Doc/deck/**` 从 `archive/main-pre-release` 并入本分支。
+- `main` 已与本分支对齐后删除（见本次提交之后的操作）；演示稿以本分支 + 归档标签为准。
+- `feat/dianji-reborn` 仍暂保留，待独有修复合并后再删。
