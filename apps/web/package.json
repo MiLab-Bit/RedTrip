@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build --base=/redtrip/",
+    "build": "tsc -b && vite build",
     "build:pages": "tsc -b && vite build --base=/",
     "build:nginx": "tsc -b && vite build --base=/redtrip/",
     "preview": "vite preview",

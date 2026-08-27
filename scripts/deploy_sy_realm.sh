@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Deploy RedTrip web + API to sy-realm.ltd/redtrip
-# Requires SSH access. Host / paths via env — do not hardcode secrets or IPs in git.
+# Deploy RedTrip web + API to sy-realm.ltd/redtrip on SWAS 139.224.163.203
+# Requires: SSH access (key or password), node/pnpm for local build optional.
 #
 # Usage:
-#   export DEPLOY_HOST=root@YOUR_SWAS_HOST
-#   export DEPLOY_PATH=/www/wwwroot/sy-realm.ltd/redtrip
+#   export DEPLOY_HOST=root@139.224.163.203
+#   export DEPLOY_PATH=/www/wwwroot/sy-realm.ltd/redtrip   # 宝塔站点根下的子目录
 #   ./scripts/deploy_sy_realm.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-HOST="${DEPLOY_HOST:?set DEPLOY_HOST e.g. root@your-host}"
+HOST="${DEPLOY_HOST:-root@139.224.163.203}"
 REMOTE_ROOT="${DEPLOY_PATH:-/www/wwwroot/sy-realm.ltd/redtrip}"
 API_DIR="${REMOTE_API:-/opt/redtrip}"
 

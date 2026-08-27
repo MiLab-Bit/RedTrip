@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { AUTH_BASE } from "../../shared/lib/authConfig";
-import { redtripCookieStorage } from "./cookieStorage";
 
 export type AuthUserStatus = "pending" | "active" | "disabled";
 
@@ -23,6 +22,18 @@ export interface Tokens {
   user: AuthUser;
 }
 
+const AUTH_DISABLED = import.meta.env.VITE_AUTH_DISABLED === "true";
+
+const DEMO_USER: AuthUser = {
+  publicId: "demo",
+  nickname: "demo",
+  avatarUrl: null,
+  status: "active",
+  emailVerified: true,
+  roles: ["admin"],
+  createdAt: 0,
+};
+
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(AUTH_BASE + path, {
     ...init,
@@ -30,22 +41,10 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
   });
   const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
   if (!res.ok) {
-    const detail = data.detail;
-    let detailMsg: string | null = null;
-    if (typeof detail === "string") detailMsg = detail;
-    else if (Array.isArray(detail) && detail[0] && typeof detail[0] === "object") {
-      const d0 = detail[0] as { msg?: string };
-      detailMsg = typeof d0.msg === "string" ? d0.msg : null;
-    }
     const message =
-      detailMsg ||
       (typeof data.message === "string" && data.message) ||
       (typeof data.error === "string" && data.error) ||
-      (res.status === 401 && path.includes("/auth/login")
-        ? "邮箱或密码错误"
-        : res.status === 403 && path.includes("/auth/login")
-          ? "邮箱未验证或账号不可用"
-          : `请求失败 (${res.status})`);
+      `请求失败 (${res.status})`;
     throw new Error(message);
   }
   return data as T;
@@ -79,17 +78,13 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       accessToken: null,
       refreshToken: null,
-      status: "loading",
+      status: AUTH_DISABLED ? "authenticated" : "loading",
       error: null,
 
       bootstrap: async () => {
-        // 一次性清掉旧的 origin-wide localStorage，避免同域其它子路径读到会话
-        try {
-          if (typeof localStorage !== "undefined") {
-            localStorage.removeItem("redtrip:auth");
-          }
-        } catch {
-          /* ignore */
+        if (AUTH_DISABLED) {
+          set({ status: "authenticated", user: get().user ?? DEMO_USER, error: null });
+          return;
         }
         const rt = get().refreshToken;
         if (!rt) {
@@ -123,13 +118,14 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
-        const at = get().accessToken;
+        const rt = get().refreshToken;
         try {
-          await api("/auth/logout", {
-            method: "POST",
-            headers: at ? { Authorization: `Bearer ${at}` } : {},
-            body: "{}",
-          });
+          if (rt) {
+            await api("/auth/logout", {
+              method: "POST",
+              body: JSON.stringify({ refreshToken: rt }),
+            });
+          }
         } catch {
           /* 忽略网络错误，本地状态照清 */
         }
@@ -173,13 +169,10 @@ export const useAuthStore = create<AuthState>()(
       },
 
       verifyEmail: async (token) => {
-        const raw = await api<{ user?: AuthUser } & AuthUser>("/auth/verify-email", {
+        const user = await api<AuthUser>("/auth/verify-email", {
           method: "POST",
           body: JSON.stringify({ token }),
         });
-        const user = (raw && typeof raw === "object" && "user" in raw && raw.user
-          ? raw.user
-          : raw) as AuthUser;
         set({ user, error: null });
         return user;
       },
@@ -203,8 +196,8 @@ export const useAuthStore = create<AuthState>()(
       setError: (e) => set({ error: e }),
     }),
     {
-      name: "redtrip_auth",
-      storage: createJSONStorage(() => redtripCookieStorage),
+      name: "redtrip:auth",
+      storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({
         user: s.user,
         accessToken: s.accessToken,

@@ -39,10 +39,10 @@ export function AuthModal({ open, onClose, initialMode = "login" }: Props) {
 
   if (!open) return null;
 
-  function switchMode(m: Mode, keepInfo = false) {
+  function switchMode(m: Mode) {
     setMode(m);
     setErr(null);
-    if (!keepInfo) setInfo(null);
+    setInfo(null);
   }
 
   async function handleLogin(e: FormEvent) {
@@ -73,7 +73,7 @@ export function AuthModal({ open, onClose, initialMode = "login" }: Props) {
       setInfo(
         "注册成功。请查收验证邮件并点击链接完成邮箱验证，之后即可登录并配置你的大模型。",
       );
-      switchMode("login", true);
+      switchMode("login");
     } catch (e) {
       setErr(e instanceof Error ? e.message : "注册失败");
     } finally {
@@ -87,8 +87,8 @@ export function AuthModal({ open, onClose, initialMode = "login" }: Props) {
     setErr(null);
     try {
       await requestPasswordReset(email.trim());
-      setInfo("若邮箱存在，重置链接已发送。请打开邮件中的链接完成重置。");
-      switchMode("reset", true);
+      setInfo("若邮箱存在，重置链接已发送。复制链接中的 token 到下方完成重置。");
+      switchMode("reset");
     } catch (e) {
       setErr(e instanceof Error ? e.message : "请求失败");
     } finally {
@@ -103,7 +103,7 @@ export function AuthModal({ open, onClose, initialMode = "login" }: Props) {
     try {
       await resetPassword(resetToken.trim(), newPassword);
       setInfo("密码已重置，请用新密码登录。");
-      switchMode("login", true);
+      switchMode("login");
     } catch (e) {
       setErr(e instanceof Error ? e.message : "重置失败");
     } finally {

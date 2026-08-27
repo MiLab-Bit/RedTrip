@@ -255,8 +255,6 @@ export const SentenceClaimSchema = z.object({
   fact_uris: z.array(z.string()),
   fact_labels: z.array(z.string()),
   aligned: z.boolean(),
-  /** 与 fact_uris 对齐的 A–E 置信度；旧包可缺省 */
-  grades: z.array(z.string()).optional(),
 });
 export type SentenceClaim = z.infer<typeof SentenceClaimSchema>;
 

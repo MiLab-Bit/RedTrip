@@ -7,7 +7,7 @@
  *   修复：此前默认留空（"/v1" 根相对），prod 构建未注入 VITE_API_BASE 时
  *   会打到 nginx 没有路由的 /v1/*，导致策展/足迹/热词请求 404。
  * - Cloudflare Pages 部署：构建时注入
- *   `VITE_API_BASE=https://sy-realm.ltd/redtrip`（或 Pages 反代地址），
+ *   `VITE_API_BASE=https://www.abc-ai.cn/redtrip`（或 https://redtrip.pages.dev 的反代地址），
  *   浏览器直接跨域（同源 HTTPS）调用，无需经 Pages Function 反代
  *   （Cloudflare 不允许 Worker 向自身橙色代理的主机发子请求）。
  */

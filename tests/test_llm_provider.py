@@ -28,14 +28,11 @@ def test_thread_provider_configures_llm():
     assert llm_model() == "m-test"
 
 
-def test_clear_thread_provider_falls_back(monkeypatch):
+def test_clear_thread_provider_falls_back():
     set_thread_provider({"api_base": "https://api.test/v1", "api_key": "sk-test"})
     clear_thread_provider()
-    # clear 只清 BYOK 覆盖；隔离 env，避免机器上已配默认 LLM 时假红
-    monkeypatch.delenv("LLM_API_BASE", raising=False)
-    monkeypatch.delenv("LLM_API_KEY", raising=False)
     assert llm_configured() is False
-    # 回落到环境变量默认模型名
+    # 回落到环境变量默认值
     assert llm_model() == "Qwen-flash"
 
 
@@ -55,18 +52,14 @@ def test_explicit_provider_overrides_thread_and_env():
         assert req.headers.get("Authorization") == "Bearer sk-explicit"
 
 
-def test_thread_provider_propagates_to_executor():
-    """ContextVar + copy_context 必须让线程池子任务看到 BYOK。"""
-    from concurrent.futures import ThreadPoolExecutor
-
-    from redtrip_curator.llm import submit_with_provider
-
-    set_thread_provider({"api_base": "https://api.test/v1", "api_key": "sk-test", "model": "m-test"})
-
-    def worker():
-        return llm_configured(), llm_model()
-
-    with ThreadPoolExecutor(max_workers=1) as pool:
-        configured, model = submit_with_provider(pool, worker).result(timeout=5)
-    assert configured is True
-    assert model == "m-test"
+def test_chat_completion_uses_thread_provider():
+    set_thread_provider({"api_base": "https://thread.test/v1", "api_key": "sk-thread", "model": "m-thread"})
+    with patch("redtrip_curator.llm.urllib.request.build_opener") as mock_build:
+        mock_resp = mock_build.return_value.open.return_value.__enter__.return_value
+        mock_resp.read.return_value = (
+            '{"choices":[{"message":{"content":"hi"}}]}'.encode("utf-8")
+        )
+        chat_completion(system="s", user="u")
+        req = mock_build.return_value.open.call_args[0][0]
+        assert req.get_full_url() == "https://thread.test/v1/chat/completions"
+        assert req.headers.get("Authorization") == "Bearer sk-thread"

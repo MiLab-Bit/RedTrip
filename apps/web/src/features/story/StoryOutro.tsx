@@ -104,59 +104,55 @@ export function StoryOutro({
         </div>
       )}
 
-      <div className="done-review curator-blank">
+      {showReview && review && (
+        <div className="done-review curator-blank">
           <p className="scene-label">策展留白 · 反方策展人</p>
-          {showReview && review ? (
-            <>
-              <p className="note">
-                以下为对抗性评审留下的未决问题，不构成定论；它们指向值得在下一版或现场继续追问的方向。
-              </p>
-              {review.warnings && review.warnings.length > 0 && (
-                <div className="review-block">
-                  <p className="scene-label">评审告警</p>
-                  <ul>
-                    {review.warnings.slice(0, 3).map((w) => (
-                      <li key={w}>{w}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {review.concerns && review.concerns.length > 0 && (
-                <div className="review-block">
-                  <p className="scene-label">反对意见</p>
-                  <ul>
-                    {review.concerns.slice(0, 3).map((c, i) => (
-                      <li key={`${c.node ?? "n"}-${i}`}>
-                        <strong>{c.node || "全路线"}</strong>
-                        {c.mechanism ? ` · ${c.mechanism}` : ""}
-                        {c.claim ? ` — ${c.claim}` : ""}
-                        {c.fix ? (
-                          <span className="note"> → {c.fix}</span>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {review.missed_voices && review.missed_voices.length > 0 && (
-                <p className="note">
-                  被忽略的声音：{review.missed_voices.slice(0, 3).join("、")}
-                </p>
-              )}
-              {review.skipped_harder_node && (
-                <p className="note">更难却被跳过的节点：{review.skipped_harder_node}</p>
-              )}
-              {review.alternative_thesis && (
-                <p className="note">备选命题：{review.alternative_thesis}</p>
-              )}
-              {review.reverse_route_note && (
-                <p className="note">逆走注记：{review.reverse_route_note}</p>
-              )}
-            </>
-          ) : (
-            <p className="note">本轮无重大异议。反方策展人未提出需单独摊开的保留意见。</p>
+          <p className="note">
+            以下为对抗性评审留下的未决问题，不构成定论；它们指向值得在下一版或现场继续追问的方向。
+          </p>
+          {review.warnings && review.warnings.length > 0 && (
+            <div className="review-block">
+              <p className="scene-label">评审告警</p>
+              <ul>
+                {review.warnings.map((w) => (
+                  <li key={w}>{w}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {review.concerns && review.concerns.length > 0 && (
+            <div className="review-block">
+              <p className="scene-label">反对意见</p>
+              <ul>
+                {review.concerns.map((c, i) => (
+                  <li key={`${c.node ?? "n"}-${i}`}>
+                    <strong>{c.node || "全路线"}</strong>
+                    {c.mechanism ? ` · ${c.mechanism}` : ""}
+                    {c.claim ? ` — ${c.claim}` : ""}
+                    {c.fix ? (
+                      <span className="note"> → {c.fix}</span>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {review.missed_voices && review.missed_voices.length > 0 && (
+            <p className="note">
+              被忽略的声音：{review.missed_voices.join("、")}
+            </p>
+          )}
+          {review.skipped_harder_node && (
+            <p className="note">更难却被跳过的节点：{review.skipped_harder_node}</p>
+          )}
+          {review.alternative_thesis && (
+            <p className="note">备选命题：{review.alternative_thesis}</p>
+          )}
+          {review.reverse_route_note && (
+            <p className="note">逆走注记：{review.reverse_route_note}</p>
           )}
         </div>
+      )}
 
       {sources.length > 0 && (
         <div className="done-sources">
