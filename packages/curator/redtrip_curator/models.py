@@ -22,7 +22,7 @@ class SourceRef:
 
 @dataclass
 class IdentityLayer:
-    kind: Literal["building", "event", "era", "poem", "person", "geoname", "literary", "classical"]
+    kind: Literal["building", "event", "era", "poem", "person", "geoname", "literary"]
     label: str
     claim: str
     source: SourceRef
@@ -48,6 +48,7 @@ class BuildingEvidence:
     whitelist_id: str | None = None
     coord_source: str = "none"
     precision: str = "schematic"
+    evidence_channel: str = "manual"
     pitfalls: dict[str, str] = field(
         default_factory=lambda: {
             "open_hours": "未收录",
@@ -83,6 +84,9 @@ class Intent:
     city: str = "shanghai"  # 策展城市 key（见 redtrip_curator.cities.CITY_REGISTRY）
 
 
+PlanAct = Literal["prologue", "focus", "transit", "epilogue"]
+
+
 @dataclass
 class PlannedStop:
     order: int
@@ -90,6 +94,7 @@ class PlannedStop:
     minutes: int
     meaning: str
     transition_to_next: str | None
+    act: PlanAct | None = None
 
 
 @dataclass

@@ -22,9 +22,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .hongyuan import VoicePack
-from .llm import chat_json, llm_configured
+from .llm import chat_json, llm_configured, submit_with_provider
 from .models import RoutePlan
-from .storyline import detect_arc
 from .sentence_provenance import (
     SentenceClaim,
     SentenceProvenanceReport,
@@ -371,21 +370,6 @@ def _chat_meta(
         "fact_catalog_by_stop": _fact_catalog_by_stop(plan),
     }
     voice_block = voice.as_prompt_block() if voice else "（未抽签，保持克制润色）"
-
-    # step④：叙事弧——仅据证据识别贯穿主线，要求 theme/logic_line 写成可贯穿全本的线
-    arc = detect_arc(plan)
-    arc_block = ""
-    main = arc.get("main_thread")
-    if main:
-        arc_block = (
-            "\n\n【叙事弧（典籍新生主线）】本路线的贯穿主线已据证据自动识别为："
-            f"类型={main['type']}，人物/朝代={main['label']}，覆盖第 {main['orders']} 站。"
-            "请把 theme / logic_line 写成一条可贯穿全本的「线」：开头点出这条主线"
-            "（城市记忆被放大、古老足迹被发掘与溯源），中间各章沿主线递进，"
-            "结尾收束到「写成书」的策展感。logic_line 必须显式串起主线与每一站的关联，"
-            "不要用泛泛的「历史与现代交融」「独树一帜」替代具体事实。"
-        )
-
     user = (
         f"{voice_block}\n\n"
         "以下是已取证事实目录（fact_catalog_by_stop）与模板草稿。"
@@ -393,7 +377,6 @@ def _chat_meta(
         "meaning / transition_to_next），返回 JSON。\n"
         + json.dumps(payload, ensure_ascii=False)
         + "\n\n" + _META_SCHEMA
-        + arc_block
         + "\n\n【衔接句纪律】transition_to_next 必须仍是史实/人物/记载理由，"
         "禁止「步行可达/顺路」当主理由；套话与禁词由 Gate 在末端统一复核，"
         "本提示不再重复列举，请自然写出即可。"
@@ -511,100 +494,25 @@ def _chat_card(
     # 站点名称（card.title 来自 draft_card）
     stop_meta["name"] = (card.get("title") or "").split("·")[-1].strip() or stop_meta.get("name", "")
 
-    # ── 典籍新生 B：把人物结构化喂给 LLM，叙事主体从「楼」改成「人物/记载」 ──
-    # 从 facts 抽出本站所有人物图层（person / classical），按「主角/对照/被遮蔽者」排序：
-    # - 主角：名字出现在建筑名里的（如「巴金故居」的「巴金」），或典籍已验证溯源的人物
-    # - 被遮蔽者：容易被忽略的人物（如丹麦人史宾伯、外国人毛特宝林海）——正是典籍新生要发掘的
-    # - 对照：其他人物
-    building_name = stop_meta.get("name", "")
-    figures_struct: dict[str, Any] = {"protagonist": [], "contrast": [], "obscured": [], "classical": []}
-    seen_names: set[str] = set()
-    for f in facts:
-        rid = str(f.get("fact_uri") or "")
-        label = str(f.get("label") or "")
-        claim = str(f.get("claim") or "")
-        # 人物图层
-        if rid.startswith("person:") or "开放数据将该建筑与人物" in claim:
-            # 解析人物名：从「开放数据将该建筑与人物「XXX」建立关联」里抽
-            import re as _re
-            m = _re.search(r"人物「([^」]+)」", claim)
-            name = m.group(1) if m else (label if label and len(label) <= 6 else "")
-            if not name or name in seen_names:
-                continue
-            seen_names.add(name)
-            entry = {"name": name, "claim": claim, "fact_uri": rid}
-            # 主角：名字在建筑名里
-            if name and name in building_name:
-                figures_struct["protagonist"].append(entry)
-            # 被遮蔽者：外国人名（含外文/译名特征）或非主角的非中文常见名
-            elif _re.search(r"[A-Za-z]{4,}|[A-Z][a-z]+", name) or any(
-                kw in name for kw in ("史宾伯", "毛特", "宝林", "鲍尔", "外国人", "丹麦", "英国", "俄国")
-            ):
-                figures_struct["obscured"].append(entry)
-            else:
-                figures_struct["contrast"].append(entry)
-        # 典籍图层（CBDB 已验证）
-        elif "classical" in rid or "cbdb" in rid.lower() or f.get("layer") == "classical":
-            m = _re.search(r"典籍 · ([^：\s]+)", label) or _re.search(r"人物「?([^」]+)」?", label)
-            name = m.group(1) if m else label
-            if name and name not in seen_names:
-                seen_names.add(name)
-                figures_struct["classical"].append({
-                    "name": name, "claim": claim, "fact_uri": rid, "verified": True,
-                })
-    stop_meta["figures"] = figures_struct
-
-    # step④：本章在整本中的位置（卷→章→节递进），让单卡承接上一章、引出下一章
-    arc = meta_ctx.get("narrative_arc") or {}
-    arc_hint = ""
-    main = arc.get("main_thread")
-    total = int(arc.get("total_stops", 1) or 1)
-    if main:
-        pos = "开篇" if stop_order == 1 else ("收束" if stop_order == total else f"第 {stop_order}/{total} 章")
-        arc_hint = (
-            f"\n【本章位置】本文是整本的第 {stop_order}/{total} 章（{pos}）。"
-            f"全本主线：{main['label']}（{main['type']}）。"
-            "请让本卡的 title / body 承接上一章、引出下一章，使全本像一册被翻开的典籍："
-            "人物与记载沿主线递进，避免各章各自为战；不要写「下一站是」式转场。"
-        )
-
     user = (
         f"{voice_block}\n\n"
-        "【典籍新生叙事指令】请基于下面 stop_metadata（含 figures 人物结构）与 "
-        "fact_catalog，写该站点一张独特的叙事卡（title / body / age_parallel）。\n"
-        "核心原则——叙事主体是人，不是楼：\n"
-        "0) 这张卡的主角是「人」，不是「建筑」。建筑是人留下的舞台痕迹。"
-        "开篇第一句必须落在一个具体的人名或一个具体年份的记载上，不要以建筑名开头，"
-        "不要以「这里」「这栋」「走进」开头。\n"
-        "1) 人物结构（stop_metadata.figures）已为你分好类：\n"
-        "   - protagonist：名字写进建筑名里的主人公（如「巴金故居」的巴金）\n"
-        "   - obscured：容易被忽略的人——外国人、照看房产的中间人、被遮蔽的关联者"
-        "（如丹麦人史宾伯照看毛特宝林海的房产，再租给上海作协）。典籍新生要发掘的"
-        "正是这类被遗忘者，请给他们至少一句具体记载。\n"
-        "   - classical：从典籍（CBDB）中考据出的历史人物，已验证溯源，请点明其典籍出处。\n"
-        "   - contrast：同时代/同事件里的对照人物，用于呈现张力。\n"
-        "2) body 写成「一段人物在地点上的情节」：时间 + 人物 + 发生在此的事 + 出处。"
-        "可以穿插多位人物（主角—被遮蔽者—对照），让一栋楼成为几代人命运的容器。"
-        "禁止把建筑沿革/地址/场所类型堆成清单——这些信息只能化进人物的情节里。\n"
-        "3) 禁止导游腔：绝对禁止出现以下字串（评审会逐字匹配并整篇判废）：\n"
-        "   「你站在 / 你脚下 / 你忽然 / 你此刻 / 你离开 / 你遇见 / 你会先遇见 / "
-        "你带走 / 你眼前 / 你带着」。\n"
-        "   可用自然的「你」（如「你若在此驻足」「你抬头看」）。\n"
-        "4) 禁止套话：绝对禁止出现以下字串：\n"
-        "   「一键 / 省事 / 省时 / 省力 / 再也不用查攻略 / 伟大的革命 / 永垂不朽 / "
-        "集合出发 / 打卡任务 / 带队前往 / 融汇中西 / 值得一提的是 / 仿佛穿越回老上海 / "
-        "穿越回老上海 / 仿佛穿越 / 历史与现代在此交融 / 古今交融 / 仿佛时光倒流」。\n"
-        "   每一句都必须落到本站某个可核实细节上。不得编造。\n"
-        "5) 标题用「人物与『地名』」「人名：命题」等结构，禁止以纯地名或「在『地名』停一下」开头。\n"
-        "6) age_parallel 仅在确实有跨时代对照时填写，否则置空。\n"
-        "7) 同一 JSON 内逐句溯源（provenance 数组，每句一条，fact_uri 仅取自 fact_catalog）。"
-        "只输出该站内容。\n"
-        "8) 【风格范例】这是理想的开篇写法（仅供参考，勿照抄人名地名）：\n"
-        "   「1955 年 9 月，巴金一家搬进武康路 113 号时，那扇门后还留着丹麦人史宾伯的钥匙。"
-        "他曾在 1948 年接下这栋房子的照看之责，那时原房主英国人毛特宝林海已远走。」\n"
-        "   注意：开篇是具体年份 + 具体人物 + 一个可核实的细节（钥匙），不是形容词堆砌。\n"
-        + arc_hint
-        + f"\nstop_metadata: {json.dumps(stop_meta, ensure_ascii=False)}\n"
+        "请基于下面 stop_metadata 与 fact_catalog，写该站点一张独特的故事卡（title / body / age_parallel）。\n"
+        "硬性规则：\n"
+        "0) 像人在说话，不像展签在念稿：把事实讲成有温度、有观点、有去处的故事。"
+        "主语可以是地名 / 建筑 / 人，也可以用自然的「你」（如「你若在此驻足」），但严禁"
+        "「你站在 / 你脚下 / 你忽然 / 你此刻 / 你离开 / 你遇见 / 你带走 / 你眼前」这种把"
+        "读者按在街景里指挥的导游腔。\n"
+        "1) 标题与正文必须引用 stop_metadata 中的真实信息（地址/年代/风格/人物），"
+        "禁止「未收录/诚实比完整更重要/借一段旧时光」等套话；不得编造事实，"
+        "套话与禁词由 Gate 在末端统一复核。\n"
+        "1.5) 标题禁止以「在『地名』停一下」或纯地名开头——用「人物与『地名』」「地名：命题」等更有信息量的结构，且相邻章节标题句式不得重复。\n"
+        "1.6) 套话负向约束：不得用概括性抒情替代具体事实（如「历史与现代交融」「别有一番风味」「独树一帜」），"
+        "每一句都必须落到本站的某个可核实细节上。\n"
+        "2) 如有 characters，必须在正文里带出至少一位人物及其与该地点的关联。\n"
+        "3) 如有 landmark_description，直接引用其关键事实（不要逐字照抄），并改写为可读段落。\n"
+        "4) age_parallel 仅在确实有跨时代对照时填写，否则置空字符串。\n"
+        "5) 同一 JSON 内逐句溯源（provenance 数组，每句一条）。只输出该站内容，不要输出其他站点。\n"
+        f"\nstop_metadata: {json.dumps(stop_meta, ensure_ascii=False)}\n"
         + json.dumps(payload, ensure_ascii=False)
         + "\n\n" + _CARD_SCHEMA
         + "\n\n" + _CARD_BODY_GUIDANCE
@@ -629,116 +537,6 @@ def _chat_card(
     )
     card_patch = {k: patch.get(k) for k in ("title", "body", "age_parallel")}
     return card_patch, provenance, []
-
-
-def _chat_weave(
-    cards_snapshot: list[dict[str, Any]],
-    meta_ctx: dict[str, Any],
-    voice: VoicePack | None,
-    allowed_years: set[str],
-) -> tuple[dict[str, Any] | None, list[str]]:
-    """全书编织（典籍新生 step③）：所有卡生成后，看全本回头给每张卡加呼应句。
-
-    6 张卡是并行独立生成的，彼此不知道对方写了什么。本书要求「卷→章→节」的
-    贯穿感：意象呼应、人物跨站回响、收束感。本函数把全本卡的 title + 开篇 +
-    结尾摘要喂给 LLM，让它为每张卡产出「呼应句」（承接上一章或收束全书），
-    追加到该卡 body 末尾。只加呼应不删改原文，不触碰 sources，不臆造事实。
-
-    返回 (weave_patch_or_None, notes)。weave_patch 形如：
-    {"stops": [{"order": 2, "echo_line": "一句承接/呼应的话"}]}
-    """
-    if not llm_configured():
-        return None, ["全书编织跳过：LLM 未配置"]
-    if len(cards_snapshot) < 2:
-        return None, ["全书编织跳过：站点不足 2"]
-    digest = []
-    for c in sorted(cards_snapshot, key=lambda x: x.get("stop_order", 0)):
-        body = str(c.get("body") or "")
-        digest.append(
-            {
-                "order": c.get("stop_order"),
-                "title": c.get("title"),
-                "opening": body[:80],
-                "ending": body[-60:] if body else "",
-            }
-        )
-    payload = {
-        "all_cards_digest": digest,
-        "theme": meta_ctx.get("theme"),
-        "logic_line": meta_ctx.get("logic_line"),
-    }
-    voice_block = voice.as_prompt_block() if voice else "（未抽签，保持克制润色）"
-    schema = """JSON schema：
-{
-  "stops": [{"order": 2, "echo_line": "一句话，承接上一章或呼应全本主线的意象"}]
-}
-要求：
-- 只为「确实能形成呼应」的站输出 echo_line（通常 2-4 站），不要每站都硬写。
-- echo_line 必须基于 digest 里已有的内容（人物/事件/意象），不得引入新事实。
-- echo_line 追加到该卡 body 末尾，作为自然收束句，不得出现「上一章」「下一站」字样。"""
-    user = (
-        f"{voice_block}\n\n"
-        "以下是全本各章叙事卡的摘要（title / 开篇 / 结尾）。这是一本关于城市记忆的"
-        "「典籍」：人物与记载沿一条线递进。请找出能形成跨章呼应的意象或人物"
-        "（如一把钥匙的传递、一个被遗忘者的名字重现），为少数几站各写一句呼应句，"
-        "让全本有「书」的贯穿感。\n"
-        + json.dumps(payload, ensure_ascii=False)
-        + "\n\n" + schema
-    )
-    try:
-        patch = chat_json(
-            system="你是一位懂文学的策展编辑，只输出 JSON。",
-            user=user, temperature=0.5,
-            backend="auto", role="creative",
-            timeout=120,
-        )
-    except Exception as e:  # noqa: BLE001
-        return None, [f"全书编织失败，跳过：{e}"]
-    if not isinstance(patch, dict):
-        return None, ["全书编织返回非对象，跳过"]
-    # 校验年份（呼应句不得引入新年份）
-    stops = patch.get("stops")
-    if not isinstance(stops, list):
-        return None, ["全书编织缺少 stops，跳过"]
-    clean: list[dict[str, Any]] = []
-    notes: list[str] = []
-    for item in stops:
-        if not isinstance(item, dict):
-            continue
-        line = str(item.get("echo_line") or "").strip()
-        if not line:
-            continue
-        bad = _suspicious_new_years(line, allowed_years)
-        if bad:
-            notes.append(f"全书编织拒绝 stop{item.get('order')}：未取证年份 {bad[:3]}")
-            continue
-        clean.append({"order": item.get("order"), "echo_line": line})
-    if not clean:
-        return None, ["全书编织无有效呼应句"]
-    return {"stops": clean}, notes
-
-
-def _apply_weave(out: dict[str, Any], weave_patch: dict[str, Any]) -> list[str]:
-    """把呼应句追加到对应卡 body 末尾。返回 notes。"""
-    notes: list[str] = []
-    stop_lines = {
-        int(item.get("order") or 0): str(item.get("echo_line") or "").strip()
-        for item in (weave_patch.get("stops") or [])
-        if isinstance(item, dict)
-    }
-    for b in out.get("blocks") or []:
-        if not isinstance(b, dict) or b.get("type") != "story_card":
-            continue
-        so = int(b.get("stop_order") or 0)
-        line = stop_lines.get(so)
-        if not line:
-            continue
-        body = str(b.get("body") or "")
-        if not body:
-            continue
-        b["body"] = body.rstrip() + "\n" + line
-        notes.append(f"全书编织: stop{so} 追加呼应句")
-    return notes
 
 
 def _chat_essay(
@@ -881,8 +679,6 @@ def polish_envelope(
             "why_visit": out.get("why_visit"),
             "curator_note": out.get("curator_note"),
         }
-        # step④：把贯穿主线随风格上下文一起传给逐卡，使单卡知道自己在整本中的章位置
-        meta_ctx["narrative_arc"] = detect_arc(plan)
 
     # 2) 逐卡并行 + 完成即回调
     facts_by_stop = _fact_catalog_by_stop(plan)
@@ -894,12 +690,21 @@ def polish_envelope(
     if not cards:
         return out, notes, None
 
+    polish_workers = max(1, int(os.getenv("REDTRIP_POLISH_WORKERS", "4")))
+    max_workers = min(polish_workers, len(cards))
+
     prov_parts: list[dict[str, Any]] = []
-    with ThreadPoolExecutor(max_workers=min(4, len(cards))) as pool:
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
         futs = {
-            pool.submit(
-                _chat_card, so, card, facts_by_stop.get(so, []),
-                meta_ctx, voice, allowed_years,
+            submit_with_provider(
+                pool,
+                _chat_card,
+                so,
+                card,
+                facts_by_stop.get(so, []),
+                meta_ctx,
+                voice,
+                allowed_years,
             ): so
             for so, card in cards
         }
@@ -933,35 +738,23 @@ def polish_envelope(
         except Exception:  # noqa: BLE001
             sp = None
 
-    # 3.5) 全书编织（典籍新生 step③）：所有卡生成后看全本回头加呼应句
-    # 让「卷→章→节」有贯穿感：意象呼应、人物跨站回响。失败仅跳过，不阻断。
-    if os.getenv("REDTRIP_WEAVE", "1") != "0":
-        cards_snapshot = [
-            {"stop_order": b.get("stop_order"), "title": b.get("title"), "body": b.get("body")}
-            for b in out.get("blocks") or []
-            if isinstance(b, dict) and b.get("type") == "story_card"
-            and b.get("body")
-        ]
-        weave_patch, weave_notes = _chat_weave(
-            cards_snapshot, meta_ctx, voice, allowed_years,
-        )
-        notes.extend(weave_notes)
-        if weave_patch:
-            notes.extend(_apply_weave(out, weave_patch))
-
     # 4) 逐站长散文「路线零件」并行生成（与卡片同 fact_catalog，独立成 block）
-    # 典籍新生优化：essay 长散文前端不消费、只进导出的书（book.py 渲染），
-    # 却占一次策展 ~60-90s 与 81% 的 token。默认关闭（REDTRIP_ESSAY=0），
-    # 阅读场景只生成 card（时间减半）；导出「书」要长文时再开 REDTRIP_ESSAY=1。
     essay_blocks: list[dict[str, Any]] = []
-    if os.getenv("REDTRIP_ESSAY", "0") != "0":
+    if os.getenv("REDTRIP_POLISH_ESSAYS", "1") != "0":
         essay_futs = {}
-        with ThreadPoolExecutor(max_workers=min(4, len(cards))) as pool:
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
             for so, _card in cards:
-                essay_futs[pool.submit(
-                    _chat_essay, so, facts_by_stop.get(so, []),
-                    meta_ctx, voice, allowed_years,
-                )] = so
+                essay_futs[
+                    submit_with_provider(
+                        pool,
+                        _chat_essay,
+                        so,
+                        facts_by_stop.get(so, []),
+                        meta_ctx,
+                        voice,
+                        allowed_years,
+                    )
+                ] = so
             for fut in as_completed(essay_futs):
                 so = essay_futs[fut]
                 essay_patch, essay_prov, essay_notes = fut.result()

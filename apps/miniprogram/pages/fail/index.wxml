@@ -1,0 +1,14 @@
+<view class="container fail-page">
+  <view class="panel">
+    <text class="kicker">这一程暂时没装订成册</text>
+    <view class="title">策展遇到了一点阻碍</view>
+    <view class="msg">{{message}}</view>
+    <view class="hints">
+      <text class="hint-item">· 网络不稳时可稍后再试</text>
+      <text class="hint-item">· 可先点「演示武康」秒开看形态</text>
+      <text class="hint-item">· 真策展通常需要数分钟，请保持前台</text>
+    </view>
+    <button class="btn-primary" bindtap="onRetry">返回重新出题</button>
+    <button class="btn-secondary" bindtap="onDemo">试试演示线</button>
+  </view>
+</view>

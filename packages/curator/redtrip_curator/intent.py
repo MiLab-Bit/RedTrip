@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from .cities import get_city
 from .models import Intent
 
 DEFAULTS = {
@@ -53,6 +54,9 @@ def parse_intent(
     if daypart not in ("day", "night", "full", "suburb"):
         daypart = "day"
 
+    # city 会拼进语料文件名：必须经白名单 + 注册表，非法回退 shanghai
+    city_key = get_city(str(values.get("city") or "")).key
+
     return Intent(
         audience=str(values["audience"]),
         scene=str(values["scene"]),
@@ -63,7 +67,7 @@ def parse_intent(
         assumptions=assumptions,
         message=message,
         daypart=daypart,
-        city=str(values["city"]),
+        city=city_key,
     )
 
 

@@ -1,0 +1,1416 @@
+{
+  "envelope_version": "1.0",
+  "intent": "和同伴走一段约 90 分钟、从石库门到外滩的开埠记忆线",
+  "theme": "从一大到外滩：石库门与万国建筑",
+  "logic_line": "从中共一大会址片区出发，经宋庆龄故居，走到外滩汇丰、外滩18、中国银行与怡和洋行：组织史×人物史×开埠界面，而不是点位清单。",
+  "aesthetic": "克制、留白、海派明信片",
+  "scenario": "双人 · 轻松 · 约 90 分钟 · 一大—外滩",
+  "why_visit": "你不是来完成任务，而是来辨认：从石库门到江岸，哪些名字仍能在馆藏或词库里核对。",
+  "curator_note": "这条线选点，不是因为它们顺路，而是因为它们能诚实标注证据通道：一大片区以地名志核录，宋庆龄故居可点上图 URI，外滩段以策展词库与 OSM 坐标核录（无 URI 者不伪装馆藏）。点与点之间用人物与开埠理由衔接，而不是用「步行五分钟」充当理由。",
+  "assumptions": [
+    "默认人群=成人",
+    "调性=轻社交",
+    "时长=90 分钟",
+    "场景=一大—外滩",
+    "演示线=一大外滩冻结包"
+  ],
+  "companions": "duo",
+  "sources": [
+    "geonames_corpus",
+    "slc_building",
+    "landmark_corpus",
+    "fixture:demo-route-yida"
+  ],
+  "route": {
+    "duration_min": 90,
+    "walk_meters_est": 4200,
+    "stops": [
+      {
+        "order": 1,
+        "whitelist_id": "wl-001",
+        "buri": null,
+        "name": "中共一大会址纪念馆周边",
+        "minutes": 16,
+        "meaning": "石库门里的组织史：从门牌进入可核的史实节点",
+        "transition_to_next": "带着「一大」的名字走向淮海中路：人物史会把红色叙事接到城市居住记忆。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "中共一大会址纪念馆周边见策展词库记录，坐标与命名可核。",
+            "source": {
+              "dataset": "geonames_corpus",
+              "record_id": "中共一大会址纪念馆",
+              "excerpt": "中共一大会址纪念馆周边 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "代表与组织",
+            "claim": "兴业路石库门片区承载中共一大相关组织记忆，可与地名志交叉阅读。",
+            "source": {
+              "dataset": "geonames_corpus",
+              "record_id": "中共一大会址纪念馆",
+              "excerpt": "中共一大会址纪念馆周边 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "一大召开",
+            "claim": "1921年党的一大在此片区召开；具体门牌与展陈以纪念馆现场与地名志为准。",
+            "source": {
+              "dataset": "geonames_corpus",
+              "record_id": "中共一大会址纪念馆",
+              "excerpt": "中共一大会址纪念馆周边 · 竞赛演示核录"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2224,
+          "lng": 121.4706,
+          "coord_source": "osm",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公告为准",
+          "enterable": "外立面/公共区可观",
+          "need_reservation": "未收录精确规则"
+        },
+        "evidence_channel": "manual",
+        "act": "prologue"
+      },
+      {
+        "order": 2,
+        "whitelist_id": "wl-111",
+        "buri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+        "name": "宋庆龄故居",
+        "minutes": 14,
+        "meaning": "从组织史接到人物史：故居作为时代对照节点",
+        "transition_to_next": "从淮海路的故居走向外滩：开埠天际线会把「人与时代」放大成城市界面。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "宋庆龄故居见上图建筑实体记录，坐标与命名可核。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "excerpt": "上图建筑实体：宋庆龄故居"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "宋庆龄",
+            "claim": "宋庆龄故居承载人物在上海的居住与公务记忆，可与上图建筑实体交叉阅读。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "excerpt": "上图建筑实体：宋庆龄故居"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "居住与公务",
+            "claim": "故居作为「居住—公务」叠合的公共叙事节点，可与建筑层对照阅读。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "excerpt": "上图建筑实体：宋庆龄故居"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2038,
+          "lng": 121.4404,
+          "coord_source": "upstream",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公告为准",
+          "enterable": "外立面/公共区可观",
+          "need_reservation": "未收录精确规则"
+        },
+        "evidence_channel": "slc",
+        "act": "focus"
+      },
+      {
+        "order": 3,
+        "whitelist_id": "wl-036",
+        "buri": null,
+        "name": "前汇丰银行大楼",
+        "minutes": 13,
+        "meaning": "开埠金融权力如何写进立面",
+        "transition_to_next": "从汇丰的柱廊走向海关钟楼：同一排界面里，公私权力交替可见。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "前汇丰银行大楼见策展词库记录，坐标与命名可核。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "汇丰银行大楼",
+              "excerpt": "前汇丰银行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "赫伯特·查尔斯·派克",
+            "claim": "汇丰银行大楼与公和洋行设计团队相关记载，可与建筑沿革对照。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "汇丰银行大楼",
+              "excerpt": "前汇丰银行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "市府驻地",
+            "claim": "1955年起曾作为上海市人民政府驻地，用途更替清晰可核。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "汇丰银行大楼",
+              "excerpt": "前汇丰银行大楼 · 竞赛演示核录"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.238004,
+          "lng": 121.485757,
+          "coord_source": "osm",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公告为准",
+          "enterable": "外立面/公共区可观",
+          "need_reservation": "未收录精确规则"
+        },
+        "evidence_channel": "landmark",
+        "act": "transit"
+      },
+      {
+        "order": 4,
+        "whitelist_id": "wl-034",
+        "buri": null,
+        "name": "麦加利银行大楼",
+        "minutes": 12,
+        "meaning": "外滩18号：从银行立面到艺术入口",
+        "transition_to_next": "沿万国建筑博览群继续：中国银行大楼会把民族资本写进同一天际线。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "麦加利银行大楼见策展词库记录，坐标与命名可核。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "外滩18号",
+              "excerpt": "麦加利银行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "托玛斯·杰克逊",
+            "claim": "麦加利银行大楼（外滩18号）与近代银行人物层可对照阅读。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "外滩18号",
+              "excerpt": "麦加利银行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "用途更替",
+            "claim": "由银行用途更新为艺术中心，用途更替可与立面沿革对照。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "外滩18号",
+              "excerpt": "麦加利银行大楼 · 竞赛演示核录"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.2404,
+          "lng": 121.485387,
+          "coord_source": "osm",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公告为准",
+          "enterable": "外立面/公共区可观",
+          "need_reservation": "未收录精确规则"
+        },
+        "evidence_channel": "landmark",
+        "act": "focus"
+      },
+      {
+        "order": 5,
+        "whitelist_id": "wl-031",
+        "buri": null,
+        "name": "中国银行大楼",
+        "minutes": 12,
+        "meaning": "民族资本与万国建筑并置",
+        "transition_to_next": "最后停在怡和洋行：贸易洋行把开埠早期逻辑收束到江岸。",
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "中国银行大楼见策展词库记录，坐标与命名可核。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "中国银行大楼",
+              "excerpt": "中国银行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "中国银行",
+            "claim": "中国银行大楼体现民族资本在外滩界面的落点，可与建筑层对照。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "中国银行大楼",
+              "excerpt": "中国银行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "立面沿革",
+            "claim": "中国银行大楼立面沿革可与同排万国建筑对照阅读。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "中国银行大楼",
+              "excerpt": "中国银行大楼 · 竞赛演示核录"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.241483,
+          "lng": 121.485395,
+          "coord_source": "osm",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公告为准",
+          "enterable": "外立面/公共区可观",
+          "need_reservation": "未收录精确规则"
+        },
+        "evidence_channel": "landmark",
+        "act": "transit"
+      },
+      {
+        "order": 6,
+        "whitelist_id": "wl-032",
+        "buri": null,
+        "name": "怡和洋行大楼",
+        "minutes": 13,
+        "meaning": "收束：贸易洋行写进开埠天际线",
+        "transition_to_next": null,
+        "layers": [
+          {
+            "kind": "building",
+            "label": "建筑",
+            "claim": "怡和洋行大楼见策展词库记录，坐标与命名可核。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "怡和洋行大楼",
+              "excerpt": "怡和洋行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "person",
+            "label": "怡和洋行",
+            "claim": "怡和洋行大楼承载开埠贸易洋行记忆，可与建筑沿革对照。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "怡和洋行大楼",
+              "excerpt": "怡和洋行大楼 · 竞赛演示核录"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "开埠贸易",
+            "claim": "怡和洋行作为早期贸易洋行代表，可与外滩开埠叙事对照阅读。",
+            "source": {
+              "dataset": "landmark_corpus",
+              "record_id": "怡和洋行大楼",
+              "excerpt": "怡和洋行大楼 · 竞赛演示核录"
+            }
+          }
+        ],
+        "geo": {
+          "lat": 31.242325,
+          "lng": 121.48558,
+          "coord_source": "osm",
+          "precision": "approximate"
+        },
+        "pitfalls": {
+          "open_hours": "以现场公告为准",
+          "enterable": "外立面/公共区可观",
+          "need_reservation": "未收录精确规则"
+        },
+        "evidence_channel": "landmark",
+        "act": "epilogue"
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "type": "story_card",
+      "stop_order": 1,
+      "title": "兴业路76号：一桩弄堂里的组织史",
+      "body": "石库门片区的砖墙先于一切叙事抵达视野。兴业路76号一带的里弄结构，本身就是一份可被翻阅的档案——青红砖相间的外墙、黑漆木门与门楣上的雕花，是上海开埠后批量生长的民居样本。据公开地名志记载，1921年中国共产党第一次全国代表大会在此片区召开；具体门牌与展陈细节，以纪念馆现场与地名志交叉核实为准。这里要看的不是一块孤立的门牌，而是整片石库门肌理如何承载了一桩组织记忆。周边里弄构成了「一大」红色文化片区——会议发生在日常居住空间里，而非某个被专门腾出的宏大殿堂。这一点值得反复咀嚼：1921年的兴业路还不是「纪念馆周边」，它是居民晾衣、买菜、串弄堂的活街区。组织史就这样嵌入了生活史的缝隙。地名志给出的是可核的方位与沿革小注，它不替代现场导览，但提供了一个结实的锚点——当你对着外滩天际线对照着看这座城市的天际轮廓，黄浦江畔的金融叙事与兴业路弄堂里的组织叙事，几乎是同一座城市同时长出来的两条根。带着「一大」的名字走向淮海中路，红色叙事将从会议空间转向居住空间——下一站的宋庆龄故居，正是把组织史接到个人生活史的第一个节点。",
+      "sources": [
+        {
+          "dataset": "geonames_corpus",
+          "record_id": "中共一大会址纪念馆",
+          "excerpt": "兴业路76号；1921年一大在此召开"
+        }
+      ],
+      "age_parallel": "1921年的兴业路石库门与当代外滩天际线共享同一座城市框架：一边是弄堂里悄然生长的组织记忆，一边是黄浦江畔不断刷新的金融轮廓——两条叙事根茎几乎同时破土，各自长成了今天被对照阅读的城市切片。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 1,
+      "place": "兴业路76号 · 中共一大会址纪念馆周边",
+      "era_desc": "1921年党的一大在此召开；石库门里弄密集。",
+      "figures": "代表与组织",
+      "city_thread": "从门牌进入可核的组织史节点",
+      "today": "以纪念馆开放安排为准",
+      "visual_note": "只观外立面与公共通道；具体展陈以现场为准。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 2,
+      "title": "宋庆龄与「宋庆龄故居」",
+      "body": "你停在淮海中路一带的「宋庆龄故居」前。从兴业路的组织史再往前走，人物史会把红色叙事接到城市居住记忆。\n\n据上图建筑实体与公开记载交叉阅读：故居始建于1920年代；1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。\n\n这与前一站的门牌与里弄结构不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。\n\n开放时间以官网与现场公告为准。按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
+      "sources": [
+        {
+          "dataset": "slc_building",
+          "record_id": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+          "excerpt": "宋庆龄故居 · 1920年代始建；1949年后长期居此"
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "stop_order": 2,
+      "place": "淮海中路 · 宋庆龄故居",
+      "era_desc": "1920年代始建；1949年后宋庆龄长期居此，从事国务与公益活动。",
+      "figures": "宋庆龄",
+      "city_thread": "从组织史接到人物史",
+      "today": "开放时间以官网/现场为准",
+      "visual_note": "按参观动线行走；把人名轻轻放回年代。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 3,
+      "title": "汇丰与「前汇丰银行大楼」",
+      "body": "你停在中山东一路12号的「前汇丰银行大楼」前。从淮海路的人物史走到外滩，开埠天际线把「人与时代」放大成城市界面。\n\n据策展词库核录与公开建筑沿革：\n1923年落成，公和洋行（Palmer & Turner）设计，新古典主义风格，落成时号称「从苏伊士运河到远东最华贵的建筑」。建筑主体高五层，中央部分高七层，中段三层以上为希腊式穹顶，爱奥尼式立柱贯通二至四层——公私权力被写进同一立面语法。\n\n铜狮子在二战时被日军熔为弹药，回收后仅余两尊。1955年起成为上海市人民政府驻地，故又被人称作「市府大楼」。底层门廊顶部原画「八国通商图」彩绘现藏浦东美术馆。\n\n这一站读的是金融权力如何写进柱廊与立面——不是看夜景，而是看开埠界面如何把公私权力钉在同一排天际线上。下一站的麦加利银行大楼，会把「银行立面→艺术入口」的用途更替推到你眼前。",
+      "sources": [
+        {
+          "dataset": "landmark_corpus",
+          "record_id": "汇丰银行大楼",
+          "excerpt": "1923落成；1955市府驻地；公和洋行设计"
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "stop_order": 3,
+      "place": "中山东一路12号 · 前汇丰银行大楼",
+      "era_desc": "1923落成；1955起市府驻地；新古典主义柱廊。",
+      "figures": "赫伯特·查尔斯·派克、公和洋行（交叉阅读）",
+      "city_thread": "开埠金融权力写进立面",
+      "today": "外立面可观 · 银行入口勿挡通道",
+      "visual_note": "抬头看爱奥尼柱廊；通道标策展词库。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 4,
+      "title": "外滩18与「麦加利银行大楼」",
+      "body": "你停在中山东一路18号的「麦加利银行大楼」前。从汇丰的柱廊再往前走，同一排界面里用途开始更替。\n\n据策展词库核录：原英国渣打银行上海分行，1923年落成，公和洋行设计，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。2004年改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。\n\n银行立面到艺术入口——这一站的主题是用途更替：同一栋楼如何在开埠贸易、金融与当代文化消费之间换手，而立面仍是对外可读的界面。抬眼看穹顶与柱廊，把「1923」与「2004」当作同一栋楼的两段章节，而不是两个打卡点。",
+      "sources": [
+        {
+          "dataset": "landmark_corpus",
+          "record_id": "外滩18号",
+          "excerpt": "1923麦加利银行；2004改造为艺术中心"
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "stop_order": 4,
+      "place": "中山东一路18号 · 麦加利银行大楼",
+      "era_desc": "1923银行立面；2004艺术中心改造。",
+      "figures": "托玛斯·杰克逊（交叉阅读）",
+      "city_thread": "从银行立面到艺术入口",
+      "today": "以现场管理为准",
+      "visual_note": "尊重商业与参观秩序；通道标 landmark。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 5,
+      "title": "「中国银行大楼」与民族资本",
+      "body": "你继续沿中山东一路看「中国银行大楼」。万国建筑博览群里，不同资本逻辑并置在同一天际线——这是外滩作为开埠界面的关键，不是单栋建筑的漂亮照片。\n\n据 OSM 坐标与策展词库交叉阅读：中国银行大楼体现民族资本在外滩界面的落点，可与同排汇丰、麦加利等洋行建筑对照阅读——谁写进柱廊，谁写进立面，谁在后来说话。\n\n沿万国建筑博览群继续走：下一站的怡和洋行会把贸易洋行的早期逻辑收束到江岸。",
+      "sources": [
+        {
+          "dataset": "landmark_corpus",
+          "record_id": "中国银行大楼",
+          "excerpt": "民族资本落点 · 与万国建筑并置"
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "stop_order": 5,
+      "place": "中山东一路 · 中国银行大楼",
+      "era_desc": "民族资本与万国建筑并置的对照阅读。",
+      "figures": "中国银行（交叉阅读）",
+      "city_thread": "并置阅读开埠界面",
+      "today": "外立面可观 · 沿江人行道慢走",
+      "visual_note": "把汇丰、18号与本站并置看天际线。"
+    },
+    {
+      "type": "story_card",
+      "stop_order": 6,
+      "title": "贸易洋行：外滩叙事的收束与回望",
+      "body": "中山东一路27号的怡和洋行大楼，是这条漫游线最后的收束。从兴业路的石库门起步，一路经过组织史的旧址、人物故居、金融建筑的柱廊、银行更替的痕迹、民族资本的并置——走到江岸这栋贸易洋行的立面时，开埠早期的底层逻辑忽然变得可读：外滩的石头房子从来不只是天际线上的风景，它们最初是贸易的容器，是货单、航运、佣金和谈判桌堆出来的立面。\n\n怡和洋行作为早期贸易洋行的代表，在外滩开埠叙事里几乎不可跳过。策展词库将其标注为「承载开埠贸易洋行记忆」的建筑，可与建筑沿革对照阅读——这意味着，这栋楼的档案身份不只停留在砖石年代，而是与整个外滩作为贸易港口的起源绑在一起。词库同时给出一条路径：将它「与外滩开埠叙事对照阅读」。换句话说，怡和洋行大楼不是一座孤立的纪念碑，它是理解外滩为什么成为外滩的一把钥匙。\n\n走到这一站，值得做的不是急着拍照，而是沿江岸慢走一遍，把天际线从头到尾看一次。当代的外滩天际线对照，能让人直观感受到百年来江岸立面的层叠与更替——那些柱式、檐口、塔尖和平顶，各自代表着不同年代的贸易逻辑与权力格式。怡和洋行大楼在这条天际线里占据的位置，恰好是「早期贸易洋行」这一身份的物质锚点：它的存在提醒路过的人，外滩的第一波建筑浪潮，根子在贸易，不在金融。\n\n这条线从石库门走到贸易洋行，骨架不是景点排序，而是关系。组织如何在里弄中诞生，人物如何在故居中留下痕迹，金融如何用柱廊宣示信用，银行如何在更替中换旗，民族资本如何在夹缝中并置——这些关系最终都收束在怡和洋行的立面上。因为贸易洋行是外滩最早的故事，后来的银行、航运、保险、工业，都是从这条贸易根脉上分出去的枝杈。\n\n如果有人问起这条线该怎么用一句话转述，大概可以这样讲：外滩的石头房子不是一夜之间长出来的天际线布景，它们是一层一层的贸易逻辑、金融信用和民族资本博弈，从江岸一路往回推到石库门——关系才是这条线的骨架，怡和洋行大楼是那个让你看见「关系起点」的收束站。",
+      "sources": [
+        {
+          "dataset": "landmark_corpus",
+          "record_id": "怡和洋行大楼",
+          "excerpt": "早期贸易洋行 · 开埠收束"
+        }
+      ],
+      "age_parallel": "当代外滩天际线对照：沿江岸慢走时，百年来立面的层叠与更替直观可感——怡和洋行大楼作为早期贸易洋行的物质锚点，与后来金融、航运建筑的柱式和塔尖并置，让「贸易是外滩第一波建筑浪潮的根脉」这一判断，在视觉上成立。"
+    },
+    {
+      "type": "scene",
+      "stop_order": 6,
+      "place": "中山东一路 · 怡和洋行大楼",
+      "era_desc": "贸易洋行代表 · 开埠天际线收束。",
+      "figures": "怡和洋行（交叉阅读）",
+      "city_thread": "收束开埠天际线",
+      "today": "公共人行道可走",
+      "visual_note": "江岸慢走；回顾六大站的名字序列。"
+    },
+    {
+      "type": "card",
+      "title": "从一大到外滩：石库门与万国建筑",
+      "lead": "约 90 分钟，把开埠界面读成城市关系。",
+      "keywords": [
+        "一大",
+        "外滩",
+        "可溯源",
+        "通道诚实"
+      ],
+      "body": "一条以诚实证据通道串联的步行线：组织史、人物故居、万国建筑立面。",
+      "coda": "有 buri 的可点 URI；无 buri 的标 landmark，不伪装馆藏。"
+    }
+  ],
+  "sentence_provenance": {
+    "total_sentences": 38,
+    "factual_sentences": 16,
+    "aligned_factual": 16,
+    "coverage_ratio": 1.0,
+    "per_stop": [
+      {
+        "stop_index": 1,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你站在兴业路76号一带的石库门片区前。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 1,
+            "text": "组织史不是抽象口号——据公开地名志记载，1921年中国共产党第一次全国代表大会在此召开；",
+            "kind": "factual",
+            "fact_uris": [
+              "中共一大会址纪念馆"
+            ],
+            "fact_labels": [
+              "一大召开"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 2,
+            "text": "周边石库门里弄构成「一大」红色文化片区。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 3,
+            "text": "这一带的阅读方式，不是数弄堂口，而是辨认门牌与里弄结构：哪些空间曾承载组织记忆，哪些细节必须以纪念馆现场与展陈为准。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 4,
+            "text": "地名志给出的是可核的方位与沿革小注，不是替代现场导览。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 5,
+            "text": "带着「一大」的名字走向淮海中路：人物史会把红色叙事接到城市居住记忆——下一站的宋庆龄故居，就是这种接法的第一个节点。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          }
+        ]
+      },
+      {
+        "stop_index": 2,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你停在淮海中路一带的「宋庆龄故居」前。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "宋庆龄故居",
+              "宋庆龄"
+            ],
+            "aligned": true,
+            "grades": [
+              "A",
+              "A"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "从兴业路的组织史再往前走，人物史会把红色叙事接到城市居住记忆。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 2,
+            "text": "据上图建筑实体与公开记载交叉阅读：故居始建于1920年代；",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "1949年后，宋庆龄长期居此，是其从事国务与公益活动的主要住所之一。",
+            "kind": "factual",
+            "fact_uris": [
+              "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+            ],
+            "fact_labels": [
+              "宋庆龄"
+            ],
+            "aligned": true,
+            "grades": [
+              "A"
+            ]
+          },
+          {
+            "index": 4,
+            "text": "这与前一站的门牌与里弄结构不同：这里更靠近「居住—公务」叠合的公共叙事——一个人如何把私人生活与时代责任放在同一扇门后。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 5,
+            "text": "开放时间以官网与现场公告为准。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 6,
+            "text": "按参观动线行走，把人名轻轻放回年代，而不是把它当成打卡背景。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          }
+        ]
+      },
+      {
+        "stop_index": 3,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你停在中山东一路12号的「前汇丰银行大楼」前。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 1,
+            "text": "从淮海路的人物史走到外滩，开埠天际线把「人与时代」放大成城市界面。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 2,
+            "text": "据策展词库核录与公开建筑沿革：",
+            "kind": "factual",
+            "fact_uris": [
+              "汇丰银行大楼"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "1923年落成，公和洋行（Palmer & Turner）设计，新古典主义风格，落成时号称「从苏伊士运河到远东最华贵的建筑」。",
+            "kind": "factual",
+            "fact_uris": [
+              "汇丰银行大楼"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 4,
+            "text": "建筑主体高五层，中央部分高七层，中段三层以上为希腊式穹顶，爱奥尼式立柱贯通二至四层——公私权力被写进同一立面语法。",
+            "kind": "factual",
+            "fact_uris": [
+              "汇丰银行大楼"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "铜狮子在二战时被日军熔为弹药，回收后仅余两尊。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 6,
+            "text": "1955年起成为上海市人民政府驻地，故又被人称作「市府大楼」。",
+            "kind": "factual",
+            "fact_uris": [
+              "汇丰银行大楼"
+            ],
+            "fact_labels": [
+              "市府驻地"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 7,
+            "text": "底层门廊顶部原画「八国通商图」彩绘现藏浦东美术馆。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 8,
+            "text": "这一站读的是金融权力如何写进柱廊与立面——不是看夜景，而是看开埠界面如何把公私权力钉在同一排天际线上。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 9,
+            "text": "下一站的麦加利银行大楼，会把「银行立面→艺术入口」的用途更替推到你眼前。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          }
+        ]
+      },
+      {
+        "stop_index": 4,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你停在中山东一路18号的「麦加利银行大楼」前。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 1,
+            "text": "从汇丰的柱廊再往前走，同一排界面里用途开始更替。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 2,
+            "text": "据策展词库核录：原英国渣打银行上海分行，1923年落成，公和洋行设计，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。",
+            "kind": "factual",
+            "fact_uris": [
+              "外滩18号"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "2004年改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 4,
+            "text": "银行立面到艺术入口——这一站的主题是用途更替：同一栋楼如何在开埠贸易、金融与当代文化消费之间换手，而立面仍是对外可读的界面。",
+            "kind": "factual",
+            "fact_uris": [
+              "外滩18号"
+            ],
+            "fact_labels": [
+              "用途更替"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 5,
+            "text": "抬眼看穹顶与柱廊，把「1923」与「2004」当作同一栋楼的两段章节，而不是两个打卡点。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          }
+        ]
+      },
+      {
+        "stop_index": 5,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你继续沿中山东一路看「中国银行大楼」。",
+            "kind": "factual",
+            "fact_uris": [
+              "中国银行大楼"
+            ],
+            "fact_labels": [
+              "中国银行"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "万国建筑博览群里，不同资本逻辑并置在同一天际线——这是外滩作为开埠界面的关键，不是单栋建筑的漂亮照片。",
+            "kind": "factual",
+            "fact_uris": [
+              "中国银行大楼"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 2,
+            "text": "据 OSM 坐标与策展词库交叉阅读：中国银行大楼体现民族资本在外滩界面的落点，可与同排汇丰、麦加利等洋行建筑对照阅读——谁写进柱廊，谁写进立面，谁在后来说话。",
+            "kind": "factual",
+            "fact_uris": [
+              "中国银行大楼",
+              "中国银行大楼"
+            ],
+            "fact_labels": [
+              "建筑",
+              "中国银行"
+            ],
+            "aligned": true,
+            "grades": [
+              "C",
+              "C"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "沿万国建筑博览群继续走：下一站的怡和洋行会把贸易洋行的早期逻辑收束到江岸。",
+            "kind": "factual",
+            "fact_uris": [
+              "中国银行大楼"
+            ],
+            "fact_labels": [
+              "建筑"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          }
+        ]
+      },
+      {
+        "stop_index": 6,
+        "source_block": "story_card",
+        "sentences": [
+          {
+            "index": 0,
+            "text": "你停在中山东一路27号一带的「怡和洋行大楼」前。",
+            "kind": "factual",
+            "fact_uris": [
+              "怡和洋行大楼"
+            ],
+            "fact_labels": [
+              "怡和洋行"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 1,
+            "text": "整条线从兴业路的石库门走到江岸的贸易立面——组织史、人物故居、金融柱廊、银行更替、民族资本并置，最后收束在贸易洋行：开埠早期逻辑仍在立面里可读。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 2,
+            "text": "据策展词库核录：怡和洋行作为早期贸易洋行代表，是外滩开埠叙事里不可跳过的一站。",
+            "kind": "factual",
+            "fact_uris": [
+              "怡和洋行大楼"
+            ],
+            "fact_labels": [
+              "怡和洋行"
+            ],
+            "aligned": true,
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "index": 3,
+            "text": "你带走的应是可核的开埠界面与诚实通道标注——上图 URI 可点即链，词库核录即标通道，不伪装馆藏。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          },
+          {
+            "index": 4,
+            "text": "在江岸慢走一遍天际线，把六大站的名字在心里排一次序：从石库门到柱廊，关系才是这条线的骨架。",
+            "kind": "connective",
+            "fact_uris": [],
+            "fact_labels": [],
+            "aligned": false,
+            "grades": []
+          }
+        ]
+      }
+    ]
+  },
+  "curator_review": {
+    "concerns": [
+      {
+        "claim": "节点1将「1921年的活街区」浪漫化，暗示当时的石库门是纯粹的晾衣买菜日常空间，回避了巡捕房 surveillance、租界越界筑路的政治张力，以及会议本身的秘密性（被迫转移至嘉兴）与「日常烟火气」之间的冲突。",
+        "node": "中共一大会址纪念馆周边",
+        "mechanism": "叙事捷径：用「烟火气」自动等同价值，用日常叙事抹平了当时的政治高压与空间冲突。",
+        "fix": "在故事卡中补入一句空间观察提问，引导参与者注意石库门弄堂的「可通行性」与「易监视性」的双重空间特征，将「日常」与「秘密」的张力作为观察重点，而非单纯赞美活街区。"
+      },
+      {
+        "claim": "节点3称汇丰大楼「公私权力被写进同一立面语法」，但叙事完全停留在建筑形制与立面审美的宏大层面，忽略了建筑内部劳动者的存在，将金融资本的空间扩张仅解读为「城市界面」的演进。",
+        "node": "前汇丰银行大楼",
+        "mechanism": "空间误读：只见资本与权力的立面，不见支撑立面运转的底层劳动力（买办、出店、巡捕、码头工人），把复杂的经济剥削包装成了建筑史。",
+        "fix": "将视线从纯立面拉回地面，增加一个微观观察动作：建议参与者注意大门与人行道的高差、曾经的入口分级（主入口与职员入口），把叙事从「权力的立面」拉低到「劳动的门槛」。"
+      },
+      {
+        "claim": "节点4将外滩18号从银行到顶级奢侈品中心的转变轻描淡写为「用途更替」与「两段章节」，掩盖了城市更新中公共空间私有化和士绅化的尖锐问题。",
+        "node": "麦加利银行大楼",
+        "mechanism": "伦理风险：用中产阶级友好的「艺术与消费」词汇，回避了资本更替背后的空间排斥（displacement）与公共性流失。",
+        "fix": "修改「用途更替」的定性，将其改为「资本属性的当代延续」。增加一个提问：让参与者观察并思考，如今没有消费意愿的普通行人，在这栋「保留百年门闩」的建筑门口，是否能享有与百年前同等的公共通行权？"
+      },
+      {
+        "claim": "节点5关于中国银行大楼的叙事极度空洞，仅用「民族资本与万国建筑并置」一笔带过，没有指出任何具体的建筑语汇或史料证据来支撑这一宏大命题。",
+        "node": "中国银行大楼",
+        "mechanism": "史料漏洞/叙事捷径：用「政治正确」的宏观词汇替代了扎实的建筑观察与史料支撑，导致该节点沦为路线上的凑数打卡点。",
+        "fix": "要求在此处提供具体的对抗性史料或观察锚点：例如中国银行大楼刻意压低的高度（与隔壁沙逊大厦的较量传说，需标注为地方传闻待考）或建筑立面上的中国传统元素（如镂空斗拱），将「民族资本」落到可见的砖石细节上。"
+      },
+      {
+        "claim": "全路线从石库门直接跳跃到外滩万国建筑，叙事完全依附于「名人（宋庆龄）+大机构（一大+外资银行+民族资本）」的框架，预设了参与者拥有较高的文化资本，且对宏大叙事有天然共鸣。",
+        "node": "全路线",
+        "mechanism": "参与门槛与盲点：预设了单一的中产/文艺视角，忽略了连接这两个截然不同的城市切片之间，普通人如何通勤、居住和生活。",
+        "fix": "在节点1与节点2的过渡中，或者在节点2到节点3的过渡中，增加一段关于「日常通行」的微观提示（如弄堂出口的公交系统、外滩的防空洞体系或过江轮渡），为宏大叙事提供日常维度的对照。"
+      }
+    ],
+    "missed_voices": [
+      "一大会议期间周边弄堂的普通居民、巡捕房密探",
+      "宋庆龄故居中的服务人员、警卫与后勤人员",
+      "外滩万国建筑运转背后的中国买办、银元搬运工、门卫与清洁工",
+      "外滩当代奢侈品店与艺术中心的保安、保洁与服务员",
+      "在当代外滩空间中感到格格不入的非消费型漫游者"
+    ],
+    "skipped_harder_node": "外滩沿线的公共空间演变（如黄浦江防汛墙的筑高与外滩改造工程的地下空间），只看建筑立面，回避了江岸公共属性与市政权力博弈的艰难历程。",
+    "alternative_thesis": "从石库门到江岸：谁在为天际线买单？（抛弃建筑审美与名人光环，转而追踪城市空间背后被折叠的劳动力、资本排斥与日常抵抗痕迹）",
+    "reverse_route_note": "若从怡和洋行走回一大会址：叙事将从「资本的宏大与坚硬」逐渐退入「里弄的微观与日常」。这种走法会自然解构掉「伟大建筑」的压迫感，让参与者带着对庞大资本逻辑的疑问，去石库门里寻找普通人如何生存与组织的微观答案，可能比现在的走法更具批判性和反思张力。",
+    "warnings": [
+      "【中共一大会址周边】请注意不要只拍摄「好看的石库门砖墙」。试着观察弄堂的四个出口，思考一下：在一个充满日常烟火气的居住区里，开一场秘密会议，如何保证不被弄堂里的眼光发现或走漏风声？",
+      "【宋庆龄故居】这里的叙事是「私人生活与时代责任叠合」。在观看这栋洋房时，请留意它与周边淮海路普通里弄房屋在空间尺度上的巨大差异，思考这种居住条件对一个人的公共活动提供了怎样的隐形支撑。",
+      "【前汇丰银行大楼】不要只抬头看希腊式穹顶。请低头注意建筑台阶与马路的落差，以及巨大的门廊尺度。想象一下百年前，普通黄包车夫或码头工人站在这个位置时，感受到的是「城市的骄傲」还是「资本的压迫」？",
+      "【麦加利银行大楼】文本提到这里变成了顶级奢侈品与艺术中心。请在不进店消费的情况下尝试靠近内部空间，感受一下：百年前的银行空间和今天的奢侈品空间，在「排斥什么样的人」这一点上，是否有相似之处？",
+      "【怡和洋行大楼】这是路线终点。当你在江岸对照当代天际线时，请试着闭上眼睛听一分钟。把视觉的「万国建筑博览」切换成听觉的「江水、轮渡马达与外滩喇叭声」，想一想这些贸易洋行最初打交道的是丝绸与茶叶，而今天你耳边响起的又是怎样的物流与资本回音？"
+    ]
+  },
+  "narrative_arc": {
+    "theme_id": "demo-wukang-names",
+    "nodes": [
+      {
+        "stop_index": 1,
+        "role": "Hook",
+        "beat": "作家与弄堂：公开记忆如何落在一扇门上",
+        "facts_referenced": [
+          "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
+        ]
+      },
+      {
+        "stop_index": 2,
+        "role": "Anchor",
+        "beat": "金嗓子与民居：用途更替的城市传记",
+        "facts_referenced": [
+          "http://data.library.sh.cn/entity/architecture/p8lpy1b17cgrkse4"
+        ]
+      },
+      {
+        "stop_index": 3,
+        "role": "Contrast",
+        "beat": "武康大楼：交叉路口上的多重身份",
+        "facts_referenced": [
+          "http://data.library.sh.cn/entity/architecture/amknmwvk01qaykng"
+        ]
+      },
+      {
+        "stop_index": 4,
+        "role": "Reveal",
+        "beat": "宋庆龄故居：人物与时代的另一条线索",
+        "facts_referenced": [
+          "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+        ]
+      },
+      {
+        "stop_index": 5,
+        "role": "Afterimage",
+        "beat": "丁香花园：花园住宅界面的对照",
+        "facts_referenced": [
+          "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
+        ]
+      },
+      {
+        "stop_index": 6,
+        "role": "Bridge",
+        "beat": "武康庭：收束——把名字放回街道尺度",
+        "facts_referenced": [
+          "http://data.library.sh.cn/entity/architecture/b4kfg663vvxvczyu"
+        ]
+      }
+    ],
+    "tension_curve": [
+      0.35,
+      0.5,
+      0.7,
+      0.85,
+      0.75,
+      0.55
+    ]
+  },
+  "curated_story": {
+    "id": "demo-wukang",
+    "theme": {
+      "id": "demo-wukang-theme",
+      "title": "武康路上的名字与门牌",
+      "open_question": "名字如何落在门牌上？",
+      "research_axes": [
+        {
+          "axis": "建筑×人物",
+          "hypothesis": "从巴金故居出发，经周璇旧居与武康大楼，走到宋庆龄故居与丁香花园，最后在武康庭收束：建筑×人物×街巷的关系，而不是点位清单。",
+          "evidence_cluster_ids": [
+            "c-building",
+            "c-person"
+          ]
+        }
+      ],
+      "why_visit": "你不是来完成任务，而是来辨认：这些门牌背后，馆藏里仍留着可核对的名字。",
+      "estimated_duration_min": 80,
+      "scope_note": "竞赛冻结演示线 · 六站可点 URI"
+    },
+    "thesis": "你不是来完成任务，而是来辨认：这些门牌背后，馆藏里仍留着可核对的名字。",
+    "cast": [
+      {
+        "id": "p-巴金",
+        "kind": "person",
+        "name": "巴金",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "p-周璇",
+        "kind": "person",
+        "name": "周璇",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "p-邬达克",
+        "kind": "person",
+        "name": "邬达克",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "p-宋庆龄",
+        "kind": "person",
+        "name": "宋庆龄",
+        "fact_uri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+        "note": null
+      },
+      {
+        "id": "p-丁香",
+        "kind": "person",
+        "name": "丁香",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "p-街巷住户",
+        "kind": "person",
+        "name": "街巷住户",
+        "fact_uri": null,
+        "note": null
+      }
+    ],
+    "chapters": [
+      {
+        "id": "ch-1",
+        "index": 1,
+        "title": "中共一大会址纪念馆周边",
+        "hook": "石库门里的组织史：从门牌进入可核的史实节点",
+        "narrativeRole": "Hook",
+        "stopId": 1,
+        "relationToPrevious": "带着「一大」的名字走向淮海中路：人物史会把红色叙事接到城市居住记忆。",
+        "evidenceIds": [],
+        "walkingMinutes": 16,
+        "castRefs": [
+          "代表与组织"
+        ],
+        "act": "prologue"
+      },
+      {
+        "id": "ch-2",
+        "index": 2,
+        "title": "宋庆龄故居",
+        "hook": "从组织史接到人物史：故居作为时代对照节点",
+        "narrativeRole": "Anchor",
+        "stopId": 2,
+        "relationToPrevious": "从淮海路的故居走向外滩：开埠天际线会把「人与时代」放大成城市界面。",
+        "evidenceIds": [
+          "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6"
+        ],
+        "walkingMinutes": 14,
+        "castRefs": [
+          "宋庆龄"
+        ],
+        "act": "focus"
+      },
+      {
+        "id": "ch-3",
+        "index": 3,
+        "title": "前汇丰银行大楼",
+        "hook": "开埠金融权力如何写进立面",
+        "narrativeRole": "Contrast",
+        "stopId": 3,
+        "relationToPrevious": "从汇丰的柱廊走向海关钟楼：同一排界面里，公私权力交替可见。",
+        "evidenceIds": [],
+        "walkingMinutes": 13,
+        "castRefs": [
+          "赫伯特·查尔斯·派克"
+        ],
+        "act": "transit"
+      },
+      {
+        "id": "ch-4",
+        "index": 4,
+        "title": "麦加利银行大楼",
+        "hook": "外滩18号：从银行立面到艺术入口",
+        "narrativeRole": "Reveal",
+        "stopId": 4,
+        "relationToPrevious": "沿万国建筑博览群继续：中国银行大楼会把民族资本写进同一天际线。",
+        "evidenceIds": [],
+        "walkingMinutes": 12,
+        "castRefs": [
+          "托玛斯·杰克逊"
+        ],
+        "act": "focus"
+      },
+      {
+        "id": "ch-5",
+        "index": 5,
+        "title": "中国银行大楼",
+        "hook": "民族资本与万国建筑并置",
+        "narrativeRole": "Bridge",
+        "stopId": 5,
+        "relationToPrevious": "最后停在怡和洋行：贸易洋行把开埠早期逻辑收束到江岸。",
+        "evidenceIds": [],
+        "walkingMinutes": 12,
+        "castRefs": [
+          "中国银行"
+        ],
+        "act": "transit"
+      },
+      {
+        "id": "ch-6",
+        "index": 6,
+        "title": "怡和洋行大楼",
+        "hook": "收束：贸易洋行写进开埠天际线",
+        "narrativeRole": "Afterimage",
+        "stopId": 6,
+        "relationToPrevious": null,
+        "evidenceIds": [],
+        "walkingMinutes": 13,
+        "castRefs": [
+          "怡和洋行"
+        ],
+        "act": "epilogue"
+      }
+    ],
+    "evidenceGraph": {
+      "theme_id": "demo-wukang-theme",
+      "clusters": [
+        {
+          "id": "c-building",
+          "dimension": "building",
+          "label": "建筑",
+          "facts": [
+            {
+              "fact_uri": null,
+              "label": "建筑",
+              "assertion": "巴金故居见上海图书馆建筑实体记录，坐标与命名可核。",
+              "layer": "building",
+              "source_dataset": "slc_building",
+              "confidence": 0.9
+            },
+            {
+              "fact_uri": null,
+              "label": "建筑",
+              "assertion": "周璇旧居见上海图书馆建筑实体记录，坐标与命名可核。",
+              "layer": "building",
+              "source_dataset": "slc_building",
+              "confidence": 0.9
+            },
+            {
+              "fact_uri": null,
+              "label": "建筑",
+              "assertion": "武康大楼见上海图书馆建筑实体记录，坐标与命名可核。",
+              "layer": "building",
+              "source_dataset": "slc_building",
+              "confidence": 0.9
+            },
+            {
+              "fact_uri": "http://data.library.sh.cn/entity/architecture/4eqww5yazhokuxt6",
+              "label": "建筑",
+              "assertion": "宋庆龄故居见上海图书馆建筑实体记录，坐标与命名可核。",
+              "layer": "building",
+              "source_dataset": "slc_building",
+              "confidence": 0.9
+            },
+            {
+              "fact_uri": null,
+              "label": "建筑",
+              "assertion": "丁香花园见上海图书馆建筑实体记录，坐标与命名可核。",
+              "layer": "building",
+              "source_dataset": "slc_building",
+              "confidence": 0.9
+            },
+            {
+              "fact_uri": null,
+              "label": "建筑",
+              "assertion": "武康庭(FERGUSON LANE）见上海图书馆建筑实体记录，坐标与命名可核。",
+              "layer": "building",
+              "source_dataset": "slc_building",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "id": "c-person",
+          "dimension": "person",
+          "label": "人物",
+          "facts": []
+        },
+        {
+          "id": "c-event",
+          "dimension": "event",
+          "label": "事件",
+          "facts": []
+        }
+      ],
+      "joins": [],
+      "coverage": {
+        "stops": 6,
+        "with_buri": 6
+      }
+    },
+    "quality": {
+      "evidence_layers": 18,
+      "coverage_ratio": 1.0,
+      "aligned_ratio": 1.0
+    },
+    "theme_id": "demo-yida-theme"
+  },
+  "_demo_hongyuan": {
+    "agent": "红鸢",
+    "seed": 42,
+    "summary": "红鸢今日读法：好奇 · 场景体 · 先远后近 · 日常角度 · 分享节拍",
+    "emotion": {
+      "category": "emotion",
+      "id": "emo_curious",
+      "label": "好奇",
+      "hint": "像翻开未读页"
+    },
+    "voice_style": {
+      "category": "voice_style",
+      "id": "vs_scene",
+      "label": "场景体",
+      "hint": "先看见再解释"
+    },
+    "narrative": {
+      "category": "narrative",
+      "id": "nar_wide_then_near",
+      "label": "先远后近",
+      "hint": "总览→贴身"
+    },
+    "knowledge_angle": {
+      "category": "knowledge_angle",
+      "id": "know_ordinary",
+      "label": "日常角度",
+      "hint": "伟大叙事之外的生活记载"
+    },
+    "pacing": {
+      "category": "pacing",
+      "id": "pace_share",
+      "label": "分享节拍",
+      "hint": "每站给一句可转述"
+    },
+    "lexicon_size": {
+      "emotion": 81,
+      "voice_style": 69,
+      "narrative": 59,
+      "knowledge_angle": 50,
+      "pacing": 40
+    },
+    "layer3_week": "2026-W35",
+    "layer3_summary": "本周热词（2026-W35）：外滩天际线对照",
+    "layer3": [
+      {
+        "id": "xhs_bund_skyline",
+        "term": "外滩天际线对照",
+        "places": [
+          "外滩",
+          "中山东一路",
+          "黄浦江"
+        ],
+        "hint": "对照当代景观感受；不写年份事件史实",
+        "heat": 0.85,
+        "week": "2026-W35",
+        "score": 1.058
+      }
+    ],
+    "rag_layers": [
+      "evidence",
+      "lexicon",
+      "hotwords"
+    ]
+  }
+}

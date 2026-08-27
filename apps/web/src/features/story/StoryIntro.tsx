@@ -55,6 +55,33 @@ export function StoryIntro({
 
       {hongyuanLine && <p className="hongyuan-reading">{hongyuanLine}</p>}
 
+      {hongyuan && (
+        <div className="hongyuan-seal-strip" aria-label="红鸢抽签">
+          <span className="hongyuan-seal" aria-hidden>
+            鸢
+          </span>
+          <div className="hongyuan-seal-slots">
+            {[
+              hongyuan.emotion?.label,
+              hongyuan.voice_style?.label,
+              hongyuan.narrative?.label,
+              hongyuan.pacing?.label,
+            ]
+              .filter(Boolean)
+              .map((label) => (
+                <span key={label as string} className="hongyuan-slot-chip">
+                  {label}
+                </span>
+              ))}
+            {hongyuan.layer3_week ? (
+              <span className="hongyuan-slot-chip is-l3">
+                L3 · {hongyuan.layer3_week}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      )}
+
       {prelude.length > 0 && (
         <div className="story-prelude">
           <p className="scene-label">导读</p>

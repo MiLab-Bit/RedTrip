@@ -22,6 +22,18 @@ export interface Tokens {
   user: AuthUser;
 }
 
+const AUTH_DISABLED = import.meta.env.VITE_AUTH_DISABLED === "true";
+
+const DEMO_USER: AuthUser = {
+  publicId: "demo",
+  nickname: "demo",
+  avatarUrl: null,
+  status: "active",
+  emailVerified: true,
+  roles: ["admin"],
+  createdAt: 0,
+};
+
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(AUTH_BASE + path, {
     ...init,
@@ -66,10 +78,14 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       accessToken: null,
       refreshToken: null,
-      status: "loading",
+      status: AUTH_DISABLED ? "authenticated" : "loading",
       error: null,
 
       bootstrap: async () => {
+        if (AUTH_DISABLED) {
+          set({ status: "authenticated", user: get().user ?? DEMO_USER, error: null });
+          return;
+        }
         const rt = get().refreshToken;
         if (!rt) {
           set({ status: "unauthenticated" });

@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$nodeRoot = 'C:\Users\Administrator\AppData\Local\RedTripToolchain\node'
+$nodeRoot = Join-Path $env:LOCALAPPDATA 'RedTripToolchain\node'
 $node = Join-Path $nodeRoot 'node.exe'
 $pnpm = Join-Path $nodeRoot 'pnpm.cmd'
 $root = Split-Path $PSScriptRoot -Parent

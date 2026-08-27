@@ -39,10 +39,14 @@ export type TripContext = {
   hongyuan: HongyuanMeta | null;
   footprints: FootprintFeature[];
   osmNote: string;
+  /** brief→loading 时锁定：demo 冻结包 / curate 真实策展 */
+  loadMode: "demo-wukang" | "demo-yida" | "curate" | null;
 };
 
 export type TripEvent =
   | { type: "SUBMIT" }
+  | { type: "SUBMIT_DEMO_WUKANG" }
+  | { type: "SUBMIT_DEMO_YIDA" }
   | {
       type: "LOADED";
       envelope: RouteEnvelope;
@@ -79,6 +83,7 @@ const resetContext = {
   error: null,
   assumptions: [],
   hongyuan: null,
+  loadMode: null as "demo-wukang" | "demo-yida" | "curate" | null,
   ...clearedExtras,
 };
 
@@ -104,11 +109,23 @@ export const tripMachine = setup({
     hongyuan: null,
     footprints: [],
     osmNote: "",
+    loadMode: null,
   },
   states: {
     brief: {
       on: {
-        SUBMIT: "loading",
+        SUBMIT: {
+          target: "loading",
+          actions: assign({ loadMode: "curate" }),
+        },
+        SUBMIT_DEMO_WUKANG: {
+          target: "loading",
+          actions: assign({ loadMode: "demo-wukang" }),
+        },
+        SUBMIT_DEMO_YIDA: {
+          target: "loading",
+          actions: assign({ loadMode: "demo-yida" }),
+        },
       },
     },
     loading: {
@@ -127,11 +144,15 @@ export const tripMachine = setup({
             source: null,
             error: null,
             mapReturn: "storyIntro",
+            loadMode: null,
           })),
         },
         FAIL: {
           target: "degraded",
-          actions: assign(({ event }) => ({ error: event.error })),
+          actions: assign(({ event }) => ({
+            error: event.error,
+            loadMode: null,
+          })),
         },
       },
     },

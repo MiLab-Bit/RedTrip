@@ -5,11 +5,13 @@ import {
   sourceHeadline,
 } from "./sourceLabels";
 import { ProvenanceBody, findStopClaims } from "./SentenceProvenance";
-import {
-  ClassicalLayer,
-  stopClassicalLayers,
-  chapterClassicalFacts,
-} from "./ClassicalLayer";
+
+const ACT_LABEL: Record<string, string> = {
+  prologue: "序章",
+  focus: "聚焦",
+  transit: "过渡",
+  epilogue: "跋",
+};
 
 type Props = {
   envelope: RouteEnvelope;
@@ -98,17 +100,46 @@ export function StopPanel({
   const people = stop.layers.filter((l) => l.kind === "person");
   const split = layout === "split";
 
-  // 典籍发掘：本站 classical 层 + 本章 classical 事实（来自 evidence_graph）
-  const classicalLayers = stopClassicalLayers(envelope, stop.order);
-  const classicalFacts = chapterClassicalFacts(envelope, []);
-  const hasClassical = classicalLayers.length > 0 || classicalFacts.length > 0;
-
   return (
     <section className={`panel stop-panel${split ? " is-split" : ""}`}>
       <p className="note stop-kicker">
         第 {stop.order} / {envelope.route.stops.length} 站 · 驻足约 {stop.minutes}{" "}
         分钟
         {stop.geo.precision !== "exact" ? " · 坐标示意" : ""}
+        {stop.evidence_channel ? (
+          <>
+            {" · "}
+            <span
+              className={`channel-badge is-${stop.evidence_channel}`}
+              title="证据通道"
+            >
+              {stop.evidence_channel === "slc" ? (
+                <>
+                  <span className="kite-seal-mini" aria-hidden>
+                    鸢
+                  </span>{" "}
+                  馆藏
+                </>
+              ) : stop.evidence_channel === "landmark" ? (
+                "地标词库"
+              ) : stop.evidence_channel === "osm" ? (
+                "OSM"
+              ) : stop.evidence_channel === "amap" ? (
+                "地图"
+              ) : (
+                "人工"
+              )}
+            </span>
+          </>
+        ) : null}
+        {stop.act ? (
+          <>
+            {" · "}
+            <span className={`act-badge is-${stop.act}`} title="规划节奏">
+              {ACT_LABEL[stop.act] ?? stop.act}
+            </span>
+          </>
+        ) : null}
       </p>
       <h2>{stop.name}</h2>
       <p className="lead stop-meaning">{stop.meaning}</p>
@@ -155,14 +186,39 @@ export function StopPanel({
         </article>
       )}
 
-      {hasClassical && (
-        <ClassicalLayer
-          envelope={envelope}
-          classicalLayers={classicalLayers}
-          classicalFacts={classicalFacts}
-          onOpenSource={onOpenSource}
-        />
-      )}
+      <div className="pitfalls-block" aria-label="避坑信息">
+        <span className="scene-label">避坑（未知写未收录）</span>
+        <ul className="pitfalls-list">
+          {(
+            [
+              ["开放时间", stop.pitfalls.open_hours],
+              ["可否入内", stop.pitfalls.enterable],
+              ["是否预约", stop.pitfalls.need_reservation],
+            ] as const
+          ).map(([label, value]) => {
+            const honest = !value || value.includes("未收录");
+            return (
+              <li
+                key={label}
+                className={honest ? "pitfall is-unknown" : "pitfall"}
+              >
+                <strong>{label}</strong>
+                <span>{value || "未收录"}</span>
+              </li>
+            );
+          })}
+        </ul>
+        {stop.buri ? (
+          <p className="buri-line">
+            馆藏 URI：{" "}
+            <a href={stop.buri} target="_blank" rel="noreferrer">
+              {stop.buri}
+            </a>
+          </p>
+        ) : (
+          <p className="buri-line is-unknown">馆藏 URI：未收录</p>
+        )}
+      </div>
 
       {scene && scene.type === "scene" && (
         <div className={`scene-grid${split ? " scene-grid-compact" : ""}`}>

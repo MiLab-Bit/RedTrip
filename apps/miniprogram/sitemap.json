@@ -1,0 +1,9 @@
+{
+  "desc": "红鸢 RedTrip 小程序索引",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}
