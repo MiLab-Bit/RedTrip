@@ -58,6 +58,29 @@ def _apply_mutate(envelope: dict[str, Any], mutate: list[dict[str, Any]]) -> dic
                 if isinstance(b, dict) and b.get("type") == "story_card":
                     b["sources"] = step.get("value")
                     break
+        elif op == "building_layers_only":
+            # 剥掉 person/event，仅留建筑层（若无则合成一条），用于 I1 实体层红队。
+            for s in env.get("route", {}).get("stops") or []:
+                if not isinstance(s, dict):
+                    continue
+                layers = [
+                    l
+                    for l in (s.get("layers") or [])
+                    if isinstance(l, dict) and l.get("kind") == "building"
+                ]
+                if not layers:
+                    layers = [
+                        {
+                            "kind": "building",
+                            "label": "建筑",
+                            "claim": f"{s.get('name') or '该站'}建筑轮廓",
+                            "source": {
+                                "dataset": "amap",
+                                "record_id": "poi-placeholder",
+                            },
+                        }
+                    ]
+                s["layers"] = layers
     return env
 
 

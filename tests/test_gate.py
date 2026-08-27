@@ -118,24 +118,34 @@ def test_forbidden_copy_b1_cliche_blocks():
     assert any("Q8" in b and "古今交融" in b for b in v2.blockers)
 
 
-def test_forbidden_reader_address_in_body_blocks():
-    """第二人称导游腔（你站在/你脚下/你忽然…）出现在 story_card.body → Q8 拦截。
-
-    这是「去除导游腔」的回归护栏：正文（书籍化与网页同源于 block body）不得对读者用「你」。
-    """
+def test_second_person_reader_address_in_story_card_passes():
+    """R-06：story_card 必须允许第二人称，不得被全局 Q8 误伤。"""
     for phrase in ("你站在中山东一路33号", "你脚下是英国领事馆", "你忽然明白所谓码头"):
-        e = _envelope([_stop("外滩0", 0), _stop("外滩1", 1), _stop("外滩2", 2)])
+        e = _envelope([_stop(f"外滩{i}", i) for i in range(5)])
         e["blocks"][0]["body"] = f"{phrase}，红砖立面浮起。"
+        # 给每站补史实衔接，避免 R19 误伤
+        for i, s in enumerate(e["route"]["stops"][:-1]):
+            s["transition_to_next"] = f"下一站用人物与记载对照，而不是步行距离（自 {_stop(f'外滩{i}', i)['name']}）。"
         v = evaluate_envelope(e)
-        assert not v.passed, phrase
-        assert any("Q8" in b for b in v.blockers), phrase
+        assert v.passed, (phrase, v.blockers)
 
 
-def test_forbidden_copy_includes_reader_address_terms():
-    """FORBIDDEN_COPY 必须含读者称呼禁用词（防止 voice 升级被回退后失效）。"""
+def test_second_person_terms_only_block_essay():
+    """第二人称导游腔只在长散文 essay 门禁生效。"""
     required = (
         "你站在", "你脚下", "你忽然", "你此刻", "你离开",
         "你遇见", "你会先遇见", "你带走", "你眼前", "你带着",
     )
-    missing = [w for w in required if w not in FORBIDDEN_COPY]
-    assert not missing, f"FORBIDDEN_COPY 缺读者称呼词: {missing}"
+    leaked = [w for w in required if w in FORBIDDEN_COPY]
+    assert not leaked, f"第二人称词不应出现在全局 FORBIDDEN_COPY: {leaked}"
+
+    e = _envelope([_stop("外滩0", 0), _stop("外滩1", 1), _stop("外滩2", 2)])
+    e["blocks"].append({
+        "type": "essay",
+        "stop_order": 1,
+        "title": "长散文",
+        "body": "你站在门口，等待历史开口。",
+    })
+    v = evaluate_envelope(e)
+    assert not v.passed
+    assert any("Q8[essay#1]" in b and "你站在" in b for b in v.blockers)

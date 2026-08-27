@@ -1,57 +1,77 @@
 """Minimal OpenAI-compatible chat client (stdlib only).
 
 支持「混合路由」：通过 REDTRIP_LLM_POLICY 选择云端 / 本地小模型 / 二者混合。
-- 云端：abc-ai.cn 网关（Qwen-flash），质量高、但并发仅 ~2 路、延迟波动大。
+- 云端：OpenAI 兼容网关（质量高；并发与延迟取决于供应商）。
 - 本地：ollama 暴露的 OpenAI 兼容端点（默认 127.0.0.1:11434），零网络、
   可预测，适合把「结构化抽取」类子调用从云端网关卸载下来。
+
+Provider 覆盖使用 contextvars，以便 ThreadPoolExecutor 经 copy_context().run
+继承主线程 BYOK（避免 threading.local 在子线程丢失）。
 """
 from __future__ import annotations
 
+import contextvars
 import json
 import logging
 import os
-import threading
 import time
 import urllib.error
 import urllib.request
-from typing import Any
+from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Callable, TypeVar
 
 _LOGGER = logging.getLogger("redtrip.llm")
 
-# 线程级 LLM provider 覆盖：API 进程在调用 curator 前，可以把用户通过
-# UI 配置并落入 DB 的 active provider 注入当前线程，让原本只读环境变量的
-# llm.py 也能使用用户自带密钥（Bug #1）。
-_THREAD_PROVIDER = threading.local()
+# API → curator BYOK 覆盖（ContextVar，可随 copy_context 传入线程池）
+_CLOUD_PROVIDER: contextvars.ContextVar[dict[str, str] | None] = contextvars.ContextVar(
+    "redtrip_cloud_provider", default=None
+)
+
+_T = TypeVar("_T")
 
 
 def set_thread_provider(provider: dict[str, str] | None) -> None:
-    """为当前线程设置/cloud/provider 覆盖（API → curator 桥接）。
+    """为当前上下文设置/清除 cloud provider 覆盖（API → curator 桥接）。
 
     provider 格式：{"api_base": str, "api_key": str, "model": str}。
     传 None 等价于清除覆盖。
     """
     if not provider:
-        _THREAD_PROVIDER.cloud = None
+        _CLOUD_PROVIDER.set(None)
         return
-    _THREAD_PROVIDER.cloud = {
-        "api_base": (provider.get("api_base") or "").strip(),
-        "api_key": (provider.get("api_key") or "").strip(),
-        "model": (provider.get("model") or "").strip(),
-    }
+    _CLOUD_PROVIDER.set(
+        {
+            "api_base": (provider.get("api_base") or "").strip(),
+            "api_key": (provider.get("api_key") or "").strip(),
+            "model": (provider.get("model") or "").strip(),
+        }
+    )
 
 
 def clear_thread_provider() -> None:
-    """清除当前线程的 provider 覆盖。"""
-    _THREAD_PROVIDER.cloud = None
+    """清除当前上下文的 provider 覆盖。"""
+    _CLOUD_PROVIDER.set(None)
 
 
 def _thread_provider() -> dict[str, str] | None:
-    p = getattr(_THREAD_PROVIDER, "cloud", None)
+    p = _CLOUD_PROVIDER.get()
     if not p:
         return None
     if not (p.get("api_base") and p.get("api_key")):
         return None
     return p
+
+
+def submit_with_provider(
+    executor: ThreadPoolExecutor,
+    fn: Callable[..., _T],
+    /,
+    *args: Any,
+    **kwargs: Any,
+):
+    """把当前 ContextVar（含 BYOK）拷贝进线程池任务。"""
+    ctx = contextvars.copy_context()
+    return executor.submit(ctx.run, lambda: fn(*args, **kwargs))
 
 
 def _env_int(name: str, default: int | None) -> int | None:
@@ -94,13 +114,14 @@ def chat_completion(
     provider: 显式传入 {api_base, api_key, model} 覆盖当前线程/环境变量配置。
               用于 API 把用户 DB 中的 active provider 桥接到 curator。
     """
-    # 优先级：显式 provider > 线程覆盖 > 环境变量
+    # 优先级：显式 provider > 上下文覆盖 > 环境变量
     if provider and provider.get("api_base") and provider.get("api_key"):
         base = str(provider["api_base"]).rstrip("/")
         key = str(provider["api_key"]).strip()
         model = (provider.get("model") or "").strip() or (os.getenv("LLM_MODEL") or "Qwen-flash").strip()
     elif _thread_provider():
         p = _thread_provider()
+        assert p is not None
         base = p["api_base"].rstrip("/")
         key = p["api_key"]
         model = p["model"] or (os.getenv("LLM_MODEL") or "Qwen-flash").strip()
@@ -124,6 +145,10 @@ def chat_completion(
     }
     if max_tokens is not None:
         payload["max_tokens"] = max_tokens
+    # 微信大赛 GLM-5.2 默认会把 tokens 花在 reasoning_content，导致 content 为空。
+    # 关闭 thinking，保证策展 JSON 落在 message.content。
+    if "chatapi.weixin.qq.com" in base or model.upper().startswith("GLM"):
+        payload["chat_template_kwargs"] = {"enable_thinking": False}
     data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         url,
@@ -142,8 +167,21 @@ def chat_completion(
         opener = urllib.request.build_opener(
             urllib.request.ProxyHandler({})
         )
-        with opener.open(req, timeout=timeout) as resp:
-            raw = resp.read().decode("utf-8", errors="replace")
+        last_err: Exception | None = None
+        attempts = max(1, int(os.getenv("LLM_RETRY_ATTEMPTS", "3")))
+        for attempt in range(attempts):
+            try:
+                with opener.open(req, timeout=timeout) as resp:
+                    raw = resp.read().decode("utf-8", errors="replace")
+                last_err = None
+                break
+            except Exception as e:  # noqa: BLE001
+                last_err = e
+                if attempt + 1 >= attempts:
+                    break
+                time.sleep(min(8.0, 2.0 * (attempt + 1)))
+        if last_err is not None:
+            raise last_err
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="replace")[:400]
         raise RuntimeError(f"LLM HTTP {e.code}: {body}") from e
@@ -160,6 +198,11 @@ def chat_completion(
         raise RuntimeError("LLM response missing choices")
     msg = choices[0].get("message") or {}
     content = msg.get("content")
+    if not isinstance(content, str) or not content.strip():
+        # 部分思考模型把最终答案放在 reasoning_content
+        alt = msg.get("reasoning_content")
+        if isinstance(alt, str) and alt.strip():
+            content = alt
     if not isinstance(content, str) or not content.strip():
         raise RuntimeError("LLM response missing content")
     return content.strip()
@@ -219,9 +262,6 @@ def _local_completion(
     model = (os.getenv("LOCAL_LLM_MODEL") or "qwen2.5:1.5b").strip()
     api_key = (os.getenv("LOCAL_LLM_API_KEY") or "ollama").strip()
     timeout = timeout or float(os.getenv("LOCAL_LLM_TIMEOUT_S", "90"))
-    # 本地小模型仅承接结构化抽取（hybrid 策略下 structured→[local,cloud]），
-    # 由 proposition.py 显式传 max_tokens 做安全封顶；不再读 LOCAL_LLM_MAX_TOKENS
-    # 做全局截断（会误伤创意成品）。
     max_tokens = max_tokens
 
     url = f"{base}/chat/completions"
@@ -249,7 +289,6 @@ def _local_completion(
         },
     )
     try:
-        # 本地端点同样强制直连（避免误走代理）
         opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
         with opener.open(req, timeout=timeout) as resp:
             raw = resp.read().decode("utf-8", errors="replace")
@@ -273,19 +312,12 @@ def _local_completion(
 
 
 def _resolve_backend_order(*, backend: str, role: str) -> list[str]:
-    """根据策略解析后端尝试顺序。
-
-    REDTRIP_LLM_POLICY:
-      - cloud  (默认): 全部走云端
-      - hybrid : 结构化(structured)→[本地, 云端]；创意(creative)→云端(失败由 pipeline 回退模板)
-      - local  : 全部→[本地, 云端]（离线/兜底）
-    """
+    """根据策略解析后端尝试顺序。"""
     policy = (os.getenv("REDTRIP_LLM_POLICY") or "cloud").lower()
     if backend == "cloud":
         return ["cloud"]
     if backend == "local":
         return ["local"]
-    # backend == "auto"
     if policy == "local":
         return ["local", "cloud"]
     if policy == "hybrid":
@@ -304,16 +336,7 @@ def chat_json(
     max_tokens: int | None = None,
     provider: dict[str, str] | None = None,
 ) -> dict[str, Any]:
-    """带混合路由的 JSON 调用。
-
-    backend: "cloud"(默认, 旧行为) | "local" | "auto"(按策略)。
-    role:    "structured"(命题分解/红队/溯源) | "creative"(润色)。
-    任一后端失败自动尝试下一个；全部失败则抛错（由调用方回退）。
-
-    provider: 显式 {api_base, api_key, model} 覆盖（用于 API 把用户 DB 的
-              active provider 桥接到 curator）。不传则沿用线程级覆盖
-              （set_thread_provider）或环境变量（Bug #1 修复的两条路径）。
-    """
+    """带混合路由的 JSON 调用。"""
     order = _resolve_backend_order(backend=backend, role=role)
     last_exc: Exception | None = None
     for b in order:

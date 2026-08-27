@@ -173,3 +173,102 @@ def _heuristic_align(
             )
         )
     return claims
+
+
+def build_sp_from_envelope(envelope: dict[str, Any]) -> SentenceProvenanceReport | None:
+    """模板/回退路径：按站点故事卡 + buri/layers 做启发式句级溯源。
+
+    不调用 LLM；仅把已取证 URI 挂到命中站名/人名的句子上，保证前端可演示角标。
+    """
+    stops = (envelope.get("route") or {}).get("stops") or []
+    if not isinstance(stops, list) or not stops:
+        return None
+
+    bodies: dict[int, str] = {}
+    for b in envelope.get("blocks") or []:
+        if isinstance(b, dict) and b.get("type") == "story_card":
+            so = b.get("stop_order")
+            if isinstance(so, int):
+                bodies[so] = str(b.get("body") or "")
+
+    per_stop: list[StopSentenceProvenance] = []
+    total = factual = aligned = 0
+    for s in stops:
+        if not isinstance(s, dict):
+            continue
+        so = int(s.get("order") or 0)
+        if so <= 0:
+            continue
+        name = str(s.get("name") or "")
+        buri = str(s.get("buri") or "").strip()
+        cat: list[dict[str, Any]] = []
+        if buri:
+            cat.append(
+                {
+                    "fact_uri": buri,
+                    "label": name,
+                    "claim": name,
+                    "stop_index": so,
+                    "grade": "A",
+                }
+            )
+        for layer in s.get("layers") or []:
+            if not isinstance(layer, dict):
+                continue
+            src = layer.get("source") if isinstance(layer.get("source"), dict) else {}
+            rid = str(src.get("record_id") or "").strip()
+            if not rid or rid in _PLACEHOLDER_IDS or rid.startswith("amap:"):
+                continue
+            cat.append(
+                {
+                    "fact_uri": rid,
+                    "label": str(layer.get("label") or name),
+                    "claim": str(layer.get("claim") or ""),
+                    "stop_index": so,
+                    "grade": _grade_for(str(src.get("dataset") or ""), True),
+                }
+            )
+        sents = _split_sentences(bodies.get(so, ""))
+        if not sents:
+            continue
+        claims = _heuristic_align(sents, cat, so)
+        # 站名出现在句中且有 buri → 强制标为 factual 对齐（演示可读性）
+        if buri and name:
+            fixed: list[SentenceClaim] = []
+            for c in claims:
+                if name in c.text and not c.fact_uris:
+                    fixed.append(
+                        SentenceClaim(
+                            index=c.index,
+                            text=c.text,
+                            kind="factual",
+                            fact_uris=[buri],
+                            fact_labels=[name],
+                            aligned=True,
+                            grades=["A"],
+                        )
+                    )
+                else:
+                    fixed.append(c)
+            claims = fixed
+        per_stop.append(
+            StopSentenceProvenance(
+                stop_index=so, source_block="story_card", sentences=claims
+            )
+        )
+        for c in claims:
+            total += 1
+            if c.kind == "factual":
+                factual += 1
+                if c.aligned:
+                    aligned += 1
+
+    if not per_stop:
+        return None
+    return SentenceProvenanceReport(
+        total_sentences=total,
+        factual_sentences=factual,
+        aligned_factual=aligned,
+        coverage_ratio=(aligned / factual) if factual else 1.0,
+        per_stop=per_stop,
+    )

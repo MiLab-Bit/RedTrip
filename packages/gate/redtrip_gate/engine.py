@@ -1,9 +1,58 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
 from .envelope import PLAN_ENVELOPE
+
+# 与 curator.rag 噪声名对齐：Gate 侧独立副本，避免 gate↔curator 循环依赖。
+_NOISE_NAME_RE = re.compile(
+    r"(标识牌|指路牌|路牌|导览牌?|门牌|打卡|轮渡|渡口|游艇|公交|停车|充电|报刊|"
+    r"自助|取票|售票|寄存|行李|厕所|卫生间|公厕|WC|雕塑(?!院|馆|场|家|园)|"
+    r"花坛|岗亭|监控|栏杆|座椅|路灯|绿地|小巨蛋|饮水|月台|站台|出入口|闸机|"
+    r"电梯|扶梯|楼梯|天桥|地道|便民|服务点|咨询台)"
+)
+_SLC_URI_RE = re.compile(r"data\.library\.sh\.cn", re.I)
+# 与 polish._suspicious_new_years 对齐：未取证年份不得写入叙事正文
+_YEAR_RE = re.compile(r"(?<!\d)(?:1[6-9]\d{2}|20[0-2]\d)(?!\d)")
+
+
+def _allowed_years(envelope: dict[str, Any]) -> set[str]:
+    """从已取证层/命题字段/溯源句收集可出现的年份（Gate 兜底，防润色漏网）。"""
+    blobs: list[str] = []
+    for key in ("theme", "logic_line", "why_visit", "curator_note", "scenario"):
+        blobs.append(str(envelope.get(key) or ""))
+    for s in (envelope.get("route") or {}).get("stops") or []:
+        if not isinstance(s, dict):
+            continue
+        blobs.append(str(s.get("meaning") or ""))
+        blobs.append(str(s.get("transition_to_next") or ""))
+        for layer in s.get("layers") or []:
+            if not isinstance(layer, dict):
+                continue
+            blobs.append(str(layer.get("claim") or ""))
+            src = layer.get("source")
+            if isinstance(src, dict):
+                blobs.append(str(src.get("excerpt") or ""))
+    # 舞台说明 / 已溯源事实句中的年份视为已取证
+    for b in envelope.get("blocks") or []:
+        if not isinstance(b, dict):
+            continue
+        if b.get("type") == "scene":
+            blobs.append(str(b.get("era_desc") or ""))
+            blobs.append(str(b.get("figures") or ""))
+        if b.get("type") == "story_card":
+            blobs.append(str(b.get("age_parallel") or ""))
+        for sent in b.get("provenance") or []:
+            if not isinstance(sent, dict):
+                continue
+            if sent.get("kind") == "factual" and sent.get("fact_uris"):
+                blobs.append(str(sent.get("text") or ""))
+    out: set[str] = set()
+    for blob in blobs:
+        out.update(_YEAR_RE.findall(blob))
+    return out
 
 HAIPAI = {
     "#33333A",
@@ -41,24 +90,16 @@ FORBIDDEN_COPY = (
     "历史与现代在此交融",
     "古今交融",
     "仿佛时光倒流",
-    # 第二人称读者称呼（导游腔）：叙述不得对读者使用「你站/你脚/你忽然…」
-    "你站在",
-    "你脚下",
-    "你忽然",
-    "你此刻",
-    "你离开",
-    "你遇见",
-    "你会先遇见",
-    "你带走",
-    "你眼前",
-    "你带着",
+    "充满浓厚生活气息",
+    # 注意：故事卡（PRD R-06）允许第二人称；导游腔命令式仅在长散文 essay 中拦截
+    # （见 _ESSAY_YOU_FAMILY）。勿把「你站在」等放回 FORBIDDEN_COPY，否则红队基线与产品口径冲突。
 )
 
 # ── 长散文「路线零件」专属 Gate 规则 ──
 # 设计原则（防降智）：长散文允许「同行者口吻」——自然对行走者用「你」（你若在此驻足 /
-# 你抬头看），这是把读者当同行伙伴而非指挥游客。因此 essay 不套用上面的「你站/你脚…」
-# 全家桶，只禁导游腔命令式；同时禁把 A–F 软骨架写成可见标签 / markdown 标题。
-_ESSAY_YOU_FAMILY = (  # 从 FORBIDDEN_COPY 里摘出、在 essay 中仍禁止的导游腔命令式
+# 你抬头看），这是把读者当同行伙伴而非指挥游客。因此 essay 只禁导游腔命令式；
+# 同时禁把 A–F 软骨架写成可见标签 / markdown 标题。
+_ESSAY_YOU_FAMILY = (  # 仅对 essay body/title 生效的导游腔命令式
     "你站在", "你脚下", "你忽然", "你此刻", "你离开",
     "你遇见", "你带走", "你眼前", "你带着", "你会先遇见",
 )
@@ -100,6 +141,15 @@ class GateVerdict:
             "blockers": list(self.blockers),
             "warnings": list(self.warnings),
         }
+
+
+def _is_demo_envelope(envelope: dict[str, Any]) -> bool:
+    """竞赛冻结演示包：句级未溯源在演示路径上升为 blocker。"""
+    assumptions = envelope.get("assumptions") or []
+    sources = envelope.get("sources") or []
+    if any("演示线=" in str(a) for a in assumptions):
+        return True
+    return any(str(s).startswith("fixture:demo-route") for s in sources)
 
 
 def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
@@ -202,6 +252,11 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
             if val in (None, ""):
                 blockers.append(f"Q7: {fld} 空 — {s.get('name')}")
 
+        # Q2 noise POI：导航噪声名不得进入策展主线
+        stop_name = str(s.get("name") or "")
+        if stop_name and _NOISE_NAME_RE.search(stop_name):
+            blockers.append(f"Q2: 噪声点位名不可作策展站 — {stop_name}")
+
         # Q6 / NG-10 precision honesty
         geo = s.get("geo") or {}
         if isinstance(geo, dict):
@@ -213,6 +268,21 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
                 )
             if precision not in ("exact", "approximate", "schematic"):
                 blockers.append(f"Q6: precision 非法 — {s.get('name')}")
+
+        # Q6 channel honesty：宣称上图 buri，则至少一条 layer 出处须落到馆藏 URI
+        buri = str(s.get("buri") or "").strip()
+        if buri and _SLC_URI_RE.search(buri):
+            layer_uris = []
+            for layer in layers:
+                if not isinstance(layer, dict):
+                    continue
+                src = layer.get("source")
+                if isinstance(src, dict):
+                    layer_uris.append(str(src.get("record_id") or ""))
+            if not any(_SLC_URI_RE.search(u) for u in layer_uris if u):
+                blockers.append(
+                    f"Q6: 宣称馆藏 buri 但 layers 无馆藏出处 — {s.get('name')}"
+                )
 
         # R19 transitions
         transition = s.get("transition_to_next")
@@ -249,6 +319,19 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
                     f"Q2: story_card 缺出处 — {card.get('title') or card.get('stop_order')}"
                 )
 
+    # G4-year：叙事正文出现未取证年份 → 阻断（与 polish 年份防编造对齐）
+    allowed_years = _allowed_years(envelope)
+    for b in envelope.get("blocks") or []:
+        if not isinstance(b, dict) or b.get("type") not in ("story_card", "essay"):
+            continue
+        so = b.get("stop_order")
+        for where, blob in (("title", str(b.get("title") or "")), ("body", str(b.get("body") or ""))):
+            for y in _YEAR_RE.findall(blob):
+                if y not in allowed_years:
+                    blockers.append(
+                        f"G4-year: 未取证年份「{y}」出现在 {b.get('type')}#{so}.{where}"
+                    )
+
     blob = "\n".join(texts)
     for bad in FORBIDDEN_COPY:
         if bad in blob:
@@ -256,9 +339,7 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
 
     # ── 长散文「路线零件」专属规则 ──
     # 1) 允许同行者口吻（自然「你」），但禁导游腔命令式 + 禁把 A–F 结构写成可见标签。
-    _essay_forbidden = (
-        set(FORBIDDEN_COPY) - set(_ESSAY_YOU_FAMILY)
-    ) | set(_ESSAY_STRUCTURE_BAN) | {"##"}
+    _essay_forbidden = set(FORBIDDEN_COPY) | set(_ESSAY_STRUCTURE_BAN) | {"##"}
     for so, et in essay_texts:
         for bad in _essay_forbidden:
             if bad in et:
@@ -349,38 +430,42 @@ def evaluate_envelope(envelope: dict[str, Any] | None) -> GateVerdict:
         factual = int(sp.get("factual_sentences") or 0)
         aligned = int(sp.get("aligned_factual") or 0)
         if factual and aligned < factual:
-            warnings.append(
-                f"G4-sentence[warn]: {factual - aligned} 个事实句未溯源"
-            )
+            msg = f"G4-sentence: {factual - aligned} 个事实句未溯源"
+            if _is_demo_envelope(envelope):
+                blockers.append(msg)
+            else:
+                warnings.append(f"{msg}[warn]")
 
-    # ---- Interest (I1): 事实对但「无聊」拦截（warn 级，保守不阻断）----
-    eg = envelope.get("evidence_graph")
+    # ---- Interest (I1): 无人物/事件实体层 → 阻断；张力偏弱 → warn ----
+    tension_stops = 0
+    for s in stops:
+        if not isinstance(s, dict):
+            continue
+        layers = [l for l in (s.get("layers") or []) if isinstance(l, dict)]
+        has_person = any(l.get("kind") == "person" for l in layers)
+        has_event = any(l.get("kind") == "event" for l in layers)
+        if has_person or has_event:
+            tension_stops += 1
+    if tension_stops == 0 and stops:
+        blockers.append(
+            "I1: 路线缺少人物/事件实体层（仅有建筑轮廓不足以策展）"
+        )
+    elif tension_stops < 2 and stops:
+        warnings.append(
+            "I1[warn]: 路线叙事张力偏弱（含人物/事件对照的站点 < 2）"
+        )
     na = envelope.get("narrative_arc")
-    if isinstance(eg, dict) or isinstance(na, dict):
-        tension_stops = 0
-        for s in stops:
-            if not isinstance(s, dict):
-                continue
-            layers = [l for l in (s.get("layers") or []) if isinstance(l, dict)]
-            has_person = any(l.get("kind") == "person" for l in layers)
-            has_event = any(l.get("kind") == "event" for l in layers)
-            if has_person or has_event:
-                tension_stops += 1
-        if tension_stops < 2:
+    if isinstance(na, dict):
+        roles = {
+            nd.get("role")
+            for nd in (na.get("nodes") or [])
+            if isinstance(nd, dict)
+        }
+        if len(roles) < 2:
             warnings.append(
-                "I1[warn]: 路线叙事张力偏弱（含人物/事件对照的站点 < 2）"
+                "I1[warn]: 叙事节点角色单一，缺乏节奏变化"
+                "（Hook/Contrast/Reveal/Afterimage）"
             )
-        if isinstance(na, dict):
-            roles = {
-                nd.get("role")
-                for nd in (na.get("nodes") or [])
-                if isinstance(nd, dict)
-            }
-            if len(roles) < 2:
-                warnings.append(
-                    "I1[warn]: 叙事节点角色单一，缺乏节奏变化"
-                    "（Hook/Contrast/Reveal/Afterimage）"
-                )
 
     # de-dupe
     blockers = list(dict.fromkeys(blockers))

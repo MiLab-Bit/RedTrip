@@ -17,8 +17,8 @@ from .llm import llm_configured
 from .narrative import narrate
 from .plan import RoutePlan, plan_route
 from .polish import polish_envelope
-from .review import apply_review_fixes, review_envelope
-from .sentence_provenance import SentenceProvenanceReport
+from .review import review_envelope
+from .sentence_provenance import SentenceProvenanceReport, build_sp_from_envelope
 
 # Ensure gate package importable when running from API / scripts
 _GATE = Path(__file__).resolve().parents[2] / "gate"
@@ -26,127 +26,6 @@ if str(_GATE) not in sys.path:
     sys.path.insert(0, str(_GATE))
 
 from redtrip_gate import evaluate_envelope  # noqa: E402
-from redtrip_gate.engine import (  # noqa: E402
-    FORBIDDEN_COPY,
-    _ESSAY_YOU_FAMILY,
-    _ESSAY_STRUCTURE_BAN,
-)
-
-
-def _scrub_forbidden(envelope: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
-    """局部清洗：把含禁用词的句子从润色后的卡片/长散文里删掉，而不是整本回退。
-
-    典籍新生修复：Gate 规则合理（禁导游腔、禁套话），但「一两个禁用词判废整本」
-    太严苛——会让一次成功的润色（6 卡 + 6 essay，几十秒 LLM 调用）全部白费。
-    本函数在 Gate 判废后跑：逐句扫描 story_card.body / essay.body，
-    删掉含禁用词的句子（保留其他干净的），让大部分润色成果得以保留。
-
-    返回 (清洗后的 envelope, 清洗记录)。清洗记录形如：
-      "Q8-局部清洗: story_card#2 删 N 句含「你站在」"
-    """
-    import re as _re
-
-    notes: list[str] = []
-
-    def _split_sentences(text: str) -> list[str]:
-        # 简单句切：按中文句号/问号/感叹号 + 换行
-        parts = _re.split(r"(?<=[。！？\n])", text)
-        return [p for p in parts if p.strip()]
-
-    def _join_sentences(sents: list[str]) -> str:
-        return "".join(sents)
-
-    # story_card：禁 FORBIDDEN_COPY 全集
-    for b in envelope.get("blocks") or []:
-        if not isinstance(b, dict):
-            continue
-        if b.get("type") == "story_card":
-            body = str(b.get("body") or "")
-            if not body:
-                continue
-            sents = _split_sentences(body)
-            kept: list[str] = []
-            removed: list[str] = []
-            for s in sents:
-                if any(bad in s for bad in FORBIDDEN_COPY):
-                    removed.append(s)
-                else:
-                    kept.append(s)
-            if removed:
-                so = b.get("stop_order")
-                bads = sorted({_b for s in removed for _b in FORBIDDEN_COPY if _b in s})
-                notes.append(
-                    f"Q8-局部清洗: story_card#{so} 删除 {len(removed)} 句含「{'、'.join(bads[:3])}」"
-                )
-                # 同步清洗 provenance 里对应的句子（若有）
-                prov = b.get("provenance")
-                if isinstance(prov, list):
-                    removed_texts = {s.strip() for s in removed}
-                    b["provenance"] = [
-                        p for p in prov
-                        if not (isinstance(p, dict) and str(p.get("text", "")).strip() in removed_texts)
-                    ]
-                b["body"] = _join_sentences(kept) if kept else body  # 兜底：全删则保留原
-
-        elif b.get("type") == "essay":
-            body = str(b.get("body") or "")
-            if not body:
-                continue
-            sents = _split_sentences(body)
-            kept = []
-            removed = []
-            # essay 禁用集：FORBIDDEN_COPY 去掉 you-family（允许同行者口吻）
-            # + structure ban（禁结构标签）
-            essay_forbidden = (
-                set(FORBIDDEN_COPY) - set(_ESSAY_YOU_FAMILY)
-            ) | set(_ESSAY_STRUCTURE_BAN) | set(_ESSAY_YOU_FAMILY)
-            for s in sents:
-                if any(bad in s for bad in essay_forbidden):
-                    removed.append(s)
-                else:
-                    kept.append(s)
-            if removed:
-                so = b.get("stop_order")
-                bads = sorted({_b for s in removed for _b in essay_forbidden if _b in s})
-                notes.append(
-                    f"Q8-局部清洗: essay#{so} 删除 {len(removed)} 句含「{'、'.join(bads[:3])}」"
-                )
-                prov = b.get("provenance")
-                if isinstance(prov, list):
-                    removed_texts = {s.strip() for s in removed}
-                    b["provenance"] = [
-                        p for p in prov
-                        if not (isinstance(p, dict) and str(p.get("text", "")).strip() in removed_texts)
-                    ]
-                b["body"] = _join_sentences(kept) if kept else body
-
-    # 元数据字段（theme/logic_line/why_visit/curator_note/meaning/transition）也清洗
-    def _scrub_str(s: str) -> str:
-        if not isinstance(s, str):
-            return s
-        for bad in FORBIDDEN_COPY:
-            if bad in s:
-                s = s.replace(bad, "")
-        return s
-
-    for k in ("theme", "logic_line", "why_visit", "curator_note"):
-        if k in envelope:
-            old = envelope[k]
-            new = _scrub_str(old)
-            if new != old:
-                envelope[k] = new
-                notes.append(f"Q8-局部清洗: 字段 {k} 清洗禁用词")
-    for stop in (envelope.get("route") or {}).get("stops") or []:
-        if not isinstance(stop, dict):
-            continue
-        for f in ("meaning", "transition_to_next"):
-            old = stop.get(f)
-            new = _scrub_str(old) if old else old
-            if new and new != old:
-                stop[f] = new
-                notes.append(f"Q8-局部清洗: stop.{stop.get('order')}.{f} 清洗禁用词")
-
-    return envelope, notes
 
 
 @dataclass
@@ -161,6 +40,9 @@ class CurateResult:
     narrative: Literal["template", "llm_polish"] = "template"
     hongyuan: dict[str, Any] | None = None
     artifacts: CurationArtifacts | None = None
+    # True = envelope 可用，但顶层 Gate 未过 / 已回退模板（API 应返回 status=degraded）
+    degraded: bool = False
+    gate_passed: bool = True
 
 
 def _finalize_narrative(
@@ -175,14 +57,20 @@ def _finalize_narrative(
     """
     notes: list[str] = []
     if not llm_configured():
-        return draft, ["叙事：模板（未配置 LLM）"], "template", None
+        sp = build_sp_from_envelope(draft)
+        if sp:
+            draft = {**draft, "sentence_provenance": sp.as_dict()}
+        return draft, ["叙事：模板（未配置 LLM）"], "template", sp
 
     polished, polish_notes, sp = polish_envelope(
         draft, voice=voice, plan=plan, on_chapter=on_chapter
     )
     notes.extend(polish_notes)
     if not polished:
-        return draft, notes, "template", None
+        sp_fb = build_sp_from_envelope(draft)
+        if sp_fb:
+            draft = {**draft, "sentence_provenance": sp_fb.as_dict()}
+        return draft, notes, "template", sp_fb
 
     verdict = evaluate_envelope(polished)
     if verdict.passed:
@@ -197,83 +85,26 @@ def _finalize_narrative(
                     polished["curator_review"] = review
                     r_warn = review.get("warnings") or []
                     notes.extend(r_warn)
-                    # 反方策展人升级：把 fixes 精准落地（仅措辞修正），落地后重过 Gate
-                    fix_notes = apply_review_fixes(polished, review)
-                    if fix_notes:
-                        notes.extend(fix_notes)
-                        v3 = evaluate_envelope(polished)
-                        if not v3.passed:
-                            notes.append(
-                                "反方策展人修正后 Gate 未过（"
-                                + "；".join(v3.blockers[:2])
-                                + "），保留修正前正文"
-                            )
-                            # 回滚 fixes：重新生成卡太难，此处保留原评审但标记风险
                     if r_warn:
                         notes.append(
-                            f"反方策展人提出 {len(r_warn)} 条评审意见 + "
-                            f"{len(fix_notes)} 条措辞修正（非阻断）"
+                            f"反方策展人提出 {len(r_warn)} 条评审意见（非阻断，供复核）"
                         )
             except Exception as e:  # noqa: BLE001
                 notes.append(f"反方策展人评审跳过：{e}")
+        if sp is None:
+            sp = build_sp_from_envelope(polished)
+            if sp:
+                polished["sentence_provenance"] = sp.as_dict()
         return polished, notes, "llm_polish", sp
-
-    # ── 典籍新生修复：Gate 判废时先局部清洗，不直接整本回退 ──
-    # 大部分 Gate blocker 是 Q8（禁用词）：几篇文章里出现「你站在」「时间叠层」
-    # 等少数词。原逻辑会把这些词判废整本，让一次成功的润色（6 卡 + 6 essay，
-    # 数十秒 LLM 调用）全部白费，回退到模板骨架。
-    # 新逻辑：先清洗掉含禁用词的句子，重新评估；只有清洗后仍不过（说明有
-    # 更严重的问题，如 G4 溯源失败）才回退模板。
-    q8_only = all("Q8" in blk for blk in verdict.blockers)
-    if q8_only and verdict.blockers:
-        scrubbed, scrub_notes = _scrub_forbidden(polished)
-        if scrub_notes:
-            notes.extend(scrub_notes)
-            verdict2 = evaluate_envelope(scrubbed)
-            if verdict2.passed:
-                notes.append(
-                    "叙事：LLM 润色经局部清洗后通过 Gate（保留大部分润色成果）"
-                )
-                notes.extend(verdict2.warnings)
-                if os.getenv("REDTRIP_OPPOSING_CURATOR", "1") != "0":
-                    try:
-                        review = review_envelope(scrubbed, plan=plan, voice=voice)
-                        if review:
-                            scrubbed["curator_review"] = review
-                            r_warn = review.get("warnings") or []
-                            notes.extend(r_warn)
-                            fix_notes = apply_review_fixes(scrubbed, review)
-                            if fix_notes:
-                                notes.extend(fix_notes)
-                                v3 = evaluate_envelope(scrubbed)
-                                if not v3.passed:
-                                    notes.append(
-                                        "反方策展人修正后 Gate 未过（"
-                                        + "；".join(v3.blockers[:2])
-                                        + "），保留修正前正文"
-                                    )
-                            if r_warn:
-                                notes.append(
-                                    f"反方策展人提出 {len(r_warn)} 条评审意见 + "
-                                    f"{len(fix_notes)} 条措辞修正（非阻断）"
-                                )
-                    except Exception as e:  # noqa: BLE001
-                        notes.append(f"反方策展人评审跳过：{e}")
-                return scrubbed, notes, "llm_polish", sp
-            else:
-                notes.append(
-                    "叙事：LLM 润色经局部清洗后仍未过 Gate（"
-                    + "；".join(verdict2.blockers[:3])
-                    + "），回退模板"
-                )
-        else:
-            notes.append("叙事：Gate blocker 非 Q8 类，无法清洗，回退模板")
 
     notes.append(
         "叙事：LLM 润色未过 Gate，已回退模板 — "
         + "；".join(verdict.blockers[:3])
     )
-    return draft, notes, "template", None
+    sp_fb = build_sp_from_envelope(draft)
+    if sp_fb:
+        draft = {**draft, "sentence_provenance": sp_fb.as_dict()}
+    return draft, notes, "template", sp_fb
 
 
 def curate(
@@ -414,16 +245,17 @@ def curate(
     _emit("done", 100.0, "策展完成")
 
     if not verdict.passed:
-        # D：顶层 Gate 未通过 → 不再递归重跑全流水线（避免 48 次 SLC + 全部 LLM
-        # 的 2x 翻倍），改为回退到基于证据的模板叙事（draft）。仍返回 ok=True 的
-        # 可用策展结果，并把 Gate 阻断项作为告警透出，避免空白/静态兜底。
+        # D：顶层 Gate 未通过 → 回退模板叙事；ok=True 表示仍可阅读，
+        # degraded=True 强制 API 对外标 status=degraded（禁止伪装成功）。
         fb_notes = [
             "顶层 Gate 未通过，已回退模板叙事（不再重跑流水线）",
-            *verdict.blockers[:3],
+            *verdict.blockers[:5],
         ]
         artifacts.embed(draft)
         return CurateResult(
             ok=True,
+            degraded=True,
+            gate_passed=False,
             envelope=draft,
             assumptions=assumptions,
             reasons=[],
@@ -437,6 +269,8 @@ def curate(
 
     return CurateResult(
         ok=True,
+        degraded=False,
+        gate_passed=True,
         envelope=envelope,
         assumptions=assumptions,
         reasons=[],

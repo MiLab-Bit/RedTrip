@@ -12,6 +12,8 @@ import {
   type CityInfo,
 } from "../../shared/lib/cities";
 import { useCityStore } from "../../shared/lib/cityStore";
+import { useAuthStore } from "../auth/authStore";
+import { listModelProviders } from "../../shared/lib/authClient";
 
 const defaults: IntentSlots = {
   audience: "成人",
@@ -39,13 +41,20 @@ const companions = ["独自", "2人", "3–4人"] as const;
 
 type Props = {
   onSubmit: (slots: IntentSlots) => void;
+  /** 竞赛一键：加载冻结武康演示线（不等待 LLM） */
+  onDemoWukang?: () => void;
+  /** 竞赛一键：加载冻结一大—外滩演示线 */
+  onDemoYida?: () => void;
 };
 
-export function BriefForm({ onSubmit }: Props) {
+export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
   const [slots, setSlots] = useState<IntentSlots>({ ...defaults });
   const [cities, setCities] = useState<CityInfo[]>([]);
+  const [showMore, setShowMore] = useState(false);
   const setCityStore = useCityStore((s) => s.setCity);
   const activeCity = useCityStore((s) => s.city);
+  const authStatus = useAuthStore((s) => s.status);
+  const [byokReady, setByokReady] = useState(false);
   const [suggestions, setSuggestions] = useState<PlaceSuggestItem[]>([]);
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [suggestMeta, setSuggestMeta] = useState("馆藏 · 走廊 · 热词");
@@ -73,6 +82,25 @@ export function BriefForm({ onSubmit }: Props) {
       cancelled = true;
     };
   }, [slots.city, setCityStore]);
+
+  useEffect(() => {
+    if (authStatus !== "authenticated") {
+      setByokReady(false);
+      return;
+    }
+    let cancelled = false;
+    void listModelProviders()
+      .then((list) => {
+        if (cancelled) return;
+        setByokReady(list.some((p) => p.status === "active" && p.slot === "text"));
+      })
+      .catch(() => {
+        if (!cancelled) setByokReady(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [authStatus]);
 
   const selectedScene = slots.scene ?? "";
 
@@ -240,11 +268,19 @@ export function BriefForm({ onSubmit }: Props) {
       <div className="brief-copy">
         <div className="brief-wash-stain" aria-hidden />
         <p className="brief-brand brand-mark">
-          <span className="brand-word">RedTrip</span>
-          <span className="brand-tag">城市记忆策展人</span>
+          <img
+            className="brand-kite is-brief"
+            src={`${import.meta.env.BASE_URL}redtrip-kite.svg`}
+            alt=""
+            aria-hidden
+            width={36}
+            height={36}
+          />
+          <span className="brand-word">红鸢</span>
           <span className="brand-seal" aria-hidden>
-            策
+            鸢
           </span>
+          <span className="brand-tag">RedTrip · 城市记忆策展人</span>
         </p>
         <h1 className="brief-title">用馆藏，策一场九十分钟的步行展览</h1>
         <p className="brief-lead">
@@ -263,12 +299,20 @@ export function BriefForm({ onSubmit }: Props) {
                 setCityStore(c);
               }}
             >
-              {(cities.length ? cities : STATIC_CITIES).map((c) => (
-                <option key={c.key} value={c.key} disabled={!c.ready}>
-                  {c.name_zh}
-                  {c.ready ? "" : "（数据准备中）"}
-                </option>
-              ))}
+              {(cities.length ? cities : STATIC_CITIES).map((c) => {
+                // 竞赛主城上海永远可选；其它城未 ready 仅标注，不把上海 disabled
+                const selectable = c.key === "shanghai" || c.ready;
+                return (
+                  <option key={c.key} value={c.key} disabled={!selectable}>
+                    {c.name_zh}
+                    {c.featured
+                      ? "（竞赛优先）"
+                      : selectable
+                        ? ""
+                        : "（数据准备中）"}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
@@ -356,9 +400,9 @@ export function BriefForm({ onSubmit }: Props) {
           </div>
 
           <div className="brief-chips-block">
-            <span className="brief-chip-label">时长 · 街区漫游</span>
-            <div className="brief-chips" role="group" aria-label="街区漫游时长">
-              {streetDurations.map((d) => (
+            <span className="brief-chip-label">多久</span>
+            <div className="brief-chips" role="group" aria-label="步行时长">
+              {[...streetDurations, ...cityDurations].map((d) => (
                 <button
                   key={d}
                   type="button"
@@ -366,39 +410,6 @@ export function BriefForm({ onSubmit }: Props) {
                   onClick={() => setSlots({ ...slots, duration_min: d })}
                 >
                   {durationLabel(d)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="brief-chips-block">
-            <span className="brief-chip-label">时长 · 城市漫游</span>
-            <div className="brief-chips" role="group" aria-label="城市漫游时长">
-              {cityDurations.map((d) => (
-                <button
-                  key={d}
-                  type="button"
-                  className={`brief-chip${slots.duration_min === d ? " is-on" : ""}`}
-                  onClick={() => setSlots({ ...slots, duration_min: d })}
-                >
-                  {durationLabel(d)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="brief-chips-block">
-            <span className="brief-chip-label">时段</span>
-            <div className="brief-chips" role="group" aria-label="时段">
-              {dayparts.map((dp) => (
-                <button
-                  key={dp.id}
-                  type="button"
-                  title={dp.hint}
-                  className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
-                  onClick={() => setSlots({ ...slots, daypart: dp.id })}
-                >
-                  {dp.label}
                 </button>
               ))}
             </div>
@@ -421,7 +432,7 @@ export function BriefForm({ onSubmit }: Props) {
           </div>
 
           <div className="brief-chips-block">
-            <span className="brief-chip-label">同行</span>
+            <span className="brief-chip-label">和谁</span>
             <div className="brief-chips" role="group" aria-label="同行">
               {companions.map((c) => (
                 <button
@@ -436,21 +447,65 @@ export function BriefForm({ onSubmit }: Props) {
             </div>
           </div>
 
-          <div className="field brief-audience">
-            <label htmlFor="brief-audience">对象</label>
-            <select
-              id="brief-audience"
-              value={slots.audience ?? "成人"}
-              onChange={(e) => setSlots({ ...slots, audience: e.target.value })}
-            >
-              <option value="成人">成人</option>
-              <option value="青年">青年</option>
-              <option value="亲子">亲子</option>
-            </select>
-          </div>
+          <button
+            type="button"
+            className="brief-more-toggle"
+            onClick={() => setShowMore((v) => !v)}
+          >
+            {showMore ? "收起时段与对象" : "更多：时段与对象"}
+          </button>
+
+          {showMore && (
+            <>
+              <div className="brief-chips-block">
+                <span className="brief-chip-label">时段</span>
+                <div className="brief-chips" role="group" aria-label="时段">
+                  {dayparts.map((dp) => (
+                    <button
+                      key={dp.id}
+                      type="button"
+                      title={dp.hint}
+                      className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
+                      onClick={() => setSlots({ ...slots, daypart: dp.id })}
+                    >
+                      {dp.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="field brief-audience">
+                <label htmlFor="brief-audience">对象</label>
+                <select
+                  id="brief-audience"
+                  value={slots.audience ?? "成人"}
+                  onChange={(e) => setSlots({ ...slots, audience: e.target.value })}
+                >
+                  <option value="成人">成人</option>
+                  <option value="青年">青年</option>
+                  <option value="亲子">亲子</option>
+                </select>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="brief-actions">
+          {authStatus !== "authenticated" && (
+            <p className="brief-byok-hint">
+              登录并配置模型密钥后，策展将优先使用你的 BYOK 大模型；未登录则走服务端默认模型。
+            </p>
+          )}
+          {authStatus === "authenticated" && !byokReady && (
+            <p className="brief-byok-hint is-soft">
+              已登录。在右上角「模型配置」保存并验证 API Key 后，策展将走 BYOK。
+            </p>
+          )}
+          {byokReady && (
+            <p className="brief-byok-hint is-on">
+              BYOK 已就绪 · 本次策展将使用你配置的文本模型
+            </p>
+          )}
           <button
             type="button"
             className="btn brief-cta"
@@ -458,6 +513,34 @@ export function BriefForm({ onSubmit }: Props) {
           >
             开始策展
           </button>
+          {onDemoWukang ? (
+            <button
+              type="button"
+              className="btn brief-demo"
+              data-testid="demo-wukang"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDemoWukang();
+              }}
+            >
+              演示武康 · 六站可溯源
+            </button>
+          ) : null}
+          {onDemoYida ? (
+            <button
+              type="button"
+              className="btn brief-demo brief-demo-alt"
+              data-testid="demo-yida"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDemoYida();
+              }}
+            >
+              演示一大·外滩 · 通道诚实
+            </button>
+          ) : null}
         </div>
         <p className="brief-footnote">
           {cityName(activeCity)}开放数据 · 证据先于叙事 · 高度缺省处标「示意」

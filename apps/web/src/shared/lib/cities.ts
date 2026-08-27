@@ -12,24 +12,25 @@ export interface CityInfo {
   center: { lat: number; lng: number };
   partners: string[];
   ready: boolean;
+  featured?: boolean;
 }
 
 /** 静态兜底（与后端 CITY_REGISTRY 同义，仅作离线回退）。ready 缺省视为可用。 */
 export const STATIC_CITIES: CityInfo[] = [
-  { key: "shanghai", name_zh: "上海", center: { lat: 31.2304, lng: 121.4737 }, partners: ["slc"], ready: true },
-  { key: "beijing", name_zh: "北京", center: { lat: 39.9042, lng: 116.4074 }, partners: ["cbdb"], ready: true },
-  { key: "suzhou", name_zh: "苏州", center: { lat: 31.2989, lng: 120.5853 }, partners: ["suzhou_lib"], ready: true },
-  { key: "nanjing", name_zh: "南京", center: { lat: 32.0603, lng: 118.7969 }, partners: ["nanjing_lib"], ready: true },
-  { key: "hangzhou", name_zh: "杭州", center: { lat: 30.2741, lng: 120.1551 }, partners: ["zhejiang_lib"], ready: true },
-  { key: "jiaxing", name_zh: "嘉兴", center: { lat: 30.7524, lng: 120.75 }, partners: ["jiaxing_lib"], ready: true },
-  { key: "yangzhou", name_zh: "扬州", center: { lat: 32.3941, lng: 119.4145 }, partners: ["yangzhou_lib"], ready: true },
-  { key: "shenzhen", name_zh: "深圳", center: { lat: 22.5431, lng: 114.0579 }, partners: ["shenzhen_lib"], ready: true },
-  { key: "nantong", name_zh: "南通", center: { lat: 31.98, lng: 120.8933 }, partners: ["nantong_lib"], ready: true },
-  { key: "guangzhou", name_zh: "广州", center: { lat: 23.1291, lng: 113.2644 }, partners: ["souyun"], ready: true },
-  { key: "hefei", name_zh: "合肥·安徽", center: { lat: 31.8206, lng: 117.2272 }, partners: ["anhui_lib"], ready: true },
-  { key: "chengdu", name_zh: "成都", center: { lat: 30.5728, lng: 104.0668 }, partners: [], ready: true },
-  { key: "xian", name_zh: "西安", center: { lat: 34.3416, lng: 108.9398 }, partners: [], ready: true },
-  { key: "chongqing", name_zh: "重庆", center: { lat: 29.563, lng: 106.5516 }, partners: [], ready: true },
+  { key: "shanghai", name_zh: "上海", center: { lat: 31.2304, lng: 121.4737 }, partners: ["slc"], ready: true, featured: true },
+  { key: "beijing", name_zh: "北京", center: { lat: 39.9042, lng: 116.4074 }, partners: ["cbdb"], ready: false },
+  { key: "suzhou", name_zh: "苏州", center: { lat: 31.2989, lng: 120.5853 }, partners: ["suzhou_lib"], ready: false },
+  { key: "nanjing", name_zh: "南京", center: { lat: 32.0603, lng: 118.7969 }, partners: ["nanjing_lib"], ready: false },
+  { key: "hangzhou", name_zh: "杭州", center: { lat: 30.2741, lng: 120.1551 }, partners: ["zhejiang_lib"], ready: false },
+  { key: "jiaxing", name_zh: "嘉兴", center: { lat: 30.7524, lng: 120.75 }, partners: ["jiaxing_lib"], ready: false },
+  { key: "yangzhou", name_zh: "扬州", center: { lat: 32.3941, lng: 119.4145 }, partners: ["yangzhou_lib"], ready: false },
+  { key: "shenzhen", name_zh: "深圳", center: { lat: 22.5431, lng: 114.0579 }, partners: ["shenzhen_lib"], ready: false },
+  { key: "nantong", name_zh: "南通", center: { lat: 31.98, lng: 120.8933 }, partners: ["nantong_lib"], ready: false },
+  { key: "guangzhou", name_zh: "广州", center: { lat: 23.1291, lng: 113.2644 }, partners: ["souyun"], ready: false },
+  { key: "hefei", name_zh: "合肥·安徽", center: { lat: 31.8206, lng: 117.2272 }, partners: ["anhui_lib"], ready: false },
+  { key: "chengdu", name_zh: "成都", center: { lat: 30.5728, lng: 104.0668 }, partners: [], ready: false },
+  { key: "xian", name_zh: "西安", center: { lat: 34.3416, lng: 108.9398 }, partners: [], ready: false },
+  { key: "chongqing", name_zh: "重庆", center: { lat: 29.563, lng: 106.5516 }, partners: [], ready: false },
 ];
 
 export const DEFAULT_CITY = "shanghai";
@@ -43,7 +44,15 @@ export async function fetchCities(signal?: AbortSignal): Promise<CityInfo[]> {
       default?: string;
     };
     if (Array.isArray(json.cities) && json.cities.length) {
-      return json.cities;
+      const received = json.cities.map((city) =>
+        city.key === DEFAULT_CITY
+          ? { ...city, ready: true, featured: true }
+          : city,
+      );
+      if (!received.some((city) => city.key === DEFAULT_CITY)) {
+        received.unshift(STATIC_CITIES[0]);
+      }
+      return received;
     }
     throw new Error("empty cities");
   } catch {

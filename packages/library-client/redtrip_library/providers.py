@@ -299,15 +299,22 @@ def gather_partner_evidence(
     return layers, sources_used, gaps
 
 
-def health_probe() -> dict[str, Any]:
-    """各 provider 可达性矩阵（填 /v1/health，评审可看哪些源已真正可用）。"""
+def health_probe(
+    live_results: dict[str, bool] | None = None,
+) -> dict[str, Any]:
+    """返回各 provider 的真实可用性矩阵。
+
+    ``live_results`` 只接受本次运行中实际 HTTP probe 的结果；未 probe 的 live
+    provider 保持 ``ready=false``。注册了 endpoint 不等于已成功接通。
+    """
+    live_results = live_results or {}
     matrix: list[dict[str, Any]] = []
     for spec in PROVIDERS.values():
         ready = False
         if spec.mode == "live":
-            ready = True  # live 通道依赖 SLC key，运行期由 SlcClient 实测；此处标记为已注册
+            ready = bool(live_results.get(spec.id, False))
         elif spec.mode == "snapshot":
-            ready = load_snapshot(spec) is not None
+            ready = bool(load_snapshot(spec))
         matrix.append({
             "id": spec.id,
             "name": spec.name,
@@ -316,13 +323,30 @@ def health_probe() -> dict[str, Any]:
             "city": spec.city,
             "enrich": list(spec.enrich),
             "ready": ready,
+            "readiness": (
+                "ready"
+                if ready
+                else "probe_required"
+                if spec.mode == "live"
+                else "not_ingested"
+                if spec.mode == "snapshot"
+                else "pending_authorization"
+            ),
             "note": spec.note,
         })
+    live_ready = sum(
+        1 for m in matrix if m["mode"] == "live" and m["ready"]
+    )
+    snapshot_ingested = sum(
+        1 for m in matrix if m["mode"] == "snapshot" and m["ready"]
+    )
     return {
         "total": len(matrix),
         "live": sum(1 for m in matrix if m["mode"] == "live"),
+        "live_ready": live_ready,
         "snapshot_registered": sum(1 for m in matrix if m["mode"] == "snapshot"),
-        "snapshot_ingested": sum(1 for m in matrix if m["ready"]),
+        "snapshot_ingested": snapshot_ingested,
+        "ingested": live_ready + snapshot_ingested,
         "pending": sum(1 for m in matrix if m["mode"] == "pending"),
         "providers": matrix,
     }

@@ -1,0 +1,47 @@
+<view class="container reader-page" wx:if="{{ready}}">
+  <view class="page-sheet">
+    <view class="reader-head">
+      <text class="kicker">第 {{chapterIndex + 1}} 站 · {{roleLabel}}</text>
+      <view class="title">{{chapter.title}}</view>
+      <view wx:if="{{chapter.hook}}" class="hook">{{chapter.hook}}</view>
+    </view>
+
+    <view wx:if="{{storyBody}}" class="story-body">
+      <text user-select>{{storyBody}}</text>
+    </view>
+    <view wx:elif="{{stop}}" class="fallback">
+      <text user-select>{{stop.meaning}}</text>
+      <view wx:if="{{stop.layers.length}}" class="layers">
+        <view wx:for="{{stop.layers}}" wx:key="label" class="layer-item">
+          <text class="layer-kind">{{item.kindLabel}}</text>
+          <text class="layer-claim">{{item.claim}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{stop}}" class="pitfalls">
+      <text class="section-label">行前提示</text>
+      <text class="pitfall-line">开放：{{stop.pitfalls.open_hours}}</text>
+      <text class="pitfall-line">进入：{{stop.pitfalls.enterable}}</text>
+      <text class="pitfall-line">预约：{{stop.pitfalls.need_reservation}}</text>
+    </view>
+  </view>
+
+  <view class="reader-nav">
+    <button class="btn-secondary nav-btn" bindtap="onPrev" disabled="{{chapterIndex <= 0}}">上一站</button>
+    <button wx:if="{{chapterIndex < total - 1}}" class="btn-primary nav-btn" bindtap="onNext">下一站</button>
+    <button wx:else class="btn-primary nav-btn" bindtap="onFinish">读完了</button>
+  </view>
+
+  <view class="rail">
+    <scroll-view scroll-x class="rail-scroll" enhanced show-scrollbar="{{false}}">
+      <view
+        wx:for="{{chapters}}"
+        wx:key="id"
+        class="rail-chip {{chapterIndex === index ? 'is-on' : ''}}"
+        data-index="{{index}}"
+        bindtap="onJump"
+      >{{item.index}}</view>
+    </scroll-view>
+  </view>
+</view>

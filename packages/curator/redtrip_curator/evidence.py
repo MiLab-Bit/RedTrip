@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -16,7 +17,9 @@ from .models import BuildingEvidence, EvidencePack, IdentityLayer, Intent, Sourc
 from .rag import _is_noise_name
 from .rag import retrieve as _rag_retrieve
 from .whitelist import Whitelist, WhitelistPoint, load_whitelist
-from .classics import attach_classical_layers  # 典籍源（CBDB）
+from .cities import get_city
+
+logger = logging.getLogger("redtrip.evidence")
 
 # ---------------------------------------------------------------------------
 # 本地策展语料：地名志 / 文学交集（静态兜底）
@@ -27,10 +30,25 @@ from .classics import attach_classical_layers  # 典籍源（CBDB）
 _CORPUS_DIR = Path(__file__).resolve().parent / "corpus"
 _CURATED_DIR = Path(__file__).resolve().parent.parent.parent.parent / "content" / "curated"
 
+# 实体层富化文件：含 description / characters / buri 的策展词条。
+# 排除 *-landmarks.json / *-osm.json（海量检索索引），避免模糊匹配被空壳 POI 抢先命中。
+_ENRICHMENT_GLOBS = (
+    "entity-enrichment-*.json",
+    "exterior-*.json",
+)
+
+
+def _is_rich_landmark(entry: dict[str, Any]) -> bool:
+    """有简介、人物或馆藏 buri 才算可注入的实体层。"""
+    if entry.get("description") or entry.get("buri"):
+        return True
+    chars = entry.get("characters")
+    return isinstance(chars, list) and len(chars) > 0
+
 
 @lru_cache(maxsize=4)
 def _load_landmark_facts() -> list[dict[str, Any]]:
-    """加载本地 curated 词库（外滩万国建筑等历史风貌区核心建筑+人物+简介）。
+    """加载本地 curated 实体层（外滩/武康等核心建筑+人物+简介）。
 
     命中 amap POI 时把 description / characters / year_built / style 注入
     BuildingEvidence.raw_detail，并把 characters 转 IdentityLayer（kind=person），
@@ -39,16 +57,29 @@ def _load_landmark_facts() -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     if not _CURATED_DIR.exists():
         return out
+    paths: list[Path] = []
+    for pat in _ENRICHMENT_GLOBS:
+        paths.extend(_CURATED_DIR.glob(pat))
+    # 兼容未改名的手工词库：根目录下非 landmarks/osm 的 json
     for f in sorted(_CURATED_DIR.glob("*.json")):
+        name = f.name.lower()
+        if name.endswith("-landmarks.json") or name.endswith("-osm.json"):
+            continue
+        if f not in paths:
+            paths.append(f)
+    for f in sorted(set(paths), key=lambda p: p.name):
         try:
             data = json.loads(f.read_text(encoding="utf-8"))
+            rows: list[dict[str, Any]] = []
             if isinstance(data, list):
-                out.extend([x for x in data if isinstance(x, dict)])
+                rows = [x for x in data if isinstance(x, dict)]
             elif isinstance(data, dict):
                 for v in data.values():
                     if isinstance(v, list):
-                        out.extend([x for x in v if isinstance(x, dict)])
+                        rows.extend([x for x in v if isinstance(x, dict)])
+            out.extend([x for x in rows if _is_rich_landmark(x)])
         except Exception:  # noqa: BLE001 —— 词库错就当空
+            logger.warning("evidence: 富化词库条目加载失败，已跳过", exc_info=True)
             continue
     return out
 
@@ -56,18 +87,26 @@ def _load_landmark_facts() -> list[dict[str, Any]]:
 def _match_landmark(
     name: str, facts: list[dict[str, Any]]
 ) -> dict[str, Any] | None:
-    """按 name 或 alias 模糊匹配 landmark；返回第一条命中的词条。"""
+    """按 name 或 alias 模糊匹配；精确命中优先，其次带 buri/人物的富化词条。"""
     if not name:
         return None
     n = name.strip()
+    exact: dict[str, Any] | None = None
+    fuzzy: dict[str, Any] | None = None
     for entry in facts:
         keys = [entry.get("name"), *(entry.get("alias") or [])]
         for k in keys:
             if not k:
                 continue
-            if n == k or n in k or k in n:
-                return entry
-    return None
+            ks = str(k).strip()
+            if n == ks:
+                # 带 buri 的精确命中立刻返回
+                if entry.get("buri") or entry.get("characters"):
+                    return entry
+                exact = exact or entry
+            elif fuzzy is None and (n in ks or ks in n):
+                fuzzy = entry
+    return exact or fuzzy
 
 
 # 历史风貌区场景识别：副搜时附「万国建筑/历史建筑」等词命中真正的景点
@@ -125,6 +164,7 @@ def _load_landmark_db(city: str = "shanghai") -> dict[str, Any]:
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except Exception:  # noqa: BLE001 —— 词库损坏当空
+        logger.warning("evidence: 地标库 JSON 损坏，按空库降级 city=%s", city, exc_info=True)
         return {}
 
 
@@ -138,6 +178,7 @@ def _scene_landmark_db(
     的 dayparts 必须覆盖当前时段（night 只留夜景/滨水/商业等可夜游类目）。
     """
     city = getattr(intent, "city", None) or "shanghai"
+    city = get_city(city).key
     db = _load_landmark_db(city)
     landmarks = db.get("landmarks") or []
     if not landmarks:
@@ -202,6 +243,7 @@ def _scene_landmark_db(
             raw_detail=raw,
             coord_source="amap",
             precision="approximate",
+            evidence_channel="landmark",
         )
         if lk and lk.get("characters"):
             for ch in lk["characters"]:
@@ -229,6 +271,7 @@ def _load_corpus(name: str) -> dict[str, Any]:
         with p.open(encoding="utf-8") as f:
             return json.load(f)
     except Exception:  # noqa: BLE001
+        logger.warning("evidence: 本地语料 %s 读取失败，按空降级", name, exc_info=True)
         return {}
 
 
@@ -373,6 +416,9 @@ def _apply_whitelist_geo(be: BuildingEvidence, wp: WhitelistPoint | None) -> Non
     be.lng = wp.lng
     be.coord_source = wp.coord_source
     be.precision = wp.precision
+    be.evidence_channel = wp.evidence_channel or (
+        "slc" if wp.buri else "manual"
+    )
     if wp.name:
         be.name = wp.name
 
@@ -632,6 +678,7 @@ def _road_cache_get(client: SlcClient, name: str) -> str | None:
     try:
         claim = _road_claim(client.road(name))
     except Exception:  # noqa: BLE001
+        logger.warning("evidence: SLC road 查询失败 name=%s", name, exc_info=True)
         claim = None
     _ROAD_CACHE[name] = claim
     return claim
@@ -685,7 +732,7 @@ def _fetch_one(
         if poem_layer is not None:
             be.layers.append(poem_layer)
     except Exception:  # noqa: BLE001 — 诗词缺失/超时不影响主流程
-        pass
+        logger.warning("evidence: 诗词层跳过 item=%s", item_name, exc_info=True)
 
     # road 层（路段脉络 —— 漫步的容器；SLC road_list 已有但此前未接入）
     try:
@@ -695,13 +742,20 @@ def _fetch_one(
             if claim:
                 be.road_context = claim
     except Exception:  # noqa: BLE001
-        pass
+        logger.warning("evidence: 路段层跳过 item=%s", item_name, exc_info=True)
 
     # 地名志 / 文学交集（本地策展语料，SLC 端点返回空时的承接层）
     try:
         _attach_corpus_layers(be)
     except Exception:  # noqa: BLE001
-        pass
+        logger.warning("evidence: 本地语料层跳过 item=%s", item_name, exc_info=True)
+
+    try:
+        from .classics import attach_classical_layers
+
+        attach_classical_layers(be, city="shanghai")
+    except Exception:  # noqa: BLE001
+        logger.warning("evidence: 典籍层跳过 item=%s", item_name, exc_info=True)
 
     has_event = any(l.kind == "event" for l in be.layers)
     if be.lat is None or be.lng is None:
@@ -810,6 +864,7 @@ def _scene_geonames_places(client: SlcClient, scene: str) -> list[dict[str, str]
     try:
         r = client.call("geonames_list", {"freetext": scene})
     except Exception:  # noqa: BLE001 —— 取证层统一降级
+        logger.warning("evidence: geonames_list 失败 scene=%s", scene, exc_info=True)
         return []
     if not r.ok:
         return []
@@ -826,6 +881,7 @@ def _scene_geonames_places(client: SlcClient, scene: str) -> list[dict[str, str]
                 data = d.data.get("data") if isinstance(d.data.get("data"), dict) else d.data
                 desc = str(data.get("description") or "").strip()
         except Exception:  # noqa: BLE001
+            logger.warning("evidence: geonames_detail 失败 uri=%s", uri, exc_info=True)
             desc = ""
         out.append(
             {
@@ -854,8 +910,6 @@ def _scene_amap(
     """
     scene = (intent.scene or "").strip()
     daypart = getattr(intent, "daypart", "day") or "day"
-    # 多城支持：从 intent 取城市 key（suzhou/hangzhou/yangzhou…），传给高德按城市检索
-    city_key = getattr(intent, "city", None) or "shanghai"
     sources: list[str] = []
     gaps: list[dict[str, str]] = []
     if not scene:
@@ -888,7 +942,7 @@ def _scene_amap(
 
     _consume(
         _filter_pois(
-            amap.place_text(scene, offset=min(25, max(20, limit * 2)), city_key=city_key), daypart
+            amap.place_text(scene, offset=min(25, max(20, limit * 2))), daypart
         )
     )
 
@@ -899,7 +953,7 @@ def _scene_amap(
             _consume(
                 _filter_pois(
                     amap.place_text(
-                        f"{scene}{aux}", offset=min(25, max(20, limit * 2)), city_key=city_key
+                        f"{scene}{aux}", offset=min(25, max(20, limit * 2))
                     ),
                     daypart,
                 )
@@ -914,7 +968,7 @@ def _scene_amap(
         if slim and slim != scene:
             _consume(
                 _filter_pois(
-                    amap.place_text(slim, offset=min(25, max(20, limit * 2)), city_key=city_key),
+                    amap.place_text(slim, offset=min(25, max(20, limit * 2))),
                     daypart,
                 )
             )
@@ -933,7 +987,6 @@ def _scene_amap(
                     amap.place_text(
                         ",".join(lm_names),
                         offset=min(25, max(20, limit * 2)),
-                        city_key=city_key,
                     ),
                     daypart,
                 )
@@ -944,7 +997,7 @@ def _scene_amap(
                     continue
                 _consume(
                     _filter_pois(
-                        amap.place_text(n, offset=10, city_key=city_key), daypart
+                        amap.place_text(n, offset=10), daypart
                     )
                 )
 
@@ -1008,6 +1061,7 @@ def _scene_amap(
                 raw_detail=raw,
                 coord_source="amap",
                 precision="approximate",
+                evidence_channel="slc" if g and g.get("uri") else "landmark",
                 layers=layers,
             )
         )
@@ -1187,9 +1241,11 @@ def _scene_rag_corpus(
     POI 语料（amap <city>-landmarks + 免 key 的 OSM <city>-osm）按 intent
     预筛候选，保证路线非空（避免空壳 / 电子垃圾）。纯本地、无网络、无 LLM。"""
     city = getattr(intent, "city", None) or "shanghai"
+    city = get_city(city).key
     try:
         buildings = _rag_retrieve(intent, top_k=limit)
     except Exception:  # noqa: BLE001
+        logger.warning("evidence: RAG 检索失败 city=%s", city, exc_info=True)
         return [], [], [{"subject": "RAG 语料", "note": "检索失败"}]
     if not buildings:
         return [], [], [{"subject": "RAG 语料", "note": f"{city}-landmarks/osm 语料为空"}]
@@ -1308,20 +1364,10 @@ def fetch_evidence(client: SlcClient, intent: Intent, *, limit: int = 10) -> Evi
                 sources_used.extend(_ps)
             gaps.extend(_pg)
         except Exception:  # noqa: BLE001
+            logger.warning("evidence: partner 数据源接入异常", exc_info=True)
             gaps.append(
                 {"subject": "partner 数据源", "note": "接入异常（已跳过，不影响主链路）"}
             )
-
-    # 典籍源（CBDB 中国历代人物传记）：对每栋建筑已挂的 person 图层，
-    # 按「同名同城市」查典籍传记，附加 classical 图层。零 token、纯本地查表。
-    try:
-        _city = getattr(intent, "city", None) or "shanghai"
-        for _be in buildings:
-            attach_classical_layers(_be, city=_city)
-        if any(any(l.kind == "classical" for l in b.layers) for b in buildings):
-            sources_used.append("cbdb_classical")
-    except Exception:  # noqa: BLE001
-        gaps.append({"subject": "cbdb_classical", "note": "典籍层挂载异常（已跳过）"})
 
     if len(buildings) < 3:
         gaps.append({"subject": "候选建筑不足", "note": "暂无数据支撑"})
