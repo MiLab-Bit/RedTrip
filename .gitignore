@@ -16,13 +16,6 @@ data/
 *.db-wal
 .curate_cache.json
 .crypto_key
-**/credentials*.json
-**/*tunnel*.json
-**/*tunnel*.token
-**/redtrip-sy-realm.*
-.id_ed25519*
-*.pem
-*.p12
 
 # ── Python ──
 __pycache__/

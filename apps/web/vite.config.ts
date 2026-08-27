@@ -9,10 +9,9 @@ import path from "node:path";
  * 一旦忘记，子路径部署会因为 index.html 里写成 `/assets/...` 而白屏。
  * 现改为读环境变量，并把两个目标的构建命令固化到 package.json：
  *   - Cloudflare Pages（https://redtrip.pages.dev，站点根）→ base "/"
- *   - 正式站 nginx 子路径（https://sy-realm.ltd/redtrip/）→ base "/redtrip/"
- * 默认走子路径，避免漏传 VITE_BASE 时生产白屏。
+ *   - 自建 nginx 子路径（https://abc-ai.cn/redtrip/）→ base "/redtrip/"
  */
-const BASE = process.env.VITE_BASE ?? "/redtrip/";
+const BASE = process.env.VITE_BASE ?? "/";
 
 export default defineConfig({
   base: BASE,

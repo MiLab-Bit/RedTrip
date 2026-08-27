@@ -114,15 +114,3 @@ export async function deleteModelProvider(id: string): Promise<void> {
   const res = await authedFetch(`/model-providers/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error(`删除失败 (${res.status})`);
 }
-
-export async function retestModelProvider(id: string): Promise<{
-  provider: ModelProvider;
-  test: { ok: boolean; error?: string; latency_ms?: number };
-}> {
-  const res = await authedFetch(`/model-providers/${id}/retest`, { method: "POST" });
-  if (!res.ok) throw new Error(`重测失败 (${res.status})`);
-  return res.json() as Promise<{
-    provider: ModelProvider;
-    test: { ok: boolean; error?: string; latency_ms?: number };
-  }>;
-}

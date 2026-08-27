@@ -6,6 +6,7 @@ import {
 } from "../../shared/lib/places";
 import {
   fetchCities,
+  cityName,
   DEFAULT_CITY,
   STATIC_CITIES,
   type CityInfo,
@@ -13,7 +14,6 @@ import {
 import { useCityStore } from "../../shared/lib/cityStore";
 import { useAuthStore } from "../auth/authStore";
 import { listModelProviders } from "../../shared/lib/authClient";
-import { RedTripKiteLogo } from "../../shared/ui/RedTripKiteLogo";
 
 const defaults: IntentSlots = {
   audience: "成人",
@@ -38,7 +38,6 @@ const dayparts = [
 ] as const;
 const tones = ["文艺", "轻社交", "硬核"] as const;
 const companions = ["独自", "2人", "3–4人"] as const;
-const audiences = ["成人", "青年", "亲子"] as const;
 
 type Props = {
   onSubmit: (slots: IntentSlots) => void;
@@ -51,7 +50,9 @@ type Props = {
 export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
   const [slots, setSlots] = useState<IntentSlots>({ ...defaults });
   const [cities, setCities] = useState<CityInfo[]>([]);
+  const [showMore, setShowMore] = useState(false);
   const setCityStore = useCityStore((s) => s.setCity);
+  const activeCity = useCityStore((s) => s.city);
   const authStatus = useAuthStore((s) => s.status);
   const [byokReady, setByokReady] = useState(false);
   const [suggestions, setSuggestions] = useState<PlaceSuggestItem[]>([]);
@@ -267,7 +268,14 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
       <div className="brief-copy">
         <div className="brief-wash-stain" aria-hidden />
         <p className="brief-brand brand-mark">
-          <RedTripKiteLogo size={36} className="brand-kite is-brief" />
+          <img
+            className="brand-kite is-brief"
+            src={`${import.meta.env.BASE_URL}redtrip-kite.svg`}
+            alt=""
+            aria-hidden
+            width={36}
+            height={36}
+          />
           <span className="brand-word">红鸢</span>
           <span className="brand-seal" aria-hidden>
             鸢
@@ -276,13 +284,8 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
         </p>
         <h1 className="brief-title">用馆藏，策一场九十分钟的步行展览</h1>
         <p className="brief-lead">
-          目录给条目，我们给关系——把散落在馆藏里的建筑、人物与事件，编成一条走得动、站站可溯源的故事线。
+          不报名、不集合。选定城市、一带与同行——证据先于叙事，站站可溯源。
         </p>
-        <ul className="brief-wont">
-          <li>不做实时导航</li>
-          <li>不做景点点评聚合</li>
-          <li>不编造无出处的史实</li>
-        </ul>
 
         <div className="brief-intent">
           <div className="field brief-city">
@@ -444,44 +447,63 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
             </div>
           </div>
 
-          <div className="brief-chips-block">
-            <span className="brief-chip-label">时段</span>
-            <div className="brief-chips" role="group" aria-label="时段">
-              {dayparts.map((dp) => (
-                <button
-                  key={dp.id}
-                  type="button"
-                  title={dp.hint}
-                  className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
-                  onClick={() => setSlots({ ...slots, daypart: dp.id })}
-                >
-                  {dp.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          <button
+            type="button"
+            className="brief-more-toggle"
+            onClick={() => setShowMore((v) => !v)}
+          >
+            {showMore ? "收起时段与对象" : "更多：时段与对象"}
+          </button>
 
-          <div className="brief-chips-block">
-            <span className="brief-chip-label">对象</span>
-            <div className="brief-chips" role="group" aria-label="对象">
-              {audiences.map((a) => (
-                <button
-                  key={a}
-                  type="button"
-                  className={`brief-chip${(slots.audience ?? "成人") === a ? " is-on" : ""}`}
-                  onClick={() => setSlots({ ...slots, audience: a })}
+          {showMore && (
+            <>
+              <div className="brief-chips-block">
+                <span className="brief-chip-label">时段</span>
+                <div className="brief-chips" role="group" aria-label="时段">
+                  {dayparts.map((dp) => (
+                    <button
+                      key={dp.id}
+                      type="button"
+                      title={dp.hint}
+                      className={`brief-chip${(slots.daypart ?? "day") === dp.id ? " is-on" : ""}`}
+                      onClick={() => setSlots({ ...slots, daypart: dp.id })}
+                    >
+                      {dp.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="field brief-audience">
+                <label htmlFor="brief-audience">对象</label>
+                <select
+                  id="brief-audience"
+                  value={slots.audience ?? "成人"}
+                  onChange={(e) => setSlots({ ...slots, audience: e.target.value })}
                 >
-                  {a}
-                </button>
-              ))}
-            </div>
-          </div>
+                  <option value="成人">成人</option>
+                  <option value="青年">青年</option>
+                  <option value="亲子">亲子</option>
+                </select>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="brief-actions">
+          {authStatus !== "authenticated" && (
+            <p className="brief-byok-hint">
+              登录并配置模型密钥后，策展将优先使用你的 BYOK 大模型；未登录则走服务端默认模型。
+            </p>
+          )}
           {authStatus === "authenticated" && !byokReady && (
             <p className="brief-byok-hint is-soft">
-              已登录。可在右上角「模型配置」填入你自己的大模型 API Key，之后策展会优先用你的模型。
+              已登录。在右上角「模型配置」保存并验证 API Key 后，策展将走 BYOK。
+            </p>
+          )}
+          {byokReady && (
+            <p className="brief-byok-hint is-on">
+              BYOK 已就绪 · 本次策展将使用你配置的文本模型
             </p>
           )}
           <button
@@ -491,7 +513,6 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
           >
             开始策展
           </button>
-          <p className="brief-cta-hint">完整策展通常需要数分钟 · 进度条会说明当前阶段</p>
           {onDemoWukang ? (
             <button
               type="button"
@@ -520,12 +541,9 @@ export function BriefForm({ onSubmit, onDemoWukang, onDemoYida }: Props) {
               演示一大·外滩 · 通道诚实
             </button>
           ) : null}
-          {(onDemoWukang || onDemoYida) && (
-            <p className="brief-demo-hint">演示为冻结包 · 秒开，用于查看成书形态</p>
-          )}
         </div>
         <p className="brief-footnote">
-          深挖上海馆藏 · 证据先于叙事 · 高度缺省处标「示意」
+          {cityName(activeCity)}开放数据 · 证据先于叙事 · 高度缺省处标「示意」
         </p>
       </div>
     </section>

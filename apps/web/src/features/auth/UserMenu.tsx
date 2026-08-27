@@ -18,6 +18,7 @@ export function UserMenu({
   const progress = useProgressStore((s) => s.byUser[userId ?? "anon"]);
   const [open, setOpen] = useState(false);
   const [byokActive, setByokActive] = useState(false);
+  const AUTH_DISABLED = import.meta.env.VITE_AUTH_DISABLED === "true";
 
   useEffect(() => {
     if (status !== "authenticated") {
@@ -37,6 +38,14 @@ export function UserMenu({
       cancelled = true;
     };
   }, [status, user?.publicId]);
+
+  if (AUTH_DISABLED) {
+    return (
+      <span className="auth-trigger auth-disabled-tag" title="login disabled (demo)">
+        demo
+      </span>
+    );
+  }
 
   if (status !== "authenticated" || !user) {
     return (
@@ -58,8 +67,8 @@ export function UserMenu({
       >
         <span className="usermenu-name">{name}</span>
         {byokActive && (
-          <span className="usermenu-byok" title="已配置自己的大模型">
-            自有模型
+          <span className="usermenu-byok" title="已配置自带大模型密钥">
+            BYOK
           </span>
         )}
         <span className="usermenu-caret">▾</span>
@@ -71,7 +80,7 @@ export function UserMenu({
           </div>
           {byokActive && (
             <div className="usermenu-row usermenu-byok-line">
-              已启用你配置的文本模型 · 策展使用你的密钥
+              文本模型 BYOK 已启用 · 策展走你的密钥
             </div>
           )}
           {progress && (
@@ -88,7 +97,7 @@ export function UserMenu({
               onOpenModelConfig();
             }}
           >
-            模型配置
+            模型配置{byokActive ? "" : "（BYOK）"}
           </button>
           <button
             className="usermenu-action"

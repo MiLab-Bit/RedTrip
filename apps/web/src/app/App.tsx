@@ -7,26 +7,27 @@ import {
   useState,
 } from "react";
 import { useMachine } from "@xstate/react";
-import type { IntentSlots } from "@redtrip/contracts";
+import type { HongyuanMeta, IntentSlots, RouteEnvelope } from "@redtrip/contracts";
 import { BriefForm } from "../features/brief/BriefForm";
 import { LoadingStage } from "../features/loading/LoadingStage";
 import { BookShell } from "../features/shell/BookShell";
 import { WalkStage } from "../features/walk/WalkStage";
 import { StoryIntro } from "../features/story/StoryIntro";
 import { StoryOutro } from "../features/story/StoryOutro";
+import { PreviewReader } from "../features/story/PreviewReader";
 import { buildStoryView, type StoryView } from "../features/story/storyView";
 import { tripMachine } from "../features/trip/machine";
 import {
   curateRouteStream,
   fetchDemoWukang,
   fetchDemoYida,
+  type StreamChapter,
 } from "../shared/lib/curate";
 import { fetchFootprints } from "../shared/lib/footprints";
 import { useAuthStore } from "../features/auth/authStore";
 import { useProgressStore } from "../features/progress/progressStore";
 import { useCityStore } from "../shared/lib/cityStore";
 import { cityName } from "../shared/lib/cities";
-import { RedTripKiteLogo } from "../shared/ui/RedTripKiteLogo";
 import { UserMenu } from "../features/auth/UserMenu";
 import { AuthModal } from "../features/auth/AuthModal";
 import { ModelConfigPanel } from "../features/auth/ModelConfigPanel";
@@ -57,6 +58,27 @@ function MapLoadingFallback() {
   );
 }
 
+/** B4：把流式就绪的润色卡合并进 envelope 的 blocks（只碰 title/body/age_parallel）。 */
+function mergeStreamCards(
+  env: RouteEnvelope,
+  cards: Record<number, StreamChapter["card"]>,
+): RouteEnvelope {
+  const keys = Object.keys(cards);
+  if (keys.length === 0) return env;
+  const blocks = (env.blocks ?? []).map((b) => {
+    if (b.type !== "story_card") return b;
+    const c = cards[b.stop_order];
+    if (!c) return b;
+    return {
+      ...b,
+      title: c.title ?? b.title,
+      body: c.body ?? b.body,
+      age_parallel: c.age_parallel ?? b.age_parallel,
+    };
+  });
+  return { ...env, blocks };
+}
+
 export function App() {
   const [state, send] = useMachine(tripMachine);
   const [pendingSlots, setPendingSlots] = useState<IntentSlots | null>(null);
@@ -64,6 +86,18 @@ export function App() {
   const [loadPhase, setLoadPhase] = useState("翻开馆藏…");
   const [authOpen, setAuthOpen] = useState(false);
   const [modelConfigOpen, setModelConfigOpen] = useState(false);
+  /**
+   * B4 章节级流式预览：story_ready 到达后即可读模板序章/章节，
+   * chapter_ready 逐章替换为润色版；done 后清理并走正式流程。
+   */
+  const [previewEnv, setPreviewEnv] = useState<RouteEnvelope | null>(null);
+  const [previewHongyuan, setPreviewHongyuan] =
+    useState<HongyuanMeta | null>(null);
+  const [streamCards, setStreamCards] = useState<
+    Record<number, StreamChapter["card"]>
+  >({});
+  const [previewReading, setPreviewReading] = useState(false);
+  const [previewChapter, setPreviewChapter] = useState(1);
   /** 邮箱验证 / 密码重置链接回跳的结果提示。 */
   const [verifyMsg, setVerifyMsg] = useState<string | null>(null);
   /**
@@ -186,6 +220,7 @@ export function App() {
         setLoadProgress(2);
         setLoadPhase("L1 · 提交取证任务…");
 
+        let chapterCount = 0;
         const { envelope, assumptions, hongyuan, degraded, notices } =
           await curateRouteStream(
             slots,
@@ -200,15 +235,30 @@ export function App() {
               } else if (stage === "hotwords" || stage === "layer3") {
                 setLoadPhase("L3 · 对齐当代口吻…");
               } else if (stage === "narrate") {
-                setLoadPhase("L2 · 叙事初稿完成，正在润色全文…");
-              } else if (stage === "polish") {
-                setLoadPhase("L2 · 大模型润色中，请稍候…");
+                setLoadPhase("L2 · 叙事初稿完成，逐章润色中…");
               }
             },
             ac.signal,
-            // 故意不接 story_ready / chapter_ready：等整本润色与后续工作完成后再呈现
+            (story) => {
+              if (cancelled) return;
+              setPreviewEnv(story.envelope);
+              setPreviewHongyuan(story.hongyuan);
+            },
+            (chapter) => {
+              if (cancelled) return;
+              chapterCount += 1;
+              setStreamCards((m) => ({
+                ...m,
+                [chapter.stop_order]: chapter.card,
+              }));
+            },
           );
         if (cancelled) return;
+        setPreviewEnv(null);
+        setPreviewHongyuan(null);
+        setStreamCards({});
+        setPreviewReading(false);
+        setPreviewChapter(1);
         setDegradeNotices(degraded ? notices : []);
         const reading =
           hongyuan?.summary ??
@@ -257,6 +307,9 @@ export function App() {
   const restart = useCallback(() => {
     setPendingSlots(null);
     setDegradeNotices([]);
+    setPreviewEnv(null);
+    setPreviewHongyuan(null);
+    setStreamCards({});
     send({ type: "RESTART" });
   }, [send]);
 
@@ -264,6 +317,19 @@ export function App() {
     const env = state.context.envelope;
     return env ? buildStoryView(env) : null;
   }, [state.context.envelope]);
+
+  /** B4 预览视图：模板 envelope + 已就绪的润色卡合并，供 loading 期先行阅读。 */
+  const previewViewEnv = useMemo<RouteEnvelope | null>(() => {
+    return previewEnv ? mergeStreamCards(previewEnv, streamCards) : null;
+  }, [previewEnv, streamCards]);
+  const previewView = useMemo<StoryView | null>(() => {
+    return previewViewEnv ? buildStoryView(previewViewEnv) : null;
+  }, [previewViewEnv]);
+  const previewStreamed = useMemo<Record<number, boolean>>(() => {
+    const m: Record<number, boolean> = {};
+    for (const k of Object.keys(streamCards)) m[Number(k)] = true;
+    return m;
+  }, [streamCards]);
 
   // 阅读进度按账号隔离（未登录记到 "anon"）；翻章 / 收尾时落盘，供用户菜单回显。
   const recordProgress = useCallback(() => {
@@ -310,12 +376,19 @@ export function App() {
       {!isBrief && (
         <header className="topbar">
           <div className="brand brand-mark">
-            <RedTripKiteLogo size={28} className="brand-kite is-topbar" />
+            <img
+              className="brand-kite"
+              src="/redtrip-kite.svg"
+              alt=""
+              aria-hidden
+              width={28}
+              height={28}
+            />
             <span className="brand-word">红鸢</span>
+            <small className="brand-tag">RedTrip · 城市记忆策展人</small>
             <span className="brand-seal" aria-hidden>
               鸢
             </span>
-            <small className="brand-tag">RedTrip · 城市记忆策展人</small>
           </div>
           <div className="source-badge">
             {cityName(activeCity)} · 可溯源书页
@@ -339,7 +412,7 @@ export function App() {
         {!isBrief && degradeNotices.length > 0 && (
           <div className="degrade-banner" role="status">
             <p className="degrade-title">
-              这一程可读，但未完整过检——内容可用，请带着保留态度阅读。
+              这一程是降级结果：内容可读，但未走完整策展。
             </p>
             <ul>
               {degradeNotices.slice(0, 3).map((n, i) => (
@@ -374,7 +447,41 @@ export function App() {
           />
         )}
 
-        {state.value === "loading" && (
+        {state.value === "loading" && previewViewEnv && previewView && (
+          <BookShell
+            mode={previewReading ? "spread" : "folio"}
+            className="book-scene--preview"
+          >
+            {previewReading ? (
+              <PreviewReader
+                envelope={previewViewEnv}
+                streamed={previewStreamed}
+                currentChapter={previewChapter}
+                onOpenChapter={(i) => setPreviewChapter(i)}
+                onPrev={() => setPreviewChapter((c) => Math.max(1, c - 1))}
+                onNext={() => setPreviewChapter((c) => c + 1)}
+                onBack={() => setPreviewReading(false)}
+              />
+            ) : (
+              <>
+                <div className="preview-banner" role="status">
+                  模板预览已就绪 · 正在逐章润色（已润色{" "}
+                  {Object.keys(streamCards).length} 章）
+                </div>
+                <StoryIntro
+                  envelope={previewViewEnv}
+                  storyView={previewView}
+                  hongyuan={previewHongyuan}
+                  onBegin={() => setPreviewReading(true)}
+                  onShowMap={() => undefined}
+                  onRestart={() => undefined}
+                />
+              </>
+            )}
+          </BookShell>
+        )}
+
+        {state.value === "loading" && !previewEnv && (
           <BookShell mode="folio">
             <LoadingStage progress={loadProgress} phase={loadPhase} />
           </BookShell>
@@ -450,23 +557,19 @@ export function App() {
         {state.value === "degraded" && (
           <BookShell mode="folio">
             <section className="panel degraded-card book-page-flat" role="alert">
-              <p className="degraded-kicker">未能成书</p>
-              <h2>这一程暂时无法展示</h2>
+              <p className="degraded-kicker">演示降级</p>
+              <h2>这条线暂时未能放行</h2>
               <p className="lead">
                 {state.context.error ||
-                  "取证或质量检查未通过。红鸢不编造无出处的史实，故宁可不展示，也不硬凑一条线。"}
+                  "取证或闸门未通过。未编造内容，故不展示路线。"}
               </p>
-              <p className="note">
-                你可以换一个起点或时段再试，或先走下方的冻结演示线，看看成书长什么样。
-              </p>
-              <details className="degraded-tech">
-                <summary>技术说明（可选）</summary>
-                <ul className="degraded-hints">
-                  <li>确认 API 与页面均已启动，且能访问当前站点的策展接口</li>
-                  <li>上游馆藏抖动时，运维可切换快照模式后重试</li>
-                  <li>演示线为冻结包，不依赖当场取证</li>
-                </ul>
-              </details>
+              <ul className="degraded-hints">
+                <li>确认本机 API（8799）与 Web（5173）均已启动</li>
+                <li>
+                  上游抖动时可改 <code>REDTRIP_MODE=snapshot</code> 后重启 API
+                </li>
+                <li>备援：播放预先录好的演示片（见 Doc/15-demo-script.md）</li>
+              </ul>
               <div className="btn-row">
                 <button
                   className="btn"

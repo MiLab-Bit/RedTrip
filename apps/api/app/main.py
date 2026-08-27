@@ -1168,7 +1168,10 @@ async def curate_stream(task_id: str):
 # 仅打印警告——与服务器备份版 main.py 的挂载写法保持一致。
 try:
     from app.auth_router import router as _auth_router
-    app.include_router(_auth_router)
-    print("[auth] unified login router mounted")
+    if os.getenv("REDTRIP_AUTH_ENABLED", "true").lower() == "false":
+        print("[auth] login system DISABLED via REDTRIP_AUTH_ENABLED=false (code retained)")
+    else:
+        app.include_router(_auth_router)
+        print("[auth] unified login router mounted")
 except Exception as _auth_err:  # noqa: BLE001
     print(f"[auth] WARNING: failed to mount auth router: {_auth_err}")

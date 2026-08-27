@@ -59,9 +59,7 @@ button {
 }
 
 .topbar .brand-mark {
-  padding-right: 0;
-  max-width: min(100%, 28rem);
-  z-index: 1;
+  padding-right: 2.4rem;
 }
 
 .topbar .brand-kite {
@@ -81,20 +79,6 @@ button {
   margin-left: 0.35rem;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-}
-
-/* 顶栏印章跟在品牌词后，勿 absolute 外溢压到「上海 · 可溯源书页」 */
-.topbar .brand-seal {
-  position: static;
-  top: auto;
-  right: auto;
-  margin-left: 0.2rem;
-  flex-shrink: 0;
-  width: 1.55rem;
-  height: 1.55rem;
-  font-size: 0.82rem;
-  transform: rotate(7deg);
-  opacity: 0.9;
 }
 
 .brief-byok-hint {
@@ -167,10 +151,6 @@ button {
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
   padding-bottom: 0.15rem;
   letter-spacing: 0.06em;
-  flex-shrink: 0;
-  margin-left: auto;
-  position: relative;
-  z-index: 0;
 }
 
 .app-shell.is-reading .topbar {
@@ -795,46 +775,15 @@ button {
 }
 
 .brief-lead {
-  margin: 0 0 1rem;
-  max-width: 36rem;
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: var(--ink-muted, #5c5346);
-}
-
-.brief-wont {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1rem;
-  font-size: 0.88rem;
-  color: var(--ink-muted, #6a6154);
-}
-
-.brief-wont li {
   position: relative;
-  padding-left: 0.9rem;
-}
-
-.brief-wont li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  opacity: 0.55;
-}
-
-.brief-cta-hint,
-.brief-demo-hint {
-  margin: 0.35rem 0 0.6rem;
-  font-size: 0.82rem;
-  color: var(--ink-muted, #7a7164);
-  line-height: 1.4;
-}
-
-.brief-demo-hint {
-  margin-top: 0.15rem;
+  z-index: 1;
+  margin: 0 0 1.75rem;
+  color: var(--muted);
+  line-height: 1.85;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  max-width: 26em;
+  animation: brief-rise 0.85s 0.26s both;
 }
 
 .brief-intent {
@@ -1111,7 +1060,7 @@ button {
 }
 
 @media (max-width: 900px) {
-  /* 手机：藏整屏墨色天际线，但保留书页纸感与淡墨氛围 */
+  /* 手机：藏整屏墨色天际线，保留书页纸感与淡墨氛围 */
   .app-shell.is-brief {
     background:
       var(--paper-grain),
@@ -1141,7 +1090,6 @@ button {
       linear-gradient(180deg, var(--paper-bright) 0%, var(--xuan) 48%, var(--paper) 100%);
   }
 
-  /* 左侧书脊细线，替代桌面大块暗边 */
   .brief-copy::before {
     display: block;
     width: 7px;
@@ -1161,7 +1109,6 @@ button {
     opacity: 0.4;
   }
 
-  /* 右上淡墨渍：缩小并上移，避免像半截印章 */
   .brief-wash-stain {
     display: block;
     right: -4%;
@@ -1188,11 +1135,13 @@ button {
   }
 
   .brief-brand .brand-tag {
+    flex: 1 1 100%;
     font-size: 0.78rem;
     letter-spacing: 0.2em;
   }
 
   .brief-brand .brand-seal {
+    position: static;
     width: 1.55rem;
     height: 1.55rem;
     font-size: 0.82rem;
@@ -1265,15 +1214,18 @@ button {
     right: max(0.75rem, env(safe-area-inset-right, 0px));
   }
 
-  .auth-float .auth-trigger {
+  .auth-float .auth-trigger,
+  .auth-float .auth-disabled-tag {
     font-size: 13px;
     padding: 6px 12px;
     min-height: 2.35rem;
     background: color-mix(in srgb, var(--paper-bright) 94%, transparent);
-    border-color: color-mix(in srgb, var(--seal) 28%, var(--line-strong));
-    color: var(--ink-deep);
+    border: 1px solid color-mix(in srgb, var(--seal) 28%, var(--line-strong));
+    color: var(--ink-muted, var(--muted));
     backdrop-filter: blur(8px);
     box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent);
+    border-radius: var(--radius);
+    letter-spacing: 0.08em;
   }
 }
 
@@ -2100,15 +2052,6 @@ button {
   color: var(--ink-deep);
 }
 
-.prov-grade {
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: var(--vermilion, #a8322a);
-  border: 1px solid color-mix(in srgb, var(--vermilion, #a8322a) 35%, transparent);
-  padding: 0 0.35em;
-  border-radius: 2px;
-}
-
 .prov-record {
   font-size: 0.72rem;
   color: var(--muted);
@@ -2574,18 +2517,6 @@ button {
   color: var(--ink);
   background: rgba(51, 51, 58, 0.06);
   padding: 0.1rem 0.35rem;
-}
-
-.degraded-tech {
-  margin: 0 0 1.25rem;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-.degraded-tech summary {
-  cursor: pointer;
-  user-select: none;
-  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 860px) {
@@ -3482,6 +3413,20 @@ button {
   background: color-mix(in srgb, var(--seal) 8%, transparent);
 }
 
+.brief-more-toggle {
+  display: block;
+  margin: 0.35rem 0 0.15rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-wash);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .channel-badge {
   display: inline-block;
   font-size: 0.72em;
@@ -3541,112 +3486,18 @@ button {
   display: inline-block;
   vertical-align: middle;
   margin-right: 0.35rem;
-  overflow: visible;
   filter: drop-shadow(0 1px 0 color-mix(in srgb, var(--ink) 12%, transparent));
   animation: kite-drift 5s ease-in-out infinite;
   transform-origin: 50% 80%;
 }
 
-.brand-kite .kite-logo-string {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-  animation: kite-string-draw 3.6s ease-in-out infinite;
-}
-
-.brand-kite .kite-logo-tails {
-  transform-origin: 32px 48px;
-  animation: kite-tail-sway 2.8s ease-in-out infinite;
-}
-
-.brand-kite .kite-logo-bead {
-  animation: kite-bead-pulse 3.6s ease-in-out infinite;
-}
-
-.brief-brand .brand-kite,
-.brand-kite.is-brief {
+.brief-brand .brand-kite {
   width: 2.35rem;
   height: 2.35rem;
 }
 
-.topbar .brand-kite,
-.brand-kite.is-topbar {
-  animation: kite-drift 6.5s ease-in-out infinite;
-}
-
-@keyframes kite-string-draw {
-  0%,
-  100% {
-    stroke-dashoffset: 0.15;
-    opacity: 0.85;
-  }
-  50% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes kite-tail-sway {
-  0%,
-  100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(4deg);
-  }
-}
-
-@keyframes kite-bead-pulse {
-  0%,
-  100% {
-    opacity: 0.75;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.essay-panel {
-  margin: 1rem 0 0.35rem;
-  padding: 0.75rem 0.85rem;
-  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-}
-
-.essay-panel > summary {
-  cursor: pointer;
-  list-style: none;
-  font-family: var(--font-display);
-  letter-spacing: 0.14em;
-  color: var(--seal);
-  display: flex;
-  align-items: baseline;
-  gap: 0.65rem;
-}
-
-.essay-panel > summary::-webkit-details-marker {
-  display: none;
-}
-
-.essay-len {
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  color: var(--ink-wash);
-}
-
-.essay-title {
-  margin: 0.65rem 0 0.35rem;
-  font-size: 1.05rem;
-}
-
-.essay-body {
-  margin-top: 0.55rem;
-}
-
-.essay-body p {
-  margin: 0 0 0.75rem;
-  line-height: 1.75;
-  color: var(--ink);
+.topbar .brand-kite {
+  animation: none;
 }
 
 .brief-demo-alt {
