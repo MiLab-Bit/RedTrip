@@ -2,19 +2,55 @@
   <view class="page-sheet">
     <view class="reader-head">
       <text class="kicker">第 {{chapterIndex + 1}} 站 · {{roleLabel}}</text>
-      <view class="title">{{chapter.title}}</view>
+      <view class="title">{{storyTitle}}</view>
       <view wx:if="{{chapter.hook}}" class="hook">{{chapter.hook}}</view>
+      <view wx:if="{{channelLabel}}" class="channel-line">
+        <text class="channel-badge">{{channelLabel}}</text>
+        <text wx:if="{{claimCount}}" class="prov-hint"> · {{claimCount}} 句可溯源</text>
+      </view>
     </view>
 
-    <view wx:if="{{storyBody}}" class="story-body">
-      <text user-select>{{storyBody}}</text>
+    <view wx:if="{{paragraphs.length}}" class="story-body">
+      <view wx:for="{{paragraphs}}" wx:key="index" class="story-para">
+        <text user-select>{{item.text}}</text>
+        <view wx:if="{{item.markers.length}}" class="prov-markers">
+          <text
+            wx:for="{{item.markers}}"
+            wx:for-item="m"
+            wx:key="uri"
+            class="prov-sup"
+          >{{m.short}}</text>
+        </view>
+      </view>
     </view>
     <view wx:elif="{{stop}}" class="fallback">
       <text user-select>{{stop.meaning}}</text>
-      <view wx:if="{{stop.layers.length}}" class="layers">
+    </view>
+
+    <view wx:if="{{storySources.length || claimCount}}" class="fold-block">
+      <view class="fold-head" bindtap="onToggleProvenance">
+        <text class="section-label">轻量溯源</text>
+        <text class="fold-toggle">{{provenanceOpen ? "收起" : "展开"}}</text>
+      </view>
+      <view wx:if="{{provenanceOpen}}" class="fold-body">
+        <view wx:for="{{storySources}}" wx:key="record_id" class="source-row">
+          <text class="source-dataset">{{item.dataset}}</text>
+          <text class="source-id">{{item.record_id}}</text>
+        </view>
+        <text wx:if="{{!storySources.length}}" class="fold-note">本章暂无卡片级出处，见下方证据层。</text>
+      </view>
+    </view>
+
+    <view wx:if="{{stop && stop.layers.length}}" class="fold-block">
+      <view class="fold-head" bindtap="onToggleEvidence">
+        <text class="section-label">证据层（{{stop.layers.length}}）</text>
+        <text class="fold-toggle">{{evidenceOpen ? "收起" : "展开"}}</text>
+      </view>
+      <view wx:if="{{evidenceOpen}}" class="fold-body layers">
         <view wx:for="{{stop.layers}}" wx:key="label" class="layer-item">
-          <text class="layer-kind">{{item.kindLabel}}</text>
+          <text class="layer-kind">{{item.kindLabel}} · {{item.datasetLabel}}</text>
           <text class="layer-claim">{{item.claim}}</text>
+          <text wx:if="{{item.recordShort}}" class="layer-record">{{item.recordShort}}</text>
         </view>
       </view>
     </view>
@@ -24,6 +60,8 @@
       <text class="pitfall-line">开放：{{stop.pitfalls.open_hours}}</text>
       <text class="pitfall-line">进入：{{stop.pitfalls.enterable}}</text>
       <text class="pitfall-line">预约：{{stop.pitfalls.need_reservation}}</text>
+      <text wx:if="{{stop.buri}}" class="pitfall-line buri">馆藏 URI 已收录</text>
+      <text wx:else class="pitfall-line buri is-unknown">馆藏 URI：未收录</text>
     </view>
   </view>
 

@@ -2597,12 +2597,19 @@ button {
   }
 
   .walk-col-story .stop-panel {
-    max-height: 48vh;
+    max-height: none;
+    overflow: visible;
   }
 
   .walk-col-map {
-    min-height: 280px;
-    height: 42vh;
+    min-height: 240px;
+    height: auto;
+    max-height: 36vh;
+  }
+
+  .walk-main {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .panel::after {

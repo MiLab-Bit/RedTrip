@@ -57,3 +57,26 @@ export function cbdbRecordUrl(recordId: string): string | null {
 export function isClassicalSource(dataset: string): boolean {
   return dataset === "cbdb_classical" || dataset === "cbdb" || /cbdb/i.test(dataset);
 }
+
+/** L1 证据通道统一标签（Web / 小程序共用文案） */
+export function channelLabel(channel: string | null | undefined): string {
+  switch (channel) {
+    case "slc":
+      return "上图馆藏";
+    case "landmark":
+      return "策展词库";
+    case "osm":
+      return "OSM 坐标";
+    case "amap":
+      return "地图核录";
+    case "manual":
+      return "地名志";
+    default:
+      return channel ? String(channel) : "未标注";
+  }
+}
+
+export function channelBadgeClass(channel: string | null | undefined): string {
+  const c = channel || "unknown";
+  return `channel-badge is-${c}`;
+}

@@ -1,4 +1,13 @@
-const { getStopByOrder, getStoryBlock, roleLabel } = require("../../utils/story");
+const {
+  getStopByOrder,
+  getStoryBlock,
+  findStopClaims,
+  channelLabel,
+  datasetLabel,
+  shortRecordId,
+  splitParagraphs,
+  roleLabel,
+} = require("../../utils/story");
 
 const KIND_LABEL = {
   building: "建筑",
@@ -18,8 +27,14 @@ Page({
     chapters: [],
     chapter: null,
     stop: null,
-    storyBody: "",
+    storyTitle: "",
+    paragraphs: [],
+    provenanceOpen: false,
+    evidenceOpen: false,
     roleLabel: "",
+    channelLabel: "",
+    storySources: [],
+    claimCount: 0,
   },
 
   session: null,
@@ -53,15 +68,39 @@ Page({
     const chapter = chapters[index];
     const stop = getStopByOrder(session.envelope, chapter.stopId);
     const story = getStoryBlock(session.envelope, chapter.stopId);
+    const claims = findStopClaims(session.envelope, chapter.stopId);
     const stopView = stop
       ? {
           ...stop,
+          channelLabel: channelLabel(stop.evidence_channel),
           layers: (stop.layers || []).map((l) => ({
             ...l,
             kindLabel: KIND_LABEL[l.kind] || l.kind,
+            datasetLabel: datasetLabel((l.source && l.source.dataset) || ""),
+            recordShort: shortRecordId((l.source && l.source.record_id) || ""),
           })),
         }
       : null;
+
+    const paragraphs = splitParagraphs(story && story.body ? story.body : "").map(
+      (text, pi) => {
+        const matched = claims.filter((c) => {
+          const t = (c.text || "").trim();
+          return t && (text.includes(t) || t.includes(text));
+        });
+        const markers = [];
+        matched.forEach((c) => {
+          (c.fact_uris || []).forEach((u, i) => {
+            markers.push({
+              uri: u,
+              label: (c.fact_labels && c.fact_labels[i]) || "馆藏事实",
+              short: shortRecordId(u),
+            });
+          });
+        });
+        return { text, markers };
+      },
+    );
 
     wx.setNavigationBarTitle({ title: `${chapter.index}. ${chapter.title}` });
 
@@ -69,9 +108,23 @@ Page({
       chapterIndex: index,
       chapter,
       stop: stopView,
-      storyBody: story && story.body ? story.body : "",
+      storyTitle: (story && story.title) || chapter.title,
+      paragraphs,
+      provenanceOpen: false,
+      evidenceOpen: false,
       roleLabel: roleLabel(chapter.narrativeRole),
+      channelLabel: stopView ? stopView.channelLabel : "",
+      storySources: (story && story.sources) || [],
+      claimCount: claims.length,
     });
+  },
+
+  onToggleProvenance() {
+    this.setData({ provenanceOpen: !this.data.provenanceOpen });
+  },
+
+  onToggleEvidence() {
+    this.setData({ evidenceOpen: !this.data.evidenceOpen });
   },
 
   onPrev() {
