@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f2ebdd" />
+  <title>红鸢 RedTrip · 产品介绍（手机版）</title>
+  <style>
+    :root {
+      --xuan: #f2ebdd;
+      --ink: #1a1c21;
+      --vermilion: #a8322a;
+      --rule: #d9cdb8;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--xuan);
+      color: var(--ink);
+      font-family: "PingFang SC", "Noto Serif SC", "Songti SC", serif;
+      -webkit-text-size-adjust: 100%;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: max(12px, env(safe-area-inset-top)) 16px 12px;
+      background: rgba(242, 235, 221, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    header strong { display: block; font-size: 17px; }
+    header span { color: #6a6154; font-size: 13px; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .tabs button {
+      flex: 1;
+      border: 1px solid var(--rule);
+      background: #fff8ee;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font: inherit;
+      font-size: 14px;
+    }
+    .tabs button.active {
+      border-color: var(--vermilion);
+      color: var(--vermilion);
+      font-weight: 600;
+    }
+    main { padding: 12px 0 max(24px, env(safe-area-inset-bottom)); }
+    .scroll-view .slide {
+      margin: 0 0 12px;
+      padding: 0 8px;
+    }
+    .scroll-view img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(40, 32, 24, 0.1);
+      background: #fff;
+    }
+    .pager-view {
+      display: none;
+      padding: 0 8px 72px;
+    }
+    .pager-view.active { display: block; }
+    .scroll-view.hidden { display: none; }
+    .pager-view img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(40, 32, 24, 0.1);
+    }
+    .bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 16px max(10px, env(safe-area-inset-bottom));
+      background: rgba(26, 28, 33, 0.92);
+      color: #f2ebdd;
+    }
+    .bar.active { display: flex; }
+    .bar button {
+      border: 0;
+      background: #fff8ee;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font: inherit;
+      font-size: 15px;
+    }
+    .bar .num { font-size: 14px; opacity: 0.85; }
+    footer {
+      padding: 8px 16px 20px;
+      color: #6a6154;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>红鸢 RedTrip</strong>
+    <span>产品介绍 · 17 页 · 手机浏览版</span>
+    <div class="tabs">
+      <button type="button" id="tab-scroll" class="active">上下滚动</button>
+      <button type="button" id="tab-pager">逐页翻</button>
+    </div>
+  </header>
+  <main>
+    <div class="scroll-view" id="scroll-view">
+      <figure class="slide"><img src="slides/01.png" alt="第 1 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/02.png" alt="第 2 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/03.png" alt="第 3 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/04.png" alt="第 4 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/05.png" alt="第 5 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/06.png" alt="第 6 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/07.png" alt="第 7 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/08.png" alt="第 8 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/09.png" alt="第 9 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/10.png" alt="第 10 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/11.png" alt="第 11 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/12.png" alt="第 12 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/13.png" alt="第 13 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/14.png" alt="第 14 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/15.png" alt="第 15 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/16.png" alt="第 16 页" loading="lazy" decoding="async" /></figure>
+      <figure class="slide"><img src="slides/17.png" alt="第 17 页" loading="lazy" decoding="async" /></figure>
+    </div>
+    <div class="pager-view" id="pager-view">
+      <img id="pager-img" alt="幻灯片" />
+    </div>
+  </main>
+  <div class="bar" id="bar">
+    <button type="button" id="prev">上一页</button>
+    <span class="num" id="num">01 / 17</span>
+    <button type="button" id="next">下一页</button>
+  </div>
+  <footer>电脑端请用 <code>RedTrip-deck.pdf</code>；手机推荐本页或 <code>RedTrip-deck-mobile.pdf</code>。</footer>
+  <script>
+    const TOTAL = 17;
+    let page = 1;
+    let mode = "scroll";
+    const scrollView = document.getElementById("scroll-view");
+    const pagerView = document.getElementById("pager-view");
+    const pagerImg = document.getElementById("pager-img");
+    const bar = document.getElementById("bar");
+    const num = document.getElementById("num");
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function renderPager() {
+      pagerImg.src = `slides/${pad(page)}.png`;
+      num.textContent = `${pad(page)} / ${pad(TOTAL)}`;
+    }
+    function setMode(next) {
+      mode = next;
+      const scrollTab = document.getElementById("tab-scroll");
+      const pagerTab = document.getElementById("tab-pager");
+      scrollTab.classList.toggle("active", mode === "scroll");
+      pagerTab.classList.toggle("active", mode === "pager");
+      scrollView.classList.toggle("hidden", mode !== "scroll");
+      pagerView.classList.toggle("active", mode === "pager");
+      bar.classList.toggle("active", mode === "pager");
+      if (mode === "pager") renderPager();
+    }
+    document.getElementById("tab-scroll").onclick = () => setMode("scroll");
+    document.getElementById("tab-pager").onclick = () => setMode("pager");
+    document.getElementById("prev").onclick = () => { page = ((page - 2 + TOTAL) % TOTAL) + 1; renderPager(); };
+    document.getElementById("next").onclick = () => { page = (page % TOTAL) + 1; renderPager(); };
+    let touchX = 0;
+    pagerView.addEventListener("touchstart", (e) => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    pagerView.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) < 40) return;
+      if (dx < 0) document.getElementById("next").click();
+      else document.getElementById("prev").click();
+    }, { passive: true });
+    setMode(window.matchMedia("(max-width: 720px)").matches ? "scroll" : "scroll");
+  </script>
+</body>
+</html>
