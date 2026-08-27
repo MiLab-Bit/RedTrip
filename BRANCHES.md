@@ -4,7 +4,7 @@
 
 | 引用 | 说明 | 建议 |
 |---|---|---|
-| `cursor/release-sy-realm-f285` | 服务器 `/opt/redtrip` 脱敏快照（`d24c7e2`） | **保留，作为线上对齐源** |
+| `main` | 服务器 `/opt/redtrip` 脱敏快照（由 release-sy-realm 改名）（`d24c7e2`） | **保留，作为线上对齐源** |
 | tag `snapshot/sy-realm-20260827` | 同上 tip 的归档标签 | **保留，勿删** |
 
 ## 现有分支处置
@@ -34,3 +34,9 @@
 - 已将 `Doc/deck/**` 从 `archive/main-pre-release` 并入本分支。
 - `main` 已删除；默认分支已改为本分支；演示稿以本分支 + `archive/main-pre-release` 为准。
 - `feat/dianji-reborn` 仍暂保留，待独有修复合并后再删。
+
+## 2026-08-27 分支改名
+
+- `cursor/release-sy-realm-f285` 已改名为 / 重建为 **`main`**（同一 tip）。
+- 仓库默认分支：`main`
+- `feat/dianji-reborn` 仍暂保留。
