@@ -1,5 +1,5 @@
 <view class="container loading-page">
-  <view class="loading-card">
+  <view class="loading-card" wx:if="{{!previewMode}}">
     <view class="loading-hero">
       <image class="brand-logo large" src="/assets/kite.png" mode="aspectFit" />
       <text class="brand-word loading-brand">红鸢</text>
@@ -22,7 +22,41 @@
 
     <view class="phase-line">{{phaseText}}</view>
     <view class="tip-line">{{tip}}</view>
+
+    <button wx:if="{{previewChapters.length}}" class="btn-primary preview-entry" bindtap="onTogglePreview">
+      模板已就绪 · 先读第 {{previewChapterIndex + 1}} 章
+    </button>
   </view>
 
-  <button class="btn-secondary cancel-btn" bindtap="onCancel">取消</button>
+  <view class="preview-sheet" wx:if="{{previewMode && previewChapters.length}}">
+    <view class="preview-top">
+      <text class="preview-kicker">模板预览 · 已润色 {{polishedCount}} 章</text>
+      <button class="btn-ghost preview-back" bindtap="onTogglePreview">回到进度</button>
+    </view>
+    <view class="preview-title">{{previewTitle}}</view>
+    <view wx:if="{{previewChannel}}" class="preview-channel">{{previewChannel}}</view>
+    <view class="preview-body">
+      <view wx:for="{{previewParagraphs}}" wx:key="index" class="preview-para">
+        <text user-select>{{item}}</text>
+      </view>
+    </view>
+    <view class="preview-nav">
+      <button class="btn-secondary nav-btn" bindtap="onPreviewPrev" disabled="{{previewChapterIndex <= 0}}">上一章</button>
+      <button class="btn-secondary nav-btn" bindtap="onPreviewNext" disabled="{{previewChapterIndex >= previewChapters.length - 1}}">下一章</button>
+    </view>
+    <scroll-view scroll-x class="preview-rail">
+      <view
+        wx:for="{{previewChapters}}"
+        wx:key="id"
+        class="rail-chip {{previewChapterIndex === index ? 'is-on' : ''}}"
+        data-index="{{index}}"
+        bindtap="onPreviewJump"
+      >{{item.index}}</view>
+    </scroll-view>
+  </view>
+
+  <view wx:if="{{!previewMode}}" class="loading-footer">
+    <view class="phase-line mini">{{phaseText}}</view>
+    <button class="btn-secondary cancel-btn" bindtap="onCancel">取消</button>
+  </view>
 </view>

@@ -69,6 +69,14 @@
   line-height: 1.55;
 }
 
+.degrade-expand {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #8a6d3b;
+  text-decoration: underline;
+}
+
 .hongyuan-line {
   position: relative;
   z-index: 1;

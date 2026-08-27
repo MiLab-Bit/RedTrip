@@ -47,9 +47,9 @@ AppID：`wxc7953007477c1980`
 3. 编译 → **预览**扫码，真机测：
    - 演示武康 → 序章 → 阅读
    - 开始策展 → 进度 → 序章
-4. CI 已上传 **`0.1.3`**（阅读溯源 + 证据折叠 + 通道标签统一）
+4. CI 已上传 **`0.1.4`**（loading 预览阅读 + intro degrade 展开 + 0.1.3 阅读溯源）
 5. 登录 [mp.weixin.qq.com](https://mp.weixin.qq.com/) → **管理 → 版本管理**
-6. 选 **0.1.2** → **选为体验版** → 扫码再测
+6. 选 **0.1.4** → **选为体验版** → 扫码再测
 7. **提交审核**  
    - 测试说明：可写「访客无需登录；点演示武康即可完整体验」  
    - 审核说明：见下方
@@ -70,7 +70,7 @@ AppID：`wxc7953007477c1980`
 ```bash
 cd apps/miniprogram
 npm i miniprogram-ci --no-save
-WECHAT_APPID=wxc7953007477c1980 WECHAT_VERSION=0.1.2 \
+WECHAT_APPID=wxc7953007477c1980 WECHAT_VERSION=0.1.4 \
   WECHAT_DESC='说明' node scripts/upload.js
 ```
 

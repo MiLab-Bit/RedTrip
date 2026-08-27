@@ -750,6 +750,13 @@ def _fetch_one(
     except Exception:  # noqa: BLE001
         logger.warning("evidence: 本地语料层跳过 item=%s", item_name, exc_info=True)
 
+    try:
+        from .classics import attach_classical_layers
+
+        attach_classical_layers(be, city="shanghai")
+    except Exception:  # noqa: BLE001
+        logger.warning("evidence: 典籍层跳过 item=%s", item_name, exc_info=True)
+
     has_event = any(l.kind == "event" for l in be.layers)
     if be.lat is None or be.lng is None:
         if not has_event:

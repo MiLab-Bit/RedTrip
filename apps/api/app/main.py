@@ -1097,6 +1097,8 @@ def curate_status(task_id: str) -> dict:
             "ok": task.ok,
             "result": task.result if task.status == "done" else None,
             "error": task.error,
+            "story_ready": task.story_ready,
+            "chapters_ready": list(task.chapters),
         }
 
 

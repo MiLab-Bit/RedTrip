@@ -32,8 +32,13 @@ function toOutcome(raw) {
     throw new Error("策展未放行：" + reasons);
   }
   const degraded = raw.status !== "ok";
+  const gate = raw.meta && raw.meta.gate;
   const notices = degraded
-    ? [...(raw.reasons || []), ...((raw.meta && raw.meta.gate && raw.meta.gate.warnings) || [])].filter(Boolean)
+    ? [
+        ...(raw.reasons || []),
+        ...((gate && gate.warnings) || []),
+        ...(gate && gate.passed === false ? ["Gate 闸门未放行（见上方原因）"] : []),
+      ].filter(Boolean)
     : [];
   return {
     envelope: raw.envelope,

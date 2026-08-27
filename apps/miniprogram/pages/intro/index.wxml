@@ -2,7 +2,10 @@
   <view class="book-frame">
     <view wx:if="{{degraded}}" class="degrade-banner">
       <text class="degrade-title">本次策展有保留</text>
-      <text wx:for="{{notices}}" wx:key="*this" class="degrade-line">{{item}}</text>
+      <text wx:for="{{visibleNotices}}" wx:key="*this" class="degrade-line">{{item}}</text>
+      <text wx:if="{{notices.length > 3}}" class="degrade-expand" bindtap="onToggleNotices">
+        {{noticesExpanded ? '收起原因' : '展开全部 ' + notices.length + ' 条原因'}}
+      </text>
     </view>
 
     <text class="kicker">城市记忆策展人 · 可溯源书页</text>
