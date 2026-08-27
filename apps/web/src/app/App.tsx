@@ -106,6 +106,7 @@ export function App() {
    * 当成完整策展成品静静端给用户——如实标注，才对得起「可溯源」的承诺。
    */
   const [degradeNotices, setDegradeNotices] = useState<string[]>([]);
+  const [degradeExpanded, setDegradeExpanded] = useState(false);
 
   // 启动时用 refresh token 静默恢复登录态（无 token 则直接进入未登录态）。
   useEffect(() => {
@@ -414,18 +415,31 @@ export function App() {
             <p className="degrade-title">
               这一程是降级结果：内容可读，但未走完整策展。
             </p>
-            <ul>
-              {degradeNotices.slice(0, 3).map((n, i) => (
-                <li key={i}>{n}</li>
-              ))}
+            <ul className={degradeExpanded ? "degrade-list is-expanded" : "degrade-list"}>
+              {(degradeExpanded ? degradeNotices : degradeNotices.slice(0, 3)).map(
+                (n, i) => (
+                  <li key={i}>{n}</li>
+                ),
+              )}
             </ul>
+            {degradeNotices.length > 3 && (
+              <button
+                type="button"
+                className="degrade-expand"
+                onClick={() => setDegradeExpanded((v) => !v)}
+              >
+                {degradeExpanded
+                  ? "收起原因"
+                  : `展开全部 ${degradeNotices.length} 条原因`}
+              </button>
+            )}
             <button
               type="button"
               className="degrade-dismiss"
               onClick={() => setDegradeNotices([])}
               aria-label="收起提示"
             >
-              收起
+              关闭
             </button>
           </div>
         )}
@@ -557,19 +571,32 @@ export function App() {
         {state.value === "degraded" && (
           <BookShell mode="folio">
             <section className="panel degraded-card book-page-flat" role="alert">
-              <p className="degraded-kicker">演示降级</p>
-              <h2>这条线暂时未能放行</h2>
+              <p className="degraded-kicker">未能完整放行</p>
+              <h2>这条线暂时未能展示</h2>
               <p className="lead">
                 {state.context.error ||
                   "取证或闸门未通过。未编造内容，故不展示路线。"}
               </p>
-              <ul className="degraded-hints">
-                <li>确认本机 API（8799）与 Web（5173）均已启动</li>
-                <li>
-                  上游抖动时可改 <code>REDTRIP_MODE=snapshot</code> 后重启 API
-                </li>
-                <li>备援：播放预先录好的演示片（见 Doc/15-demo-script.md）</li>
-              </ul>
+              {degradeNotices.length > 0 && (
+                <>
+                  <p className="degraded-kicker">Gate / 降级原因</p>
+                  <ul className="degraded-hints degraded-reasons">
+                    {degradeNotices.map((n, i) => (
+                      <li key={i}>{n}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              <details className="degraded-tech">
+                <summary>技术说明（调试）</summary>
+                <ul className="degraded-hints">
+                  <li>确认 API 与 Web 均已启动并可访问</li>
+                  <li>
+                    上游抖动时可改 <code>REDTRIP_MODE=snapshot</code> 后重启 API
+                  </li>
+                  <li>备援：播放预先录好的演示片（见 Doc/15-demo-script.md）</li>
+                </ul>
+              </details>
               <div className="btn-row">
                 <button
                   className="btn"

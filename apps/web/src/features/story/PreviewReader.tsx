@@ -1,5 +1,7 @@
 import type { RouteEnvelope } from "@redtrip/contracts";
 import { buildStoryView } from "./storyView";
+import { ProvenanceBody, findStopClaims } from "../walk/SentenceProvenance";
+import { datasetLabel, channelLabel } from "../walk/sourceLabels";
 
 /**
  * B4 章节级流式·预览阅读器。
@@ -7,11 +9,7 @@ import { buildStoryView } from "./storyView";
  * 策展还在后台润色时，用「模板 envelope + 已就绪的润色卡」先行阅读：
  * - 章节轨来自 curated_story（模板章节元数据）
  * - 正文来自 blocks 中对应 stop_order 的 story_card
- * - 已收到 chapter_ready 的章显示「已润色」，未收到的显示「润色生成中」
- *   （仍可读模板正文，不是占位）
- *
- * 这是预览态组件，不做复杂交互（无地图/无来源抽屉），
- * done 后由正式 WalkStage 接管。
+ * - 排版与 WalkStage StopPanel 同源（ProvenanceBody + story-card）
  */
 export function PreviewReader({
   envelope,
@@ -36,12 +34,13 @@ export function PreviewReader({
   const idx = Math.min(Math.max(1, currentChapter), max);
   const ch = chapters[idx - 1];
   const stopOrder = ch?.stopId ?? idx;
+  const stop = envelope.route.stops.find((s) => s.order === stopOrder);
   const cardBlock = (envelope.blocks ?? []).find(
     (b) => b.type === "story_card" && b.stop_order === stopOrder,
   );
-  // find 不保留 discriminated union 窄化，手动收窄一次
   const card = cardBlock && cardBlock.type === "story_card" ? cardBlock : undefined;
   const polished = streamed[stopOrder] === true;
+  const storyClaims = card ? findStopClaims(envelope, stopOrder, "story_card") : [];
 
   return (
     <section className="book-page-flat preview-reader" aria-label="预览阅读">
@@ -74,12 +73,38 @@ export function PreviewReader({
         ))}
       </nav>
 
-      <article className="prose preview-body">
+      {stop && (
+        <p className="note stop-kicker preview-kicker">
+          第 {stop.order} / {envelope.route.stops.length} 站 · 驻足约 {stop.minutes}{" "}
+          分钟
+          {stop.evidence_channel ? (
+            <>
+              {" · "}
+              <span className={`channel-badge is-${stop.evidence_channel}`}>
+                {channelLabel(stop.evidence_channel)}
+              </span>
+            </>
+          ) : null}
+        </p>
+      )}
+
+      <article className="story-card preview-body">
         <h2>{card?.title ?? ch?.title ?? ""}</h2>
         {card?.body ? (
-          <p>{card.body}</p>
+          <ProvenanceBody body={card.body} claims={storyClaims} />
         ) : (
           <p className="note">正文生成中…</p>
+        )}
+        {card?.age_parallel && <p className="age">{card.age_parallel}</p>}
+        {card?.sources && card.sources.length > 0 && (
+          <div className="source-chip-row">
+            <span className="source-chip-label">本章出处</span>
+            {card.sources.slice(0, 4).map((s) => (
+              <span key={s.dataset + s.record_id} className="source-chip is-static">
+                {datasetLabel(s.dataset)}
+              </span>
+            ))}
+          </div>
         )}
       </article>
 

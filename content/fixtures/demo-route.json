@@ -81,6 +81,16 @@
               "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "excerpt": "1950-1955年，作为苏联商务代表处。"
             }
+          },
+          {
+            "kind": "event",
+            "label": "1950-1955",
+            "claim": "1950-1955年，作为苏联商务代表处。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "excerpt": "1950-1955年，作为苏联商务代表处。"
+            }
           }
         ],
         "geo": {
@@ -316,6 +326,26 @@
               "dataset": "slc_building",
               "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
               "excerpt": "事件层：花园对照（演示核录）"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1918",
+            "claim": "1918年，建3号楼。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "1918年，建3号楼。"
+            }
+          },
+          {
+            "kind": "event",
+            "label": "1940",
+            "claim": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。",
+            "source": {
+              "dataset": "slc_building",
+              "record_id": "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "excerpt": "1940年，李经迈逝世后，其子李国超将丁香花园等家产变卖。"
             }
           },
           {
@@ -669,15 +699,18 @@
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
             ],
             "fact_labels": [
               "巴金",
               "1950-1955",
+              "1950-1955",
               "1950-1955"
             ],
             "aligned": true,
             "grades": [
+              "A",
               "A",
               "A",
               "A"
@@ -770,14 +803,17 @@
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
             ],
             "fact_labels": [
+              "1950-1955",
               "1950-1955",
               "1950-1955"
             ],
             "aligned": true,
             "grades": [
+              "A",
               "A",
               "A"
             ]
@@ -789,15 +825,18 @@
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
+              "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd",
               "http://data.library.sh.cn/entity/architecture/if3k5yb021u3c4vd"
             ],
             "fact_labels": [
               "巴金",
               "1950-1955",
+              "1950-1955",
               "1950-1955"
             ],
             "aligned": true,
             "grades": [
+              "A",
               "A",
               "A",
               "A"
@@ -1529,14 +1568,17 @@
             "kind": "factual",
             "fact_uris": [
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
             ],
             "fact_labels": [
+              "1918",
               "1918",
               "1918"
             ],
             "aligned": true,
             "grades": [
+              "A",
               "A",
               "A"
             ]
@@ -1549,16 +1591,19 @@
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
+              "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j",
               "http://data.library.sh.cn/entity/architecture/sm4repfu8n3ga66j"
             ],
             "fact_labels": [
               "丁香花园",
               "丁香",
               "1940",
+              "1940",
               "1940"
             ],
             "aligned": true,
             "grades": [
+              "A",
               "A",
               "A",
               "A",

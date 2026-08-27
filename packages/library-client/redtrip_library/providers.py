@@ -255,7 +255,7 @@ def load_snapshot(spec: ProviderSpec) -> list[dict[str, Any]] | None:
     if isinstance(d, list):
         return d
     if isinstance(d, dict):
-        for k in ("records", "items", "data"):
+        for k in ("records", "items", "data", "persons"):
             if isinstance(d.get(k), list):
                 return d[k]
     return None

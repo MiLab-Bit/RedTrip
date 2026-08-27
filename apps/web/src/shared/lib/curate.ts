@@ -22,6 +22,7 @@ export type CurateOutcome = {
   hongyuan: HongyuanMeta | null;
   degraded: boolean;
   notices: string[];
+  gatePassed: boolean | null;
 };
 
 /** B4：章节级流式——单张故事卡就绪的载荷（对应 blocks 中 story_card 的字段）。 */
@@ -63,10 +64,12 @@ function toOutcome(raw: unknown): CurateOutcome {
   // zod 深度遍历一遍就要占主线程，跑两遍纯属白烧一倍首屏时间。
   const envelope: RouteEnvelope = parsed.data.envelope;
   const degraded = parsed.data.status !== "ok";
+  const gate = parsed.data.meta?.gate;
   const notices = degraded
     ? [
         ...(parsed.data.reasons ?? []),
-        ...(parsed.data.meta?.gate?.warnings ?? []),
+        ...(gate?.warnings ?? []),
+        ...(gate?.passed === false ? ["Gate 闸门未放行（见上方原因）"] : []),
       ].filter(Boolean)
     : [];
 
@@ -76,6 +79,7 @@ function toOutcome(raw: unknown): CurateOutcome {
     hongyuan: parsed.data.meta?.hongyuan ?? null,
     degraded,
     notices,
+    gatePassed: gate?.passed ?? null,
   };
 }
 

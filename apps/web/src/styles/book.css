@@ -273,11 +273,40 @@
 }
 .degrade-banner li {
   margin: 0.1rem 0;
-  /* 后端 warning 可能很长（含 blocker 原文），限制在两行内，避免顶开书页 */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.degrade-list.is-expanded li {
+  -webkit-line-clamp: unset;
+  display: list-item;
+  overflow: visible;
+}
+.degrade-expand {
+  margin-top: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.82rem;
+  color: #8a6d3b;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.degraded-reasons li {
+  display: list-item;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.degraded-tech {
+  margin-top: 1rem;
+  font-size: 0.88rem;
+  color: var(--ink-wash);
+}
+.degraded-tech summary {
+  cursor: pointer;
+  color: #6b5a36;
 }
 .degrade-dismiss {
   position: absolute;

@@ -3,8 +3,15 @@ import {
   datasetLabel,
   shortRecordId,
   sourceHeadline,
+  channelLabel,
+  channelBadgeClass,
 } from "./sourceLabels";
 import { ProvenanceBody, findStopClaims } from "./SentenceProvenance";
+import {
+  ClassicalLayer,
+  stopClassicalLayers,
+  chapterClassicalFacts,
+} from "./ClassicalLayer";
 
 const ACT_LABEL: Record<string, string> = {
   prologue: "序章",
@@ -96,6 +103,15 @@ export function StopPanel({
       ? findStopClaims(envelope, stop.order, "story_card")
       : [];
 
+  const classicalLayers = stopClassicalLayers(envelope, stop.order);
+  const chapter = envelope.curated_story?.chapters?.find(
+    (c) => c.stopId === stop.order,
+  );
+  const classicalFacts = chapterClassicalFacts(
+    envelope,
+    chapter?.evidenceIds ?? [],
+  );
+
   const isLast = stop.order >= envelope.route.stops.length;
   const people = stop.layers.filter((l) => l.kind === "person");
   const split = layout === "split";
@@ -110,7 +126,7 @@ export function StopPanel({
           <>
             {" · "}
             <span
-              className={`channel-badge is-${stop.evidence_channel}`}
+              className={channelBadgeClass(stop.evidence_channel)}
               title="证据通道"
             >
               {stop.evidence_channel === "slc" ? (
@@ -118,16 +134,10 @@ export function StopPanel({
                   <span className="kite-seal-mini" aria-hidden>
                     鸢
                   </span>{" "}
-                  馆藏
+                  {channelLabel(stop.evidence_channel)}
                 </>
-              ) : stop.evidence_channel === "landmark" ? (
-                "地标词库"
-              ) : stop.evidence_channel === "osm" ? (
-                "OSM"
-              ) : stop.evidence_channel === "amap" ? (
-                "地图"
               ) : (
-                "人工"
+                channelLabel(stop.evidence_channel)
               )}
             </span>
           </>
@@ -185,6 +195,13 @@ export function StopPanel({
           </div>
         </article>
       )}
+
+      <ClassicalLayer
+        envelope={envelope}
+        classicalLayers={classicalLayers}
+        classicalFacts={classicalFacts}
+        onOpenSource={onOpenSource}
+      />
 
       <div className="pitfalls-block" aria-label="避坑信息">
         <span className="scene-label">避坑（未知写未收录）</span>
