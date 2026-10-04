@@ -90,12 +90,21 @@
 
 ---
 
-## 在线体验
+## 快速体验
 
-| 环境 | 地址 |
-|---|---|
-| 正式站点 | https://sy-realm.ltd/redtrip/ |
-| 历史演示镜像（维护中） | https://redtrip.pages.dev |
+本项目目前以**本地部署**方式运行（后端 FastAPI + 前端 Vite dev server）：
+
+```bash
+# 后端（默认 8799 端口）
+cd apps/api && python -m uvicorn app.main:app --port 8799
+
+# 前端（默认 5173 端口）
+pnpm install && pnpm --filter '@redtrip/web' dev
+```
+
+打开前端后点击 **「演示武康 · 六站可溯源」** 即可体验冻结策展包，或调用 `GET /v1/demo/wukang`。
+
+> 如需部署到自有服务器，参考下方「开发者入口」与 `Temporal 编排` 章节。
 
 ---
 
