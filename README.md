@@ -13,6 +13,18 @@
 
 ---
 
+## 在线部署 / Live Deployment
+
+| 环境 | 地址 |
+|---|---|
+| API 服务 | http://redtrip.sy-realm.ltd |
+| Swagger 文档 | http://redtrip.sy-realm.ltd/docs |
+
+> FastAPI 后端（策展 API + 流式阅读），部署于阿里云 ECS，经 Nginx 反代，DNS 走 Cloudflare（DNS-only 直连）。
+> 编排底座：Temporal（[temporal.sy-realm.ltd](http://temporal.sy-realm.ltd) 可视化 Workflow 执行）。
+
+
+
 ## 它解决什么问题
 
 红色研学、城市漫步不缺内容，缺的是**策展力**。
