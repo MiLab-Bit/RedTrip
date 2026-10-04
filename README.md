@@ -156,6 +156,47 @@ python eval/smoke_demo.py
 
 ---
 
+
+---
+
+## Temporal 编排接入（2026-10）
+
+RedTrip 的七段策展管线已从 XState（前端状态机）迁移到 **Temporal Server v1.27**，实现工作流持久化、自动重试、进度查询和断点恢复。
+
+### 七段管线
+
+```
+parse_intent -> fetch_evidence -> join_layers -> draw_voice
+     -> plan_route -> attach_layer3 -> narrate
+          -> build_artifacts -> polish_envelope
+               -> evaluate_gate -> review_envelope
+```
+
+### 代码结构
+
+```
+packages/curator/redtrip_curator/temporal/
+├── common.py        # CurateInput dataclass
+├── activities.py    # 11 个 Activity（七段 + 取证 + 评估 + 审阅）
+├── worker.py        # Worker 启动器（Sandbox + passthrough + ThreadPool）
+└── workflows/
+    └── curate.py    # CurateWorkflow（七段编排 + progress tracking）
+```
+
+### 设计要点
+
+- **Sandbox passthrough**：redtrip_curator / redtrip_gate / redtrip_library 三个领域包导入期有副作用，设为沙箱直通
+- **序列化辅助**：VoicePack frozen dataclass 跨 Activity 边界用 _pack_to_dict / _dict_to_pack 重建
+- **进度追踪**：Workflow 暴露 progress query，前端可轮询获取当前段进度（共 13 条事件）
+
+### 配置
+
+```bash
+TEMPORAL_ADDRESS=127.0.0.1:7233
+TEMPORAL_NAMESPACE=redtrip
+TEMPORAL_TASK_QUEUE=redtrip-task-queue
+```
+
 ## 品牌故事
 
 **红鸢** —— 以「红鸢」为名，牵引城市深处的记忆之线。从图书馆的旧藏、街巷的建筑，到被时间收藏的名字与诗句，红鸢将散落的城市故事重新连接，化作一场可以行走的展览。
