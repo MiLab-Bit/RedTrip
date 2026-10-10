@@ -15,8 +15,20 @@ export const SourceRefSchema = z.object({
 });
 export type SourceRef = z.infer<typeof SourceRefSchema>;
 
+export const LayerKindSchema = z.enum([
+  "building",
+  "event",
+  "era",
+  "poem",
+  "person",
+  "geoname",
+  "literary",
+  "classical",
+]);
+export type LayerKind = z.infer<typeof LayerKindSchema>;
+
 export const IdentityLayerSchema = z.object({
-  kind: z.enum(["building", "event", "era", "poem", "person", "geoname", "literary"]),
+  kind: LayerKindSchema,
   label: z.string(),
   claim: z.string(),
   source: SourceRefSchema,
@@ -99,17 +111,6 @@ export type EssayBlock = z.infer<typeof EssayBlockSchema>;
 // G2 / G4 稳定契约：内容推理层四个一等公民中间产物
 // 字段命名全仓统一 snake_case，与 Python dict 输出直接对应。
 // ===========================================================================
-
-export const LayerKindSchema = z.enum([
-  "building",
-  "event",
-  "era",
-  "poem",
-  "person",
-  "geoname",
-  "literary",
-]);
-export type LayerKind = z.infer<typeof LayerKindSchema>;
 
 export const NarrativeRoleSchema = z.enum([
   "Hook",
