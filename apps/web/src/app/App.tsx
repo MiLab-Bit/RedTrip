@@ -1,3 +1,4 @@
+import "../styles/enhance.css";
 import {
   Suspense,
   lazy,
