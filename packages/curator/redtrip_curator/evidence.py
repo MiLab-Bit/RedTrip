@@ -13,11 +13,11 @@ from redtrip_library import SlcClient
 from redtrip_library.amap import AmapClient
 from redtrip_library.providers import gather_partner_evidence
 
+from .cities import get_city
 from .models import BuildingEvidence, EvidencePack, IdentityLayer, Intent, SourceRef
 from .rag import _is_noise_name
 from .rag import retrieve as _rag_retrieve
 from .whitelist import Whitelist, WhitelistPoint, load_whitelist
-from .cities import get_city
 
 logger = logging.getLogger("redtrip.evidence")
 
