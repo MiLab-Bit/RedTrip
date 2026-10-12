@@ -159,12 +159,8 @@ class CurateWorkflow:
             if polished:
                 self.envelope = polished
                 self.warnings.extend(polish_result.get("notes", []))
-                narrative_mode = polish_result.get("mode", "template")
-            else:
-                narrative_mode = "template"
         except Exception as e:
             self.warnings.append(f"LLM 润色失败，保留模板：{e}")
-            narrative_mode = "template"
 
         # 6) gate
         self._emit("gate", 92.0, "Gate 门禁检查")
