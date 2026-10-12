@@ -35,5 +35,19 @@ def test_points_has_exhibitions():
     # 3) 存在展览/文化类锚点（新增 OSM 点 source=osm）
     osm_added = [p for p in pts if p.get("coord_source") == "osm"]
     assert osm_added, "未发现 OSM 并入的文化场馆锚点"
-    # 4) 诚实约定：新增点 buri 为空（未映射 SLC）
-    assert all(p.get("buri") is None for p in osm_added)
+    # 4) 诚实约定：OSM 并入点的 buri 溯源必须如实——
+    #    未映射 SLC 的留空（field_sources.buri 标注未映射）；
+    #    经 SLC 同步映射到的必须是指向上海图书馆建筑实体的合法 URI。
+    #    （2026-10-11 更新：此前断言「全部为空」，但后续 sync 已把 2 条
+    #     OSM 点映射到 SLC architecture URI，原断言与真实数据冲突，属测试过期。）
+    slc_prefix = "http://data.library.sh.cn/entity/architecture/"
+    for p in osm_added:
+        assert "buri" in p
+        buri = p.get("buri")
+        src = (p.get("field_sources") or {}).get("buri")
+        assert src, p.get("id")
+        if buri is None:
+            assert src == "未映射", (p.get("id"), src)
+        else:
+            assert buri.startswith(slc_prefix), (p.get("id"), buri)
+            assert "SLC" in src, (p.get("id"), src)
