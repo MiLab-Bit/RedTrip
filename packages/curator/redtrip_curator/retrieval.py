@@ -21,8 +21,8 @@ import logging
 import math
 from pathlib import Path
 
-from .models import BuildingEvidence, IdentityLayer, SourceRef
 from . import amap_client
+from .models import BuildingEvidence, IdentityLayer, SourceRef
 
 logger = logging.getLogger("redtrip.retrieval")
 
@@ -142,7 +142,6 @@ def retrieve_buildings(scene: str, k: int = 10) -> list[BuildingEvidence]:
     无结果返回 []。
     """
     from .geocode import geocode_address
-    from . import amap_client
 
     corpus = load_corpus()
     if not scene:

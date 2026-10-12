@@ -8,7 +8,10 @@ from __future__ import annotations
 
 import os
 import sys
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:  # 仅类型检查：避免运行期循环导入
+    from redtrip_curator.hongyuan.draw import VoicePack
 
 from temporalio import activity
 
@@ -37,7 +40,6 @@ def _heartbeat(*detail: str) -> None:
 def parse_intent_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 1: 意图解析。"""
     from redtrip_curator.intent import parse_intent
-    from redtrip_curator.models import Intent
 
     _heartbeat("intent:start")
     intent = parse_intent(inp.get("slots"), inp.get("message"))
@@ -60,8 +62,9 @@ def parse_intent_activity(inp: dict[str, Any]) -> dict[str, Any]:
 def fetch_evidence_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 2: 多源取证。"""
     from redtrip_library import SlcClient
+
     from redtrip_curator.evidence import fetch_evidence
-    from redtrip_curator.models import Intent, EvidencePack
+    from redtrip_curator.models import Intent
 
     _heartbeat("evidence:start")
     intent = Intent(**inp["intent"])
@@ -76,7 +79,6 @@ def fetch_evidence_activity(inp: dict[str, Any]) -> dict[str, Any]:
 def join_layers_activity(pack_dict: dict[str, Any]) -> dict[str, Any]:
     """阶段 2.5: 图层融合。"""
     from redtrip_curator.join import join_layers
-    from redtrip_curator.models import EvidencePack
 
     _heartbeat("join:start")
     pack = _dict_to_pack(pack_dict)
@@ -104,8 +106,8 @@ def draw_voice_activity(inp: dict[str, Any]) -> dict[str, Any]:
 @activity.defn(name="plan_route")
 def plan_route_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 3: 路线规划。"""
+    from redtrip_curator.models import Intent
     from redtrip_curator.plan import plan_route
-    from redtrip_curator.models import Intent, EvidencePack
 
     _heartbeat("plan:start")
     intent = Intent(**inp["intent"])
@@ -133,7 +135,7 @@ def plan_route_activity(inp: dict[str, Any]) -> dict[str, Any]:
 @activity.defn(name="attach_layer3")
 def attach_layer3_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 3.5: L3 热词注入。"""
-    from redtrip_curator.hongyuan import VoicePack, attach_layer3
+    from redtrip_curator.hongyuan import attach_layer3
 
     _heartbeat("layer3:start")
     voice = _voice_from_dict(inp["voice"]) if inp.get("voice") else None
@@ -149,8 +151,8 @@ def attach_layer3_activity(inp: dict[str, Any]) -> dict[str, Any]:
 @activity.defn(name="narrate")
 def narrate_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 4: 叙事初稿（模板）。"""
-    from redtrip_curator.narrative import narrate
     from redtrip_curator.models import Intent
+    from redtrip_curator.narrative import narrate
 
     _heartbeat("narrate:start")
     intent = Intent(**inp["intent"])
@@ -165,13 +167,14 @@ def narrate_activity(inp: dict[str, Any]) -> dict[str, Any]:
 def build_artifacts_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 4.5: 构建中间产物。"""
     from redtrip_curator.artifacts import build_artifacts
-    from redtrip_curator.models import Intent, EvidencePack
+    from redtrip_curator.models import Intent
 
     _heartbeat("artifacts:start")
     intent = Intent(**inp["intent"])
     pack = _dict_to_pack(inp["pack"])
     plan = _dict_to_plan(inp["plan"])
-    artifacts = build_artifacts(intent, plan, pack)
+    # 调用保留（内含中间产物构建的副作用）；此处不回传对象，实际 embed 在 Workflow 里做
+    build_artifacts(intent, plan, pack)
     _heartbeat("artifacts:done")
     # artifacts 是复杂对象，返回一个标记，实际 embed 在 Workflow 里做
     return {"built": True}
@@ -182,8 +185,6 @@ def polish_envelope_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 5: LLM 润色（元数据 + 逐卡并行 + 逐句溯源）。
     这是最耗时的阶段，可能跑几分钟。"""
     from redtrip_curator.polish import polish_envelope
-    from redtrip_curator.hongyuan import VoicePack
-    from redtrip_curator.plan import RoutePlan
 
     _heartbeat("polish:start")
     draft = inp["draft"]
@@ -219,8 +220,6 @@ def evaluate_gate_activity(envelope: dict[str, Any]) -> dict[str, Any]:
 def review_envelope_activity(inp: dict[str, Any]) -> dict[str, Any]:
     """阶段 7: 反方策展人评审（非阻断）。"""
     from redtrip_curator.review import review_envelope
-    from redtrip_curator.hongyuan import VoicePack
-    from redtrip_curator.plan import RoutePlan
 
     _heartbeat("review:start")
     envelope = inp["envelope"]
@@ -263,7 +262,7 @@ def _pack_to_dict(pack) -> dict[str, Any]:
 
 def _dict_to_pack(d: dict[str, Any]):
     """dict → EvidencePack。"""
-    from redtrip_curator.models import EvidencePack, BuildingEvidence, IdentityLayer, SourceRef
+    from redtrip_curator.models import BuildingEvidence, EvidencePack, IdentityLayer, SourceRef
 
     buildings = []
     for bd in d.get("buildings", []):
@@ -304,8 +303,8 @@ def _dict_to_pack(d: dict[str, Any]):
 
 def _dict_to_plan(d: dict[str, Any]):
     """dict → RoutePlan。"""
-    from redtrip_curator.models import BuildingEvidence, SourceRef
-    from redtrip_curator.plan import RoutePlan, PlannedStop
+    from redtrip_curator.models import BuildingEvidence
+    from redtrip_curator.plan import PlannedStop, RoutePlan
 
     stops = []
     for sd in d.get("stops", []):
@@ -336,9 +335,9 @@ def _dict_to_plan(d: dict[str, Any]):
 # VoicePack 反序列化辅助
 # ======================================================================
 
-def _voice_from_dict(d: dict[str, Any]) -> "VoicePack":
+def _voice_from_dict(d: dict[str, Any]) -> VoicePack:
     """dict -> VoicePack（反序列化，用于跨 Temporal 边界重建）。"""
-    from redtrip_curator.hongyuan.draw import VoicePack, DrawnSlot
+    from redtrip_curator.hongyuan.draw import DrawnSlot, VoicePack
 
     def _slot(sd: dict) -> DrawnSlot:
         return DrawnSlot(
