@@ -1,0 +1,3978 @@
+{
+  "elapsed_s": 0.2,
+  "ok": true,
+  "narrative": "template",
+  "evidence_count": 20,
+  "stop_count": 8,
+  "story_card_count": 8,
+  "assumptions": [
+    "未填delivery → 默认路线",
+    "红鸢今日读法：贴身 · 场景体 · 信笺分章 · 拜访礼貌 · 中段峰",
+    "本周热词（2026-W35）：外滩天际线对照"
+  ],
+  "warnings": [
+    "叙事：模板（未配置 LLM）",
+    "Q2[warn]: 点位无 layers（有地址/类别上下文）— 黄浦公园-外滩历史纪念馆",
+    "Q2[warn]: 点位无 layers（有地址/类别上下文）— 外滩18号久事艺术空间",
+    "Q2[warn]: 点位无 layers（有地址/类别上下文）— 北外滩艺术区",
+    "路线缺少多重身份点（building+event/person）"
+  ],
+  "envelope": {
+    "envelope_version": "1.0",
+    "intent": "独自 · 240分钟 · 外滩 南京东路 历史文化漫步 · 文艺",
+    "theme": "以穆勒为线，旁及托玛斯·杰克逊、赫伯特·查尔斯·派克",
+    "logic_line": "整条线的主人公不是建筑目录，而是人：穆勒、托玛斯·杰克逊、赫伯特·查尔斯·派克、敦信的名字如何先后钉进「外滩源壹号」到「北外滩艺术区」。建筑是舞台，事件是情节，人物关系才是这条线真正的张力。 这条线里，穆勒同时出现在第1、2、3站；第1、5站都落在中山东一路上——同一个名字或同一条路，把分散的楼连成一张网。",
+    "aesthetic": "克制、留白、海派明信片",
+    "scenario": "深度文化爱好者 · 独自 · 237分钟 · 步行约8076米 · 外滩 南京东路 历史文化漫步",
+    "why_visit": "约 240 分钟，步行大约 8.1 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，构成一次完整的行走。",
+    "curator_note": "我按『人物—冲突—年份』选这 8 站：每站至少能叫出一个名字或一句带年的记载。这条线先引出穆勒，再与其他名字对照。衔接靠人物与记载的对照，不靠『顺路』。",
+    "assumptions": [
+      "未填delivery → 默认路线"
+    ],
+    "companions": "solo",
+    "sources": [
+      "R-20 whitelist",
+      "地标库分类词条",
+      "RAG 全量 POI 筛选"
+    ],
+    "route": {
+      "duration_min": 237,
+      "walk_meters_est": 8076,
+      "stops": [
+        {
+          "order": 1,
+          "whitelist_id": "live-001",
+          "buri": null,
+          "name": "外滩源壹号",
+          "minutes": 28,
+          "meaning": "先认穆勒，再认「外滩源壹号」这栋楼",
+          "transition_to_next": "带着穆勒的名字离开「外滩源壹号」，去「外滩源33-联合教堂」——你会发现穆勒的痕迹也钉在下一站。同一个人，把两栋楼串成一条暗线。",
+          "layers": [
+            {
+              "kind": "person",
+              "label": "穆勒",
+              "claim": "外滩源壹号相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "穆勒"
+              }
+            },
+            {
+              "kind": "person",
+              "label": "敦信",
+              "claim": "外滩源壹号相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "敦信"
+              }
+            }
+          ],
+          "geo": {
+            "lat": 31.242322,
+            "lng": 121.488725,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "landmark",
+          "act": "prologue",
+          "landmark": {
+            "description": "圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。",
+            "year_built": "1849-1930s",
+            "style": "维多利亚 / 装饰艺术",
+            "characters": [
+              "穆勒",
+              "敦信"
+            ]
+          },
+          "raw_detail": {
+            "poi_type": "风景名胜;风景名胜;风景名胜",
+            "address": "中山东一路33号英国领事馆及领事官邸旧址内",
+            "category": "博物馆美术馆文化场馆",
+            "category_id": "culture",
+            "amap_location": "121.488725,31.242322",
+            "landmark_description": "圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。",
+            "landmark_year_built": "1849-1930s",
+            "landmark_style": "维多利亚 / 装饰艺术"
+          }
+        },
+        {
+          "order": 2,
+          "whitelist_id": "live-002",
+          "buri": null,
+          "name": "外滩源33-联合教堂",
+          "minutes": 28,
+          "meaning": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+          "transition_to_next": "带着穆勒的名字离开「外滩源33-联合教堂」，去「悠游苏州河外滩源码头」——你会发现穆勒的痕迹也钉在下一站。同一个人，把两栋楼串成一条暗线。",
+          "layers": [
+            {
+              "kind": "person",
+              "label": "穆勒",
+              "claim": "外滩源33-联合教堂相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "穆勒"
+              }
+            },
+            {
+              "kind": "person",
+              "label": "敦信",
+              "claim": "外滩源33-联合教堂相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "敦信"
+              }
+            }
+          ],
+          "geo": {
+            "lat": 31.243251,
+            "lng": 121.48838,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "landmark",
+          "act": "focus",
+          "landmark": {
+            "description": "圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。",
+            "year_built": "1849-1930s",
+            "style": "维多利亚 / 装饰艺术",
+            "characters": [
+              "穆勒",
+              "敦信"
+            ]
+          },
+          "raw_detail": {
+            "poi_type": "风景名胜;风景名胜;教堂",
+            "address": "南苏州路107号",
+            "category": "宗教场所",
+            "category_id": "religion",
+            "amap_location": "121.48838,31.243251",
+            "landmark_description": "圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。",
+            "landmark_year_built": "1849-1930s",
+            "landmark_style": "维多利亚 / 装饰艺术"
+          }
+        },
+        {
+          "order": 3,
+          "whitelist_id": "live-003",
+          "buri": null,
+          "name": "悠游苏州河外滩源码头",
+          "minutes": 28,
+          "meaning": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+          "transition_to_next": "从「悠游苏州河外滩源码头」走到「黄浦公园-外滩历史纪念馆」：舞台换了，你要找的仍是人与记载，不是距离。",
+          "layers": [
+            {
+              "kind": "person",
+              "label": "穆勒",
+              "claim": "悠游苏州河外滩源码头相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "穆勒"
+              }
+            },
+            {
+              "kind": "person",
+              "label": "敦信",
+              "claim": "悠游苏州河外滩源码头相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "敦信"
+              }
+            }
+          ],
+          "geo": {
+            "lat": 31.243604,
+            "lng": 121.488209,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "landmark",
+          "act": "transit",
+          "landmark": {
+            "description": "圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。",
+            "year_built": "1849-1930s",
+            "style": "维多利亚 / 装饰艺术",
+            "characters": [
+              "穆勒",
+              "敦信"
+            ]
+          },
+          "raw_detail": {
+            "poi_type": "风景名胜;风景名胜相关;旅游景点",
+            "address": "南苏州路与圆明园路交叉口东北20米",
+            "category": "滨水景观地标",
+            "category_id": "waterfront",
+            "amap_location": "121.488209,31.243604",
+            "landmark_description": "圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。",
+            "landmark_year_built": "1849-1930s",
+            "landmark_style": "维多利亚 / 装饰艺术"
+          }
+        },
+        {
+          "order": 4,
+          "whitelist_id": "live-004",
+          "buri": null,
+          "name": "黄浦公园-外滩历史纪念馆",
+          "minutes": 11,
+          "meaning": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+          "transition_to_next": "从「黄浦公园-外滩历史纪念馆」走到「外滩18号久事艺术空间」：舞台换了，你要找的仍是人与记载，不是距离。",
+          "layers": [],
+          "geo": {
+            "lat": 31.242302,
+            "lng": 121.49147,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "manual",
+          "act": "focus",
+          "landmark": null,
+          "raw_detail": {
+            "amap_type": "风景名胜;风景名胜;红色景区|风景名胜;风景名胜;纪念馆",
+            "category": "waterfront",
+            "rag_category": "waterfront",
+            "rag_source": "amap"
+          }
+        },
+        {
+          "order": 5,
+          "whitelist_id": "live-005",
+          "buri": null,
+          "name": "外滩18号久事艺术空间",
+          "minutes": 20,
+          "meaning": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+          "transition_to_next": "从「外滩18号久事艺术空间」走到「外滩18号久事艺术空间」：舞台换了，你要找的仍是人与记载，不是距离。",
+          "layers": [
+            {
+              "kind": "person",
+              "label": "托玛斯·杰克逊",
+              "claim": "外滩18号久事艺术空间相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "托玛斯·杰克逊"
+              }
+            }
+          ],
+          "geo": {
+            "lat": 31.238393,
+            "lng": 121.489683,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "landmark",
+          "act": "transit",
+          "landmark": {
+            "description": "原英国渣打银行上海分行，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。2004 年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。",
+            "year_built": "1923",
+            "style": "新古典主义",
+            "architect": "公和洋行",
+            "characters": [
+              "托玛斯·杰克逊"
+            ]
+          },
+          "raw_detail": {
+            "poi_type": "科教文化服务;美术馆;美术馆",
+            "address": "中山东一路18号2层",
+            "category": "博物馆美术馆文化场馆",
+            "category_id": "culture",
+            "amap_location": "121.489683,31.238393",
+            "landmark_description": "原英国渣打银行上海分行，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。2004 年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。",
+            "landmark_year_built": "1923",
+            "landmark_style": "新古典主义",
+            "landmark_architect": "公和洋行"
+          }
+        },
+        {
+          "order": 6,
+          "whitelist_id": "live-006",
+          "buri": null,
+          "name": "外滩18号久事艺术空间",
+          "minutes": 11,
+          "meaning": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+          "transition_to_next": "从「外滩18号久事艺术空间」走到「外滩」：舞台换了，你要找的仍是人与记载，不是距离。",
+          "layers": [],
+          "geo": {
+            "lat": 31.238393,
+            "lng": 121.489683,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "manual",
+          "act": "focus",
+          "landmark": null,
+          "raw_detail": {
+            "amap_type": "科教文化服务;美术馆;美术馆",
+            "category": "culture",
+            "rag_category": "culture",
+            "rag_source": "amap"
+          }
+        },
+        {
+          "order": 7,
+          "whitelist_id": "live-007",
+          "buri": null,
+          "name": "外滩",
+          "minutes": 20,
+          "meaning": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+          "transition_to_next": "从「外滩」走到「北外滩艺术区」：舞台换了，你要找的仍是人与记载，不是距离。",
+          "layers": [
+            {
+              "kind": "person",
+              "label": "赫伯特·查尔斯·派克",
+              "claim": "外滩相关人物",
+              "source": {
+                "dataset": "curated.landmark-facts",
+                "record_id": "赫伯特·查尔斯·派克"
+              }
+            }
+          ],
+          "geo": {
+            "lat": 31.233516,
+            "lng": 121.492127,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "landmark",
+          "act": "transit",
+          "landmark": {
+            "description": "1923年落成时号称「从苏伊士运河到远东最华贵的建筑」。1955年起成为上海市人民政府驻地。",
+            "year_built": "1923",
+            "style": "新古典主义",
+            "architect": "公和洋行",
+            "characters": [
+              "赫伯特·查尔斯·派克"
+            ]
+          },
+          "raw_detail": {
+            "poi_type": "风景名胜;风景名胜;风景名胜",
+            "address": "中山东二路1号",
+            "category": "滨水景观地标",
+            "category_id": "waterfront",
+            "amap_location": "121.492127,31.233516",
+            "landmark_description": "1923年落成时号称「从苏伊士运河到远东最华贵的建筑」。1955年起成为上海市人民政府驻地。",
+            "landmark_year_built": "1923",
+            "landmark_style": "新古典主义",
+            "landmark_architect": "公和洋行"
+          }
+        },
+        {
+          "order": 8,
+          "whitelist_id": "live-008",
+          "buri": null,
+          "name": "北外滩艺术区",
+          "minutes": 11,
+          "meaning": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+          "transition_to_next": null,
+          "layers": [],
+          "geo": {
+            "lat": 31.266294,
+            "lng": 121.549081,
+            "coord_source": "amap",
+            "precision": "approximate"
+          },
+          "pitfalls": {
+            "open_hours": "未收录",
+            "enterable": "未收录",
+            "need_reservation": "未收录"
+          },
+          "evidence_channel": "landmark",
+          "act": "epilogue",
+          "landmark": null,
+          "raw_detail": {
+            "poi_type": "科教文化服务;科教文化场所;科教文化场所",
+            "address": "杨树浦路2361号",
+            "category": "商业街区老字号",
+            "category_id": "commercial",
+            "amap_location": "121.549081,31.266294"
+          }
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "type": "story_card",
+        "stop_order": 1,
+        "title": "穆勒与「外滩源壹号」",
+        "body": "地址：中山东一路33号英国领事馆及领事官邸旧址内；\n场所类型：风景名胜;风景名胜;风景名胜；\n场所类别：博物馆美术馆文化场馆；\n建造年份：1849-1930s；\n建筑风格：维多利亚 / 装饰艺术；\n建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。；\n相关人物：穆勒（外滩源壹号相关人物）；\n相关人物：敦信（外滩源壹号相关人物）；\n路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "穆勒"
+          },
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "敦信"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 1,
+        "place": "外滩源壹号",
+        "era_desc": "地址：中山东一路33号英国领事馆及领事官邸旧址内；场所类型：风景名胜;风景名胜;风景名胜；场所类别：博物馆美术馆文化场馆；建造年份：1849-1930s；建筑风格：维多利亚 / 装饰艺术；建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。；相关人物：穆勒（外滩源壹号相关人物）；相关人物：敦信（外滩源壹号相关人物）；路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "穆勒、敦信",
+        "city_thread": "先认穆勒，再认「外滩源壹号」这栋楼",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 2,
+        "title": "穆勒与「外滩源33-联合教堂」",
+        "body": "地址：南苏州路107号；\n场所类型：风景名胜;风景名胜;教堂；\n场所类别：宗教场所；\n建造年份：1849-1930s；\n建筑风格：维多利亚 / 装饰艺术；\n建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。；\n相关人物：穆勒（外滩源33-联合教堂相关人物）；\n相关人物：敦信（外滩源33-联合教堂相关人物）；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "穆勒"
+          },
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "敦信"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 2,
+        "place": "外滩源33-联合教堂",
+        "era_desc": "地址：南苏州路107号；场所类型：风景名胜;风景名胜;教堂；场所类别：宗教场所；建造年份：1849-1930s；建筑风格：维多利亚 / 装饰艺术；建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。；相关人物：穆勒（外滩源33-联合教堂相关人物）；相关人物：敦信（外滩源33-联合教堂相关人物）；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "穆勒、敦信",
+        "city_thread": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 3,
+        "title": "穆勒与「悠游苏州河外滩源码头」",
+        "body": "地址：南苏州路与圆明园路交叉口东北20米；\n场所类型：风景名胜;风景名胜相关;旅游景点；\n场所类别：滨水景观地标；\n建造年份：1849-1930s；\n建筑风格：维多利亚 / 装饰艺术；\n建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。；\n相关人物：穆勒（悠游苏州河外滩源码头相关人物）；\n相关人物：敦信（悠游苏州河外滩源码头相关人物）；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "穆勒"
+          },
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "敦信"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 3,
+        "place": "悠游苏州河外滩源码头",
+        "era_desc": "地址：南苏州路与圆明园路交叉口东北20米；场所类型：风景名胜;风景名胜相关;旅游景点；场所类别：滨水景观地标；建造年份：1849-1930s；建筑风格：维多利亚 / 装饰艺术；建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；女青年会大楼当年为远东女青年会第一座公寓。；相关人物：穆勒（悠游苏州河外滩源码头相关人物）；相关人物：敦信（悠游苏州河外滩源码头相关人物）；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "穆勒、敦信",
+        "city_thread": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 4,
+        "title": "在「黄浦公园-外滩历史纪念馆」停一下",
+        "body": "地址：中山东一路475号；\n场所类别：waterfront；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "amap_poi",
+            "record_id": "amap:黄浦公园-外滩历史纪念馆"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 4,
+        "place": "黄浦公园-外滩历史纪念馆",
+        "era_desc": "地址：中山东一路475号；场所类别：waterfront；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "暂无数据支撑",
+        "city_thread": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 5,
+        "title": "托玛斯·杰克逊与「外滩18号久事艺术空间」",
+        "body": "地址：中山东一路18号2层；\n场所类型：科教文化服务;美术馆;美术馆；\n场所类别：博物馆美术馆文化场馆；\n建造年份：1923；\n建筑风格：新古典主义；\n建筑师：公和洋行；\n建筑沿革：原英国渣打银行上海分行，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。2004 年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。；\n相关人物：托玛斯·杰克逊（外滩18号久事艺术空间相关人物）；\n路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "托玛斯·杰克逊"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 5,
+        "place": "外滩18号久事艺术空间",
+        "era_desc": "地址：中山东一路18号2层；场所类型：科教文化服务;美术馆;美术馆；场所类别：博物馆美术馆文化场馆；建造年份：1923；建筑风格：新古典主义；建筑师：公和洋行；建筑沿革：原英国渣打银行上海分行，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。2004 年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。；相关人物：托玛斯·杰克逊（外滩18号久事艺术空间相关人物）；路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "托玛斯·杰克逊",
+        "city_thread": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 6,
+        "title": "在「外滩18号久事艺术空间」停一下",
+        "body": "地址：中山东一路18号2层；\n场所类别：culture；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "amap_poi",
+            "record_id": "amap:外滩18号久事艺术空间"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 6,
+        "place": "外滩18号久事艺术空间",
+        "era_desc": "地址：中山东一路18号2层；场所类别：culture；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "暂无数据支撑",
+        "city_thread": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 7,
+        "title": "赫伯特·查尔斯·派克与「外滩」",
+        "body": "地址：中山东二路1号；\n场所类型：风景名胜;风景名胜;风景名胜；\n场所类别：滨水景观地标；\n建造年份：1923；\n建筑风格：新古典主义；\n建筑师：公和洋行；\n建筑沿革：1923年落成时号称「从苏伊士运河到远东最华贵的建筑」。1955年起成为上海市人民政府驻地。；\n相关人物：赫伯特·查尔斯·派克（外滩相关人物）；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "curated.landmark-facts",
+            "record_id": "赫伯特·查尔斯·派克"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 7,
+        "place": "外滩",
+        "era_desc": "地址：中山东二路1号；场所类型：风景名胜;风景名胜;风景名胜；场所类别：滨水景观地标；建造年份：1923；建筑风格：新古典主义；建筑师：公和洋行；建筑沿革：1923年落成时号称「从苏伊士运河到远东最华贵的建筑」。1955年起成为上海市人民政府驻地。；相关人物：赫伯特·查尔斯·派克（外滩相关人物）；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "赫伯特·查尔斯·派克",
+        "city_thread": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "story_card",
+        "stop_order": 8,
+        "title": "在「北外滩艺术区」停一下",
+        "body": "地址：杨树浦路2361号；\n场所类型：科教文化服务;科教文化场所;科教文化场所；\n场所类别：商业街区老字号；\n开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "sources": [
+          {
+            "dataset": "amap_poi",
+            "record_id": "amap:北外滩艺术区"
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "stop_order": 8,
+        "place": "北外滩艺术区",
+        "era_desc": "地址：杨树浦路2361号；场所类型：科教文化服务;科教文化场所;科教文化场所；场所类别：商业街区老字号；开放：未收录 · 可入内：未收录 · 预约：未收录",
+        "figures": "暂无数据支撑",
+        "city_thread": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+        "today": "开放 未收录 · 可入内 未收录 · 预约 未收录",
+        "visual_note": "建议退至人行道外侧，将人名与年份对照着看立面，勿扰仍在使用的空间。"
+      },
+      {
+        "type": "card",
+        "title": "以穆勒为线，旁及托玛斯·杰克逊、赫伯特·查尔斯·派克",
+        "lead": "约 240 分钟，步行大约 8.1 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，构成一次完整的行走。",
+        "keywords": [
+          "穆勒",
+          "人物关系",
+          "文艺"
+        ],
+        "body": "整条线的主人公不是建筑目录，而是人：穆勒、托玛斯·杰克逊、赫伯特·查尔斯·派克、敦信的名字如何先后钉进「外滩源壹号」到「北外滩艺术区」。建筑是舞台，事件是情节，人物关系才是这条线真正的张力。 这条线里，穆勒同时出现在第1、2、3站；第1、5站都落在中山东一路上——同一个名字或同一条路，把分散的楼连成一张网。",
+        "coda": "带一个名字离开，比带一张打卡照片离开，更接近这条线的目的。"
+      }
+    ],
+    "theme_artifact": {
+      "id": "theme-fa8a9dc6",
+      "title": "以穆勒为线，旁及托玛斯·杰克逊、赫伯特·查尔斯·派克",
+      "open_question": "在「外滩 南京东路 历史文化漫步」一带，谁能让一栋楼装下不止一种人生？",
+      "research_axes": [
+        {
+          "axis": "人物关系",
+          "hypothesis": "这些名字先后被钉进同一坐标，构成可对照的群像。",
+          "evidence_cluster_ids": [
+            "cl-person"
+          ]
+        }
+      ],
+      "why_visit": "约 240 分钟，步行大约 8.1 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，构成一次完整的行走。",
+      "estimated_duration_min": 237,
+      "scope_note": "我按『人物—冲突—年份』选这 8 站：每站至少能叫出一个名字或一句带年的记载。这条线先引出穆勒，再与其他名字对照。衔接靠人物与记载的对照，不靠『顺路』。"
+    },
+    "evidence_graph": {
+      "theme_id": "theme-fa8a9dc6",
+      "clusters": [
+        {
+          "id": "cl-person",
+          "dimension": "person",
+          "label": "人物",
+          "facts": [
+            {
+              "fact_uri": "穆勒",
+              "label": "穆勒",
+              "assertion": "外滩源壹号相关人物",
+              "layer": "person",
+              "source_dataset": "curated.landmark-facts",
+              "confidence": 1.0
+            },
+            {
+              "fact_uri": "敦信",
+              "label": "敦信",
+              "assertion": "外滩源壹号相关人物",
+              "layer": "person",
+              "source_dataset": "curated.landmark-facts",
+              "confidence": 1.0
+            },
+            {
+              "fact_uri": "托玛斯·杰克逊",
+              "label": "托玛斯·杰克逊",
+              "assertion": "外滩18号久事艺术空间相关人物",
+              "layer": "person",
+              "source_dataset": "curated.landmark-facts",
+              "confidence": 1.0
+            },
+            {
+              "fact_uri": "赫伯特·查尔斯·派克",
+              "label": "赫伯特·查尔斯·派克",
+              "assertion": "外滩相关人物",
+              "layer": "person",
+              "source_dataset": "curated.landmark-facts",
+              "confidence": 1.0
+            }
+          ]
+        },
+        {
+          "id": "cl-theme",
+          "dimension": "theme",
+          "label": "主题线索",
+          "facts": []
+        }
+      ],
+      "joins": [
+        {
+          "from_uri": "",
+          "to_uri": "穆勒",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "敦信",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "穆勒",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "穆勒",
+          "to_uri": "穆勒",
+          "relation": "同人物跨站点"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "敦信",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "敦信",
+          "to_uri": "敦信",
+          "relation": "同人物跨站点"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "穆勒",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "穆勒",
+          "to_uri": "穆勒",
+          "relation": "同人物跨站点"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "敦信",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "敦信",
+          "to_uri": "敦信",
+          "relation": "同人物跨站点"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "托玛斯·杰克逊",
+          "relation": "馆藏关联人物"
+        },
+        {
+          "from_uri": "",
+          "to_uri": "赫伯特·查尔斯·派克",
+          "relation": "馆藏关联人物"
+        }
+      ],
+      "coverage": {
+        "facts_total": 4,
+        "facts_with_uri": 4,
+        "uri_coverage": 1.0,
+        "dimensions_covered": [
+          "person"
+        ],
+        "gaps": [
+          {
+            "subject": "上海图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "CBDB 中国历代人物传记",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "全国报刊索引",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "复旦大学图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "上海宋庆龄研究会",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "上海韬奋纪念馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "CADAL",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "静安区图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "闵行区图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "嘉定区图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "金山区图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "奉贤区图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "崇明区图书馆",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "东方社区信息苑",
+            "note": "snapshot 未落盘（授权/批量数据待补）"
+          },
+          {
+            "subject": "华东师范大学图书馆",
+            "note": "待确认合作范围（未接入）"
+          },
+          {
+            "subject": "中国人民大学图书馆",
+            "note": "待确认合作范围（未接入）"
+          },
+          {
+            "subject": "上海市公共数据开放平台",
+            "note": "待确认合作范围（未接入）"
+          }
+        ],
+        "buildings_fetched": 20
+      }
+    },
+    "narrative_arc": {
+      "theme_id": "theme-fa8a9dc6",
+      "nodes": [
+        {
+          "stop_index": 1,
+          "role": "Hook",
+          "beat": "先认穆勒，再认「外滩源壹号」这栋楼",
+          "facts_referenced": [
+            "穆勒",
+            "敦信"
+          ]
+        },
+        {
+          "stop_index": 2,
+          "role": "Reveal",
+          "beat": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+          "facts_referenced": [
+            "穆勒",
+            "敦信"
+          ]
+        },
+        {
+          "stop_index": 3,
+          "role": "Reveal",
+          "beat": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+          "facts_referenced": [
+            "穆勒",
+            "敦信"
+          ]
+        },
+        {
+          "stop_index": 4,
+          "role": "Anchor",
+          "beat": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+          "facts_referenced": []
+        },
+        {
+          "stop_index": 5,
+          "role": "Reveal",
+          "beat": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+          "facts_referenced": [
+            "托玛斯·杰克逊"
+          ]
+        },
+        {
+          "stop_index": 6,
+          "role": "Anchor",
+          "beat": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+          "facts_referenced": []
+        },
+        {
+          "stop_index": 7,
+          "role": "Reveal",
+          "beat": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+          "facts_referenced": [
+            "赫伯特·查尔斯·派克"
+          ]
+        },
+        {
+          "stop_index": 8,
+          "role": "Afterimage",
+          "beat": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+          "facts_referenced": []
+        }
+      ],
+      "tension_curve": [
+        0.45,
+        0.55,
+        0.55,
+        0.3,
+        0.55,
+        0.3,
+        0.55,
+        0.2
+      ]
+    },
+    "provenance": {
+      "total_assertions": 8,
+      "aligned_assertions": 8,
+      "coverage_ratio": 1.0,
+      "per_stop": [
+        {
+          "stop_index": 1,
+          "assertions": [
+            {
+              "text": "外滩源壹号相关人物",
+              "fact_uri": "穆勒",
+              "aligned": true,
+              "layer": "person"
+            },
+            {
+              "text": "外滩源壹号相关人物",
+              "fact_uri": "敦信",
+              "aligned": true,
+              "layer": "person"
+            }
+          ]
+        },
+        {
+          "stop_index": 2,
+          "assertions": [
+            {
+              "text": "外滩源33-联合教堂相关人物",
+              "fact_uri": "穆勒",
+              "aligned": true,
+              "layer": "person"
+            },
+            {
+              "text": "外滩源33-联合教堂相关人物",
+              "fact_uri": "敦信",
+              "aligned": true,
+              "layer": "person"
+            }
+          ]
+        },
+        {
+          "stop_index": 3,
+          "assertions": [
+            {
+              "text": "悠游苏州河外滩源码头相关人物",
+              "fact_uri": "穆勒",
+              "aligned": true,
+              "layer": "person"
+            },
+            {
+              "text": "悠游苏州河外滩源码头相关人物",
+              "fact_uri": "敦信",
+              "aligned": true,
+              "layer": "person"
+            }
+          ]
+        },
+        {
+          "stop_index": 4,
+          "assertions": []
+        },
+        {
+          "stop_index": 5,
+          "assertions": [
+            {
+              "text": "外滩18号久事艺术空间相关人物",
+              "fact_uri": "托玛斯·杰克逊",
+              "aligned": true,
+              "layer": "person"
+            }
+          ]
+        },
+        {
+          "stop_index": 6,
+          "assertions": []
+        },
+        {
+          "stop_index": 7,
+          "assertions": [
+            {
+              "text": "外滩相关人物",
+              "fact_uri": "赫伯特·查尔斯·派克",
+              "aligned": true,
+              "layer": "person"
+            }
+          ]
+        },
+        {
+          "stop_index": 8,
+          "assertions": []
+        }
+      ]
+    },
+    "sentence_provenance": {
+      "total_sentences": 72,
+      "factual_sentences": 8,
+      "aligned_factual": 8,
+      "coverage_ratio": 1.0,
+      "per_stop": [
+        {
+          "stop_index": 1,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：中山东一路33号英国领事馆及领事官邸旧址内；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类型：风景名胜;风景名胜;风景名胜；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "场所类别：博物馆美术馆文化场馆；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 3,
+              "text": "建造年份：1849-1930s；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 4,
+              "text": "建筑风格：维多利亚 / 装饰艺术；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 5,
+              "text": "建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 6,
+              "text": "街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 7,
+              "text": "女青年会大楼当年为远东女青年会第一座公寓。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 8,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 9,
+              "text": "相关人物：穆勒（外滩源壹号相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "穆勒"
+              ],
+              "fact_labels": [
+                "穆勒"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 10,
+              "text": "相关人物：敦信（外滩源壹号相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "敦信"
+              ],
+              "fact_labels": [
+                "敦信"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 11,
+              "text": "路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 12,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 13,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 2,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：南苏州路107号；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类型：风景名胜;风景名胜;教堂；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "场所类别：宗教场所；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 3,
+              "text": "建造年份：1849-1930s；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 4,
+              "text": "建筑风格：维多利亚 / 装饰艺术；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 5,
+              "text": "建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 6,
+              "text": "街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 7,
+              "text": "女青年会大楼当年为远东女青年会第一座公寓。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 8,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 9,
+              "text": "相关人物：穆勒（外滩源33-联合教堂相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "穆勒"
+              ],
+              "fact_labels": [
+                "穆勒"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 10,
+              "text": "相关人物：敦信（外滩源33-联合教堂相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "敦信"
+              ],
+              "fact_labels": [
+                "敦信"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 11,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 3,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：南苏州路与圆明园路交叉口东北20米；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类型：风景名胜;风景名胜相关;旅游景点；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "场所类别：滨水景观地标；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 3,
+              "text": "建造年份：1849-1930s；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 4,
+              "text": "建筑风格：维多利亚 / 装饰艺术；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 5,
+              "text": "建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 6,
+              "text": "街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 7,
+              "text": "女青年会大楼当年为远东女青年会第一座公寓。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 8,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 9,
+              "text": "相关人物：穆勒（悠游苏州河外滩源码头相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "穆勒"
+              ],
+              "fact_labels": [
+                "穆勒"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 10,
+              "text": "相关人物：敦信（悠游苏州河外滩源码头相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "敦信"
+              ],
+              "fact_labels": [
+                "敦信"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 11,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 4,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：中山东一路475号；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类别：waterfront；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 5,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：中山东一路18号2层；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类型：科教文化服务;美术馆;美术馆；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "场所类别：博物馆美术馆文化场馆；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 3,
+              "text": "建造年份：1923；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 4,
+              "text": "建筑风格：新古典主义；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 5,
+              "text": "建筑师：公和洋行；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 6,
+              "text": "建筑沿革：原英国渣打银行上海分行，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 7,
+              "text": "2004 年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 8,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 9,
+              "text": "相关人物：托玛斯·杰克逊（外滩18号久事艺术空间相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "托玛斯·杰克逊"
+              ],
+              "fact_labels": [
+                "托玛斯·杰克逊"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 10,
+              "text": "路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 11,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 12,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 6,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：中山东一路18号2层；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类别：culture；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 7,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：中山东二路1号；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类型：风景名胜;风景名胜;风景名胜；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "场所类别：滨水景观地标；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 3,
+              "text": "建造年份：1923；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 4,
+              "text": "建筑风格：新古典主义；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 5,
+              "text": "建筑师：公和洋行；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 6,
+              "text": "建筑沿革：1923年落成时号称「从苏伊士运河到远东最华贵的建筑」。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 7,
+              "text": "1955年起成为上海市人民政府驻地。",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 8,
+              "text": "；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 9,
+              "text": "相关人物：赫伯特·查尔斯·派克（外滩相关人物）；",
+              "kind": "factual",
+              "fact_uris": [
+                "赫伯特·查尔斯·派克"
+              ],
+              "fact_labels": [
+                "赫伯特·查尔斯·派克"
+              ],
+              "aligned": true,
+              "grades": [
+                "B"
+              ]
+            },
+            {
+              "index": 10,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        },
+        {
+          "stop_index": 8,
+          "source_block": "story_card",
+          "sentences": [
+            {
+              "index": 0,
+              "text": "地址：杨树浦路2361号；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 1,
+              "text": "场所类型：科教文化服务;科教文化场所;科教文化场所；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 2,
+              "text": "场所类别：商业街区老字号；",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            },
+            {
+              "index": 3,
+              "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+              "kind": "connective",
+              "fact_uris": [],
+              "fact_labels": [],
+              "aligned": false,
+              "grades": []
+            }
+          ]
+        }
+      ]
+    },
+    "thesis": "在「外滩 南京东路 历史文化漫步」一带，谁能让一栋楼装下不止一种人生？",
+    "cast": [
+      {
+        "id": "ent-building-外滩源壹号",
+        "kind": "building",
+        "name": "外滩源壹号",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-person-穆勒",
+        "kind": "person",
+        "name": "穆勒",
+        "fact_uri": "穆勒",
+        "note": "外滩源壹号相关人物"
+      },
+      {
+        "id": "ent-person-敦信",
+        "kind": "person",
+        "name": "敦信",
+        "fact_uri": "敦信",
+        "note": "外滩源壹号相关人物"
+      },
+      {
+        "id": "ent-building-悠游苏州河外滩源码头",
+        "kind": "building",
+        "name": "悠游苏州河外滩源码头",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩源33-联合教堂",
+        "kind": "building",
+        "name": "外滩源33-联合教堂",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩18号久事艺术空间",
+        "kind": "building",
+        "name": "外滩18号久事艺术空间",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-person-托玛斯·杰克逊",
+        "kind": "person",
+        "name": "托玛斯·杰克逊",
+        "fact_uri": "托玛斯·杰克逊",
+        "note": "外滩18号久事艺术空间相关人物"
+      },
+      {
+        "id": "ent-building-外滩",
+        "kind": "building",
+        "name": "外滩",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-person-赫伯特·查尔斯·派克",
+        "kind": "person",
+        "name": "赫伯特·查尔斯·派克",
+        "fact_uri": "赫伯特·查尔斯·派克",
+        "note": "外滩相关人物"
+      },
+      {
+        "id": "ent-building-上海外滩美术馆",
+        "kind": "building",
+        "name": "上海外滩美术馆",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩艺术中心185空间",
+        "kind": "building",
+        "name": "外滩艺术中心185空间",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩一号艺术中心",
+        "kind": "building",
+        "name": "外滩一号艺术中心",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩天文台",
+        "kind": "building",
+        "name": "外滩天文台",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩-观景平台",
+        "kind": "building",
+        "name": "外滩-观景平台",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩-陈毅广场",
+        "kind": "building",
+        "name": "外滩-陈毅广场",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩金牛广场",
+        "kind": "building",
+        "name": "外滩金牛广场",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩-情人墙",
+        "kind": "building",
+        "name": "外滩-情人墙",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩-观景大道",
+        "kind": "building",
+        "name": "外滩-观景大道",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩-金融广场",
+        "kind": "building",
+        "name": "外滩-金融广场",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-黄浦公园-外滩历史纪念馆",
+        "kind": "building",
+        "name": "黄浦公园-外滩历史纪念馆",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-外滩观光隧道",
+        "kind": "building",
+        "name": "外滩观光隧道",
+        "fact_uri": null,
+        "note": null
+      },
+      {
+        "id": "ent-building-北外滩艺术区",
+        "kind": "building",
+        "name": "北外滩艺术区",
+        "fact_uri": null,
+        "note": null
+      }
+    ],
+    "chapters": [
+      {
+        "id": "ch-1",
+        "index": 1,
+        "title": "引子：外滩源壹号",
+        "hook": "先认穆勒，再认「外滩源壹号」这栋楼",
+        "narrativeRole": "Hook",
+        "stopId": 1,
+        "relationToPrevious": null,
+        "evidenceIds": [
+          "穆勒",
+          "敦信"
+        ],
+        "walkingMinutes": 28,
+        "castRefs": [
+          "ent-building-外滩源壹号",
+          "ent-person-穆勒",
+          "ent-person-敦信"
+        ]
+      },
+      {
+        "id": "ch-2",
+        "index": 2,
+        "title": "揭示：外滩源33-联合教堂",
+        "hook": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+        "narrativeRole": "Reveal",
+        "stopId": 2,
+        "relationToPrevious": "从「先认穆勒，再认「外滩源壹号」这栋楼」走向「先认穆勒，再认「外滩源33-联合教堂」这栋楼」",
+        "evidenceIds": [
+          "穆勒",
+          "敦信"
+        ],
+        "walkingMinutes": 28,
+        "castRefs": [
+          "ent-building-外滩源33-联合教堂",
+          "ent-person-穆勒",
+          "ent-person-敦信"
+        ]
+      },
+      {
+        "id": "ch-3",
+        "index": 3,
+        "title": "揭示：悠游苏州河外滩源码头",
+        "hook": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+        "narrativeRole": "Reveal",
+        "stopId": 3,
+        "relationToPrevious": "从「先认穆勒，再认「外滩源33-联合教堂」这栋楼」走向「先认穆勒，再认「悠游苏州河外滩源码头」这栋楼」",
+        "evidenceIds": [
+          "穆勒",
+          "敦信"
+        ],
+        "walkingMinutes": 28,
+        "castRefs": [
+          "ent-building-悠游苏州河外滩源码头",
+          "ent-person-穆勒",
+          "ent-person-敦信"
+        ]
+      },
+      {
+        "id": "ch-4",
+        "index": 4,
+        "title": "锚点：黄浦公园-外滩历史纪念馆",
+        "hook": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+        "narrativeRole": "Anchor",
+        "stopId": 4,
+        "relationToPrevious": "从「先认穆勒，再认「悠游苏州河外滩源码头」这栋楼」走向「辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份」",
+        "evidenceIds": [],
+        "walkingMinutes": 11,
+        "castRefs": [
+          "ent-building-黄浦公园-外滩历史纪念馆"
+        ]
+      },
+      {
+        "id": "ch-5",
+        "index": 5,
+        "title": "揭示：外滩18号久事艺术空间",
+        "hook": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+        "narrativeRole": "Reveal",
+        "stopId": 5,
+        "relationToPrevious": "从「辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份」走向「先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼」",
+        "evidenceIds": [
+          "托玛斯·杰克逊"
+        ],
+        "walkingMinutes": 20,
+        "castRefs": [
+          "ent-building-外滩18号久事艺术空间",
+          "ent-person-托玛斯·杰克逊"
+        ]
+      },
+      {
+        "id": "ch-6",
+        "index": 6,
+        "title": "锚点：外滩18号久事艺术空间",
+        "hook": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+        "narrativeRole": "Anchor",
+        "stopId": 6,
+        "relationToPrevious": "从「先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼」走向「辨认「外滩18号久事艺术空间」仍可被路过的建筑身份」",
+        "evidenceIds": [],
+        "walkingMinutes": 11,
+        "castRefs": [
+          "ent-building-外滩18号久事艺术空间"
+        ]
+      },
+      {
+        "id": "ch-7",
+        "index": 7,
+        "title": "揭示：外滩",
+        "hook": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+        "narrativeRole": "Reveal",
+        "stopId": 7,
+        "relationToPrevious": "从「辨认「外滩18号久事艺术空间」仍可被路过的建筑身份」走向「先认赫伯特·查尔斯·派克，再认「外滩」这栋楼」",
+        "evidenceIds": [
+          "赫伯特·查尔斯·派克"
+        ],
+        "walkingMinutes": 20,
+        "castRefs": [
+          "ent-building-外滩",
+          "ent-person-赫伯特·查尔斯·派克"
+        ]
+      },
+      {
+        "id": "ch-8",
+        "index": 8,
+        "title": "留白：北外滩艺术区",
+        "hook": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+        "narrativeRole": "Afterimage",
+        "stopId": 8,
+        "relationToPrevious": "从「先认赫伯特·查尔斯·派克，再认「外滩」这栋楼」走向「辨认「北外滩艺术区」仍可被路过的建筑身份」",
+        "evidenceIds": [],
+        "walkingMinutes": 11,
+        "castRefs": [
+          "ent-building-北外滩艺术区"
+        ]
+      }
+    ],
+    "curation_artifacts": {
+      "artifacts_version": "1.0",
+      "theme": {
+        "id": "theme-fa8a9dc6",
+        "title": "以穆勒为线，旁及托玛斯·杰克逊、赫伯特·查尔斯·派克",
+        "open_question": "在「外滩 南京东路 历史文化漫步」一带，谁能让一栋楼装下不止一种人生？",
+        "research_axes": [
+          {
+            "axis": "人物关系",
+            "hypothesis": "这些名字先后被钉进同一坐标，构成可对照的群像。",
+            "evidence_cluster_ids": [
+              "cl-person"
+            ]
+          }
+        ],
+        "why_visit": "约 240 分钟，步行大约 8.1 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，构成一次完整的行走。",
+        "estimated_duration_min": 237,
+        "scope_note": "我按『人物—冲突—年份』选这 8 站：每站至少能叫出一个名字或一句带年的记载。这条线先引出穆勒，再与其他名字对照。衔接靠人物与记载的对照，不靠『顺路』。"
+      },
+      "evidence_graph": {
+        "theme_id": "theme-fa8a9dc6",
+        "clusters": [
+          {
+            "id": "cl-person",
+            "dimension": "person",
+            "label": "人物",
+            "facts": [
+              {
+                "fact_uri": "穆勒",
+                "label": "穆勒",
+                "assertion": "外滩源壹号相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              },
+              {
+                "fact_uri": "敦信",
+                "label": "敦信",
+                "assertion": "外滩源壹号相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              },
+              {
+                "fact_uri": "托玛斯·杰克逊",
+                "label": "托玛斯·杰克逊",
+                "assertion": "外滩18号久事艺术空间相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              },
+              {
+                "fact_uri": "赫伯特·查尔斯·派克",
+                "label": "赫伯特·查尔斯·派克",
+                "assertion": "外滩相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              }
+            ]
+          },
+          {
+            "id": "cl-theme",
+            "dimension": "theme",
+            "label": "主题线索",
+            "facts": []
+          }
+        ],
+        "joins": [
+          {
+            "from_uri": "",
+            "to_uri": "穆勒",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "敦信",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "穆勒",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "穆勒",
+            "to_uri": "穆勒",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "敦信",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "敦信",
+            "to_uri": "敦信",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "穆勒",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "穆勒",
+            "to_uri": "穆勒",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "敦信",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "敦信",
+            "to_uri": "敦信",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "托玛斯·杰克逊",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "赫伯特·查尔斯·派克",
+            "relation": "馆藏关联人物"
+          }
+        ],
+        "coverage": {
+          "facts_total": 4,
+          "facts_with_uri": 4,
+          "uri_coverage": 1.0,
+          "dimensions_covered": [
+            "person"
+          ],
+          "gaps": [
+            {
+              "subject": "上海图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "CBDB 中国历代人物传记",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "全国报刊索引",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "复旦大学图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "上海宋庆龄研究会",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "上海韬奋纪念馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "CADAL",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "静安区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "闵行区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "嘉定区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "金山区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "奉贤区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "崇明区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "东方社区信息苑",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "华东师范大学图书馆",
+              "note": "待确认合作范围（未接入）"
+            },
+            {
+              "subject": "中国人民大学图书馆",
+              "note": "待确认合作范围（未接入）"
+            },
+            {
+              "subject": "上海市公共数据开放平台",
+              "note": "待确认合作范围（未接入）"
+            }
+          ],
+          "buildings_fetched": 20
+        }
+      },
+      "narrative_arc": {
+        "theme_id": "theme-fa8a9dc6",
+        "nodes": [
+          {
+            "stop_index": 1,
+            "role": "Hook",
+            "beat": "先认穆勒，再认「外滩源壹号」这栋楼",
+            "facts_referenced": [
+              "穆勒",
+              "敦信"
+            ]
+          },
+          {
+            "stop_index": 2,
+            "role": "Reveal",
+            "beat": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+            "facts_referenced": [
+              "穆勒",
+              "敦信"
+            ]
+          },
+          {
+            "stop_index": 3,
+            "role": "Reveal",
+            "beat": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+            "facts_referenced": [
+              "穆勒",
+              "敦信"
+            ]
+          },
+          {
+            "stop_index": 4,
+            "role": "Anchor",
+            "beat": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+            "facts_referenced": []
+          },
+          {
+            "stop_index": 5,
+            "role": "Reveal",
+            "beat": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+            "facts_referenced": [
+              "托玛斯·杰克逊"
+            ]
+          },
+          {
+            "stop_index": 6,
+            "role": "Anchor",
+            "beat": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+            "facts_referenced": []
+          },
+          {
+            "stop_index": 7,
+            "role": "Reveal",
+            "beat": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+            "facts_referenced": [
+              "赫伯特·查尔斯·派克"
+            ]
+          },
+          {
+            "stop_index": 8,
+            "role": "Afterimage",
+            "beat": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+            "facts_referenced": []
+          }
+        ],
+        "tension_curve": [
+          0.45,
+          0.55,
+          0.55,
+          0.3,
+          0.55,
+          0.3,
+          0.55,
+          0.2
+        ]
+      },
+      "provenance": {
+        "total_assertions": 8,
+        "aligned_assertions": 8,
+        "coverage_ratio": 1.0,
+        "per_stop": [
+          {
+            "stop_index": 1,
+            "assertions": [
+              {
+                "text": "外滩源壹号相关人物",
+                "fact_uri": "穆勒",
+                "aligned": true,
+                "layer": "person"
+              },
+              {
+                "text": "外滩源壹号相关人物",
+                "fact_uri": "敦信",
+                "aligned": true,
+                "layer": "person"
+              }
+            ]
+          },
+          {
+            "stop_index": 2,
+            "assertions": [
+              {
+                "text": "外滩源33-联合教堂相关人物",
+                "fact_uri": "穆勒",
+                "aligned": true,
+                "layer": "person"
+              },
+              {
+                "text": "外滩源33-联合教堂相关人物",
+                "fact_uri": "敦信",
+                "aligned": true,
+                "layer": "person"
+              }
+            ]
+          },
+          {
+            "stop_index": 3,
+            "assertions": [
+              {
+                "text": "悠游苏州河外滩源码头相关人物",
+                "fact_uri": "穆勒",
+                "aligned": true,
+                "layer": "person"
+              },
+              {
+                "text": "悠游苏州河外滩源码头相关人物",
+                "fact_uri": "敦信",
+                "aligned": true,
+                "layer": "person"
+              }
+            ]
+          },
+          {
+            "stop_index": 4,
+            "assertions": []
+          },
+          {
+            "stop_index": 5,
+            "assertions": [
+              {
+                "text": "外滩18号久事艺术空间相关人物",
+                "fact_uri": "托玛斯·杰克逊",
+                "aligned": true,
+                "layer": "person"
+              }
+            ]
+          },
+          {
+            "stop_index": 6,
+            "assertions": []
+          },
+          {
+            "stop_index": 7,
+            "assertions": [
+              {
+                "text": "外滩相关人物",
+                "fact_uri": "赫伯特·查尔斯·派克",
+                "aligned": true,
+                "layer": "person"
+              }
+            ]
+          },
+          {
+            "stop_index": 8,
+            "assertions": []
+          }
+        ]
+      },
+      "sentence_provenance": {
+        "total_sentences": 72,
+        "factual_sentences": 8,
+        "aligned_factual": 8,
+        "coverage_ratio": 1.0,
+        "per_stop": [
+          {
+            "stop_index": 1,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：中山东一路33号英国领事馆及领事官邸旧址内；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类型：风景名胜;风景名胜;风景名胜；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "场所类别：博物馆美术馆文化场馆；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 3,
+                "text": "建造年份：1849-1930s；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 4,
+                "text": "建筑风格：维多利亚 / 装饰艺术；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 5,
+                "text": "建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 6,
+                "text": "街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 7,
+                "text": "女青年会大楼当年为远东女青年会第一座公寓。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 8,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 9,
+                "text": "相关人物：穆勒（外滩源壹号相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "穆勒"
+                ],
+                "fact_labels": [
+                  "穆勒"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 10,
+                "text": "相关人物：敦信（外滩源壹号相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "敦信"
+                ],
+                "fact_labels": [
+                  "敦信"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 11,
+                "text": "路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 12,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 13,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 2,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：南苏州路107号；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类型：风景名胜;风景名胜;教堂；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "场所类别：宗教场所；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 3,
+                "text": "建造年份：1849-1930s；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 4,
+                "text": "建筑风格：维多利亚 / 装饰艺术；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 5,
+                "text": "建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 6,
+                "text": "街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 7,
+                "text": "女青年会大楼当年为远东女青年会第一座公寓。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 8,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 9,
+                "text": "相关人物：穆勒（外滩源33-联合教堂相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "穆勒"
+                ],
+                "fact_labels": [
+                  "穆勒"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 10,
+                "text": "相关人物：敦信（外滩源33-联合教堂相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "敦信"
+                ],
+                "fact_labels": [
+                  "敦信"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 11,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 3,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：南苏州路与圆明园路交叉口东北20米；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类型：风景名胜;风景名胜相关;旅游景点；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "场所类别：滨水景观地标；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 3,
+                "text": "建造年份：1849-1930s；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 4,
+                "text": "建筑风格：维多利亚 / 装饰艺术；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 5,
+                "text": "建筑沿革：圆明园路真光书局与兰心大楼旧址之间的街区，外滩近代建筑的「长江口侧翼」。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 6,
+                "text": "街区内 11 栋历史建筑保留红砖立面与镂空铁艺阳台；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 7,
+                "text": "女青年会大楼当年为远东女青年会第一座公寓。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 8,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 9,
+                "text": "相关人物：穆勒（悠游苏州河外滩源码头相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "穆勒"
+                ],
+                "fact_labels": [
+                  "穆勒"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 10,
+                "text": "相关人物：敦信（悠游苏州河外滩源码头相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "敦信"
+                ],
+                "fact_labels": [
+                  "敦信"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 11,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 4,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：中山东一路475号；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类别：waterfront；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 5,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：中山东一路18号2层；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类型：科教文化服务;美术馆;美术馆；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "场所类别：博物馆美术馆文化场馆；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 3,
+                "text": "建造年份：1923；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 4,
+                "text": "建筑风格：新古典主义；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 5,
+                "text": "建筑师：公和洋行；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 6,
+                "text": "建筑沿革：原英国渣打银行上海分行，顶层穹顶与罗马柱廊是外滩中段最完整的「万国建筑」入口之一。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 7,
+                "text": "2004 年由意大利 Lothar R. V. Lenz 改造为顶级奢侈品与艺术中心，内部保留两段外滩旧堤与百年门闩。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 8,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 9,
+                "text": "相关人物：托玛斯·杰克逊（外滩18号久事艺术空间相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "托玛斯·杰克逊"
+                ],
+                "fact_labels": [
+                  "托玛斯·杰克逊"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 10,
+                "text": "路段：中山东一路是这条线的容器：它把「外滩源壹号」、「外滩18号久事艺术空间」串成一段可被行走的脉络——楼是点，路才是把点连起来的那根线。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 11,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 12,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 6,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：中山东一路18号2层；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类别：culture；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 7,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：中山东二路1号；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类型：风景名胜;风景名胜;风景名胜；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "场所类别：滨水景观地标；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 3,
+                "text": "建造年份：1923；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 4,
+                "text": "建筑风格：新古典主义；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 5,
+                "text": "建筑师：公和洋行；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 6,
+                "text": "建筑沿革：1923年落成时号称「从苏伊士运河到远东最华贵的建筑」。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 7,
+                "text": "1955年起成为上海市人民政府驻地。",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 8,
+                "text": "；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 9,
+                "text": "相关人物：赫伯特·查尔斯·派克（外滩相关人物）；",
+                "kind": "factual",
+                "fact_uris": [
+                  "赫伯特·查尔斯·派克"
+                ],
+                "fact_labels": [
+                  "赫伯特·查尔斯·派克"
+                ],
+                "aligned": true,
+                "grades": [
+                  "B"
+                ]
+              },
+              {
+                "index": 10,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          },
+          {
+            "stop_index": 8,
+            "source_block": "story_card",
+            "sentences": [
+              {
+                "index": 0,
+                "text": "地址：杨树浦路2361号；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 1,
+                "text": "场所类型：科教文化服务;科教文化场所;科教文化场所；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 2,
+                "text": "场所类别：商业街区老字号；",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              },
+              {
+                "index": 3,
+                "text": "开放：未收录 · 可入内：未收录 · 预约：未收录",
+                "kind": "connective",
+                "fact_uris": [],
+                "fact_labels": [],
+                "aligned": false,
+                "grades": []
+              }
+            ]
+          }
+        ]
+      },
+      "thesis": "在「外滩 南京东路 历史文化漫步」一带，谁能让一栋楼装下不止一种人生？",
+      "cast": [
+        {
+          "id": "ent-building-外滩源壹号",
+          "kind": "building",
+          "name": "外滩源壹号",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-person-穆勒",
+          "kind": "person",
+          "name": "穆勒",
+          "fact_uri": "穆勒",
+          "note": "外滩源壹号相关人物"
+        },
+        {
+          "id": "ent-person-敦信",
+          "kind": "person",
+          "name": "敦信",
+          "fact_uri": "敦信",
+          "note": "外滩源壹号相关人物"
+        },
+        {
+          "id": "ent-building-悠游苏州河外滩源码头",
+          "kind": "building",
+          "name": "悠游苏州河外滩源码头",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩源33-联合教堂",
+          "kind": "building",
+          "name": "外滩源33-联合教堂",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩18号久事艺术空间",
+          "kind": "building",
+          "name": "外滩18号久事艺术空间",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-person-托玛斯·杰克逊",
+          "kind": "person",
+          "name": "托玛斯·杰克逊",
+          "fact_uri": "托玛斯·杰克逊",
+          "note": "外滩18号久事艺术空间相关人物"
+        },
+        {
+          "id": "ent-building-外滩",
+          "kind": "building",
+          "name": "外滩",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-person-赫伯特·查尔斯·派克",
+          "kind": "person",
+          "name": "赫伯特·查尔斯·派克",
+          "fact_uri": "赫伯特·查尔斯·派克",
+          "note": "外滩相关人物"
+        },
+        {
+          "id": "ent-building-上海外滩美术馆",
+          "kind": "building",
+          "name": "上海外滩美术馆",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩艺术中心185空间",
+          "kind": "building",
+          "name": "外滩艺术中心185空间",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩一号艺术中心",
+          "kind": "building",
+          "name": "外滩一号艺术中心",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩天文台",
+          "kind": "building",
+          "name": "外滩天文台",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-观景平台",
+          "kind": "building",
+          "name": "外滩-观景平台",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-陈毅广场",
+          "kind": "building",
+          "name": "外滩-陈毅广场",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩金牛广场",
+          "kind": "building",
+          "name": "外滩金牛广场",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-情人墙",
+          "kind": "building",
+          "name": "外滩-情人墙",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-观景大道",
+          "kind": "building",
+          "name": "外滩-观景大道",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-金融广场",
+          "kind": "building",
+          "name": "外滩-金融广场",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-黄浦公园-外滩历史纪念馆",
+          "kind": "building",
+          "name": "黄浦公园-外滩历史纪念馆",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩观光隧道",
+          "kind": "building",
+          "name": "外滩观光隧道",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-北外滩艺术区",
+          "kind": "building",
+          "name": "北外滩艺术区",
+          "fact_uri": null,
+          "note": null
+        }
+      ],
+      "chapters": [
+        {
+          "id": "ch-1",
+          "index": 1,
+          "title": "引子：外滩源壹号",
+          "hook": "先认穆勒，再认「外滩源壹号」这栋楼",
+          "narrativeRole": "Hook",
+          "stopId": 1,
+          "relationToPrevious": null,
+          "evidenceIds": [
+            "穆勒",
+            "敦信"
+          ],
+          "walkingMinutes": 28,
+          "castRefs": [
+            "ent-building-外滩源壹号",
+            "ent-person-穆勒",
+            "ent-person-敦信"
+          ]
+        },
+        {
+          "id": "ch-2",
+          "index": 2,
+          "title": "揭示：外滩源33-联合教堂",
+          "hook": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 2,
+          "relationToPrevious": "从「先认穆勒，再认「外滩源壹号」这栋楼」走向「先认穆勒，再认「外滩源33-联合教堂」这栋楼」",
+          "evidenceIds": [
+            "穆勒",
+            "敦信"
+          ],
+          "walkingMinutes": 28,
+          "castRefs": [
+            "ent-building-外滩源33-联合教堂",
+            "ent-person-穆勒",
+            "ent-person-敦信"
+          ]
+        },
+        {
+          "id": "ch-3",
+          "index": 3,
+          "title": "揭示：悠游苏州河外滩源码头",
+          "hook": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 3,
+          "relationToPrevious": "从「先认穆勒，再认「外滩源33-联合教堂」这栋楼」走向「先认穆勒，再认「悠游苏州河外滩源码头」这栋楼」",
+          "evidenceIds": [
+            "穆勒",
+            "敦信"
+          ],
+          "walkingMinutes": 28,
+          "castRefs": [
+            "ent-building-悠游苏州河外滩源码头",
+            "ent-person-穆勒",
+            "ent-person-敦信"
+          ]
+        },
+        {
+          "id": "ch-4",
+          "index": 4,
+          "title": "锚点：黄浦公园-外滩历史纪念馆",
+          "hook": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+          "narrativeRole": "Anchor",
+          "stopId": 4,
+          "relationToPrevious": "从「先认穆勒，再认「悠游苏州河外滩源码头」这栋楼」走向「辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份」",
+          "evidenceIds": [],
+          "walkingMinutes": 11,
+          "castRefs": [
+            "ent-building-黄浦公园-外滩历史纪念馆"
+          ]
+        },
+        {
+          "id": "ch-5",
+          "index": 5,
+          "title": "揭示：外滩18号久事艺术空间",
+          "hook": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 5,
+          "relationToPrevious": "从「辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份」走向「先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼」",
+          "evidenceIds": [
+            "托玛斯·杰克逊"
+          ],
+          "walkingMinutes": 20,
+          "castRefs": [
+            "ent-building-外滩18号久事艺术空间",
+            "ent-person-托玛斯·杰克逊"
+          ]
+        },
+        {
+          "id": "ch-6",
+          "index": 6,
+          "title": "锚点：外滩18号久事艺术空间",
+          "hook": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+          "narrativeRole": "Anchor",
+          "stopId": 6,
+          "relationToPrevious": "从「先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼」走向「辨认「外滩18号久事艺术空间」仍可被路过的建筑身份」",
+          "evidenceIds": [],
+          "walkingMinutes": 11,
+          "castRefs": [
+            "ent-building-外滩18号久事艺术空间"
+          ]
+        },
+        {
+          "id": "ch-7",
+          "index": 7,
+          "title": "揭示：外滩",
+          "hook": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 7,
+          "relationToPrevious": "从「辨认「外滩18号久事艺术空间」仍可被路过的建筑身份」走向「先认赫伯特·查尔斯·派克，再认「外滩」这栋楼」",
+          "evidenceIds": [
+            "赫伯特·查尔斯·派克"
+          ],
+          "walkingMinutes": 20,
+          "castRefs": [
+            "ent-building-外滩",
+            "ent-person-赫伯特·查尔斯·派克"
+          ]
+        },
+        {
+          "id": "ch-8",
+          "index": 8,
+          "title": "留白：北外滩艺术区",
+          "hook": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+          "narrativeRole": "Afterimage",
+          "stopId": 8,
+          "relationToPrevious": "从「先认赫伯特·查尔斯·派克，再认「外滩」这栋楼」走向「辨认「北外滩艺术区」仍可被路过的建筑身份」",
+          "evidenceIds": [],
+          "walkingMinutes": 11,
+          "castRefs": [
+            "ent-building-北外滩艺术区"
+          ]
+        }
+      ]
+    },
+    "curated_story": {
+      "id": "theme-fa8a9dc6",
+      "theme": {
+        "id": "theme-fa8a9dc6",
+        "title": "以穆勒为线，旁及托玛斯·杰克逊、赫伯特·查尔斯·派克",
+        "open_question": "在「外滩 南京东路 历史文化漫步」一带，谁能让一栋楼装下不止一种人生？",
+        "research_axes": [
+          {
+            "axis": "人物关系",
+            "hypothesis": "这些名字先后被钉进同一坐标，构成可对照的群像。",
+            "evidence_cluster_ids": [
+              "cl-person"
+            ]
+          }
+        ],
+        "why_visit": "约 240 分钟，步行大约 8.1 公里。像读一组短篇：每一站一个人（或一群人）的名字，加一段仍能核对的情节，构成一次完整的行走。",
+        "estimated_duration_min": 237,
+        "scope_note": "我按『人物—冲突—年份』选这 8 站：每站至少能叫出一个名字或一句带年的记载。这条线先引出穆勒，再与其他名字对照。衔接靠人物与记载的对照，不靠『顺路』。"
+      },
+      "thesis": "在「外滩 南京东路 历史文化漫步」一带，谁能让一栋楼装下不止一种人生？",
+      "cast": [
+        {
+          "id": "ent-building-外滩源壹号",
+          "kind": "building",
+          "name": "外滩源壹号",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-person-穆勒",
+          "kind": "person",
+          "name": "穆勒",
+          "fact_uri": "穆勒",
+          "note": "外滩源壹号相关人物"
+        },
+        {
+          "id": "ent-person-敦信",
+          "kind": "person",
+          "name": "敦信",
+          "fact_uri": "敦信",
+          "note": "外滩源壹号相关人物"
+        },
+        {
+          "id": "ent-building-悠游苏州河外滩源码头",
+          "kind": "building",
+          "name": "悠游苏州河外滩源码头",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩源33-联合教堂",
+          "kind": "building",
+          "name": "外滩源33-联合教堂",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩18号久事艺术空间",
+          "kind": "building",
+          "name": "外滩18号久事艺术空间",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-person-托玛斯·杰克逊",
+          "kind": "person",
+          "name": "托玛斯·杰克逊",
+          "fact_uri": "托玛斯·杰克逊",
+          "note": "外滩18号久事艺术空间相关人物"
+        },
+        {
+          "id": "ent-building-外滩",
+          "kind": "building",
+          "name": "外滩",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-person-赫伯特·查尔斯·派克",
+          "kind": "person",
+          "name": "赫伯特·查尔斯·派克",
+          "fact_uri": "赫伯特·查尔斯·派克",
+          "note": "外滩相关人物"
+        },
+        {
+          "id": "ent-building-上海外滩美术馆",
+          "kind": "building",
+          "name": "上海外滩美术馆",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩艺术中心185空间",
+          "kind": "building",
+          "name": "外滩艺术中心185空间",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩一号艺术中心",
+          "kind": "building",
+          "name": "外滩一号艺术中心",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩天文台",
+          "kind": "building",
+          "name": "外滩天文台",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-观景平台",
+          "kind": "building",
+          "name": "外滩-观景平台",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-陈毅广场",
+          "kind": "building",
+          "name": "外滩-陈毅广场",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩金牛广场",
+          "kind": "building",
+          "name": "外滩金牛广场",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-情人墙",
+          "kind": "building",
+          "name": "外滩-情人墙",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-观景大道",
+          "kind": "building",
+          "name": "外滩-观景大道",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩-金融广场",
+          "kind": "building",
+          "name": "外滩-金融广场",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-黄浦公园-外滩历史纪念馆",
+          "kind": "building",
+          "name": "黄浦公园-外滩历史纪念馆",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-外滩观光隧道",
+          "kind": "building",
+          "name": "外滩观光隧道",
+          "fact_uri": null,
+          "note": null
+        },
+        {
+          "id": "ent-building-北外滩艺术区",
+          "kind": "building",
+          "name": "北外滩艺术区",
+          "fact_uri": null,
+          "note": null
+        }
+      ],
+      "chapters": [
+        {
+          "id": "ch-1",
+          "index": 1,
+          "title": "引子：外滩源壹号",
+          "hook": "先认穆勒，再认「外滩源壹号」这栋楼",
+          "narrativeRole": "Hook",
+          "stopId": 1,
+          "relationToPrevious": null,
+          "evidenceIds": [
+            "穆勒",
+            "敦信"
+          ],
+          "walkingMinutes": 28,
+          "castRefs": [
+            "ent-building-外滩源壹号",
+            "ent-person-穆勒",
+            "ent-person-敦信"
+          ]
+        },
+        {
+          "id": "ch-2",
+          "index": 2,
+          "title": "揭示：外滩源33-联合教堂",
+          "hook": "先认穆勒，再认「外滩源33-联合教堂」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 2,
+          "relationToPrevious": "从「先认穆勒，再认「外滩源壹号」这栋楼」走向「先认穆勒，再认「外滩源33-联合教堂」这栋楼」",
+          "evidenceIds": [
+            "穆勒",
+            "敦信"
+          ],
+          "walkingMinutes": 28,
+          "castRefs": [
+            "ent-building-外滩源33-联合教堂",
+            "ent-person-穆勒",
+            "ent-person-敦信"
+          ]
+        },
+        {
+          "id": "ch-3",
+          "index": 3,
+          "title": "揭示：悠游苏州河外滩源码头",
+          "hook": "先认穆勒，再认「悠游苏州河外滩源码头」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 3,
+          "relationToPrevious": "从「先认穆勒，再认「外滩源33-联合教堂」这栋楼」走向「先认穆勒，再认「悠游苏州河外滩源码头」这栋楼」",
+          "evidenceIds": [
+            "穆勒",
+            "敦信"
+          ],
+          "walkingMinutes": 28,
+          "castRefs": [
+            "ent-building-悠游苏州河外滩源码头",
+            "ent-person-穆勒",
+            "ent-person-敦信"
+          ]
+        },
+        {
+          "id": "ch-4",
+          "index": 4,
+          "title": "锚点：黄浦公园-外滩历史纪念馆",
+          "hook": "辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份",
+          "narrativeRole": "Anchor",
+          "stopId": 4,
+          "relationToPrevious": "从「先认穆勒，再认「悠游苏州河外滩源码头」这栋楼」走向「辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份」",
+          "evidenceIds": [],
+          "walkingMinutes": 11,
+          "castRefs": [
+            "ent-building-黄浦公园-外滩历史纪念馆"
+          ]
+        },
+        {
+          "id": "ch-5",
+          "index": 5,
+          "title": "揭示：外滩18号久事艺术空间",
+          "hook": "先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 5,
+          "relationToPrevious": "从「辨认「黄浦公园-外滩历史纪念馆」仍可被路过的建筑身份」走向「先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼」",
+          "evidenceIds": [
+            "托玛斯·杰克逊"
+          ],
+          "walkingMinutes": 20,
+          "castRefs": [
+            "ent-building-外滩18号久事艺术空间",
+            "ent-person-托玛斯·杰克逊"
+          ]
+        },
+        {
+          "id": "ch-6",
+          "index": 6,
+          "title": "锚点：外滩18号久事艺术空间",
+          "hook": "辨认「外滩18号久事艺术空间」仍可被路过的建筑身份",
+          "narrativeRole": "Anchor",
+          "stopId": 6,
+          "relationToPrevious": "从「先认托玛斯·杰克逊，再认「外滩18号久事艺术空间」这栋楼」走向「辨认「外滩18号久事艺术空间」仍可被路过的建筑身份」",
+          "evidenceIds": [],
+          "walkingMinutes": 11,
+          "castRefs": [
+            "ent-building-外滩18号久事艺术空间"
+          ]
+        },
+        {
+          "id": "ch-7",
+          "index": 7,
+          "title": "揭示：外滩",
+          "hook": "先认赫伯特·查尔斯·派克，再认「外滩」这栋楼",
+          "narrativeRole": "Reveal",
+          "stopId": 7,
+          "relationToPrevious": "从「辨认「外滩18号久事艺术空间」仍可被路过的建筑身份」走向「先认赫伯特·查尔斯·派克，再认「外滩」这栋楼」",
+          "evidenceIds": [
+            "赫伯特·查尔斯·派克"
+          ],
+          "walkingMinutes": 20,
+          "castRefs": [
+            "ent-building-外滩",
+            "ent-person-赫伯特·查尔斯·派克"
+          ]
+        },
+        {
+          "id": "ch-8",
+          "index": 8,
+          "title": "留白：北外滩艺术区",
+          "hook": "辨认「北外滩艺术区」仍可被路过的建筑身份",
+          "narrativeRole": "Afterimage",
+          "stopId": 8,
+          "relationToPrevious": "从「先认赫伯特·查尔斯·派克，再认「外滩」这栋楼」走向「辨认「北外滩艺术区」仍可被路过的建筑身份」",
+          "evidenceIds": [],
+          "walkingMinutes": 11,
+          "castRefs": [
+            "ent-building-北外滩艺术区"
+          ]
+        }
+      ],
+      "evidenceGraph": {
+        "theme_id": "theme-fa8a9dc6",
+        "clusters": [
+          {
+            "id": "cl-person",
+            "dimension": "person",
+            "label": "人物",
+            "facts": [
+              {
+                "fact_uri": "穆勒",
+                "label": "穆勒",
+                "assertion": "外滩源壹号相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              },
+              {
+                "fact_uri": "敦信",
+                "label": "敦信",
+                "assertion": "外滩源壹号相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              },
+              {
+                "fact_uri": "托玛斯·杰克逊",
+                "label": "托玛斯·杰克逊",
+                "assertion": "外滩18号久事艺术空间相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              },
+              {
+                "fact_uri": "赫伯特·查尔斯·派克",
+                "label": "赫伯特·查尔斯·派克",
+                "assertion": "外滩相关人物",
+                "layer": "person",
+                "source_dataset": "curated.landmark-facts",
+                "confidence": 1.0
+              }
+            ]
+          },
+          {
+            "id": "cl-theme",
+            "dimension": "theme",
+            "label": "主题线索",
+            "facts": []
+          }
+        ],
+        "joins": [
+          {
+            "from_uri": "",
+            "to_uri": "穆勒",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "敦信",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "穆勒",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "穆勒",
+            "to_uri": "穆勒",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "敦信",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "敦信",
+            "to_uri": "敦信",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "穆勒",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "穆勒",
+            "to_uri": "穆勒",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "敦信",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "敦信",
+            "to_uri": "敦信",
+            "relation": "同人物跨站点"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "托玛斯·杰克逊",
+            "relation": "馆藏关联人物"
+          },
+          {
+            "from_uri": "",
+            "to_uri": "赫伯特·查尔斯·派克",
+            "relation": "馆藏关联人物"
+          }
+        ],
+        "coverage": {
+          "facts_total": 4,
+          "facts_with_uri": 4,
+          "uri_coverage": 1.0,
+          "dimensions_covered": [
+            "person"
+          ],
+          "gaps": [
+            {
+              "subject": "上海图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "CBDB 中国历代人物传记",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "全国报刊索引",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "复旦大学图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "上海宋庆龄研究会",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "上海韬奋纪念馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "CADAL",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "静安区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "闵行区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "嘉定区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "金山区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "奉贤区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "崇明区图书馆",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "东方社区信息苑",
+              "note": "snapshot 未落盘（授权/批量数据待补）"
+            },
+            {
+              "subject": "华东师范大学图书馆",
+              "note": "待确认合作范围（未接入）"
+            },
+            {
+              "subject": "中国人民大学图书馆",
+              "note": "待确认合作范围（未接入）"
+            },
+            {
+              "subject": "上海市公共数据开放平台",
+              "note": "待确认合作范围（未接入）"
+            }
+          ],
+          "buildings_fetched": 20
+        }
+      },
+      "quality": {
+        "evidence_layers": 1,
+        "coverage_ratio": 1.0,
+        "aligned_ratio": 1.0
+      }
+    }
+  }
+}

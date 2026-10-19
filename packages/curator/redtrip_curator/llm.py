@@ -10,6 +10,7 @@ Provider 覆盖使用 contextvars，以便 ThreadPoolExecutor 经 copy_context()
 """
 from __future__ import annotations
 
+import sys
 import contextvars
 import json
 import logging
@@ -51,6 +52,42 @@ def set_thread_provider(provider: dict[str, str] | None) -> None:
 def clear_thread_provider() -> None:
     """清除当前上下文的 provider 覆盖。"""
     _CLOUD_PROVIDER.set(None)
+
+
+# ---- 每日 LLM 配额（平台网关；BYOK 不计）----
+_llm_scope: contextvars.ContextVar[str] = contextvars.ContextVar(
+    "redtrip_llm_scope", default="anon"
+)
+
+
+def set_llm_scope(scope: str) -> None:
+    """设置当前请求的配额 scope；curate 无强制认证时默认 anon（全局共享配额）。"""
+    _llm_scope.set(scope or "anon")
+
+
+def _quota_db_path() -> str:
+    return os.getenv("REDTRIP_QUOTA_DB") or "/opt/redtrip/data/llm_quota.db"
+
+
+def _quota_ok() -> bool:
+    """平台网关每日配额；DB 异常 fail-closed。共享模块缺失则不阻断。"""
+    shared = os.getenv("OPENCLAW_SHARED_DIR", "/opt/shared")
+    if shared not in sys.path:
+        sys.path.insert(0, shared)
+    try:
+        from llm_quota import allow as _allow
+    except ModuleNotFoundError:  # 开发环境无共享模块时不阻断
+        return True
+    return _allow(_quota_db_path(), _llm_scope.get())
+
+
+def _quota_gate(provider: dict[str, str] | None) -> None:
+    """平台网关每日配额门；BYOK（带 api_key）不计；超限抛 RuntimeError（调用方降级）。"""
+    eff = provider or _thread_provider()
+    if eff and eff.get("api_key"):
+        return
+    if not _quota_ok():
+        raise RuntimeError("daily LLM quota exhausted")
 
 
 def _thread_provider() -> dict[str, str] | None:
@@ -109,6 +146,7 @@ def chat_completion(
     max_tokens: int | None = None,
     provider: dict[str, str] | None = None,
 ) -> str:
+    _quota_gate(provider)  # 平台网关每日配额；超限抛 RuntimeError（proposition/polish 已降级）
     """Return assistant text content. Raises on hard failure.
 
     provider: 显式传入 {api_base, api_key, model} 覆盖当前线程/环境变量配置。
