@@ -10,7 +10,6 @@ Provider 覆盖使用 contextvars，以便 ThreadPoolExecutor 经 copy_context()
 """
 from __future__ import annotations
 
-import sys
 import contextvars
 import json
 import logging
@@ -20,6 +19,8 @@ import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, TypeVar
+
+from openclaw_core.quota import QuotaGate
 
 _LOGGER = logging.getLogger("redtrip.llm")
 
@@ -70,15 +71,11 @@ def _quota_db_path() -> str:
 
 
 def _quota_ok() -> bool:
-    """平台网关每日配额；DB 异常 fail-closed。共享模块缺失则不阻断。"""
-    shared = os.getenv("OPENCLAW_SHARED_DIR", "/opt/shared")
-    if shared not in sys.path:
-        sys.path.insert(0, shared)
+    """平台网关每日配额；DB 异常 fail-closed（QuotaGate 内部已处理）。"""
     try:
-        from llm_quota import allow as _allow
-    except ModuleNotFoundError:  # 开发环境无共享模块时不阻断
-        return True
-    return _allow(_quota_db_path(), _llm_scope.get())
+        return QuotaGate(_quota_db_path()).allow(_llm_scope.get())
+    except Exception:  # noqa: BLE001 — fail-closed 成本闸门
+        return False
 
 
 def _quota_gate(provider: dict[str, str] | None) -> None:
