@@ -15,6 +15,8 @@ for _p in [
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
+from openclaw_core.temporal import run_worker
+
 from redtrip_curator.temporal.activities import (  # noqa: E402 - 需先注入 sys.path 再导入
     attach_layer3_activity,
     build_artifacts_activity,
@@ -29,7 +31,6 @@ from redtrip_curator.temporal.activities import (  # noqa: E402 - 需先注入 s
     review_envelope_activity,
 )
 from redtrip_curator.temporal.workflows.curate import CurateWorkflow  # noqa: E402 - 同上前置路径注入
-from openclaw_core.temporal import run_worker
 
 
 def run() -> None:

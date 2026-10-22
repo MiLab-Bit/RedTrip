@@ -2,7 +2,7 @@
 
 运行：.venv/Scripts/python.exe -m pytest tests/test_gate.py -q
 """
-from redtrip_gate.engine import evaluate_envelope, FORBIDDEN_COPY
+from redtrip_gate.engine import FORBIDDEN_COPY, evaluate_envelope
 
 
 def _stop(name: str, idx: int) -> dict:

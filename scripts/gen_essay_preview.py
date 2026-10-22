@@ -17,6 +17,7 @@ for _d in ("packages/curator", "packages/gate", "packages/library-client", "pack
         sys.path.insert(0, _p)
 
 from redtrip_curator.book import render_book, render_book_markdown  # noqa: E402
+
 from tests.test_essay import ESSAYS, _envelope, _three_stops  # noqa: E402
 
 OUT = ROOT / "previews"

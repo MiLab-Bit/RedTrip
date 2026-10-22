@@ -34,7 +34,12 @@ from redtrip_curator.book import (  # noqa: E402
 )
 from redtrip_curator.cities import list_cities  # noqa: E402
 from redtrip_curator.hongyuan import place_ranking  # noqa: E402
-from redtrip_curator.llm import clear_thread_provider, llm_configured, llm_model, set_thread_provider  # noqa: E402
+from redtrip_curator.llm import (  # noqa: E402
+    clear_thread_provider,
+    llm_configured,
+    llm_model,
+    set_thread_provider,
+)
 from redtrip_curator.place_suggest import suggest_places  # noqa: E402
 from redtrip_gate import evaluate_envelope  # noqa: E402
 from redtrip_library import SlcClient, SlcResponse, bbox_from_points, fetch_building_footprints  # noqa: E402
