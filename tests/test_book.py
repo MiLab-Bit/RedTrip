@@ -266,6 +266,7 @@ def test_render_book_epub_bytes_valid_zip_structure():
 def test_render_book_epub_volume_splitting():
     """书籍化 P4：超出 max_chapters_per_volume 时拆卷，每卷自包含路线规划与出处。"""
     import zipfile as _zip
+
     from redtrip_curator.book import _build_book_doc, _build_epub_volumes
 
     # 构造 5 章，每卷最多 2 章 → 应拆成 3 卷

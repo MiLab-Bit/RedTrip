@@ -15,16 +15,15 @@ from __future__ import annotations
 from dataclasses import asdict
 
 import pytest
-
-from redtrip_curator.temporal.common import CurateInput
 from redtrip_curator.temporal.activities import (
-    parse_intent_activity,
     draw_voice_activity,
-    join_layers_activity,
-    plan_route_activity,
     evaluate_gate_activity,
+    join_layers_activity,
+    parse_intent_activity,
+    plan_route_activity,
     review_envelope_activity,
 )
+from redtrip_curator.temporal.common import CurateInput
 
 
 # ----------------------------------------------------------------------

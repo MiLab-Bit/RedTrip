@@ -5,7 +5,6 @@
 from unittest.mock import patch
 
 import pytest
-
 from redtrip_curator.llm import (
     chat_completion,
     clear_thread_provider,

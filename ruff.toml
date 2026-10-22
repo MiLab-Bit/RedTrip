@@ -1,7 +1,6 @@
 line-length = 100
-target-version = "py312"
+target-version = "py311"
 
 [lint]
-# 基线：错误/pyflakes/警告/import 排序。后续可逐步加 B/C4 等。
 select = ["E", "F", "W", "I"]
-ignore = ["E501", "E741"]
+ignore = ["E402", "E501", "E741"]
