@@ -1,21 +1,18 @@
 from __future__ import annotations
 
-import asyncio
 import hashlib
 import json
 import os
 import sys
 import threading
 import time
-import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Literal
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 ROOT = Path(__file__).resolve().parents[3]  # RedTrip/
@@ -26,24 +23,11 @@ load_dotenv(ROOT / ".env")
 os.environ.setdefault("PYTHONUTF8", "1")
 
 from redtrip_curator import curate as run_curator  # noqa: E402
-from redtrip_curator.book import (  # noqa: E402
-    render_book,
-    render_book_epub_bytes,
-    render_book_markdown,
-    render_book_pdf,
-)
-from redtrip_curator.cities import list_cities  # noqa: E402
-from redtrip_curator.hongyuan import place_ranking  # noqa: E402
 from redtrip_curator.llm import (  # noqa: E402
     clear_thread_provider,
-    llm_configured,
-    llm_model,
     set_thread_provider,
 )
-from redtrip_curator.place_suggest import suggest_places  # noqa: E402
-from redtrip_gate import evaluate_envelope  # noqa: E402
-from redtrip_library import SlcClient, SlcResponse, bbox_from_points, fetch_building_footprints  # noqa: E402
-from redtrip_library.providers import health_probe as _provider_health  # noqa: E402
+from redtrip_library import SlcClient, SlcResponse, bbox_from_points  # noqa: E402
 
 # 鉴权层（与 auth_router 同包，但 main.py 只读不解耦）
 from app import auth_lib as _auth_lib  # noqa: E402
@@ -355,71 +339,6 @@ def _probe_live_providers(client: SlcClient) -> tuple[dict[str, bool], dict[str,
     return results, details
 
 
-@app.get("/v1/health")
-def health(probe: bool = Query(default=False, description="probe live providers")) -> dict[str, Any]:
-    mode = os.getenv("REDTRIP_MODE", "indexed")
-    has_key = bool(os.getenv("SLC_API_KEY", "").strip())
-    live_results: dict[str, bool] = {}
-    live_probe: dict[str, Any] | None = None
-    if probe:
-        live_results, live_probe = _probe_live_providers(SlcClient())
-    provider_health = _provider_health(live_results)
-    payload: dict[str, Any] = {
-        "ok": True,
-        "service": "redtrip-api",
-        "mode": mode,
-        "slc_key_configured": has_key,
-        "slc_api": {
-            "status": "/v1/slc/status",
-            "buildings": "/v1/slc/buildings?q=",
-            "building_detail": "/v1/slc/buildings/detail?uri=",
-            "events": "/v1/slc/events?buri=",
-            "red_events": "/v1/slc/red-events?q=",
-        },
-        "llm": {
-            "configured": llm_configured(),
-            "model": llm_model() if llm_configured() else None,
-        },
-        "library_client": True,
-        "curator": True,
-        "gate": True,
-        "cities": len(list_cities()),
-        "providers": provider_health.get("total"),
-        "providers_ingested": provider_health.get("ingested"),
-        "providers_live_ready": provider_health.get("live_ready"),
-        "whitelist": WHITELIST_PATH.exists(),
-        "whitelist_hint": (
-            "R-20 points.json loaded"
-            if WHITELIST_PATH.exists()
-            else "R-20 missing; indexed curate may fall back"
-        ),
-        "hotwords": _hotwords_health(),
-        "curate_cache": {
-            "entries": len(_cache_mem),
-            "hits": _cache_stats["hits"],
-            "misses": _cache_stats["misses"],
-            "ttl_s": CACHE_TTL_S,
-            "schema": CACHE_SCHEMA,
-        },
-    }
-    if live_probe is not None:
-        payload["provider_probe"] = live_probe
-        payload["ok"] = all(live_results.values())
-    return payload
-
-
-@app.get("/v1/demo/wukang", response_model=CurateResponse, response_model_exclude_none=True)
-def demo_wukang() -> CurateResponse:
-    """竞赛冻结演示线 A：显式一键加载武康，绝不作为普通 curate 失败兜底。"""
-    return _load_demo_fixture(DEMO_WUKANG_PATH, label="武康冻结包", theme_check="武康")
-
-
-@app.get("/v1/demo/yida", response_model=CurateResponse, response_model_exclude_none=True)
-def demo_yida() -> CurateResponse:
-    """竞赛冻结演示线 B：一大—外滩，诚实通道标注。"""
-    return _load_demo_fixture(DEMO_YIDA_PATH, label="一大外滩冻结包", theme_check="外滩")
-
-
 def _load_demo_fixture(
     path: Path,
     *,
@@ -466,13 +385,6 @@ def _load_demo_fixture(
     )
 
 
-@app.get("/v1/slc/probe")
-def slc_probe() -> dict[str, Any]:
-    """兼容旧探针；推荐运维使用 /v1/slc/status。"""
-    client = SlcClient()
-    return client.health_probe()
-
-
 def _slc_payload(resp: SlcResponse) -> dict[str, Any]:
     return {
         "ok": resp.ok,
@@ -480,58 +392,6 @@ def _slc_payload(resp: SlcResponse) -> dict[str, Any]:
         "endpoint": resp.endpoint,
         "error": resp.error,
         "data": resp.data,
-    }
-
-
-@app.get("/v1/slc/status")
-def slc_status() -> dict[str, Any]:
-    """上图 API 连通性探针（building_list + detail + event_list）。"""
-    return SlcClient().health_probe()
-
-
-@app.get("/v1/slc/buildings")
-def slc_buildings(
-    q: str = Query(default="", description="建筑 freetext 检索词"),
-) -> dict[str, Any]:
-    """上图建筑列表 — `building/list`。"""
-    return _slc_payload(SlcClient().building_list(q))
-
-
-@app.get("/v1/slc/buildings/detail")
-def slc_building_detail(
-    uri: str = Query(..., description="建筑 URI（buri）"),
-) -> dict[str, Any]:
-    """上图建筑详情 — `building/detail`。"""
-    return _slc_payload(SlcClient().building_detail(uri))
-
-
-@app.get("/v1/slc/events")
-def slc_events(
-    buri: str = Query(..., description="建筑 buri"),
-) -> dict[str, Any]:
-    """上图建筑关联事件 — `building/event/list`。"""
-    return _slc_payload(SlcClient().event_list(buri))
-
-
-@app.get("/v1/slc/red-events")
-def slc_red_events(
-    q: str = Query(default="", description="红色旅游事件关键词"),
-) -> dict[str, Any]:
-    """上图红色旅游事件 — `route/getEventList`。"""
-    return _slc_payload(SlcClient().red_event_list(keyword=q))
-
-
-@app.get("/v1/llm/status")
-def llm_status() -> dict[str, Any]:
-    """LLM 网关是否已配置（不发起实际生成）。"""
-    configured = llm_configured()
-    return {
-        "ok": configured,
-        "configured": configured,
-        "model": llm_model() if configured else None,
-        "policy": os.getenv("REDTRIP_LLM_POLICY", "cloud"),
-        "curate": "/v1/curate",
-        "curate_async": "/v1/curate/start",
     }
 
 
@@ -625,147 +485,6 @@ def _fixture_for_bbox(
     }
 
 
-@app.post("/v1/map/footprints")
-def map_footprints(req: FootprintRequest) -> dict[str, Any]:
-    """OSM building footprints for the route corridor (real outlines)."""
-    pts: list[tuple[float, float]] = []
-    for p in req.points:
-        lat, lng = p.get("lat"), p.get("lng")
-        if isinstance(lat, (int, float)) and isinstance(lng, (int, float)):
-            pts.append((float(lat), float(lng)))
-    if len(pts) < 1:
-        return {"type": "FeatureCollection", "features": [], "error": "no points"}
-    south, west, north, east = bbox_from_points(pts, pad=0.0022)
-    bbox = {"south": south, "west": west, "north": north, "east": east}
-
-    # 默认走真实 Overpass（演示才优先 fixture）：仅在显式 REDTRIP_OSM_PREFER_FIXTURE=1
-    # 时优先 fixture。生产模式（REDTRIP_MODE=production）强制禁用 fixture，杜绝误触
-    # 假数据（审查疑点#6）。实时拉取超时/空结果仍会安全回退 fixture（见下文 fallback）。
-    _mode = (os.getenv("REDTRIP_MODE") or "indexed").lower()
-    if _mode == "production":
-        prefer_fixture = False
-    else:
-        prefer_fixture = os.getenv("REDTRIP_OSM_PREFER_FIXTURE") == "1"
-    if prefer_fixture:
-        clipped = _fixture_for_bbox(south=south, west=west, north=north, east=east)
-        if clipped:
-            clipped["bbox"] = bbox
-            return clipped
-
-    from concurrent.futures import ThreadPoolExecutor
-    from concurrent.futures import TimeoutError as FuturesTimeout
-
-    try:
-        with ThreadPoolExecutor(max_workers=1) as pool:
-            fut = pool.submit(
-                fetch_building_footprints,
-                south=south,
-                west=west,
-                north=north,
-                east=east,
-                limit=90,
-            )
-            result = fut.result(timeout=float(os.getenv("REDTRIP_OSM_BUDGET_S", "14")))
-    except FuturesTimeout:
-        result = {
-            "type": "FeatureCollection",
-            "features": [],
-            "error": "overpass budget timeout",
-        }
-    result["bbox"] = bbox
-
-    if not result.get("features"):
-        clipped = _fixture_for_bbox(south=south, west=west, north=north, east=east)
-        if clipped:
-            clipped["bbox"] = bbox
-            clipped["fallback_of"] = result.get("error")
-            return clipped
-    result["live"] = True
-    return result
-
-
-@app.get("/v1/hotwords/ranking")
-def hotwords_ranking(
-    top_k: int = Query(default=10, ge=3, le=20, description="榜单条数"),
-) -> dict[str, Any]:
-    """L3 小红书上海热门景点排行（每周二更新），供出题「从哪里走起」。"""
-    return place_ranking(top_k=top_k)
-
-
-@app.get("/v1/places/suggest")
-def places_suggest(
-    q: str = Query(default="", description="输入关键词，空则返回热门/默认"),
-    limit: int = Query(default=8, ge=1, le=20),
-) -> dict[str, Any]:
-    """多源地点联想：馆藏白名单 · 街区走廊 · 小红书热词。"""
-    return suggest_places(q, limit=limit)
-
-
-@app.get("/v1/cities")
-def cities() -> dict[str, Any]:
-    """城市选择器数据源：返回注册城市 + OSM 语料就绪标记（前端据此启用/禁用）。"""
-    return {
-        "default": "shanghai",
-        "count": len(list_cities()),
-        "cities": list_cities(),
-    }
-
-
-@app.get("/v1/providers")
-def providers(
-    probe: bool = Query(default=False, description="实际探测 live provider"),
-) -> dict[str, Any]:
-    """数据源注册表与可达性矩阵；默认不把未探测的 live 源标为 ready。"""
-    live_results: dict[str, bool] = {}
-    details: dict[str, Any] | None = None
-    if probe:
-        live_results, details = _probe_live_providers(SlcClient())
-    payload = _provider_health(live_results)
-    if details is not None:
-        payload["probe"] = details
-    return payload
-
-
-@app.get("/v1/whitelist")
-def whitelist() -> dict[str, Any]:
-    if WHITELIST_PATH.exists():
-        with WHITELIST_PATH.open(encoding="utf-8") as f:
-            data = json.load(f)
-        points = data.get("points") if isinstance(data, dict) else data
-        if isinstance(points, list):
-            slim = []
-            for p in points:
-                if not isinstance(p, dict):
-                    continue
-                slim.append(
-                    {
-                        "id": p.get("id"),
-                        "name": p.get("name"),
-                        "buri": p.get("buri"),
-                        "lat": p.get("lat"),
-                        "lng": p.get("lng"),
-                        "precision": p.get("precision"),
-                        "district_tag": p.get("district_tag"),
-                        "open_hours": p.get("open_hours"),
-                        "enterable": p.get("enterable"),
-                        "need_reservation": p.get("need_reservation"),
-                    }
-                )
-            return {
-                "count": len(slim),
-                "source": "content/whitelist/points.json",
-                "points": slim,
-            }
-    # Demo fixture 兜底已彻底拆除：返回空清单（前端会自然空地图而非显示 demo 内容）
-    return {"count": 0, "source": "none", "points": []}
-
-
-@app.post("/v1/gate/check")
-def gate_check(envelope: dict[str, Any]) -> dict[str, Any]:
-    """Evaluate a RouteEnvelope against publish blockers (debug / CI)."""
-    return evaluate_envelope(envelope).as_dict()
-
-
 # _snapshot_response 已彻底删除——任何路径不再返回 demo fixture。
 
 
@@ -850,86 +569,6 @@ def _run_curate_sync(req: CurateRequest, *, provider: dict[str, str] | None) -> 
             reasons=[f"curator 异常（不再降级为 demo）: {exc}"],
             exception_msg=str(exc),
         )
-
-
-@app.post("/v1/curate", response_model=CurateResponse, response_model_exclude_none=True)
-def curate(req: CurateRequest, request: Request) -> CurateResponse:
-    """真实策展。失败 → envelope=None 的 error 响应，绝不返回 demo / fixture 兜底。"""
-    provider = _active_llm_provider_from_request(request)
-    return _run_curate_sync(req, provider=provider)
-
-
-@app.post("/v1/book")
-def book(req: CurateRequest, request: Request):
-    """策展并直接渲染为书籍 HTML。失败返回 JSON 错误（与 /v1/curate 同语义）。"""
-    from fastapi.responses import Response  # noqa: WPS433
-
-    provider = _active_llm_provider_from_request(request)
-    resp = _run_curate_sync(req, provider=provider)
-    if resp.status == "ok" and resp.envelope:
-        html = render_book(resp.envelope)
-        return Response(content=html, media_type="text/html; charset=utf-8")
-    return resp.model_dump(exclude_none=True)
-
-
-@app.post("/v1/book/mdx")
-def book_mdx(req: CurateRequest, request: Request):
-    """策展并渲染为 MDX 兼容 Markdown。失败返回 JSON 错误。"""
-    from fastapi.responses import Response  # noqa: WPS433
-
-    provider = _active_llm_provider_from_request(request)
-    resp = _run_curate_sync(req, provider=provider)
-    if resp.status == "ok" and resp.envelope:
-        md = render_book_markdown(resp.envelope)
-        return Response(content=md, media_type="text/markdown; charset=utf-8")
-    return resp.model_dump(exclude_none=True)
-
-
-@app.post("/v1/book/epub")
-def book_epub(req: CurateRequest, request: Request):
-    """策展并渲染为 EPUB（ZIP 字节）。失败返回 JSON 错误。"""
-    from fastapi.responses import Response  # noqa: WPS433
-
-    provider = _active_llm_provider_from_request(request)
-    resp = _run_curate_sync(req, provider=provider)
-    if resp.status == "ok" and resp.envelope:
-        data = render_book_epub_bytes(resp.envelope)
-        return Response(content=data, media_type="application/epub+zip")
-    return resp.model_dump(exclude_none=True)
-
-
-@app.post("/v1/book/pdf")
-def book_pdf(req: CurateRequest, request: Request):
-    """策展并渲染为 PDF（best-effort：经 wkhtmltopdf；无则回退指南）。
-
-    成功返回 application/pdf 字节；环境中无 wkhtmltopdf 时返回 JSON 错误，
-    提示改用浏览器打开 /v1/book 的 HTML 后「打印 → 另存为 PDF」。
-    """
-    from fastapi.responses import Response  # noqa: WPS433
-
-    provider = _active_llm_provider_from_request(request)
-    resp = _run_curate_sync(req, provider=provider)
-    if resp.status != "ok" or not resp.envelope:
-        return resp.model_dump(exclude_none=True)
-    try:
-        pdf = render_book_pdf(resp.envelope)
-    except RuntimeError as exc:  # noqa: BLE001
-        return _error_response(
-            req, time.perf_counter(),
-            reasons=[str(exc)],
-            exception_msg=str(exc),
-        )
-    if pdf is None:
-        return _error_response(
-            req, time.perf_counter(),
-            reasons=[
-                "环境中无 wkhtmltopdf，无法服务端生成 PDF。"
-                "请改用浏览器打开 /v1/book 返回的 HTML，使用「打印 → 另存为 PDF」"
-                "（render_book 已含 @page A4 样式）。"
-            ],
-            exception_msg="wkhtmltopdf 未安装",
-        )
-    return Response(content=pdf, media_type="application/pdf")
 
 
 def _error_response(
@@ -1112,137 +751,30 @@ class CurateStartResponse(BaseModel):
     status: str = "pending"
 
 
-@app.post("/v1/curate/start", response_model=CurateStartResponse)
-def curate_start(req: CurateRequest, request: Request) -> CurateStartResponse:
-    mode = os.getenv("REDTRIP_MODE", "indexed")
-    provider = _active_llm_provider_from_request(request)
-    fp = _fingerprint(req, mode, provider)
-
-    # ① 缓存命中：直接构造已完成任务返回，SSE 立即推 done（Bug #4）
-    hit = _cache_get(fp)
-    if hit is not None:
-        _cache_stats["hits"] += 1
-        task_id = uuid.uuid4().hex
-        task = _CurateTask(
-            task_id=task_id,
-            status="done",
-            progress=100.0,
-            stage="done",
-            message="缓存命中（场景指纹命中，跳过 LLM/SLC 取证）",
-            ok=True,
-            result=hit,
-            created_at=time.time(),
-            updated_at=time.time(),
-        )
-        with _curate_tasks_lock:
-            _curate_tasks[task_id] = task
-            _evict_tasks()
-        return CurateStartResponse(task_id=task_id)
-
-    with _curate_tasks_lock:
-        _cache_stats["misses"] += 1
-        # ② 请求去重：相同指纹且有在途任务时复用，避免惊群打满网关（Bug #4）
-        existing = _curate_fp_index.get(fp)
-        if existing and existing in _curate_tasks:
-            t = _curate_tasks[existing]
-            if t.status in ("pending", "running"):
-                return CurateStartResponse(task_id=existing)
-        task_id = uuid.uuid4().hex
-        task = _CurateTask(task_id=task_id, created_at=time.time(), updated_at=time.time())
-        _curate_tasks[task_id] = task
-        _curate_fp_index[fp] = task_id
-        _evict_tasks()
-    threading.Thread(target=_run_curate_bg, args=(task, req, fp, provider), daemon=True).start()
-    return CurateStartResponse(task_id=task_id)
-
-
 def _sse(event: str, data: dict) -> str:
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
 
 
-@app.get("/v1/curate/status/{task_id}")
-def curate_status(task_id: str) -> dict:
-    """轮询策展任务状态（微信小程序等无 EventSource 的客户端）。"""
-    with _curate_tasks_lock:
-        task = _curate_tasks.get(task_id)
-        if task is None:
-            raise HTTPException(status_code=404, detail="task not found")
-        return {
-            "task_id": task.task_id,
-            "status": task.status,
-            "progress": round(task.progress, 2),
-            "stage": task.stage,
-            "message": task.message,
-            "ok": task.ok,
-            "result": task.result if task.status == "done" else None,
-            "error": task.error,
-            "story_ready": task.story_ready,
-            "chapters_ready": list(task.chapters),
-        }
+# ── 路由拆分（2026-10）：按域挂载，处理器见 app/routers/ ──
+from app.routers import (  # noqa: E402
+    curate,
+    demo,
+    gate,
+    health,
+    llm,
+    map,
+    slc,
+    sources,
+)
 
-
-@app.get("/v1/curate/stream/{task_id}")
-async def curate_stream(task_id: str):
-    async def _gen():
-        begin = time.time()
-        sent_story = False
-        sent_chapters = 0
-        while True:
-            story_pending: dict | None = None
-            chapter_batch: list = []
-            with _curate_tasks_lock:
-                task = _curate_tasks.get(task_id)
-                if task is None:
-                    yield _sse("error", {"message": "task not found"})
-                    return
-                if not sent_story and task.story_ready is not None:
-                    story_pending = task.story_ready
-                if len(task.chapters) > sent_chapters:
-                    chapter_batch = task.chapters[sent_chapters:]
-                snap = {
-                    "task_id": task.task_id,
-                    "status": task.status,
-                    "progress": round(task.progress, 2),
-                    "stage": task.stage,
-                    "message": task.message,
-                    "ok": task.ok,
-                }
-                status = task.status
-                error = task.error
-                result = task.result
-                ok = task.ok
-            # B4：先补发模板 envelope，再补发已就绪章节，最后推进度快照
-            if story_pending is not None:
-                yield _sse("story_ready", story_pending)
-                sent_story = True
-            for ch in chapter_batch:
-                yield _sse("chapter_ready", ch)
-                sent_chapters += 1
-            yield _sse("progress", snap)
-            if status in ("done", "error") or error is not None:
-                if status == "done":
-                    yield _sse("done", {"task_id": task_id, "ok": ok, "result": result})
-                else:
-                    yield _sse("error", {"task_id": task_id, "message": error or "unknown error"})
-                return
-            # LLM 慢就多等：SSE 上限放宽到 15 分钟（原 580s），
-            # 逐卡并行润色 + 慢网关时不被掐断（用户要求「多给时间，不要直接降级」）。
-            if time.time() - begin > 900:
-                yield _sse("error", {"task_id": task_id, "message": "curate stream timeout"})
-                return
-            await asyncio.sleep(0.3)
-
-    return StreamingResponse(
-        _gen(),
-        media_type="text/event-stream",
-        headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-            "Connection": "keep-alive",
-        },
-    )
-
-
+app.include_router(health.router)
+app.include_router(demo.router)
+app.include_router(slc.router)
+app.include_router(llm.router)
+app.include_router(map.router)
+app.include_router(sources.router)
+app.include_router(gate.router)
+app.include_router(curate.router)
 # ── RedTrip 通用登录系统（接替 auth-core，#27）──
 # auth_router 挂载前缀 /v1：/v1/auth/* 公开，/v1/me、/v1/model-providers/* 需 Bearer。
 # try/except 包裹：依赖（httpx / cryptography）缺失或密钥目录不可写时，应用照常启动，
