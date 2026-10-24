@@ -20,7 +20,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, TypeVar
 
-from openclaw_core.quota import QuotaGate
+from hermes_core.quota import QuotaGate
 
 _LOGGER = logging.getLogger("redtrip.llm")
 

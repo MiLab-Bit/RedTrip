@@ -1,4 +1,4 @@
-"""Temporal Worker 启动器（统一到 openclaw_core.temporal.run_worker）。"""
+"""Temporal Worker 启动器（统一到 hermes_core.temporal.run_worker）。"""
 from __future__ import annotations
 
 import os
@@ -15,7 +15,7 @@ for _p in [
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from openclaw_core.temporal import run_worker
+from hermes_core.temporal import run_worker
 
 from redtrip_curator.temporal.activities import (  # noqa: E402 - 需先注入 sys.path 再导入
     attach_layer3_activity,
