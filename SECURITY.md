@@ -1,0 +1,5 @@
+# RedTrip — Security Context
+
+FastAPI + React city narrative curator consuming Shanghai Library and location sources. Review authentication, BYOK API-key isolation, model provider boundaries, source attribution, LLM prompt injection, URLs and geolocation metadata, filesystem/output rendering for MDX/EPUB/PDF, HTML injection, third-party licensing and data provenance.
+
+A–E evidence tiers must not be fabricated or elevated from guesses into primary-source facts. Cross-user itinerary, access tokens or browsing history must not leak; CORS, session scope and external calls deserve trust-boundary tests. Reproduce only with synthetic fixture documents and safe stubbed providers. Codex findings need SHA, path, concrete impact and minimal fix. Sensitive reports go privately to owner/advisory; no production access authorized.
