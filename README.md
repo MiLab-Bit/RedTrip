@@ -73,4 +73,21 @@
 
 ---
 
+## 业务建模：从路线推荐到可溯源的城市策展
+
+红鸢的核心不是将 POI 串成列表，而是把 **出行意图（Intent）、历史证据（EvidencePack / IdentityLayer）、路线（RoutePlan）、策展主题（Theme）、证据图（EvidenceGraph）、叙事弧（NarrativeArc）和断言溯源（ProvenanceReport）** 建成不同的对象。一本可步行、可阅读的城市故事，由这些对象共同构成；网页与书籍渲染消费同一套内容产物。
+
+**为什么这样设计：** 历史事实、叙事加工和步行体验的修改频率与验证规则不同。证据图负责可追溯的事实关系；叙事弧负责章节组织与张力；最终 `RouteEnvelope` 负责交付契约，使策展质量能在生成后检查，而不是只靠 Prompt 保证。证据不足时，系统可拒绝策展；润色未过 Gate 时，回退到模板叙事。
+
+**源码入口：** [领域对象](packages/curator/redtrip_curator/models.py) · [策展中间产物](packages/curator/redtrip_curator/artifacts.py) · [执行管线](packages/curator/redtrip_curator/pipeline.py) · [质量门禁](packages/gate/redtrip_gate/engine.py)。
+
+## 工程完成度与验证边界
+
+- **已在仓库中实现：** 策展领域数据类、数据取证与路线规划、内容中间产物、质量门禁、模板/LLM 润色回退、书籍渲染入口、FastAPI 及前端；`tests/` 包含证据/RAG、Gate、路线、叙事、书籍输出和降级测试。
+- **可复核的工程配置：** [CI 工作流](.github/workflows/ci.yml) 与 `eval/` 脚本。代码注释中对首章速度的描述是研发目标/局部观察，不应等同正式性能基准。
+- **尚需独立验证：** 历史文献真实性与版权合规、外部馆藏实时可用性、跨城市数据覆盖、实际行走的时空准确性及真实用户体验。反方策展人目前属于**非阻断性评审**，不能宣传为保证史实无误。
+
+
+---
+
 © 红鸢 RedTrip · MiLab-Bit
