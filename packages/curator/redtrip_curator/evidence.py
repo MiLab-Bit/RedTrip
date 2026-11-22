@@ -926,6 +926,8 @@ def _scene_amap(
     # 不足 3 → 继续实时高德兜底（原逻辑）
 
     amap = AmapClient()
+    # Always scope Amap requests to the selected city, never the client default.
+    amap_city = get_city(getattr(intent, "city", None)).name_zh
 
     # 拉够多候选再过滤；type 白名单 + name 黑名单把派出所/酒店/加油站等
     # 行政区划/商业 POI 全部丢掉，只保留真景点类（daypart 时段过滤见 _filter_pois）。
@@ -942,7 +944,7 @@ def _scene_amap(
 
     _consume(
         _filter_pois(
-            amap.place_text(scene, offset=min(25, max(20, limit * 2))), daypart
+            amap.place_text(scene, city=amap_city, offset=min(25, max(20, limit * 2))), daypart
         )
     )
 
@@ -953,7 +955,7 @@ def _scene_amap(
             _consume(
                 _filter_pois(
                     amap.place_text(
-                        f"{scene}{aux}", offset=min(25, max(20, limit * 2))
+                        f"{scene}{aux}", city=amap_city, offset=min(25, max(20, limit * 2))
                     ),
                     daypart,
                 )
@@ -968,7 +970,7 @@ def _scene_amap(
         if slim and slim != scene:
             _consume(
                 _filter_pois(
-                    amap.place_text(slim, offset=min(25, max(20, limit * 2))),
+                    amap.place_text(slim, city=amap_city, offset=min(25, max(20, limit * 2))),
                     daypart,
                 )
             )
@@ -986,6 +988,7 @@ def _scene_amap(
                 _filter_pois(
                     amap.place_text(
                         ",".join(lm_names),
+                        city=amap_city,
                         offset=min(25, max(20, limit * 2)),
                     ),
                     daypart,
@@ -997,7 +1000,7 @@ def _scene_amap(
                     continue
                 _consume(
                     _filter_pois(
-                        amap.place_text(n, offset=10), daypart
+                        amap.place_text(n, city=amap_city, offset=10), daypart
                     )
                 )
 
@@ -1289,10 +1292,27 @@ def fetch_evidence(client: SlcClient, intent: Intent, *, limit: int = 10) -> Evi
     sources_used: list[str] = ["R-20 whitelist"]
     gaps: list[dict[str, str]] = []
     buildings: list[BuildingEvidence] = []
-    wl = load_whitelist()
+    # R-20/SLC whitelist contains Shanghai-only buildings. Never use it as
+    # fallback evidence for another city. City-scoped RAG/partners remain available.
+    requested_city = get_city(getattr(intent, "city", None)).key
+    wl = load_whitelist() if requested_city == "shanghai" else Whitelist([], {}, {})
 
     if wl.count == 0:
         gaps.append({"subject": "R-20 whitelist", "note": "暂无数据支撑"})
+        # For non-Shanghai cities, use city-scoped RAG and partner data instead.
+        rb, rs, rg = _scene_rag_corpus(intent, limit)
+        buildings.extend(rb)
+        sources_used.extend(rs)
+        gaps.extend(rg)
+        try:
+            pl, ps, pg = gather_partner_evidence(requested_city)
+            if pl:
+                _attach_partner_layers(buildings, pl)
+                sources_used.extend(ps)
+            gaps.extend(pg)
+        except Exception:  # noqa: BLE001
+            logger.warning("evidence: partner 数据源接入异常", exc_info=True)
+            gaps.append({"subject": "partner 数据源", "note": "接入异常（已跳过）"})
     else:
         # 0) 场景词未命中白名单（如外滩/临港/陆家嘴）→ 通用通道：
         #    高德 POI 给真实点位+坐标，SLC 地名志给权威沿革。避免「搜外滩给巴金故居」。
