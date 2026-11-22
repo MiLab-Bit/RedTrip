@@ -926,6 +926,8 @@ def _scene_amap(
     # 不足 3 → 继续实时高德兜底（原逻辑）
 
     amap = AmapClient()
+    # Always scope Amap requests to the selected city, never the client default.
+    amap_city = get_city(getattr(intent, "city", None)).name_zh
 
     # 拉够多候选再过滤；type 白名单 + name 黑名单把派出所/酒店/加油站等
     # 行政区划/商业 POI 全部丢掉，只保留真景点类（daypart 时段过滤见 _filter_pois）。
@@ -942,7 +944,7 @@ def _scene_amap(
 
     _consume(
         _filter_pois(
-            amap.place_text(scene, offset=min(25, max(20, limit * 2))), daypart
+            amap.place_text(scene, city=amap_city, offset=min(25, max(20, limit * 2))), daypart
         )
     )
 
@@ -953,7 +955,7 @@ def _scene_amap(
             _consume(
                 _filter_pois(
                     amap.place_text(
-                        f"{scene}{aux}", offset=min(25, max(20, limit * 2))
+                        f"{scene}{aux}", city=amap_city, offset=min(25, max(20, limit * 2))
                     ),
                     daypart,
                 )
@@ -968,7 +970,7 @@ def _scene_amap(
         if slim and slim != scene:
             _consume(
                 _filter_pois(
-                    amap.place_text(slim, offset=min(25, max(20, limit * 2))),
+                    amap.place_text(slim, city=amap_city, offset=min(25, max(20, limit * 2))),
                     daypart,
                 )
             )
@@ -986,6 +988,7 @@ def _scene_amap(
                 _filter_pois(
                     amap.place_text(
                         ",".join(lm_names),
+                        city=amap_city,
                         offset=min(25, max(20, limit * 2)),
                     ),
                     daypart,
@@ -997,7 +1000,7 @@ def _scene_amap(
                     continue
                 _consume(
                     _filter_pois(
-                        amap.place_text(n, offset=10), daypart
+                        amap.place_text(n, city=amap_city, offset=10), daypart
                     )
                 )
 
